@@ -12,8 +12,8 @@
 import UIKit
 import FirebaseCommunity
 
-var _events: [String: Event] = [:]
-class EventService: NSObject {
+fileprivate var _events: [String: Event] = [:]
+public class EventService: NSObject {
     static var shared: EventService = EventService()
 
     func totalAmountPaid(for event: Event, completion: ((Double, Int)->())?) {
@@ -94,10 +94,12 @@ extension EventService {
         formatter.numberStyle = .currency
         return formatter
     }
-}
 
-extension EventService {
-    func withId(id: String, completion: @escaping ((Event?)->Void)) {
+    func eventForAction(with eventId: String) -> Balizinha.Event? {
+        return _events[eventId] // used by actionService for quick stuff
+    }
+    
+    func withId(id: String, completion: @escaping ((Balizinha.Event?)->Void)) {
         if let found = _events[id] {
             completion(found)
             return

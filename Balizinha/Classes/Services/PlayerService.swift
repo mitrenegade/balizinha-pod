@@ -11,7 +11,7 @@ import FirebaseCommunity
 import RxSwift
 
 var _players: [String: Player] = [:]
-class PlayerService: NSObject {
+public class PlayerService: NSObject {
     // MARK: - Singleton
     static var shared: PlayerService = PlayerService()
     

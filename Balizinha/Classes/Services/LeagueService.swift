@@ -11,7 +11,7 @@ import RxSwift
 import FirebaseCommunity
 
 fileprivate var _leagues: [String: League] = [:]
-class LeagueService: NSObject {
+public class LeagueService: NSObject {
     static let shared: LeagueService = LeagueService()
     
     func create(name: String, city: String, info: String, completion: @escaping ((_ result: Any?, _ error: Error?)->Void)) {
