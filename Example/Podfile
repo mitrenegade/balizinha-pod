@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'Balizinha_Example' do
+  pod 'Balizinha', :path => '../'
+
+  target 'Balizinha_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
