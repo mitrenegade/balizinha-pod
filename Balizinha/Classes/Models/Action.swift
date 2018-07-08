@@ -118,7 +118,7 @@ class ActionViewModel {
     }
     
     var eventName: String {
-        if let eventId = action.event, let foundEvent = _events[eventId] {
+        if let eventId = action.event, let foundEvent = EventService.shared.eventForAction(with: eventId) {
             return foundEvent.name ?? "an event"
         }
         return event?.name ?? "an event"

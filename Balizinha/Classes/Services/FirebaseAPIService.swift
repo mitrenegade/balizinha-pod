@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FirebaseAPIService: NSObject {
+public class FirebaseAPIService: NSObject {
     // variables for creating customer key
     let opQueue = OperationQueue()
     var urlSession: URLSession?
@@ -82,7 +82,7 @@ class FirebaseAPIService: NSObject {
 }
 
 extension FirebaseAPIService: URLSessionDelegate, URLSessionDataDelegate {
-    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+    public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         //print("FirebaseAPIService: data received")
         if let data = self.data {
             self.data?.append(data)
@@ -92,7 +92,7 @@ extension FirebaseAPIService: URLSessionDelegate, URLSessionDataDelegate {
         }
     }
     
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         //print("FirebaseAPIService: completed")
         defer {
             self.data = nil

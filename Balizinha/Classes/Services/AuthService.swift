@@ -10,12 +10,12 @@ import UIKit
 import FirebaseCommunity
 import RxSwift
 
-enum LoginState {
+public enum LoginState {
     case loggedOut
     case loggedIn
 }
 
-class AuthService: NSObject {
+public class AuthService: NSObject {
     static var shared: AuthService = AuthService()
     
     class var currentUser: User? {
