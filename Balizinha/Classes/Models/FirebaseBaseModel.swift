@@ -12,7 +12,7 @@ import FirebaseCommunity
 let firRef = Database.database().reference()
 let firAuth = Auth.auth()
 
-class FirebaseBaseModel: NSObject {
+public class FirebaseBaseModel: NSObject {
     // Firebase objects have structure:
     // id: {
     //  key1: val1

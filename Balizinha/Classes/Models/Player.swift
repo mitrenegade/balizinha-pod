@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseCommunity
 
-class Player: FirebaseBaseModel {
+public class Player: FirebaseBaseModel {
 //    var service = EventService.shared
 
     var name: String? {

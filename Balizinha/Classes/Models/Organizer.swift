@@ -34,8 +34,7 @@ func ==(lhs: OrganizerStatus, rhs: OrganizerStatus) -> Bool {
     }
 }
 
-
-class Organizer: FirebaseBaseModel {
+public class Organizer: FirebaseBaseModel {
     var paymentSourceId: String? {
         guard let dict = self.dict else { return nil }
         return dict["paymentSourceId"] as? String

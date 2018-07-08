@@ -10,7 +10,7 @@ import UIKit
 import FirebaseCommunity
 import RxSwift
 
-var _players: [String: Player] = [:]
+fileprivate var _players: [String: Player] = [:]
 public class PlayerService: NSObject {
     // MARK: - Singleton
     static var shared: PlayerService = PlayerService()
