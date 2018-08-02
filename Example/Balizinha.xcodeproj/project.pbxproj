@@ -40,6 +40,8 @@
 		8E97407C21132A7100242907 /* LeagueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405D21132A6E00242907 /* LeagueCell.swift */; };
 		8E97407D21132A7100242907 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E97405E21132A7000242907 /* Assets.xcassets */; };
 		8E97407E21132A7100242907 /* Organizers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E97405F21132A7100242907 /* Organizers.storyboard */; };
+		8E97408121132E6700242907 /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E97407F21132E6500242907 /* GoogleService-Info-dev.plist */; };
+		8E97408221132E6700242907 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E97408021132E6600242907 /* GoogleService-Info.plist */; };
 		94C5CE9F5487058D85022A6C /* Pods_Balizinha_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -97,6 +99,8 @@
 		8E97405D21132A6E00242907 /* LeagueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeagueCell.swift; sourceTree = "<group>"; };
 		8E97405E21132A7000242907 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E97405F21132A7100242907 /* Organizers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Organizers.storyboard; sourceTree = "<group>"; };
+		8E97407F21132E6500242907 /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
+		8E97408021132E6600242907 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD0B4B52D8F4EC108A0EA635 /* Pods-Balizinha_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Tests/Pods-Balizinha_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		FD4F6317CA270849E7E57832 /* Pods-Balizinha_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Example/Pods-Balizinha_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -178,6 +182,8 @@
 		607FACD31AFB9204008FA782 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8E97407F21132E6500242907 /* GoogleService-Info-dev.plist */,
+				8E97408021132E6600242907 /* GoogleService-Info.plist */,
 				607FACD41AFB9204008FA782 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -324,6 +330,7 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = H799H8B8DD;
 						LastSwiftMigration = 0940;
 					};
 					607FACE41AFB9204008FA782 = {
@@ -358,12 +365,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E97406721132A7100242907 /* PaymentHeaderView.xib in Resources */,
+				8E97408121132E6700242907 /* GoogleService-Info-dev.plist in Resources */,
 				8E97407E21132A7100242907 /* Organizers.storyboard in Resources */,
 				8E97407521132A7100242907 /* Leagues.storyboard in Resources */,
 				8E97406F21132A7100242907 /* Main.storyboard in Resources */,
 				8E97406D21132A7100242907 /* Organizers.storyboard in Resources */,
 				8E97407121132A7100242907 /* Main.storyboard in Resources */,
 				8E97406321132A7100242907 /* LaunchScreen.storyboard in Resources */,
+				8E97408221132E6700242907 /* GoogleService-Info.plist in Resources */,
 				8E97407D21132A7100242907 /* Assets.xcassets in Resources */,
 				8E97406E21132A7100242907 /* Leagues.storyboard in Resources */,
 			);
@@ -616,10 +625,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = H799H8B8DD;
 				INFOPLIST_FILE = Balizinha/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.balizinha.admin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Balizinha/Balizinha_Example-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -634,10 +645,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = H799H8B8DD;
 				INFOPLIST_FILE = Balizinha/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.balizinha.admin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Balizinha/Balizinha_Example-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
