@@ -10,8 +10,8 @@ import UIKit
 import FirebaseCommunity
 import RxSwift
 
-class League: FirebaseBaseModel {
-    var name: String? {
+public class League: FirebaseBaseModel {
+    public var name: String? {
         get {
             return self.dict["name"] as? String
         }
@@ -21,7 +21,7 @@ class League: FirebaseBaseModel {
         }
     }
     
-    var city: String? {
+    public var city: String? {
         get {
             return self.dict["city"] as? String
         }
@@ -31,7 +31,7 @@ class League: FirebaseBaseModel {
         }
     }
     
-    var info: String {
+    public var info: String {
         get {
             if let val = self.dict["info"] as? String {
                 return val
@@ -44,7 +44,7 @@ class League: FirebaseBaseModel {
         }
     }
 
-    var photoUrl: String? {
+    public var photoUrl: String? {
         get {
             return self.dict["photoUrl"] as? String
         }
@@ -54,7 +54,7 @@ class League: FirebaseBaseModel {
         }
     }
     
-    var tags: [String] {
+    public var tags: [String] {
         get {
             return self.dict["tags"] as? [String] ?? []
         }
@@ -64,7 +64,7 @@ class League: FirebaseBaseModel {
         }
     }
     
-    var isPrivate: Bool {
+    public var isPrivate: Bool {
         get {
             return self.dict["private"] as? Bool ?? false
         }
@@ -74,7 +74,7 @@ class League: FirebaseBaseModel {
         }
     }
     
-    var owner: String? {
+    public var owner: String? {
         get {
             if let val = self.dict["owner"] as? String {
                 return val
@@ -84,8 +84,8 @@ class League: FirebaseBaseModel {
     }
 
     // RX - this observer shouldn't be used
-    var playerCount: Variable<Int> = Variable(0)
-    func countPlayers() {
+    public var playerCount: Variable<Int> = Variable(0)
+    public func countPlayers() {
         LeagueService.shared.observeUsers(for: self) { [weak self] (result, error) in
             guard let roster = result else { return }
             // count players
@@ -99,7 +99,7 @@ class League: FirebaseBaseModel {
 
 // MARK: - Tags
 extension League {
-    var tagString: String {
+    public var tagString: String {
         var string: String = ""
         tags.forEach { tag in
             if string.isEmpty {
@@ -111,7 +111,7 @@ extension League {
         return string
     }
     
-    class func tags(from tagString: String) -> [String] {
+    public class func tags(from tagString: String) -> [String] {
         let set = CharacterSet.alphanumerics.union([" "])
         let filtered = String(tagString.unicodeScalars.filter { set.contains($0) })
         let tokens = filtered.components(separatedBy: [" "])
@@ -122,19 +122,19 @@ extension League {
 
 // MARK: - Rankings and info
 extension League {
-    var pointCount: Int {
+    public var pointCount: Int {
         // point calculation: number of active games * 2 + number of past games + number of players
         return 12
     }
 
-    var rating: Double {
+    public var rating: Double {
         return 4.5
     }
 }
 
 extension League {
     //***************** hack: for test purposes only
-    class func random() -> League {
+    public class func random() -> League {
         let league = League()
         league.dict = ["name": "My Awesome League", "city": league.randomPlace(), "tags": "fake, league", "info": "this is my airplane league"]
         return league

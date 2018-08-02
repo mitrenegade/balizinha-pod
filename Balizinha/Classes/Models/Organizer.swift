@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseCommunity
 
-enum OrganizerStatus: String, Equatable {
+public enum OrganizerStatus: String, Equatable {
     case none // default, but players who are not organizers won't have an organizer object
     case pending
     case approved // needs payment
@@ -17,7 +17,7 @@ enum OrganizerStatus: String, Equatable {
     case trial
 }
 
-func ==(lhs: OrganizerStatus, rhs: OrganizerStatus) -> Bool {
+public func ==(lhs: OrganizerStatus, rhs: OrganizerStatus) -> Bool {
     switch (lhs, rhs) {
     case (.none, .none):
         return true
@@ -34,14 +34,13 @@ func ==(lhs: OrganizerStatus, rhs: OrganizerStatus) -> Bool {
     }
 }
 
-
-class Organizer: FirebaseBaseModel {
-    var paymentSourceId: String? {
+public class Organizer: FirebaseBaseModel {
+    public var paymentSourceId: String? {
         guard let dict = self.dict else { return nil }
         return dict["paymentSourceId"] as? String
     }
     
-    var paymentNeeded: Bool {
+    public var paymentNeeded: Bool {
         get {
             return self.dict?["paymentNeeded"] as? Bool ?? false
         }
@@ -51,7 +50,7 @@ class Organizer: FirebaseBaseModel {
         }
     }
 
-    var deadline: Double? {
+    public var deadline: Double? {
         get {
             return self.dict?["deadline"] as? Double
         }
@@ -61,7 +60,7 @@ class Organizer: FirebaseBaseModel {
         }
     }
     
-    var status: OrganizerStatus {
+    public var status: OrganizerStatus {
         get {
             if let statusString = self.dict?["status"] as? String, let organizerStatus = OrganizerStatus(rawValue: statusString) {
                 return organizerStatus

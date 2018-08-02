@@ -9,10 +9,10 @@
 import UIKit
 import FirebaseCommunity
 
-class Player: FirebaseBaseModel {
+public class Player: FirebaseBaseModel {
 //    var service = EventService.shared
 
-    var name: String? {
+    public var name: String? {
         get {
             guard let dict = self.dict else { return nil }
             if let val = dict["name"] as? String {
@@ -26,7 +26,7 @@ class Player: FirebaseBaseModel {
         }
     }
 
-    var email: String? {
+    public var email: String? {
         get {
             guard let dict = self.dict else { return nil }
             if let val = dict["email"] as? String {
@@ -40,7 +40,7 @@ class Player: FirebaseBaseModel {
         }
     }
     
-    var city: String? {
+    public var city: String? {
         get {
             guard let dict = self.dict else { return nil }
             if let val = dict["city"] as? String {
@@ -54,7 +54,7 @@ class Player: FirebaseBaseModel {
         }
     }
     
-    var photoUrl: String? {
+    public var photoUrl: String? {
         get {
             guard let dict = self.dict else { return nil }
             if let val = dict["photoUrl"] as? String {
@@ -68,7 +68,7 @@ class Player: FirebaseBaseModel {
         }
     }
 
-    var info: String? {
+    public var info: String? {
         get {
             guard let dict = self.dict else { return nil }
             if let val = dict["info"] as? String {
@@ -82,12 +82,12 @@ class Player: FirebaseBaseModel {
         }
     }
     
-    var isInactive: Bool {
+    public var isInactive: Bool {
         return false
     }
     
     // MARK: - Preferred Status
-    var promotionId: String? {
+    public var promotionId: String? {
         get {
             return self.dict?["promotionId"] as? String
         }
@@ -98,7 +98,7 @@ class Player: FirebaseBaseModel {
     }
 
     // MARK: - Push
-    var fcmToken: String? {
+    public var fcmToken: String? {
         get {
             return self.dict?["fcmToken"] as? String
         }
@@ -109,7 +109,7 @@ class Player: FirebaseBaseModel {
     }
     
     // MARK: - Location
-    var lat: Double? {
+    public var lat: Double? {
         get {
             return self.dict?["lat"] as? Double
         }
@@ -119,7 +119,7 @@ class Player: FirebaseBaseModel {
         }
     }
 
-    var lon: Double? {
+    public var lon: Double? {
         get {
             return self.dict?["lon"] as? Double
         }
@@ -129,7 +129,7 @@ class Player: FirebaseBaseModel {
         }
     }
 
-    var lastLocationTimestamp: Date? {
+    public var lastLocationTimestamp: Date? {
         get {
             if let val = self.dict["lastLocationTimestamp"] as? TimeInterval {
                 return Date(timeIntervalSince1970: val)

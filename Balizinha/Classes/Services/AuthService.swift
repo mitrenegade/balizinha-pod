@@ -16,13 +16,13 @@ public enum LoginState {
 }
 
 public class AuthService: NSObject {
-    static var shared: AuthService = AuthService()
+    public static var shared: AuthService = AuthService()
     
-    class var currentUser: User? {
+    public class var currentUser: User? {
         return firAuth.currentUser
     }
 
-    class func startup() {
+    public class func startup() {
         if UserDefaults.standard.value(forKey: "appFirstTimeOpened") == nil {
             //if app is first time opened, make sure no auth exists in keychain from previously deleted app
             UserDefaults.standard.setValue(true, forKey: "appFirstTimeOpened")
@@ -31,7 +31,7 @@ public class AuthService: NSObject {
         }
     }
 
-    var loginState: Observable<LoginState> = Observable.create { (observer) -> Disposable in
+    public var loginState: Observable<LoginState> = Observable.create { (observer) -> Disposable in
         print("LoginLogout: start listening for user")
         firAuth.addStateDidChangeListener({ (auth, user) in
             print("LoginLogout: auth state changed: \(auth)")
@@ -48,7 +48,7 @@ public class AuthService: NSObject {
         return Disposables.create()
     }
 
-    func loginUser(email: String, password: String, completion: ((Error?)->Void)?) {
+    public func loginUser(email: String, password: String, completion: ((Error?)->Void)?) {
         if email.isEmpty {
             print("Invalid email")
             return

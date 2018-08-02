@@ -14,9 +14,9 @@ import FirebaseCommunity
 
 fileprivate var _events: [String: Event] = [:]
 public class EventService: NSObject {
-    static var shared: EventService = EventService()
+    public static var shared: EventService = EventService()
 
-    func totalAmountPaid(for event: Event, completion: ((Double, Int)->())?) {
+    public func totalAmountPaid(for event: Event, completion: ((Double, Int)->())?) {
         let queryRef = firRef.child("charges/events").child(event.id)
         queryRef.observe(.value) { (snapshot: DataSnapshot) in
             guard snapshot.exists() else {
@@ -40,7 +40,7 @@ public class EventService: NSObject {
         }
     }
     
-    func actions(for event: Event?, eventId: String? = nil, completion: @escaping ( ([Action])->() )) {
+    public func actions(for event: Event?, eventId: String? = nil, completion: @escaping ( ([Action])->() )) {
         // returns all actions
         guard let id = event?.id ?? eventId else {
             completion([])
@@ -67,7 +67,7 @@ public class EventService: NSObject {
 
 // MARK: - Payment helpers
 extension EventService {
-    class func amountNumber(from text: String?) -> NSNumber? {
+    public class func amountNumber(from text: String?) -> NSNumber? {
         guard let inputText = text else { return nil }
         if let amount = Double(inputText) {
             return amount as NSNumber
@@ -78,7 +78,7 @@ extension EventService {
         return nil
     }
     
-    class func amountString(from number: NSNumber?) -> String? {
+    public class func amountString(from number: NSNumber?) -> String? {
         guard let number = number else { return nil }
         return currencyFormatter.string(from: number)
     }
@@ -95,11 +95,11 @@ extension EventService {
         return formatter
     }
 
-    func eventForAction(with eventId: String) -> Balizinha.Event? {
+    public func eventForAction(with eventId: String) -> Balizinha.Event? {
         return _events[eventId] // used by actionService for quick stuff
     }
     
-    func withId(id: String, completion: @escaping ((Balizinha.Event?)->Void)) {
+    public func withId(id: String, completion: @escaping ((Balizinha.Event?)->Void)) {
         if let found = _events[id] {
             completion(found)
             return

@@ -1,0 +1,107 @@
+PODS:
+  - AFNetworking (2.6.3):
+    - AFNetworking/NSURLConnection (= 2.6.3)
+    - AFNetworking/NSURLSession (= 2.6.3)
+    - AFNetworking/Reachability (= 2.6.3)
+    - AFNetworking/Security (= 2.6.3)
+    - AFNetworking/Serialization (= 2.6.3)
+    - AFNetworking/UIKit (= 2.6.3)
+  - AFNetworking/NSURLConnection (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.3)
+  - AFNetworking/Security (2.6.3)
+  - AFNetworking/Serialization (2.6.3)
+  - AFNetworking/UIKit (2.6.3):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - AsyncImageView (1.6)
+  - Balizinha (0.1.2):
+    - AFNetworking (~> 2.3)
+    - AsyncImageView
+    - FirebaseCommunity/Auth
+    - FirebaseCommunity/Core
+    - FirebaseCommunity/Database
+    - FirebaseCommunity/Storage
+    - RxCocoa
+    - RxSwift
+  - FirebaseCommunity/Auth (0.1.6):
+    - FirebaseCommunity/Core
+    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
+    - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseCommunity/Core (0.1.6):
+    - FirebaseCommunity/Root
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+  - FirebaseCommunity/Database (0.1.6):
+    - FirebaseCommunity/Core
+    - leveldb-library
+  - FirebaseCommunity/Root (0.1.6)
+  - FirebaseCommunity/Storage (0.1.6):
+    - FirebaseCommunity/Core
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleToolboxForMac/DebugUtils (2.1.4):
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+  - GoogleToolboxForMac/Defines (2.1.4)
+  - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.1.4)":
+    - GoogleToolboxForMac/DebugUtils (= 2.1.4)
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+    - "GoogleToolboxForMac/NSString+URLArguments (= 2.1.4)"
+  - "GoogleToolboxForMac/NSString+URLArguments (2.1.4)"
+  - GTMSessionFetcher/Core (1.1.15)
+  - leveldb-library (1.20)
+  - RACameraHelper (0.1.2)
+  - RxCocoa (4.2.0):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.2.0)
+
+DEPENDENCIES:
+  - Balizinha (from `../`)
+  - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.2`)
+  - RxCocoa
+  - RxSwift
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - AFNetworking
+    - AsyncImageView
+    - FirebaseCommunity
+    - GoogleToolboxForMac
+    - GTMSessionFetcher
+    - leveldb-library
+    - RxCocoa
+    - RxSwift
+
+EXTERNAL SOURCES:
+  Balizinha:
+    :path: "../"
+  RACameraHelper:
+    :git: https://github.com/bobbyren/RACameraHelper
+    :tag: 0.1.2
+
+CHECKOUT OPTIONS:
+  RACameraHelper:
+    :git: https://github.com/bobbyren/RACameraHelper
+    :tag: 0.1.2
+
+SPEC CHECKSUMS:
+  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  AsyncImageView: 416e99402e5b1f20571de70ad619ced90f56a7d9
+  Balizinha: 78a8309dfb146d876924d01f89c982093c05817f
+  FirebaseCommunity: 1f9a0e48654316b4ffe4c830db0ce72b9e2d2c9d
+  GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
+  GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
+  leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  RACameraHelper: 5671f398d8c0805bffaeb611d5ed15ebadb2017d
+  RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
+  RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
+
+PODFILE CHECKSUM: 02564ab7c0868456b64d2b04dab8d9029a152aa5
+
+COCOAPODS: 1.5.0

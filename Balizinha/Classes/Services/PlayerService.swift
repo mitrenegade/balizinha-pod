@@ -10,10 +10,10 @@ import UIKit
 import FirebaseCommunity
 import RxSwift
 
-var _players: [String: Player] = [:]
+fileprivate var _players: [String: Player] = [:]
 public class PlayerService: NSObject {
     // MARK: - Singleton
-    static var shared: PlayerService = PlayerService()
+    public static var shared: PlayerService = PlayerService()
     
     fileprivate var disposeBag: DisposeBag
     fileprivate let playersRef: DatabaseReference
@@ -26,7 +26,7 @@ public class PlayerService: NSObject {
         super.init()
     }
 
-    func withId(id: String, completion: @escaping ((Player?)->Void)) {
+    public func withId(id: String, completion: @escaping ((Player?)->Void)) {
         if let found = _players[id] {
             completion(found)
             return
@@ -44,7 +44,7 @@ public class PlayerService: NSObject {
         })
     }
     
-    var currentCachedPlayers: [Player] {
+    public var currentCachedPlayers: [Player] {
         return Array(_players.values)
     }
 }

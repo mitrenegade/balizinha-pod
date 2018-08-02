@@ -12,9 +12,9 @@ import FirebaseCommunity
 
 fileprivate var _leagues: [String: League] = [:]
 public class LeagueService: NSObject {
-    static let shared: LeagueService = LeagueService()
+    public static let shared: LeagueService = LeagueService()
     
-    func create(name: String, city: String, info: String, completion: @escaping ((_ result: Any?, _ error: Error?)->Void)) {
+    public func create(name: String, city: String, info: String, completion: @escaping ((_ result: Any?, _ error: Error?)->Void)) {
         guard let user = AuthService.currentUser else { return }
         let params = ["name": name, "city": city, "info": info, "userId": user.uid]
         FirebaseAPIService().cloudFunction(functionName: "createLeague", method: "POST", params: params, completion: { (result, error) in
@@ -28,7 +28,7 @@ public class LeagueService: NSObject {
         })
     }
     
-    func join(league: League, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
+    public func join(league: League, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
         guard let user = AuthService.currentUser else { return }
         FirebaseAPIService().cloudFunction(functionName: "joinLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id]) { (result, error) in
             guard error == nil else {
@@ -41,7 +41,7 @@ public class LeagueService: NSObject {
         }
     }
 
-    func getLeagues(completion: @escaping (_ results: [League]) -> Void) {
+    public func getLeagues(completion: @escaping (_ results: [League]) -> Void) {
         let queryRef = firRef.child("leagues")
         
         queryRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
@@ -63,7 +63,7 @@ public class LeagueService: NSObject {
         }
     }
     
-    func observeUsers(for league: League, completion: ((_ result: [Membership]?, _ error: Error?) -> Void)?) {
+    public func observeUsers(for league: League, completion: ((_ result: [Membership]?, _ error: Error?) -> Void)?) {
         let queryRef = firRef.child("leaguePlayers").child(league.id)
         queryRef.observeSingleEvent(of: .value) { (snapshot) in
             guard snapshot.exists() else { return }
@@ -77,7 +77,7 @@ public class LeagueService: NSObject {
     }
 
     
-    func memberships(for league: League, completion: @escaping (([Membership]?)->Void)) {
+    public func memberships(for league: League, completion: @escaping (([Membership]?)->Void)) {
         FirebaseAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
                 //print("Players for league error \(error)")
@@ -101,7 +101,7 @@ public class LeagueService: NSObject {
         }
     }
     
-    func players(for league: League, completion: @escaping (([String]?)->Void)) {
+    public func players(for league: League, completion: @escaping (([String]?)->Void)) {
         FirebaseAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
                 //print("Players for league error \(error)")
@@ -125,7 +125,7 @@ public class LeagueService: NSObject {
         }
     }
 
-    func events(for league: League, completion: @escaping (([Event]?)->Void)) {
+    public func events(for league: League, completion: @escaping (([Event]?)->Void)) {
         FirebaseAPIService().cloudFunction(functionName: "getEventsForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
                 print("Events for league error \(error)")
@@ -146,7 +146,7 @@ public class LeagueService: NSObject {
         }
     }
 
-    func leagues(for player: Player, completion: @escaping (([String]?)->Void)) {
+    public func leagues(for player: Player, completion: @escaping (([String]?)->Void)) {
         FirebaseAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { (result, error) in
             guard error == nil else {
                 //print("Leagues for player error \(error)")
@@ -163,7 +163,7 @@ public class LeagueService: NSObject {
         }
     }
 
-    func changeLeaguePlayerStatus(playerId: String, league: League, status: String, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
+    public func changeLeaguePlayerStatus(playerId: String, league: League, status: String, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
         FirebaseAPIService().cloudFunction(functionName: "changeLeaguePlayerStatus", method: "POST", params: ["userId": playerId, "leagueId": league.id, "status": status]) { (result, error) in
             guard error == nil else {
                 print("Player status change error \(error)")
@@ -175,7 +175,7 @@ public class LeagueService: NSObject {
         }
     }
 
-    func withId(id: String, completion: @escaping ((League?)->Void)) {
+    public func withId(id: String, completion: @escaping ((League?)->Void)) {
         if let found = _leagues[id] {
             completion(found)
             return

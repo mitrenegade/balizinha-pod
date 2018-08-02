@@ -15,7 +15,7 @@ fileprivate let imageBaseRef = storageRef.child("images")
 
 public class FirebaseImageService: NSObject {
 
-    class func uploadImage(image: UIImage, type: String, uid: String, progressHandler: ((_ percent: Double)->Void)? = nil, completion: @escaping ((_ imageUrl: String?)->Void)) {
+    public class func uploadImage(image: UIImage, type: String, uid: String, progressHandler: ((_ percent: Double)->Void)? = nil, completion: @escaping ((_ imageUrl: String?)->Void)) {
         guard let data = UIImageJPEGRepresentation(image, 0.9) else {
             completion(nil)
             return

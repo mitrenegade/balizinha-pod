@@ -8,10 +8,10 @@
 
 import Foundation
 
-let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+public let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
-extension Date {
-    func dateString() -> String {
+public extension Date {
+    public func dateString() -> String {
         let calendar = Calendar.current
         let day = calendar.component(.day, from: self)
         let month = calendar.component(.month, from: self)
@@ -21,7 +21,7 @@ extension Date {
     }
     
     // date picker
-    func dateStringForPicker() -> String {
+    public func dateStringForPicker() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEE, MMM dd"
         //dateFormatter.dateStyle = DateFormatter.Style.medium
@@ -30,7 +30,7 @@ extension Date {
     }
     
     // start and end time picker
-    func timeStringForPicker() -> String {
+    public func timeStringForPicker() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = DateFormatter.Style.none
         dateFormatter.timeStyle = DateFormatter.Style.short
