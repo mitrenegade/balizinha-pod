@@ -10,8 +10,11 @@ import UIKit
 import FirebaseCommunity
 
 public class Player: FirebaseBaseModel {
-//    var service = EventService.shared
-
+    public enum Platform: String {
+        case ios
+        case android
+    }
+    
     public var name: String? {
         get {
             guard let dict = self.dict else { return nil }
@@ -138,6 +141,26 @@ public class Player: FirebaseBaseModel {
         }
         set {
             self.dict["lastLocationTimestamp"] = newValue?.timeIntervalSince1970
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+    
+    public var os: String? {
+        get {
+            return self.dict["os"] as? String
+        }
+        set {
+            self.dict["os"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+    
+    public var appVersion: String? {
+        get {
+            return self.dict["appVersion"] as? String
+        }
+        set {
+            self.dict["appVersion"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
