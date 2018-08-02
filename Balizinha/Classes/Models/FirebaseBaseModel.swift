@@ -9,8 +9,8 @@
 import UIKit
 import FirebaseCommunity
 
-let firRef = Database.database().reference()
-let firAuth = Auth.auth()
+public let firRef = Database.database().reference()
+public let firAuth = Auth.auth()
 
 public class FirebaseBaseModel: NSObject {
     // Firebase objects have structure:
@@ -20,11 +20,11 @@ public class FirebaseBaseModel: NSObject {
     //  ..
     // }
     
-    var firebaseKey: String! // store id
-    var firebaseRef: DatabaseReference? // url like lotsportz.firebase.com/model/id
-    var dict: [String: Any]! // {key1: val1, key2: val2 ...}
+    public var firebaseKey: String! // store id
+    public var firebaseRef: DatabaseReference? // url like lotsportz.firebase.com/model/id
+    public var dict: [String: Any]! // {key1: val1, key2: val2 ...}
     
-    init(snapshot: DataSnapshot?) {
+    public init(snapshot: DataSnapshot?) {
         if let snapshot = snapshot, snapshot.exists() {
             self.firebaseKey = snapshot.key
             self.firebaseRef = snapshot.ref
@@ -37,7 +37,7 @@ public class FirebaseBaseModel: NSObject {
         }
     }
     
-    init(key: String, dict: [String: Any]?) {
+    public init(key: String, dict: [String: Any]?) {
         self.firebaseKey = key
         self.firebaseRef = nil // no ref from a dict
         self.dict = dict ?? [:]
@@ -53,11 +53,11 @@ public class FirebaseBaseModel: NSObject {
     }
     
     // returns unique id for this firebase object
-    var id: String {
+    public var id: String {
         return self.firebaseKey
     }
     
-    var createdAt: Date? {
+    public var createdAt: Date? {
         if let val = self.dict["createdAt"] as? TimeInterval {
             let time1970: TimeInterval = 1517606802
             if val > time1970 * 10.0 {

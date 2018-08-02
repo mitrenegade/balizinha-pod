@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Balizinha
 // Usage: Subclass your UIView from NibLoadView to automatically load a xib with the same name as your class
 
 class PaymentHeaderView: NibLoadingView {

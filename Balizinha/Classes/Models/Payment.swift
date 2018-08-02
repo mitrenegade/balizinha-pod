@@ -8,29 +8,29 @@
 
 import UIKit
 
-class Payment: FirebaseBaseModel {
-    var amount: NSNumber? {
+public class Payment: FirebaseBaseModel {
+    public var amount: NSNumber? {
         return self.dict["amount"] as? NSNumber
     }
 
-    var refunded: NSNumber? {
+    public var refunded: NSNumber? {
         return self.dict["amount_refunded"] as? NSNumber
     }
     
-    var paid: Bool {
+    public var paid: Bool {
         return self.dict["paid"] as? Bool ?? false
     }
     
-    var amountString: String? {
+    public var amountString: String? {
         guard let number = amount else { return nil }
         return currencyFormatter.string(from: NSNumber(value: number.doubleValue / 100) )
     }
     
-    var playerId: String? {
+    public var playerId: String? {
         return self.dict["player_id"] as? String
     }
     
-    enum Status: String {
+    public enum Status: String {
         case succeeded
         case error
         case active // subscription
@@ -39,7 +39,7 @@ class Payment: FirebaseBaseModel {
         case unknown
     }
 
-    var status: Payment.Status {
+    public var status: Payment.Status {
         guard let string = self.dict["status"] as? String else {
             if error != nil {
                 return .error
@@ -53,7 +53,7 @@ class Payment: FirebaseBaseModel {
         return newStatus
     }
     
-    var error: String? {
+    public var error: String? {
         return self.dict["error"] as? String
     }
 
@@ -69,7 +69,7 @@ class Payment: FirebaseBaseModel {
         return formatter
     }
     
-    override var createdAt: Date? {
+    override public var createdAt: Date? {
         if let val = self.dict["created"] as? TimeInterval {
             let time1970: TimeInterval = 1517606802
             if val > time1970 * 10.0 {

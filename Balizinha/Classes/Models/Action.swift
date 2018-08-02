@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum ActionType: String {
+public enum ActionType: String {
     case chat
     case createEvent
     case joinEvent
@@ -22,8 +22,8 @@ fileprivate let GENERIC_MESSAGE = " is in this game"
 fileprivate let GENERIC_CHAT = "..."
 fileprivate let GENERIC_USERNAME = "A player"
 
-class Action: FirebaseBaseModel {
-    var type: ActionType {
+public class Action: FirebaseBaseModel {
+    public var type: ActionType {
         get {
             if let typeString = self.dict["type"] as? String, let actionType = ActionType(rawValue: typeString) {
                 return actionType
@@ -36,7 +36,7 @@ class Action: FirebaseBaseModel {
         }
     }
     
-    var userId: String? {
+    public var userId: String? {
         // if user is nil, then it should be a system message
         get {
             return self.dict["user"] as? String
@@ -47,7 +47,7 @@ class Action: FirebaseBaseModel {
         }
     }
     
-    var username: String? {
+    public var username: String? {
         // makes it easier to generate displayString
         get {
             if let username = self.dict["username"] as? String {
@@ -61,7 +61,7 @@ class Action: FirebaseBaseModel {
         }
     }
     
-    var event: String? { // if an action is directly related to an event
+    public var event: String? { // if an action is directly related to an event
         get {
             return self.dict["event"] as? String
         }
@@ -71,7 +71,7 @@ class Action: FirebaseBaseModel {
         }
     }
 
-    var message: String? {
+    public var message: String? {
         get {
             return self.dict["message"] as? String
         }
@@ -81,7 +81,7 @@ class Action: FirebaseBaseModel {
         }
     }
     
-    var visible: Bool { // whether an action should appear in the feed
+    public var visible: Bool { // whether an action should appear in the feed
         get {
             return self.dict["visible"] as? Bool ?? false
         }
@@ -92,11 +92,11 @@ class Action: FirebaseBaseModel {
     }
 }
 
-class ActionViewModel {
+public class ActionViewModel {
     var action: Action
     var event: Event?
 
-    init(action: Action) {
+    public init(action: Action) {
         self.action = action
         switch action.type {
         case .createEvent, .joinEvent, .leaveEvent, .payForEvent:
@@ -110,21 +110,21 @@ class ActionViewModel {
         }
     }
     
-    var displayDate: String {
+    public var displayDate: String {
         if let date = action.createdAt {
             return date.dateString()
         }
         return "65 Billion BC"
     }
     
-    var eventName: String {
+    public var eventName: String {
         if let eventId = action.event, let foundEvent = EventService.shared.eventForAction(with: eventId) {
             return foundEvent.name ?? "an event"
         }
         return event?.name ?? "an event"
     }
     
-    var displayString: String {
+    public var displayString: String {
         let userString = action.username ?? GENERIC_USERNAME
         switch action.type {
         case .chat:

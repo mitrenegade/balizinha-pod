@@ -8,6 +8,7 @@
 
 import UIKit
 import AsyncImageView
+import Balizinha
 
 class LeaguePlayerCell: UITableViewCell {
     @IBOutlet weak var imagePhoto: AsyncImageView!

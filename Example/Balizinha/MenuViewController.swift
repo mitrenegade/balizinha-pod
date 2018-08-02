@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import Balizinha
 
 enum MenuItem: String {
     case players = "Players"

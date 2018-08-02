@@ -8,6 +8,7 @@
 
 import UIKit
 import AsyncImageView
+import Balizinha
 
 protocol PlayersScrollViewDelegate: class {
     func componentHeightChanged(controller: UIViewController, newHeight: CGFloat)

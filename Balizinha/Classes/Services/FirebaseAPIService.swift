@@ -10,21 +10,21 @@ import UIKit
 
 public class FirebaseAPIService: NSObject {
     // variables for creating customer key
-    let opQueue = OperationQueue()
-    var urlSession: URLSession?
-    var dataTask: URLSessionTask?
-    var data: Data?
-    static var baseURL: URL?
+    fileprivate let opQueue = OperationQueue()
+    fileprivate var urlSession: URLSession?
+    fileprivate var dataTask: URLSessionTask?
+    fileprivate var data: Data?
+    public static var baseURL: URL?
 
-    typealias cloudCompletionHandler = ((_ response: Any?, _ error: Error?) -> ())
-    var completionHandler: cloudCompletionHandler?
+    public typealias cloudCompletionHandler = ((_ response: Any?, _ error: Error?) -> ())
+    public var completionHandler: cloudCompletionHandler?
     
-    override init() {
+    public override init() {
         super.init()
         urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: self.opQueue)
     }
     
-    class func getUniqueId(completion: @escaping ((String?)->())) {
+    public class func getUniqueId(completion: @escaping ((String?)->())) {
         let method = "POST"
         FirebaseAPIService().cloudFunction(functionName: "getUniqueId", method: method, params: nil) { (result, error) in
             guard let result = result as? [String: String], let id = result["id"] else {
@@ -35,14 +35,14 @@ public class FirebaseAPIService: NSObject {
         }
     }
     
-    class func uniqueId() -> String {
+    public class func uniqueId() -> String {
         // generates a unique id very similar to server's unique id, but doesn't make so many requests. matches API 1.1
         let secondsSince1970 = Int(Date().timeIntervalSince1970)
         let randomId = Int(arc4random_uniform(UInt32(899999))) + 100000
         return "\(secondsSince1970)-\(randomId)"
     }
 
-    func test() {
+    fileprivate func test() {
         let urlString = "https://us-central1-balizinha-dev.cloudfunctions.net/testFunction"
         guard let requestUrl = URL(string:urlString) else { return }
         var request = URLRequest(url:requestUrl)
@@ -57,7 +57,7 @@ public class FirebaseAPIService: NSObject {
         task.resume()
     }
     
-    func cloudFunction(functionName: String, method: String = "POST", params: [String: Any]?, completion: cloudCompletionHandler?) {
+    public func cloudFunction(functionName: String, method: String = "POST", params: [String: Any]?, completion: cloudCompletionHandler?) {
         guard let url = FirebaseAPIService.baseURL?.appendingPathComponent(functionName) else {
             completion?(nil, nil) // todo
             return

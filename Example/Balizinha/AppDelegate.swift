@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseCommunity
+import Balizinha
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

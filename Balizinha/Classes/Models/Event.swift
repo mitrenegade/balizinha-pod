@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseCommunity
 
-enum EventType: String {
+public enum EventType: String {
     case event3v3 = "3 vs 3"
     case event5v5 = "5 vs 5"
     case event7v7 = "7 vs 7"
@@ -19,8 +19,8 @@ enum EventType: String {
 
 fileprivate let formatter = DateFormatter()
 
-class Event: FirebaseBaseModel {
-    var name: String? {
+public class Event: FirebaseBaseModel {
+    public var name: String? {
         get {
             return self.dict["name"] as? String
         }
@@ -30,7 +30,7 @@ class Event: FirebaseBaseModel {
         }
     }
 
-    var type: EventType {
+    public var type: EventType {
         get {
             for type: EventType in [.event3v3, .event5v5, .event7v7, .event11v11] {
                 if type.rawValue == self.dict["type"] as? String {
@@ -45,7 +45,7 @@ class Event: FirebaseBaseModel {
         }
     }
     
-    var photoUrl: String? {
+    public var photoUrl: String? {
         get {
             return self.dict["photoUrl"] as? String
         }
@@ -55,7 +55,7 @@ class Event: FirebaseBaseModel {
         }
     }
     
-    var city: String? {
+    public var city: String? {
         get {
             return self.dict["city"] as? String
         }
@@ -65,7 +65,7 @@ class Event: FirebaseBaseModel {
         }
     }
     
-    var state: String? {
+    public var state: String? {
         get {
             return self.dict["state"] as? String
         }
@@ -75,7 +75,7 @@ class Event: FirebaseBaseModel {
         }
     }
     
-    var place: String? {
+    public var place: String? {
         get {
             return self.dict["place"] as? String
         }
@@ -85,7 +85,7 @@ class Event: FirebaseBaseModel {
         }
     }
 
-    var lat: Double? {
+    public var lat: Double? {
         get {
             return self.dict["lat"] as? Double
         }
@@ -95,7 +95,7 @@ class Event: FirebaseBaseModel {
         }
     }
     
-    var lon: Double? {
+    public var lon: Double? {
         get {
             return self.dict["lon"] as? Double
         }
@@ -105,7 +105,7 @@ class Event: FirebaseBaseModel {
         }
     }
     
-    var startTime: Date? {
+    public var startTime: Date? {
         get {
             if let val = self.dict["startTime"] as? TimeInterval {
                 return Date(timeIntervalSince1970: val)
@@ -118,7 +118,7 @@ class Event: FirebaseBaseModel {
         }
     }
     
-    var endTime: Date? {
+    public var endTime: Date? {
         get {
             if let val = self.dict["endTime"] as? TimeInterval {
                 return Date(timeIntervalSince1970: val)
@@ -130,7 +130,7 @@ class Event: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
-    var maxPlayers: Int {
+    public var maxPlayers: Int {
         get {
             if let val = self.dict["maxPlayers"] as? UInt {
                 return Int(val)
@@ -147,7 +147,7 @@ class Event: FirebaseBaseModel {
         
     }
 
-    var info: String {
+    public var info: String {
         get {
             if let val = self.dict["info"] as? String {
                 return val
@@ -161,19 +161,19 @@ class Event: FirebaseBaseModel {
         
     }
 
-    var paymentRequired: Bool {
+    public var paymentRequired: Bool {
         return false
     }
     
-    var amount: NSNumber? {
+    public var amount: NSNumber? {
         return self.dict["amount"] as? NSNumber
     }
     
-    var owner: String? {
+    public var owner: String? {
         return self.dict["owner"] as? String
     }
     
-    var active: Bool {
+    public var active: Bool {
         if let isActive = self.dict["active"] as? Bool {
             return isActive
         }
@@ -184,12 +184,12 @@ class Event: FirebaseBaseModel {
 
 // Utils
 extension Event {
-    func dateString(_ date: Date) -> String {
+    public func dateString(_ date: Date) -> String {
         //return "\((date as NSDate).day()) \(months[(date as NSDate).month() - 1]) \((date as NSDate).year())"
         return date.dateStringForPicker()
     }
     
-    func timeString(_ date: Date) -> String {
+    public func timeString(_ date: Date) -> String {
         /*
         formatter.dateStyle = .none
         formatter.timeStyle = .short
@@ -199,7 +199,7 @@ extension Event {
         return date.timeStringForPicker()
     }
     
-    var locationString: String? {
+    public var locationString: String? {
         if let city = self.city, let state = self.state {
             return "\(city), \(state)"
         }
