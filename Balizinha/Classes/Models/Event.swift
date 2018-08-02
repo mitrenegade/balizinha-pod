@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseCommunity
+import Balizinha
 
 public enum EventType: String {
     case event3v3 = "3 vs 3"
@@ -185,7 +186,7 @@ public class Event: FirebaseBaseModel {
     }
     
     public var paymentRequired: Bool {
-        guard SettingsService.paymentRequired() else { return false }
+//        guard SettingsService.paymentRequired() else { return false }
         if let paymentRequired = self.dict["paymentRequired"] as? Bool {
             return paymentRequired
         }

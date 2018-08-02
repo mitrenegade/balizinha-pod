@@ -94,6 +94,7 @@
 		8E97405E21132A7000242907 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E97407F21132E6500242907 /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
 		8E97408021132E6600242907 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8E9740832113428900242907 /* Balizinha_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha_Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD0B4B52D8F4EC108A0EA635 /* Pods-Balizinha_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Tests/Pods-Balizinha_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		FD4F6317CA270849E7E57832 /* Pods-Balizinha_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Example/Pods-Balizinha_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -168,6 +169,7 @@
 		607FACD31AFB9204008FA782 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8E9740832113428900242907 /* Balizinha_Example-Bridging-Header.h */,
 				8E97407F21132E6500242907 /* GoogleService-Info-dev.plist */,
 				8E97408021132E6600242907 /* GoogleService-Info.plist */,
 				607FACD41AFB9204008FA782 /* Info.plist */,
