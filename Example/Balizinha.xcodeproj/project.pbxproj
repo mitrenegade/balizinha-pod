@@ -64,7 +64,6 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		7F3517D46F3B5DE3D0C331AA /* Pods_Balizinha_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8E97403B21132A5500242907 /* Balizinha_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Balizinha_Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		8E97403C21132A5600242907 /* ActionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };
 		8E97403D21132A5700242907 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8E97403E21132A5900242907 /* LeagueInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeagueInfoViewController.swift; sourceTree = "<group>"; };
@@ -161,7 +160,6 @@
 				8E97404B21132A6400242907 /* Storyboards */,
 				8E97404021132A5C00242907 /* Views */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
-				8E97403B21132A5500242907 /* Balizinha_Example-Bridging-Header.h */,
 			);
 			name = "Example for Balizinha";
 			path = Balizinha;
