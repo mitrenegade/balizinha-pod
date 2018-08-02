@@ -20,6 +20,18 @@ public enum EventType: String {
 fileprivate let formatter = DateFormatter()
 
 public class Event: FirebaseBaseModel {
+    public var service = EventService.shared
+    
+    public var league: String? {
+        get {
+            return self.dict["league"] as? String
+        }
+        set {
+            self.dict["league"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+    
     public var name: String? {
         get {
             return self.dict["name"] as? String
@@ -29,7 +41,7 @@ public class Event: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
-
+    
     public var type: EventType {
         get {
             for type: EventType in [.event3v3, .event5v5, .event7v7, .event11v11] {
@@ -51,6 +63,17 @@ public class Event: FirebaseBaseModel {
         }
         set {
             self.dict["photoUrl"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+    
+    // event's photoId may not be its UID. before event is saved
+    public var photoId: String? {
+        get {
+            return self.dict["photoId"] as? String
+        }
+        set {
+            self.dict["photoId"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
@@ -84,7 +107,7 @@ public class Event: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
-
+    
     public var lat: Double? {
         get {
             return self.dict["lat"] as? Double
@@ -146,7 +169,7 @@ public class Event: FirebaseBaseModel {
         }
         
     }
-
+    
     public var info: String {
         get {
             if let val = self.dict["info"] as? String {
@@ -160,8 +183,12 @@ public class Event: FirebaseBaseModel {
         }
         
     }
-
+    
     public var paymentRequired: Bool {
+        guard SettingsService.paymentRequired() else { return false }
+        if let paymentRequired = self.dict["paymentRequired"] as? Bool {
+            return paymentRequired
+        }
         return false
     }
     
@@ -183,7 +210,7 @@ public class Event: FirebaseBaseModel {
 }
 
 // Utils
-extension Event {
+public extension Event {
     public func dateString(_ date: Date) -> String {
         //return "\((date as NSDate).day()) \(months[(date as NSDate).month() - 1]) \((date as NSDate).year())"
         return date.dateStringForPicker()
@@ -191,12 +218,59 @@ extension Event {
     
     public func timeString(_ date: Date) -> String {
         /*
-        formatter.dateStyle = .none
-        formatter.timeStyle = .short
-        let time = formatter.string(from: date)
-        return "\(time)"
-        */
+         formatter.dateStyle = .none
+         formatter.timeStyle = .short
+         let time = formatter.string(from: date)
+         return "\(time)"
+         */
         return date.timeStringForPicker()
+    }
+    
+    public var numPlayers: Int {
+        let users = self.users
+        return users.count
+    }
+    
+    public var users: [String] {
+        guard let usersForEvents = self.service.usersForEvents else { return [] }
+        if let results = usersForEvents[self.id] as? [String: AnyObject] {
+            let filtered = results.filter({ (arg) -> Bool in
+                
+                let (key, val) = arg
+                return val as! Bool
+            })
+            let userIds = filtered.map({ (arg) -> String in
+                
+                let (key, val) = arg
+                return key
+            })
+            return userIds
+        }
+        return []
+    }
+    
+    public func containsPlayer(_ player: Player) -> Bool {
+        return self.users.contains(player.id)
+    }
+    
+    public var isFull: Bool {
+        return self.maxPlayers == self.numPlayers
+    }
+    
+    public var isPast: Bool {
+        if let endTime = self.endTime {
+            return (ComparisonResult.orderedAscending == endTime.compare(Date())) //event time happened before current time
+        }
+        else {
+            return false // false means TBD
+        }
+    }
+    
+    public var userIsOrganizer: Bool {
+        guard let owner = self.owner else { return false }
+        guard let user = AuthService.currentUser else { return false }
+        
+        return user.uid == owner
     }
     
     public var locationString: String? {
@@ -210,5 +284,28 @@ extension Event {
             return "\(lat), \(lon)"
         }
         return nil
+    }
+}
+
+extension Event {
+    //***************** hack: for test purposes only
+    class func randomEvent() -> Event {
+        let event = Event()
+        let hours: Int = Int(arc4random_uniform(72))
+        event.dict = ["type": event.randomType() as AnyObject, "place": event.randomPlace() as AnyObject, "startTime": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject, "info": "Randomly generated event" as AnyObject]
+        event.firebaseKey = FirebaseAPIService.uniqueId()
+        return event
+    }
+    
+    func randomType() -> String {
+        let types: [EventType] = [.event3v3]
+        let random = Int(arc4random_uniform(UInt32(types.count)))
+        return types[random].rawValue
+    }
+    
+    func randomPlace() -> String {
+        let places = ["Boston", "New York", "Philadelphia", "Florida"]
+        let random = Int(arc4random_uniform(UInt32(places.count)))
+        return places[random]
     }
 }
