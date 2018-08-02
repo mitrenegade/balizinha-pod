@@ -1,3 +1,4 @@
+platform :ios, '11.0'
 use_frameworks!
 
 target 'Balizinha_Example' do
@@ -6,6 +7,10 @@ target 'Balizinha_Example' do
   target 'Balizinha_Tests' do
     inherit! :search_paths
 
+    pod 'RxSwift'
+    pod 'RxCocoa'
+
+    pod 'RACameraHelper', :git => 'https://github.com/bobbyren/RACameraHelper', :tag => '0.1.2'
     
   end
 end
