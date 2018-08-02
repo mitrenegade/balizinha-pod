@@ -125,7 +125,7 @@ public class ActionViewModel {
     }
     
     public var displayString: String {
-        let userString = action.username ?? GENERIC_USERNAME
+        let userString = self.userIsOrganizer ? "You" : (action.username ?? GENERIC_USERNAME)
         switch action.type {
         case .chat:
             return userString + " said: " + (action.message ?? GENERIC_CHAT)
@@ -143,5 +143,12 @@ public class ActionViewModel {
             // system message
             return "Admin says: hi"
         }
+    }
+    
+    fileprivate var userIsOrganizer: Bool {
+        guard let owner = self.action.userId else { return false }
+        guard let currentUserId = AuthService.currentUser?.uid else { return false }
+        
+        return currentUserId == owner
     }
 }
