@@ -7,14 +7,13 @@
 //
 
 import UIKit
-import AsyncImageView
 import Balizinha
 
 class ActionCell: UITableViewCell {
     
     @IBOutlet weak var labelText: UILabel!
     @IBOutlet weak var labelDate: UILabel!
-    @IBOutlet weak var photoView: AsyncImageView?
+    @IBOutlet weak var photoView: RAImageView?
     @IBOutlet weak var constraintLabelHeight: NSLayoutConstraint!
     var actionId: String?
 
@@ -27,23 +26,26 @@ class ActionCell: UITableViewCell {
         
         let actionId = action.id
         self.actionId = actionId
-        self.refreshPhoto(url: nil, currentActionId: actionId)
-        
+        self.refreshPhoto(userId: userId, currentActionId: actionId)
+
         labelDate.text = action.createdAt?.dateString()
     }
     
-    func refreshPhoto(url: String?, currentActionId: String) {
+    func refreshPhoto(userId: String, currentActionId: String) {
         guard let photoView = self.photoView else { return }
         photoView.layer.cornerRadius = photoView.frame.size.width / 4
         photoView.clipsToBounds = true
         photoView.contentMode = .scaleAspectFill
-        if let url = url, let URL = URL(string: url), self.actionId == currentActionId  {
-            photoView.imageURL = URL
-        }
-        else {
-            photoView.imageURL = nil
-//            photoView.image = UIImage(named: "profile-img")
+        FirebaseImageService().profileUrl(for: userId) { (url) in
+            DispatchQueue.main.async {
+                if let urlString = url?.absoluteString, self.actionId == currentActionId  {
+                    photoView.imageUrl = urlString
+                }
+                else {
+                    photoView.imageUrl = nil
+                    photoView.image = UIImage(named: "profile-img")
+                }
+            }
         }
     }
-
 }

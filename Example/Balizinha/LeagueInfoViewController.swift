@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AsyncImageView
 import RxSwift
 import FirebaseCommunity
 import Balizinha
@@ -29,7 +28,7 @@ class LeagueEditViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
 
-    @IBOutlet weak var photoView: AsyncImageView!
+    @IBOutlet weak var photoView: RAImageView!
     @IBOutlet weak var constraintPhotoWidth: NSLayoutConstraint!
     @IBOutlet weak var buttonPhoto: UIButton!
     
@@ -37,7 +36,7 @@ class LeagueEditViewController: UIViewController {
     
     @IBOutlet weak var containerOwner: UIView!
     @IBOutlet weak var labelOwnerName: UILabel!
-    @IBOutlet weak var photoOwner: AsyncImageView!
+    @IBOutlet weak var photoOwner: RAImageView!
     @IBOutlet weak var constraintOwnerHeight: NSLayoutConstraint!
     
     @IBOutlet weak var labelPlayerCount: UILabel!
@@ -102,14 +101,24 @@ class LeagueEditViewController: UIViewController {
             buttonPhoto.setTitle(nil, for: .normal)
             buttonPhoto.backgroundColor = .clear
             photoView.image = image
-        } else if let url = league?.photoUrl, let URL = URL(string: url) {
+        } else if let url = league?.photoUrl {
             buttonPhoto.backgroundColor = .clear
             buttonPhoto.setTitle(nil, for: .normal)
-            photoView.imageURL = URL
+            FirebaseImageService().leaguePhotoUrl(for: league?.id) {[weak self] (url) in
+                DispatchQueue.main.async {
+                    if let url = url {
+                        self?.photoView.imageUrl = url.absoluteString
+                    } else {
+                        self?.photoView.imageUrl = nil
+                        self?.photoView.image = UIImage(named: "crest30")?.withRenderingMode(.alwaysTemplate)
+                        self?.photoView.tintColor = UIColor.white
+                    }
+                }
+            }
         } else {
             buttonPhoto.backgroundColor = UIColor(red: 88.0/255.0, green: 122.0/255.0, blue: 103.0/255.0, alpha: 1)
             photoView.image = nil
-            photoView.imageURL = nil
+            photoView.imageUrl = nil
             buttonPhoto.setTitle("Add photo", for: .normal)
         }
 
@@ -135,11 +144,15 @@ class LeagueEditViewController: UIViewController {
             PlayerService.shared.withId(id: owner) { [weak self] (player) in
                 DispatchQueue.main.async {
                     self?.labelOwnerName.text = player?.name ?? player?.email ?? player?.id
-                    if let url = player?.photoUrl, let URL = URL(string: url) {
+                }
+            }
+            FirebaseImageService().profileUrl(for: owner) { [weak self] (url) in
+                DispatchQueue.main.async {
+                    if let url = url {
                         self?.photoOwner.image = nil
-                        self?.photoOwner.imageURL = URL
+                        self?.photoOwner.imageUrl = url.absoluteString
                     } else {
-                        self?.photoOwner.imageURL = nil
+                        self?.photoOwner.imageUrl = nil
                         self?.photoOwner.image = UIImage(named: "profile-img")
                     }
                 }
@@ -325,7 +338,7 @@ extension LeagueEditViewController {
     fileprivate func uploadPhoto(_ photo: UIImage, id: String, completion: @escaping ((_ url: String?)->Void)) {
         activityIndicator.startAnimating()
         DispatchQueue.global().async {
-            FirebaseImageService.uploadImage(image: photo, type: "league", uid: id, completion: { [weak self] (url) in
+            FirebaseImageService.uploadImage(image: photo, type: .league, uid: id, completion: { [weak self] (url) in
                 DispatchQueue.main.async {
                     self?.activityIndicator.stopAnimating()
                 }

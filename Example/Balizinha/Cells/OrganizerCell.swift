@@ -7,14 +7,13 @@
 //
 
 import UIKit
-import AsyncImageView
 import Balizinha
 
 class OrganizerCell: UITableViewCell {
     @IBOutlet weak var labelText: UILabel!
     @IBOutlet weak var labelDate: UILabel!
     @IBOutlet weak var labelStatus: UILabel!
-    @IBOutlet weak var photoView: AsyncImageView?
+    @IBOutlet weak var photoView: RAImageView?
     var organizerId: String?
     var player: Player?
 
@@ -29,23 +28,26 @@ class OrganizerCell: UITableViewCell {
             self?.labelText.text = player?.name ?? player?.email ?? player?.id
             self?.labelText.sizeToFit()
             
-            self?.refreshPhoto(url: player?.photoUrl, currentId: id)
+            self?.refreshPhoto(oldUrl: player?.photoUrl, currentId: id)
             
             self?.labelStatus.text = organizer.status.rawValue
             self?.labelDate.text = organizer.createdAt?.dateString()
         })
     }
     
-    func refreshPhoto(url: String?, currentId: String) {
+    func refreshPhoto(oldUrl: String?, currentId: String) {
         guard let photoView = self.photoView else { return }
         photoView.layer.cornerRadius = photoView.frame.size.width / 4
         photoView.clipsToBounds = true
         photoView.contentMode = .scaleAspectFill
-        if let url = url, let URL = URL(string: url), self.organizerId == organizerId  {
-            photoView.imageURL = URL
-        }
-        else {
-            photoView.imageURL = nil
+        FirebaseImageService().profileUrl(for: currentId) {[weak self] (url) in
+            DispatchQueue.main.async {
+                if let urlString = url?.absoluteString {
+                    self?.photoView?.imageUrl = urlString
+                } else {
+                    self?.photoView?.imageUrl = oldUrl
+                }
+            }
         }
     }
 }

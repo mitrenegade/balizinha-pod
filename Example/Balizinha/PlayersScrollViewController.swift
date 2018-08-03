@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AsyncImageView
 import Balizinha
 
 protocol PlayersScrollViewDelegate: class {
@@ -37,7 +36,6 @@ class PlayersScrollViewController: UIViewController {
         guard icons[player.id] == nil else { return }
         print("Adding player \(player.id)")
         let icon = PlayerIcon()
-        icon.imageView.activityIndicatorColor = .white
         icon.object = player
         icons[player.id] = icon
         self.refresh()
