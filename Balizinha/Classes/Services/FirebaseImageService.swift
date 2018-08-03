@@ -14,14 +14,24 @@ fileprivate let storageRef = storage.reference()
 fileprivate let imageBaseRef = storageRef.child("images")
 
 public class FirebaseImageService: NSObject {
-
-    public class func uploadImage(image: UIImage, type: String, uid: String, progressHandler: ((_ percent: Double)->Void)? = nil, completion: @escaping ((_ imageUrl: String?)->Void)) {
+    
+    public enum ImageType: String {
+        case player
+        case event
+        case league
+    }
+    
+    fileprivate class func referenceForImage(type: ImageType, id: String) -> StorageReference? {
+        return imageBaseRef.child(type.rawValue).child(id)
+    }
+    
+    public class func uploadImage(image: UIImage, type: ImageType, uid: String, progressHandler: ((_ percent: Double)->Void)? = nil, completion: @escaping ((_ imageUrl: String?)->Void)) {
         guard let data = UIImageJPEGRepresentation(image, 0.9) else {
             completion(nil)
             return
         }
         
-        let imageRef: StorageReference = imageBaseRef.child(type).child(uid)
+        let imageRef: StorageReference = imageBaseRef.child(ImageType.player.rawValue).child(uid)
         let uploadTask = imageRef.putData(data, metadata: nil) { (meta, error) in
             if error != nil {
                 completion(nil)
@@ -41,7 +51,7 @@ public class FirebaseImageService: NSObject {
         }
     }
     
-    class func resizeImage(image: UIImage, newSize: CGSize) -> UIImage? {
+    public class func resizeImage(image: UIImage, newSize: CGSize) -> UIImage? {
         // Guard newSize is different
         guard image.size != newSize else { return nil }
         
@@ -52,7 +62,7 @@ public class FirebaseImageService: NSObject {
         return newImage
     }
     
-    class func resizeImageForProfile(image: UIImage) -> UIImage? {
+    public class func resizeImageForProfile(image: UIImage) -> UIImage? {
         let size = image.size
         if size.width <= 500 || size.height <= 500 {
             return image
@@ -71,8 +81,54 @@ public class FirebaseImageService: NSObject {
         return resizeImage(image: image, newSize: newSize)
     }
     
-    class func resizeImageForEvent(image: UIImage) -> UIImage? {
+    public class func resizeImageForEvent(image: UIImage) -> UIImage? {
         // same conditions/size
         return resizeImageForProfile(image:image)
+    }
+    
+    public func profileUrl(for id: String?, completion: @escaping ((URL?)->Void)) {
+        guard let id = id else {
+            completion(nil)
+            return
+        }
+        let ref = FirebaseImageService.referenceForImage(type: .player, id: id)
+        ref?.downloadURL(completion: { (url, error) in
+            if let url = url {
+                completion(url)
+            } else {
+                completion(nil)
+            }
+        })
+    }
+    
+    public func leaguePhotoUrl(for id: String?, completion: @escaping ((URL?)->Void)) {
+        guard let id = id else {
+            completion(nil)
+            return
+        }
+        let ref = FirebaseImageService.referenceForImage(type: .league, id: id)
+        ref?.downloadURL(completion: { (url, error) in
+            if let url = url {
+                completion(url)
+            } else {
+                completion(nil)
+            }
+        })
+    }
+    
+    public func eventPhotoUrl(for event: Event?, completion: @escaping ((URL?)->Void)) {
+        guard let event = event else {
+            completion(nil)
+            return
+        }
+        let id = event.photoId ?? event.id
+        let ref = FirebaseImageService.referenceForImage(type: .event, id: id)
+        ref?.downloadURL(completion: { (url, error) in
+            if let url = url {
+                completion(url)
+            } else {
+                completion(nil)
+            }
+        })
     }
 }
