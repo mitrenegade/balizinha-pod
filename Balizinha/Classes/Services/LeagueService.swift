@@ -11,8 +11,42 @@ import RxSwift
 import FirebaseCommunity
 
 fileprivate var _leagues: [String: League] = [:]
+fileprivate var _playerLeagues: [String] = []
+
 public class LeagueService: NSObject {
     public static let shared: LeagueService = LeagueService()
+    fileprivate var disposeBag: DisposeBag
+    
+    public override init() {
+        disposeBag = DisposeBag()
+        super.init()
+        
+        PlayerService.shared.current.asObservable().distinctUntilChanged().subscribe(onNext: { [weak self] player in
+            self?.refreshPlayerLeagues(completion: nil)
+        }).disposed(by: disposeBag)
+    }
+    
+    public func refreshPlayerLeagues(completion: (([String]?)->Void)?) {
+        // loads current player's leagues
+        guard let player = PlayerService.shared.current.value else { return }
+        leagueMemberships(for: player, completion: { (results) in
+            print("Player leagues: \(results)")
+            if let roster = results {
+                _playerLeagues = roster.compactMap({ (key, status) -> String? in
+                    if status != .none {
+                        return key
+                    } else {
+                        return nil
+                    }
+                })
+            }
+            completion?(_playerLeagues)
+        })
+    }
+    
+    public class func resetOnLogout() {
+        shared.disposeBag = DisposeBag()
+    }
     
     public func create(name: String, city: String, info: String, completion: @escaping ((_ result: Any?, _ error: Error?)->Void)) {
         guard let user = AuthService.currentUser else { return }
@@ -30,7 +64,7 @@ public class LeagueService: NSObject {
     
     public func join(league: League, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
         guard let user = AuthService.currentUser else { return }
-        FirebaseAPIService().cloudFunction(functionName: "joinLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id]) { (result, error) in
+        FirebaseAPIService().cloudFunction(functionName: "joinLeaveLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": true]) { (result, error) in
             guard error == nil else {
                 print("League join error \(error)")
                 completion(nil, error)
@@ -40,14 +74,30 @@ public class LeagueService: NSObject {
             completion(result, nil)
         }
     }
-
+    
+    public func leave(league: League, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
+        guard let user = AuthService.currentUser else { return }
+        FirebaseAPIService().cloudFunction(functionName: "joinLeaveLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": false]) { (result, error) in
+            guard error == nil else {
+                print("League leave error \(error)")
+                completion(nil, error)
+                return
+            }
+            print("League leave result \(result)")
+            completion(result, nil)
+        }
+    }
+    
     public func getLeagues(completion: @escaping (_ results: [League]) -> Void) {
-        let queryRef = firRef.child("leagues")
+        guard !AIRPLANE_MODE else {
+            let results = League.randomLeagues()
+            completion(results)
+            return
+        }
         
-        queryRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
-            // this block is called for every result returned
+        let queryRef = firRef.child("leagues")
+        queryRef.observeSingleEvent(of: .value) { (snapshot) in
             guard snapshot.exists() else {
-                completion([])
                 return
             }
             _leagues.removeAll()
@@ -58,24 +108,9 @@ public class LeagueService: NSObject {
                     _leagues[league.id] = league
                 }
             }
-            print("getLeagues results count: \(_leagues.count)")
             completion(Array(_leagues.values))
         }
     }
-    
-    public func observeUsers(for league: League, completion: ((_ result: [Membership]?, _ error: Error?) -> Void)?) {
-        let queryRef = firRef.child("leaguePlayers").child(league.id)
-        queryRef.observeSingleEvent(of: .value) { (snapshot) in
-            guard snapshot.exists() else { return }
-            // return value should be [playerId: status]
-            guard let dict = snapshot.value as? [String: String] else { return }
-            let roster = dict.compactMap({ (id, status) -> Membership? in
-                return Membership(id: id, status: status)
-            })
-            completion?(roster, nil)
-        }
-    }
-
     
     public func memberships(for league: League, completion: @escaping (([Membership]?)->Void)) {
         FirebaseAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
@@ -102,6 +137,15 @@ public class LeagueService: NSObject {
     }
     
     public func players(for league: League, completion: @escaping (([String]?)->Void)) {
+        guard !AIRPLANE_MODE else {
+            if league.id == LEAGUE_ID_AIRPLANE_MODE {
+                completion([LEAGUE_ID_AIRPLANE_MODE])
+            } else {
+                completion(nil)
+            }
+            return
+        }
+        
         FirebaseAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
                 //print("Players for league error \(error)")
@@ -124,7 +168,7 @@ public class LeagueService: NSObject {
             }
         }
     }
-
+    
     public func events(for league: League, completion: @escaping (([Event]?)->Void)) {
         FirebaseAPIService().cloudFunction(functionName: "getEventsForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
@@ -137,6 +181,8 @@ public class LeagueService: NSObject {
                 var events = [Event]()
                 for (key, value) in eventDicts {
                     let event = Event(key: key, dict: value)
+                    guard event.active else { return } // filters
+                    EventService.shared.cacheEvent(event: event)
                     events.append(event)
                 }
                 completion(events)
@@ -145,24 +191,42 @@ public class LeagueService: NSObject {
             }
         }
     }
-
-    public func leagues(for player: Player, completion: @escaping (([String]?)->Void)) {
+    
+    public func leagueMemberships(for player: Player, completion: @escaping (([String: Membership.Status]?)->Void)) {
+        guard !AIRPLANE_MODE else {
+            completion([LEAGUE_ID_AIRPLANE_MODE: Membership.Status.member])
+            return
+        }
         FirebaseAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { (result, error) in
             guard error == nil else {
                 //print("Leagues for player error \(error)")
                 completion(nil)
                 return
             }
-            //print("Leagues for player results \(result)")
+            print("Leagues for player \(player.id) results \(result)")
             if let dict = (result as? [String: Any])?["result"] as? [String: Any] {
-                let userIds = Array(dict.keys)
-                completion(userIds)
+                var result = [String:Membership.Status]()
+                for (leagueId, statusString) in dict {
+                    var status = statusString as? String ?? "none"
+                    // for api v1.4, some users were set to true
+                    if let legacyValue = statusString as? Bool, legacyValue == true {
+                        status = "member"
+                    }
+                    if let membershipStatus = Membership.Status(rawValue: status) {
+                        result[leagueId] = membershipStatus
+                    }
+                }
+                completion(result)
             } else {
-                completion([])
+                completion([:])
             }
         }
     }
-
+    
+    public func playerIsIn(league: League) -> Bool {
+        return _playerLeagues.contains(league.id)
+    }
+    
     public func changeLeaguePlayerStatus(playerId: String, league: League, status: String, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
         FirebaseAPIService().cloudFunction(functionName: "changeLeaguePlayerStatus", method: "POST", params: ["userId": playerId, "leagueId": league.id, "status": status]) { (result, error) in
             guard error == nil else {
@@ -174,23 +238,23 @@ public class LeagueService: NSObject {
             completion(result, nil)
         }
     }
-
+    
     public func withId(id: String, completion: @escaping ((League?)->Void)) {
         if let found = _leagues[id] {
             completion(found)
             return
         }
         
-        let ref = firRef.child("leagues")
-        ref.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+        let ref = firRef.child("leagues").child(id)
+        ref.observe(.value) { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
             }
-            
+            ref.removeAllObservers()
             let league = League(snapshot: snapshot)
             _leagues[id] = league
             completion(league)
-        })
+        }
     }
 }
