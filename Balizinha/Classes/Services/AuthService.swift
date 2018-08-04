@@ -94,10 +94,7 @@ public class AuthService: NSObject {
         try! firAuth.signOut()
         EventService.resetOnLogout() // force new listeners
         // TODO
-//        PlayerService.resetOnLogout()
-//        OrganizerService.resetOnLogout()
-//        FBSDKLoginManager().logOut()
-//        StripeService.resetOnLogout()
-//        LeagueService.resetOnLogout()
+        PlayerService.resetOnLogout()
+        LeagueService.resetOnLogout()
     }
 }
