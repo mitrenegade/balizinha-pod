@@ -50,6 +50,5 @@ The demo project is an admin project that allows the user to check out their das
   s.dependency 'FirebaseCommunity/Storage'
   s.dependency 'RxSwift'
   s.dependency 'RxCocoa'
-  s.dependency 'AsyncImageView'
-
+  s.dependency 'RxOptional'
 end

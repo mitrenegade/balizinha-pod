@@ -82,19 +82,6 @@ public class League: FirebaseBaseModel {
             return nil
         }
     }
-
-    // RX - this observer shouldn't be used
-    public var playerCount: Variable<Int> = Variable(0)
-    public func countPlayers() {
-        LeagueService.shared.observeUsers(for: self) { [weak self] (result, error) in
-            guard let roster = result else { return }
-            // count players
-            let members = roster.filter() {
-                return $0.isActive
-            }
-            self?.playerCount.value = members.count
-        }
-    }
 }
 
 // MARK: - Tags

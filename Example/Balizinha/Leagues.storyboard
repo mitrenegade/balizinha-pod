@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -16,7 +15,7 @@
         <!--League List View Controller-->
         <scene sceneID="ZOv-kx-UM9">
             <objects>
-                <viewController id="ab5-rn-vVC" customClass="LeagueListViewController" customModule="Balizinha_Admin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ab5-rn-vVC" customClass="LeagueListViewController" customModule="Balizinha_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IDQ-Pp-A7G">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -25,14 +24,14 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeagueCell" rowHeight="80" id="0Qc-tS-XbI" customClass="LeagueCell" customModule="Balizinha_Admin" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeagueCell" rowHeight="80" id="0Qc-tS-XbI" customClass="LeagueCell" customModule="Balizinha_Example" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0Qc-tS-XbI" id="2bU-Kd-yrU">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WWI-Mo-5PQ" customClass="AsyncImageView">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WWI-Mo-5PQ" customClass="RAImageView" customModule="Balizinha_Example" customModuleProvider="target">
                                                     <rect key="frame" x="5" y="5" width="70" height="70"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="TOJ-qi-Iz3"/>
@@ -229,7 +228,7 @@
         <!--League Edit View Controller-->
         <scene sceneID="tQT-bJ-7hK">
             <objects>
-                <viewController id="5XU-pd-vqs" customClass="LeagueEditViewController" customModule="Balizinha_Admin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="5XU-pd-vqs" customClass="LeagueEditViewController" customModule="Balizinha_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HnY-UE-U29">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -237,7 +236,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xuR-AR-6io">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KXi-cR-nk8" customClass="AsyncImageView">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KXi-cR-nk8" customClass="RAImageView">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="250" id="Evb-EQ-hVt"/>
@@ -376,7 +375,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HTQ-0h-xFa" customClass="AsyncImageView">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HTQ-0h-xFa" customClass="RAImageView" customModule="Balizinha_Example" customModuleProvider="target">
                                                 <rect key="frame" x="83" y="5" width="30" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="30" id="SFY-DR-rs9"/>
@@ -529,7 +528,7 @@
         <!--Players Scroll View Controller-->
         <scene sceneID="JSQ-ap-weB">
             <objects>
-                <viewController id="OEX-nH-zSF" customClass="PlayersScrollViewController" customModule="Balizinha_Admin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="OEX-nH-zSF" customClass="PlayersScrollViewController" customModule="Balizinha_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Uap-pO-KaT"/>
                         <viewControllerLayoutGuide type="bottom" id="Z4P-Ql-vXF"/>
@@ -569,7 +568,7 @@
         <!--League Players View Controller-->
         <scene sceneID="Wpy-vo-FqJ">
             <objects>
-                <viewController id="1sG-Rz-hHe" customClass="LeaguePlayersViewController" customModule="Balizinha_Admin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="1sG-Rz-hHe" customClass="LeaguePlayersViewController" customModule="Balizinha_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aBa-aH-gu3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -578,7 +577,7 @@
                                 <rect key="frame" x="0.0" y="70" width="375" height="597"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeaguePlayerCell" rowHeight="99" id="XE4-Ki-FWu" customClass="LeaguePlayerCell" customModule="Balizinha_Admin" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeaguePlayerCell" rowHeight="99" id="XE4-Ki-FWu" customClass="LeaguePlayerCell" customModule="Balizinha_Example" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="99"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XE4-Ki-FWu" id="PS5-PY-MAM">
@@ -606,7 +605,7 @@
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AXi-pv-gdx" customClass="AsyncImageView">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AXi-pv-gdx" customClass="RAImageView" customModule="Balizinha_Example" customModuleProvider="target">
                                                     <rect key="frame" x="15" y="11" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="QnA-v3-tes"/>

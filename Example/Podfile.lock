@@ -20,15 +20,14 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - AsyncImageView (1.6)
   - Balizinha (0.1.2):
     - AFNetworking (~> 2.3)
-    - AsyncImageView
     - FirebaseCommunity/Auth
     - FirebaseCommunity/Core
     - FirebaseCommunity/Database
     - FirebaseCommunity/Storage
     - RxCocoa
+    - RxOptional
     - RxSwift
   - FirebaseCommunity/Auth (0.1.6):
     - FirebaseCommunity/Core
@@ -59,23 +58,24 @@ PODS:
   - RACameraHelper (0.1.2)
   - RxCocoa (4.2.0):
     - RxSwift (~> 4.0)
+  - RxOptional (3.5.0):
+    - RxCocoa (~> 4.0)
+    - RxSwift (~> 4.0)
   - RxSwift (4.2.0)
 
 DEPENDENCIES:
   - Balizinha (from `../`)
   - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.2`)
-  - RxCocoa
-  - RxSwift
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AFNetworking
-    - AsyncImageView
     - FirebaseCommunity
     - GoogleToolboxForMac
     - GTMSessionFetcher
     - leveldb-library
     - RxCocoa
+    - RxOptional
     - RxSwift
 
 EXTERNAL SOURCES:
@@ -92,16 +92,16 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  AsyncImageView: 416e99402e5b1f20571de70ad619ced90f56a7d9
-  Balizinha: 78a8309dfb146d876924d01f89c982093c05817f
+  Balizinha: 6461f1645cd9f866e192f17be5db69dcb57f8b24
   FirebaseCommunity: 1f9a0e48654316b4ffe4c830db0ce72b9e2d2c9d
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   RACameraHelper: 5671f398d8c0805bffaeb611d5ed15ebadb2017d
   RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
+  RxOptional: bd32ff8ca9df4177683d56ffeb618a9d4d5d5cad
   RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
 
-PODFILE CHECKSUM: 02564ab7c0868456b64d2b04dab8d9029a152aa5
+PODFILE CHECKSUM: 2cebb0521fc1f863c2b8dc3917f72f12ceab4c97
 
 COCOAPODS: 1.5.0

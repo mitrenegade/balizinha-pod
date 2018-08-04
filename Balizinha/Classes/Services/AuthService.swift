@@ -22,6 +22,11 @@ public class AuthService: NSObject {
         return firAuth.currentUser
     }
 
+    public class var isAnonymous: Bool {
+        guard let user = AuthService.currentUser else { return true }
+        return user.isAnonymous
+    }
+
     public class func startup() {
         if UserDefaults.standard.value(forKey: "appFirstTimeOpened") == nil {
             //if app is first time opened, make sure no auth exists in keychain from previously deleted app
@@ -73,4 +78,26 @@ public class AuthService: NSObject {
         })
     }
     
+    public var hasFacebookProvider: Bool {
+        guard let user = AuthService.currentUser else { return false }
+        guard !user.providerData.isEmpty else { return false }
+        for provider in user.providerData {
+            if provider.providerID == "facebook.com" {
+                return true
+            }
+        }
+        return false
+    }
+    
+    public func logout() {
+        print("LoginLogout: logout called, trying firAuth.signout")
+        try! firAuth.signOut()
+        EventService.resetOnLogout() // force new listeners
+        // TODO
+//        PlayerService.resetOnLogout()
+//        OrganizerService.resetOnLogout()
+//        FBSDKLoginManager().logOut()
+//        StripeService.resetOnLogout()
+//        LeagueService.resetOnLogout()
+    }
 }
