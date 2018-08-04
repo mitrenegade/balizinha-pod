@@ -93,7 +93,6 @@ public class AuthService: NSObject {
         print("LoginLogout: logout called, trying firAuth.signout")
         try! firAuth.signOut()
         EventService.resetOnLogout() // force new listeners
-        // TODO
         PlayerService.resetOnLogout()
         LeagueService.resetOnLogout()
     }

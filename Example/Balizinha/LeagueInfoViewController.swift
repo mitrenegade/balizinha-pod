@@ -254,7 +254,6 @@ class LeagueEditViewController: UIViewController {
     }
     
     @IBAction func didClickPhoto(_ sender: Any?) {
-        // TODO
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action) in
