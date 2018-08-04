@@ -48,13 +48,9 @@ class LeagueEditViewController: UIViewController {
 
     var selectedPhoto: UIImage?
 
-    var league: League? {
-        didSet {
-            observeUsers()
-        }
-    }
+    var league: League?
     var delegate: LeagueViewDelegate?
-    var roster: [Membership] = []
+    var roster: [Membership]?
     
     let disposeBag: DisposeBag = DisposeBag()
     
@@ -71,6 +67,8 @@ class LeagueEditViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didClickSave(_:)))
+        
+        loadRoster()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,24 +76,13 @@ class LeagueEditViewController: UIViewController {
         constraintPhotoWidth.constant = view.frame.size.width
     }
     
-    func observeUsers() {
-        guard let league = self.league else { return }
-        LeagueService.shared.observeUsers(for: league) { [weak self] (results, error) in
-            guard let newRoster = results else { return }
-            self?.roster.removeAll()
-            for member in newRoster {
-                guard member.isActive else { continue }
-                self?.roster.append(member)
-                PlayerService.shared.withId(id: member.playerId, completion: {[weak self] (player) in
-                    if let player = player {
-                        DispatchQueue.main.async {
-                            self?.playersController?.addPlayer(player: player)
-                        }
-                    }
-                })
-            }
+    func loadRoster() {
+        guard let league = league else { return }
+        LeagueService.shared.memberships(for: league) { [weak self] (results) in
+            self?.roster = results
         }
     }
+    
     fileprivate func refresh() {
         if let image = selectedPhoto {
             buttonPhoto.setTitle(nil, for: .normal)
@@ -135,10 +122,12 @@ class LeagueEditViewController: UIViewController {
         inputTags.text = league.tagString
         togglePrivate.isOn = league.isPrivate
         
-        league.playerCount.asObservable().subscribe(onNext: { [weak self] (count) in
-            self?.labelPlayerCount.text = "\(count)"
-        }).disposed(by: disposeBag)
-        league.countPlayers()
+        // player count
+        LeagueService.shared.players(for: league) { [weak self] (ids) in
+            DispatchQueue.main.async {
+                self?.labelPlayerCount?.text = "\(ids?.count ?? 0)"
+            }
+        }
         
         if let owner = league.owner {
             PlayerService.shared.withId(id: owner) { [weak self] (player) in
@@ -368,7 +357,7 @@ extension LeagueEditViewController: PlayersScrollViewDelegate {
 
 extension LeagueEditViewController: LeaguePlayersDelegate {
     func didUpdateRoster() {
-        observeUsers()
+        loadRoster()
     }
 }
 

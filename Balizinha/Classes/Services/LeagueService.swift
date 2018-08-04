@@ -89,12 +89,6 @@ public class LeagueService: NSObject {
     }
     
     public func getLeagues(completion: @escaping (_ results: [League]) -> Void) {
-        guard !AIRPLANE_MODE else {
-            let results = League.randomLeagues()
-            completion(results)
-            return
-        }
-        
         let queryRef = firRef.child("leagues")
         queryRef.observeSingleEvent(of: .value) { (snapshot) in
             guard snapshot.exists() else {
@@ -137,15 +131,6 @@ public class LeagueService: NSObject {
     }
     
     public func players(for league: League, completion: @escaping (([String]?)->Void)) {
-        guard !AIRPLANE_MODE else {
-            if league.id == LEAGUE_ID_AIRPLANE_MODE {
-                completion([LEAGUE_ID_AIRPLANE_MODE])
-            } else {
-                completion(nil)
-            }
-            return
-        }
-        
         FirebaseAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
                 //print("Players for league error \(error)")
@@ -193,10 +178,6 @@ public class LeagueService: NSObject {
     }
     
     public func leagueMemberships(for player: Player, completion: @escaping (([String: Membership.Status]?)->Void)) {
-        guard !AIRPLANE_MODE else {
-            completion([LEAGUE_ID_AIRPLANE_MODE: Membership.Status.member])
-            return
-        }
         FirebaseAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { (result, error) in
             guard error == nil else {
                 //print("Leagues for player error \(error)")
