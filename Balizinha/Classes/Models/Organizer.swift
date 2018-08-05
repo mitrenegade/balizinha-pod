@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseCore
 
 public enum OrganizerStatus: String, Equatable {
     case none // default, but players who are not organizers won't have an organizer object

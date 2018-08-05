@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Balizinha'
-  s.version          = '0.2.0'
+  s.version          = '0.2.1'
   s.summary          = 'Services and models for the Balizinha backend'
 
 # This description is used to generate tags and improve search results.
@@ -33,7 +33,7 @@ The demo project is an admin project that allows the user to check out their das
 
   s.ios.deployment_target = '8.0'
   s.swift_version = '4.1'
-#  s.static_framework = true
+  s.static_framework = true
 
   s.source_files = 'Balizinha/Classes/**/*'
   
@@ -44,10 +44,13 @@ The demo project is an admin project that allows the user to check out their das
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'AFNetworking', '~> 2.3'
-  s.dependency 'FirebaseCommunity/Core'
-  s.dependency 'FirebaseCommunity/Auth'
-  s.dependency 'FirebaseCommunity/Database'
-  s.dependency 'FirebaseCommunity/Storage'
+  s.dependency 'Firebase/Core'
+  s.dependency 'Firebase/Auth'
+  s.dependency 'Firebase/Database'
+  s.dependency 'Firebase/Storage'
+  #s.dependency 'Firebase/RemoteConfig'
+  #s.dependency 'Firebase/Messaging'
+  #s.dependency 'Firebase/Analytics'
   s.dependency 'RxSwift'
   s.dependency 'RxCocoa'
   s.dependency 'RxOptional'

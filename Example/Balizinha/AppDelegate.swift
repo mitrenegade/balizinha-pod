@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseCore
 import Balizinha
 
 @UIApplicationMain

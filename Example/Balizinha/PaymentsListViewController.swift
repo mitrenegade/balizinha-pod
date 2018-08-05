@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseCore
 import Balizinha
+import FirebaseDatabase
 
 class PaymentsListViewController: ListViewController {
     

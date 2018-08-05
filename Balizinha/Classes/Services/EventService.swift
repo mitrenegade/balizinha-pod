@@ -10,8 +10,10 @@
 // service.getEvents()
 
 import UIKit
-import FirebaseCommunity
+import FirebaseCore
 import RxSwift
+import FirebaseAuth
+import FirebaseDatabase
 
 fileprivate var singleton: EventService?
 

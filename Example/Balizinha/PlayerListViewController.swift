@@ -8,7 +8,8 @@
 
 import UIKit
 import Balizinha
-import FirebaseCommunity
+import FirebaseCore
+import FirebaseDatabase
 
 class PlayerListViewController: ListViewController {
     var players: [(player: Player, expanded: Bool)] = []

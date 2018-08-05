@@ -8,7 +8,7 @@
 
 import UIKit
 import RxSwift
-import FirebaseCommunity
+import FirebaseCore
 import Balizinha
 
 protocol LeagueViewDelegate {

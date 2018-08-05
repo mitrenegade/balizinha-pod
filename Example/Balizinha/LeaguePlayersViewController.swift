@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseCore
 import Balizinha
+import FirebaseDatabase
 
 protocol LeaguePlayersDelegate: class {
     func didUpdateRoster()

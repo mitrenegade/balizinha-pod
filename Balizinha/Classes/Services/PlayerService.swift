@@ -8,9 +8,10 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseCore
 import RxSwift
 import RxOptional
+import FirebaseDatabase
 
 public class PlayerService: NSObject {
     // MARK: - Singleton

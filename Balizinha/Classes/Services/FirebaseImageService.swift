@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseCore
+import FirebaseStorage
 
 fileprivate let storage = Storage.storage()
 fileprivate let storageRef = storage.reference()

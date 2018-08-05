@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseAuth
+import FirebaseDatabase
 
 public let firRef = Database.database().reference()
 public let firAuth = Auth.auth()

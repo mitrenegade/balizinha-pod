@@ -8,7 +8,8 @@
 
 import UIKit
 import RxSwift
-import FirebaseCommunity
+import FirebaseCore
+import FirebaseDatabase
 
 fileprivate var _leagues: [String: League] = [:]
 fileprivate var _playerLeagues: [String] = []

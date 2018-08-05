@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseCore
+import FirebaseAuth
 import RxSwift
 
 public enum LoginState {

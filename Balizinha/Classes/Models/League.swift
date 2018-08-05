@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FirebaseCommunity
+import FirebaseCore
 import RxSwift
 
 public class League: FirebaseBaseModel {
