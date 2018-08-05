@@ -126,7 +126,7 @@ public class PlayerService: NSObject {
 
 // Profile and Facebook Photo
 extension PlayerService {
-    func storeUserInfo() {
+    open func storeUserInfo() {
         guard let user = AuthService.currentUser else { return }
         
         print("signIn results: \(user.uid) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")

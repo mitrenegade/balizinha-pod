@@ -145,7 +145,7 @@ public class ActionViewModel {
         }
     }
     
-    fileprivate var userIsOrganizer: Bool {
+    public var userIsOrganizer: Bool {
         guard let owner = self.action.userId else { return false }
         guard let currentUserId = AuthService.currentUser?.uid else { return false }
         
