@@ -1,27 +1,5 @@
 PODS:
-  - AFNetworking (2.6.3):
-    - AFNetworking/NSURLConnection (= 2.6.3)
-    - AFNetworking/NSURLSession (= 2.6.3)
-    - AFNetworking/Reachability (= 2.6.3)
-    - AFNetworking/Security (= 2.6.3)
-    - AFNetworking/Serialization (= 2.6.3)
-    - AFNetworking/UIKit (= 2.6.3)
-  - AFNetworking/NSURLConnection (2.6.3):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.6.3):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.6.3)
-  - AFNetworking/Security (2.6.3)
-  - AFNetworking/Serialization (2.6.3)
-  - AFNetworking/UIKit (2.6.3):
-    - AFNetworking/NSURLConnection
-    - AFNetworking/NSURLSession
-  - Balizinha (0.2.1):
-    - AFNetworking (~> 2.3)
+  - Balizinha (0.2.2):
     - Firebase/Analytics
     - Firebase/Auth
     - Firebase/Core
@@ -139,7 +117,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
-    - AFNetworking
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -174,8 +151,7 @@ CHECKOUT OPTIONS:
     :tag: 0.1.2
 
 SPEC CHECKSUMS:
-  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  Balizinha: 4bb93d2c3455ad7f2a688a44e10c5e3908c11ba6
+  Balizinha: 640126ffee6cb7bcee843bb49cd232c8a2283442
   Firebase: 8c957f9cb3852b519180fb378801b7eeeba4d288
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: d4a260c114aec0d765ab5b9c404ac63de1d29381
