@@ -133,7 +133,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ymV-Eg-6Bj">
-                                <rect key="frame" x="166" y="60" width="42" height="20.5"/>
+                                <rect key="frame" x="16" y="60" width="343" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -162,11 +162,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="ymV-Eg-6Bj" firstAttribute="leading" secondItem="dWN-af-155" secondAttribute="leading" constant="16" id="6a6-hS-pK7"/>
                             <constraint firstItem="8Ix-Le-ZXe" firstAttribute="centerX" secondItem="Mko-im-z4x" secondAttribute="centerX" id="Ai2-rA-o9E"/>
                             <constraint firstItem="ymV-Eg-6Bj" firstAttribute="top" secondItem="dWN-af-155" secondAttribute="top" constant="40" id="G4M-hH-Vh4"/>
                             <constraint firstItem="ymV-Eg-6Bj" firstAttribute="centerX" secondItem="Mko-im-z4x" secondAttribute="centerX" id="HXF-UJ-Yer"/>
                             <constraint firstItem="4DD-Ih-BMH" firstAttribute="top" secondItem="ymV-Eg-6Bj" secondAttribute="bottom" constant="8" id="OXA-6X-hyj"/>
                             <constraint firstItem="cqN-W6-5Tr" firstAttribute="top" secondItem="8Ix-Le-ZXe" secondAttribute="bottom" constant="8" id="WTK-4N-RiZ"/>
+                            <constraint firstItem="dWN-af-155" firstAttribute="trailing" secondItem="ymV-Eg-6Bj" secondAttribute="trailing" constant="16" id="fCm-ed-ekz"/>
                             <constraint firstItem="8Ix-Le-ZXe" firstAttribute="top" secondItem="4DD-Ih-BMH" secondAttribute="bottom" constant="8" id="g44-bB-RQf"/>
                             <constraint firstItem="cqN-W6-5Tr" firstAttribute="centerX" secondItem="Mko-im-z4x" secondAttribute="centerX" id="tBn-HG-42r"/>
                             <constraint firstItem="4DD-Ih-BMH" firstAttribute="centerX" secondItem="Mko-im-z4x" secondAttribute="centerX" id="vlL-ZX-uF2"/>
@@ -182,7 +184,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x9Z-cM-QNu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3140" y="535"/>
+            <point key="canvasLocation" x="3140" y="534.78260869565224"/>
         </scene>
     </scenes>
 </document>
