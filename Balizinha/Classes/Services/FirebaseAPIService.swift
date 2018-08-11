@@ -56,6 +56,7 @@ public class FirebaseAPIService: NSObject {
     
     public func cloudFunction(functionName: String, method: String = "POST", params: [String: Any]?, completion: ((_ response: Any?, _ error: Error?) -> ())?) {
          guard let url = FirebaseAPIService.baseURL?.appendingPathComponent(functionName) else {
+            print("FirebaseAPIService: no baseURL set, did you forget to specify it?")
             completion?(nil, nil) // todo
             return
         }

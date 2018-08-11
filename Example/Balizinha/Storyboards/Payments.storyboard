@@ -132,31 +132,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ymV-Eg-6Bj">
-                                <rect key="frame" x="166" y="60" width="42" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="Who-2i-ZbV"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ymV-Eg-6Bj">
+                                <rect key="frame" x="166" y="60" width="42" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4DD-Ih-BMH">
-                                <rect key="frame" x="131" y="89" width="112" height="30"/>
+                                <rect key="frame" x="131" y="88.5" width="112" height="30"/>
                                 <state key="normal" title="Submit Payment"/>
                                 <connections>
                                     <action selector="didClickButton:" destination="13b-Os-UNP" eventType="touchUpInside" id="jHK-dR-6fC"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Ix-Le-ZXe">
-                                <rect key="frame" x="128" y="127" width="119" height="30"/>
+                                <rect key="frame" x="128" y="126.5" width="119" height="30"/>
                                 <state key="normal" title="Capture Payment"/>
                                 <connections>
                                     <action selector="didClickButton:" destination="13b-Os-UNP" eventType="touchUpInside" id="iBG-kv-FWB"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cqN-W6-5Tr">
-                                <rect key="frame" x="132" y="165" width="111" height="30"/>
+                                <rect key="frame" x="132" y="164.5" width="111" height="30"/>
                                 <state key="normal" title="Cancel Payment"/>
                                 <connections>
                                     <action selector="didClickButton:" destination="13b-Os-UNP" eventType="touchUpInside" id="nVJ-BN-dOf"/>

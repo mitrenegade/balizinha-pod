@@ -27,19 +27,31 @@ class PaymentSubmitViewController: UIViewController {
     }
     
     fileprivate func refresh() {
+        guard let event = event else {
+            labelInfo.text = "No event!"
+            return
+        }
+        var string = "id: \(event.id)\nAmount: \(event.amount!)"
         if paymentInfo == nil {
             buttonPay.isEnabled = true
             buttonCapture.isEnabled = false
             buttonCancel.isEnabled = false
-        } else if let status = paymentInfo?["status"] as? String, status == "hold" {
-            buttonPay.isEnabled = false
-            buttonCapture.isEnabled = true
-            buttonCancel.isEnabled = true
-        } else if let status = paymentInfo?["status"] as? String, status == "complete" {
-            buttonPay.isEnabled = false
-            buttonCapture.isEnabled = false
-            buttonCancel.isEnabled = true
+            string = "\(string)\nStatus: No payment"
+        } else if let status = paymentInfo?["status"] as? String, status == "succeeded" {
+            if let captured = paymentInfo?["captured"] as? Bool, !captured {
+                buttonPay.isEnabled = false
+                buttonCapture.isEnabled = true
+                buttonCancel.isEnabled = true
+                string = "\(string)\nStatus: \(status)"
+            } else {
+                buttonPay.isEnabled = false
+                buttonCapture.isEnabled = false
+                buttonCancel.isEnabled = true
+                string = "\(string)\nStatus: \(status)"
+            }
         }
+
+        labelInfo.text = string
     }
     
     @IBAction func didClickButton(_ sender: Any?) {
@@ -59,6 +71,10 @@ class PaymentSubmitViewController: UIViewController {
         let params = ["userId": player.id, "eventId": event.id]
         FirebaseAPIService().cloudFunction(functionName: "submitPayment", method: "POST", params: params) { (results, error) in
             print("Results \(results) error \(error)")
+            self.paymentInfo = results as? [String: Any]
+            DispatchQueue.main.async {
+                self.refresh()
+            }
         }
     }
     
