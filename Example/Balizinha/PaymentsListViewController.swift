@@ -33,6 +33,8 @@ class PaymentsListViewController: ListViewController {
         navigationItem.title = "Payments"
         
         selectorType.isHidden = true
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Pay", style: .done, target: self, action: #selector(goToPaymentTest))
     }
     
     override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel {
@@ -82,6 +84,10 @@ class PaymentsListViewController: ListViewController {
         return allKeys.sorted(by: { p1, p2 in
             return events[p1.element]!.startTime! > events[p2.element]!.startTime!
         }).flatMap { $0.element }
+    }
+    
+    @objc fileprivate func goToPaymentTest() {
+        performSegue(withIdentifier: "toCreatePayment", sender: nil)
     }
 }
 
