@@ -14,7 +14,8 @@ import FirebaseDatabase
 class PaymentsListViewController: ListViewController {
     
     @IBOutlet fileprivate weak var selectorType: UISegmentedControl!
-    
+    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
+
     var data: [String: [Payment]] = [:]
     var events: [String: Event] = [:]
 
@@ -37,6 +38,14 @@ class PaymentsListViewController: ListViewController {
         if TESTING {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Pay", style: .done, target: self, action: #selector(goToPaymentTest))
         }
+        
+        activityOverlay.setup(frame: view.frame)
+        view.addSubview(activityOverlay)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        activityOverlay.setup(frame: view.frame)
     }
     
     override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel {
@@ -85,7 +94,7 @@ class PaymentsListViewController: ListViewController {
         let allKeys = events.keys.enumerated()
         return allKeys.sorted(by: { p1, p2 in
             return events[p1.element]!.startTime! > events[p2.element]!.startTime!
-        }).flatMap { $0.element }
+        }).compactMap { $0.element }
     }
 }
 
@@ -206,16 +215,18 @@ extension PaymentsListViewController {
     }
     
     fileprivate func doRefund(chargeId: String, eventId: String) {
-        FirebaseAPIService().cloudFunction(functionName: "refundCharge", method: "POST", params: ["chargeId": chargeId, "eventId": eventId]) { (result, error) in
+        activityOverlay.show()
+        FirebaseAPIService().cloudFunction(functionName: "refundCharge", method: "POST", params: ["chargeId": chargeId, "eventId": eventId]) { [weak self] (result, error) in
             print("FirebaseAPIService: result \(result) error \(error)")
             DispatchQueue.main.async {
+                self?.activityOverlay.hide()
                 if let result = result {
                     let title = "Refund successful"
                     let message = "Result: \(result)"
                     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    self.tableView.reloadData()
+                    self?.present(alert, animated: true, completion: nil)
+                    self?.tableView.reloadData()
                 } else if let error = error as? NSError {
                     let title = "Refund error"
                     var message = "Error: \(error)"
@@ -224,8 +235,8 @@ extension PaymentsListViewController {
                     }
                     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    self.tableView.reloadData()
+                    self?.present(alert, animated: true, completion: nil)
+                    self?.tableView.reloadData()
                 }
             }
         }
@@ -234,16 +245,18 @@ extension PaymentsListViewController {
     fileprivate func capturePayment(paymentId: String, eventId: String) {
         guard let player = PlayerService.shared.current.value else { return }
         let params: [String: Any] = ["userId": player.id, "eventId": eventId, "chargeId": paymentId, "isAdmin": true ]
-        FirebaseAPIService().cloudFunction(functionName: "capturePayment", method: "POST", params: params) { (result, error) in
+        activityOverlay.show()
+        FirebaseAPIService().cloudFunction(functionName: "capturePayment", method: "POST", params: params) { [weak self] (result, error) in
             print("Capture payment Results \(String(describing: result)) error \(error)")
             DispatchQueue.main.async {
+                self?.activityOverlay.hide()
                 if let result = result {
                     let title = "Capture successful"
                     let message = "Result: \(result)"
                     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    self.tableView.reloadData()
+                    self?.present(alert, animated: true, completion: nil)
+                    self?.tableView.reloadData()
                 } else if let error = error as? NSError {
                     let title = "Capture error"
                     var message = "Error: \(error)"
@@ -252,8 +265,8 @@ extension PaymentsListViewController {
                     }
                     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    self.tableView.reloadData()
+                    self?.present(alert, animated: true, completion: nil)
+                    self?.tableView.reloadData()
                 }
             }
         }
