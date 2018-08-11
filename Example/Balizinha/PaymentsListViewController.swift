@@ -149,26 +149,60 @@ extension PaymentsListViewController {
             let alert = UIAlertController(title: "Error summary", message: errorString, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
-        } else {
-            // present options to refund
-            let title = "Payment id: \(payment.id)"
-            let message = "Amount: \(payment.amountString!)\nStatus: \(payment.status)\nEvent id: \(event.id)"
-            print(title + message)
-            
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-            alert.addAction(UIAlertAction(title: "Refund", style: .default, handler: { (action) in
-                let alert = UIAlertController(title: "Please click confirm", message: "Are you sure you want to refund \(payment.amountString!)?", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
-                alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action) in
-                    self.doRefund(chargeId: payment.id, eventId: event.id)
-                }))
-                self.present(alert, animated: true, completion: nil)
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
-                // none
-            }))
-            present(alert, animated: true, completion: nil)
+        } else if payment.status == .succeeded {
+            goToRefund(payment, event: event)
+        } else if payment.status == .hold {
+            goToCapture(payment, event: event)
         }
+    }
+    
+    fileprivate func goToCapture(_ payment: Payment, event: Event) {
+        // capture or release
+        let title = "Payment id: \(payment.id)"
+        let message = "Do you want to capture or cancel this held payment for Amount: \(payment.amountString!)?"
+        print(title + message)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Release payment", style: .default, handler: { (action) in
+            let alert = UIAlertController(title: "Please click confirm", message: "Are you sure you want to release the hold for \(payment.amountString!)?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action) in
+                self.doRefund(chargeId: payment.id, eventId: event.id)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Capture payment", style: .default, handler: { (action) in
+            let alert = UIAlertController(title: "Please click confirm", message: "Are you sure you want to complete payment for \(payment.amountString!)?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action) in
+                self.capturePayment(paymentId: payment.id, eventId: event.id)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+            // none
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    fileprivate func goToRefund(_ payment: Payment, event: Event) {
+        // present options to refund
+        let title = "Payment id: \(payment.id)"
+        let message = "Amount: \(payment.amountString!)\nStatus: \(payment.status)\nEvent id: \(event.id)"
+        print(title + message)
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Refund", style: .default, handler: { (action) in
+            let alert = UIAlertController(title: "Please click confirm", message: "Are you sure you want to refund \(payment.amountString!)?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action) in
+                self.doRefund(chargeId: payment.id, eventId: event.id)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+            // none
+        }))
+        present(alert, animated: true, completion: nil)
     }
     
     fileprivate func doRefund(chargeId: String, eventId: String) {
@@ -184,6 +218,34 @@ extension PaymentsListViewController {
                     self.tableView.reloadData()
                 } else if let error = error as? NSError {
                     let title = "Refund error"
+                    var message = "Error: \(error)"
+                    if let errorMessage = error.userInfo["message"] as? String {
+                        message = errorMessage
+                    }
+                    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    fileprivate func capturePayment(paymentId: String, eventId: String) {
+        guard let player = PlayerService.shared.current.value else { return }
+        let params: [String: Any] = ["userId": player.id, "eventId": eventId, "chargeId": paymentId, "isAdmin": true ]
+        FirebaseAPIService().cloudFunction(functionName: "capturePayment", method: "POST", params: params) { (result, error) in
+            print("Capture payment Results \(String(describing: result)) error \(error)")
+            DispatchQueue.main.async {
+                if let result = result {
+                    let title = "Capture successful"
+                    let message = "Result: \(result)"
+                    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    self.tableView.reloadData()
+                } else if let error = error as? NSError {
+                    let title = "Capture error"
                     var message = "Error: \(error)"
                     if let errorMessage = error.userInfo["message"] as? String {
                         message = errorMessage

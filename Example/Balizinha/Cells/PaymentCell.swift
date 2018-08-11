@@ -47,6 +47,10 @@ class PaymentCell: UITableViewCell {
             labelStatus.text = "Error"
             labelStatus.textColor = .red
             self.accessoryType = .disclosureIndicator
+        case .hold:
+            labelStatus.text = "Authorized/Hold"
+            labelStatus.textColor = .blue
+            self.accessoryType = .disclosureIndicator
         case .unknown:
             labelStatus.text = "Status: \(payment.dict["status"])"
             labelStatus.textColor = .darkGray
