@@ -113,7 +113,7 @@ class PaymentSubmitViewController: UIViewController {
     fileprivate func capturePayment() {
         guard let player = PlayerService.shared.current.value else { return }
         guard let event = event, let charge = paymentInfo else { return }
-        let params: [String: Any] = ["userId": player.id, "eventId": event.id, "chargeId": charge["chargeId"]!]
+        let params: [String: Any] = ["userId": player.id, "eventId": event.id, "chargeId": charge["chargeId"]!, "isAdmin": true ]
         FirebaseAPIService().cloudFunction(functionName: "capturePayment", method: "POST", params: params) { (results, error) in
             print("Capture payment Results \(String(describing: results)) error \(error)")
             if let error = error as NSError? {

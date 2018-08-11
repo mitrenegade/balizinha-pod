@@ -17,8 +17,9 @@ enum MenuItem: String {
     case leagues = "Leagues"
     case version = "Version"
     case login = "Login"
+    case logout = "Logout"
 }
-fileprivate let loggedInMenu: [MenuItem] = [.players, .actions, .payments, .leagues, .version]
+fileprivate let loggedInMenu: [MenuItem] = [.players, .actions, .payments, .leagues, .version, .logout]
 fileprivate let loggedOutMenu: [MenuItem] = [.login]
 
 class MenuViewController: UIViewController {
@@ -152,6 +153,9 @@ extension MenuViewController: UITableViewDelegate {
             performSegue(withIdentifier: "toLeagues", sender: nil)
         case .version:
             break
+        case .logout:
+            AuthService.shared.logout()
+            reloadTable()
         }
     }
 }
