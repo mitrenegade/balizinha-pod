@@ -33,6 +33,10 @@ class PaymentsListViewController: ListViewController {
         navigationItem.title = "Payments"
         
         selectorType.isHidden = true
+        
+        if TESTING {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Pay", style: .done, target: self, action: #selector(goToPaymentTest))
+        }
     }
     
     override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel {
@@ -191,5 +195,19 @@ extension PaymentsListViewController {
                 }
             }
         }
+    }
+}
+
+// test payments
+extension PaymentsListViewController {
+    @objc fileprivate func goToPaymentTest() {
+        performSegue(withIdentifier: "toCreatePayment", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let controller = segue.destination as? PaymentSubmitViewController else { return }
+        controller.event = self.events.first(where: { (key, event) -> Bool in
+            return event.paymentRequired
+        })?.value
     }
 }

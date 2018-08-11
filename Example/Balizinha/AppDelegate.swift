@@ -27,6 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             FirebaseApp.configure(options: fileopts)
         }
         
+        let urlSuffix = TESTING ? "-dev" : "-c9cd7"
+        FirebaseAPIService.baseURL = URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
+
         AuthService.startup()
         
         return true
