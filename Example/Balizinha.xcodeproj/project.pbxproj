@@ -41,6 +41,7 @@
 		8E97408221132E6700242907 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E97408021132E6600242907 /* GoogleService-Info.plist */; };
 		8E974085211478CB00242907 /* RAImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E974084211478CA00242907 /* RAImageView.swift */; };
 		8E995877211E887800101F50 /* Payments.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E995876211E887800101F50 /* Payments.storyboard */; };
+		8E995879211E8B5400101F50 /* PaymentSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */; };
 		94C5CE9F5487058D85022A6C /* Pods_Balizinha_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +99,7 @@
 		8E97408021132E6600242907 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E974084211478CA00242907 /* RAImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAImageView.swift; sourceTree = "<group>"; };
 		8E995876211E887800101F50 /* Payments.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Payments.storyboard; sourceTree = "<group>"; };
+		8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSubmitViewController.swift; sourceTree = "<group>"; };
 		96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD0B4B52D8F4EC108A0EA635 /* Pods-Balizinha_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Tests/Pods-Balizinha_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		FD4F6317CA270849E7E57832 /* Pods-Balizinha_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Example/Pods-Balizinha_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				8E97404821132A6100242907 /* MenuViewController.swift */,
 				8E97404721132A6000242907 /* OrganizerListViewController.swift */,
 				8E97405621132A6D00242907 /* PaymentsListViewController.swift */,
+				8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */,
 				8E97405021132A6500242907 /* PlayerListViewController.swift */,
 				8E97404A21132A6200242907 /* PlayersScrollViewController.swift */,
 				8E97404B21132A6400242907 /* Storyboards */,
@@ -468,6 +471,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E995879211E8B5400101F50 /* PaymentSubmitViewController.swift in Sources */,
 				8E97406521132A7100242907 /* FirebaseModelIcon.swift in Sources */,
 				8E97407C21132A7100242907 /* LeagueCell.swift in Sources */,
 				8E97407021132A7100242907 /* PlayerListViewController.swift in Sources */,
