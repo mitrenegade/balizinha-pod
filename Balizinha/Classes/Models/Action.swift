@@ -14,7 +14,7 @@ public enum ActionType: String {
     case joinEvent
     case leaveEvent
     case systemMessage
-    case donation
+    case holdPaymentForEvent
     case payForEvent
 }
 
@@ -135,8 +135,8 @@ public class ActionViewModel {
             return userString + " joined \(eventName)"
         case .leaveEvent:
             return userString + " left \(eventName)"
-        case .donation:
-            return userString + " paid for \(eventName)"
+        case .holdPaymentForEvent:
+            return userString + " reserved a spot."
         case .payForEvent:
             return userString + " paid for \(eventName)"
         default:
