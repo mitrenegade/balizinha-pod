@@ -153,10 +153,17 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cqN-W6-5Tr">
-                                <rect key="frame" x="132" y="164.5" width="111" height="30"/>
-                                <state key="normal" title="Cancel Payment"/>
+                                <rect key="frame" x="128.5" y="164.5" width="118" height="30"/>
+                                <state key="normal" title="Release Payment"/>
                                 <connections>
                                     <action selector="didClickButton:" destination="13b-Os-UNP" eventType="touchUpInside" id="nVJ-BN-dOf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KR0-KT-jfp">
+                                <rect key="frame" x="131" y="203" width="113" height="30"/>
+                                <state key="normal" title="Refund Payment"/>
+                                <connections>
+                                    <action selector="didClickButton:" destination="13b-Os-UNP" eventType="touchUpInside" id="CMm-S9-upH"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -164,9 +171,11 @@
                         <constraints>
                             <constraint firstItem="ymV-Eg-6Bj" firstAttribute="leading" secondItem="dWN-af-155" secondAttribute="leading" constant="16" id="6a6-hS-pK7"/>
                             <constraint firstItem="8Ix-Le-ZXe" firstAttribute="centerX" secondItem="Mko-im-z4x" secondAttribute="centerX" id="Ai2-rA-o9E"/>
+                            <constraint firstItem="KR0-KT-jfp" firstAttribute="centerX" secondItem="Mko-im-z4x" secondAttribute="centerX" id="Dye-Hy-SWK"/>
                             <constraint firstItem="ymV-Eg-6Bj" firstAttribute="top" secondItem="dWN-af-155" secondAttribute="top" constant="40" id="G4M-hH-Vh4"/>
                             <constraint firstItem="ymV-Eg-6Bj" firstAttribute="centerX" secondItem="Mko-im-z4x" secondAttribute="centerX" id="HXF-UJ-Yer"/>
                             <constraint firstItem="4DD-Ih-BMH" firstAttribute="top" secondItem="ymV-Eg-6Bj" secondAttribute="bottom" constant="8" id="OXA-6X-hyj"/>
+                            <constraint firstItem="KR0-KT-jfp" firstAttribute="top" secondItem="cqN-W6-5Tr" secondAttribute="bottom" constant="8" id="STW-cA-Xok"/>
                             <constraint firstItem="cqN-W6-5Tr" firstAttribute="top" secondItem="8Ix-Le-ZXe" secondAttribute="bottom" constant="8" id="WTK-4N-RiZ"/>
                             <constraint firstItem="dWN-af-155" firstAttribute="trailing" secondItem="ymV-Eg-6Bj" secondAttribute="trailing" constant="16" id="fCm-ed-ekz"/>
                             <constraint firstItem="8Ix-Le-ZXe" firstAttribute="top" secondItem="4DD-Ih-BMH" secondAttribute="bottom" constant="8" id="g44-bB-RQf"/>
@@ -176,9 +185,10 @@
                         <viewLayoutGuide key="safeArea" id="dWN-af-155"/>
                     </view>
                     <connections>
-                        <outlet property="buttonCancel" destination="cqN-W6-5Tr" id="c4p-re-PzA"/>
                         <outlet property="buttonCapture" destination="8Ix-Le-ZXe" id="XQv-qd-wIt"/>
                         <outlet property="buttonPay" destination="4DD-Ih-BMH" id="inN-WY-bXb"/>
+                        <outlet property="buttonRefund" destination="KR0-KT-jfp" id="iyi-HD-zWc"/>
+                        <outlet property="buttonRelease" destination="cqN-W6-5Tr" id="vZH-uI-OAz"/>
                         <outlet property="labelInfo" destination="ymV-Eg-6Bj" id="18w-98-Jx1"/>
                     </connections>
                 </viewController>
