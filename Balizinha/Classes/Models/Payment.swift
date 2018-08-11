@@ -30,11 +30,16 @@ public class Payment: FirebaseBaseModel {
         return self.dict["player_id"] as? String
     }
     
+    public var captured: Bool? {
+        return self.dict["captured"] as? Bool
+    }
+    
     public enum Status: String {
         case succeeded
         case error
         case active // subscription
         case partialRefund
+        case hold
         case refunded
         case unknown
     }
@@ -48,6 +53,9 @@ public class Payment: FirebaseBaseModel {
         }
         if let refunded = refunded, refunded.doubleValue > 0 {
             return (refunded == amount) ? .refunded : .partialRefund
+        }
+        if let captured = captured, !captured {
+            return .hold
         }
         guard let newStatus = Status(rawValue: string) else { return .unknown }
         return newStatus

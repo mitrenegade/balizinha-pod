@@ -81,72 +81,74 @@ class PaymentSubmitViewController: UIViewController {
     @IBAction func didClickButton(_ sender: Any?) {
         guard let button = sender as? UIButton else { return }
         if button == buttonPay {
-            submitPayment()
+            guard let player = PlayerService.shared.current.value else { return }
+            guard let event = event else { return }
+            holdPayment(userId: player.id, eventId: event.id) { (results, error) in
+                print("Hold payment Results \(String(describing: results)) error \(String(describing: error))")
+                if let error = error as NSError? {
+                    self.errorString = error.userInfo["error"] as? String
+                    self.paymentInfo = nil
+                } else {
+                    self.paymentInfo = results as? [String: Any]
+                    self.errorString = nil
+                }
+                DispatchQueue.main.async {
+                    self.refresh()
+                }
+            }
         } else if button == buttonCapture {
-            capturePayment()
-        } else if button == buttonRelease {
-            releasePayment()
-        } else if button == buttonRefund {
-            refundPayment()
+            guard let player = PlayerService.shared.current.value else { return }
+            guard let event = event, let charge = paymentInfo else { return }
+            guard let chargeId = charge["chargeId"] as? String else { return }
+            capturePayment(userId: player.id, eventId: event.id, chargeId: chargeId)  { (results, error) in
+                print("Capture payment Results \(String(describing: results)) error \(String(describing: error))")
+                if let error = error as NSError? {
+                    self.errorString = error.userInfo["error"] as? String
+                    self.paymentInfo = nil
+                } else {
+                    self.paymentInfo = results as? [String: Any]
+                    self.errorString = nil
+                }
+                DispatchQueue.main.async {
+                    self.refresh()
+                }
+            }
+        } else if button == buttonRelease || button == buttonRefund {
+            guard let chargeId = paymentInfo?["chargeId"] as? String, let eventId = event?.id else { return }
+            refundPayment(eventId: eventId, chargeId: chargeId) {(results, error) in
+                let action = button == self.buttonRelease ? "Release" : "Refund"
+                print("\(action) payment Results \(String(describing: results)) error \(String(describing: error))")
+                if let error = error as NSError? {
+                    self.errorString = error.userInfo["error"] as? String
+                    self.paymentInfo = nil
+                } else {
+                    self.paymentInfo = results as? [String: Any]
+                    self.errorString = nil
+                }
+                DispatchQueue.main.async {
+                    self.refresh()
+                }
+            }
         }
     }
     
-    fileprivate func submitPayment() {
-        guard let player = PlayerService.shared.current.value else { return }
-        guard let event = event else { return }
-        let params = ["userId": player.id, "eventId": event.id]
+    fileprivate func holdPayment(userId: String, eventId: String, completion: ((_ response: Any?, _ error: Error?) -> ())?) {
+        let params = ["userId": userId, "eventId": eventId]
         FirebaseAPIService().cloudFunction(functionName: "holdPayment", method: "POST", params: params) { (results, error) in
-            print("Submit payment Results \(String(describing: results)) error \(error)")
-            if let error = error as NSError? {
-                self.errorString = error.userInfo["error"] as? String
-                self.paymentInfo = nil
-            } else {
-                self.paymentInfo = results as? [String: Any]
-                self.errorString = nil
-            }
-            DispatchQueue.main.async {
-                self.refresh()
-            }
+            completion?(results, error)
         }
     }
     
-    fileprivate func capturePayment() {
-        guard let player = PlayerService.shared.current.value else { return }
-        guard let event = event, let charge = paymentInfo else { return }
-        let params: [String: Any] = ["userId": player.id, "eventId": event.id, "chargeId": charge["chargeId"]!, "isAdmin": true ]
+    fileprivate func capturePayment(userId: String, eventId: String, chargeId: String, completion: ((_ response: Any?, _ error: Error?) -> ())?) {
+        let params: [String: Any] = ["userId": userId, "eventId": eventId, "chargeId": chargeId]
         FirebaseAPIService().cloudFunction(functionName: "capturePayment", method: "POST", params: params) { (results, error) in
-            print("Capture payment Results \(String(describing: results)) error \(error)")
-            if let error = error as NSError? {
-                self.errorString = error.userInfo["error"] as? String
-                self.paymentInfo = nil
-            } else {
-                self.paymentInfo = results as? [String: Any]
-                self.errorString = nil
-            }
-            DispatchQueue.main.async {
-                self.refresh()
-            }
+            completion?(results, error)
         }
     }
     
-    fileprivate func releasePayment() {
-        refundPayment()
-    }
-
-    fileprivate func refundPayment() {
-        guard let chargeId = paymentInfo?["chargeId"], let eventId = event?.id else { return }
+    fileprivate func refundPayment(eventId: String, chargeId: String, completion: ((_ response: Any?, _ error: Error?) -> ())?) {
         FirebaseAPIService().cloudFunction(functionName: "refundCharge", method: "POST", params: ["chargeId": chargeId, "eventId": eventId]) { (results, error) in
-            print("Refund/release payment: result \(results) error \(error)")
-            if let error = error as NSError? {
-                self.errorString = error.userInfo["error"] as? String
-                self.paymentInfo = nil
-            } else {
-                self.paymentInfo = results as? [String: Any]
-                self.errorString = nil
-            }
-            DispatchQueue.main.async {
-                self.refresh()
-            }
+            completion?(results, error)
         }
     }
 }

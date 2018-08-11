@@ -42,6 +42,7 @@
 		8E974085211478CB00242907 /* RAImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E974084211478CA00242907 /* RAImageView.swift */; };
 		8E995877211E887800101F50 /* Payments.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E995876211E887800101F50 /* Payments.storyboard */; };
 		8E995879211E8B5400101F50 /* PaymentSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */; };
+		8EBB4AF6211F561400B5B907 /* ActivityIndicatorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBB4AF5211F561400B5B907 /* ActivityIndicatorOverlay.swift */; };
 		94C5CE9F5487058D85022A6C /* Pods_Balizinha_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -100,6 +101,7 @@
 		8E974084211478CA00242907 /* RAImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAImageView.swift; sourceTree = "<group>"; };
 		8E995876211E887800101F50 /* Payments.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Payments.storyboard; sourceTree = "<group>"; };
 		8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSubmitViewController.swift; sourceTree = "<group>"; };
+		8EBB4AF5211F561400B5B907 /* ActivityIndicatorOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorOverlay.swift; sourceTree = "<group>"; };
 		96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD0B4B52D8F4EC108A0EA635 /* Pods-Balizinha_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Tests/Pods-Balizinha_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		FD4F6317CA270849E7E57832 /* Pods-Balizinha_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Example/Pods-Balizinha_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 		8E97404021132A5C00242907 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8EBB4AF5211F561400B5B907 /* ActivityIndicatorOverlay.swift */,
 				8E97404121132A5C00242907 /* PaymentHeaderView.swift */,
 				8E97404221132A5C00242907 /* FirebaseModelIcon.swift */,
 				8E97404321132A5C00242907 /* PlayerIcon.swift */,
@@ -476,6 +479,7 @@
 				8E97407C21132A7100242907 /* LeagueCell.swift in Sources */,
 				8E97407021132A7100242907 /* PlayerListViewController.swift in Sources */,
 				8E97407A21132A7100242907 /* OrganizerCell.swift in Sources */,
+				8EBB4AF6211F561400B5B907 /* ActivityIndicatorOverlay.swift in Sources */,
 				8E97406C21132A7100242907 /* PlayersScrollViewController.swift in Sources */,
 				8E97407321132A7100242907 /* AppDelegate.swift in Sources */,
 				8E97406B21132A7100242907 /* MenuViewController.swift in Sources */,
