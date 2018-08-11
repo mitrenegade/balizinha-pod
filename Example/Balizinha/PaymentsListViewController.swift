@@ -216,8 +216,8 @@ extension PaymentsListViewController {
     
     fileprivate func doRefund(chargeId: String, eventId: String) {
         activityOverlay.show()
-        FirebaseAPIService().cloudFunction(functionName: "refundCharge", method: "POST", params: ["chargeId": chargeId, "eventId": eventId]) { [weak self] (result, error) in
-            print("FirebaseAPIService: result \(result) error \(error)")
+        PaymentService().refundPayment(eventId: eventId, chargeId: chargeId, params: ["isAdmin": true]) { [weak self] (result, error) in
+            print("FirebaseAPIService: result \(String(describing: result)) error \(String(describing: error))")
             DispatchQueue.main.async {
                 self?.activityOverlay.hide()
                 if let result = result {
@@ -227,7 +227,7 @@ extension PaymentsListViewController {
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                     self?.present(alert, animated: true, completion: nil)
                     self?.tableView.reloadData()
-                } else if let error = error as? NSError {
+                } else if let error = error as NSError? {
                     let title = "Refund error"
                     var message = "Error: \(error)"
                     if let errorMessage = error.userInfo["message"] as? String {
@@ -244,10 +244,9 @@ extension PaymentsListViewController {
     
     fileprivate func capturePayment(paymentId: String, eventId: String) {
         guard let player = PlayerService.shared.current.value else { return }
-        let params: [String: Any] = ["userId": player.id, "eventId": eventId, "chargeId": paymentId, "isAdmin": true ]
         activityOverlay.show()
-        FirebaseAPIService().cloudFunction(functionName: "capturePayment", method: "POST", params: params) { [weak self] (result, error) in
-            print("Capture payment Results \(String(describing: result)) error \(error)")
+        PaymentService().capturePayment(userId: player.id, eventId: eventId, chargeId: paymentId, params: ["isAdmin": true]) { [weak self] (result, error) in
+            print("Capture payment Results \(String(describing: result)) error \(String(describing: error))")
             DispatchQueue.main.async {
                 self?.activityOverlay.hide()
                 if let result = result {
@@ -257,7 +256,7 @@ extension PaymentsListViewController {
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                     self?.present(alert, animated: true, completion: nil)
                     self?.tableView.reloadData()
-                } else if let error = error as? NSError {
+                } else if let error = error as NSError? {
                     let title = "Capture error"
                     var message = "Error: \(error)"
                     if let errorMessage = error.userInfo["message"] as? String {
