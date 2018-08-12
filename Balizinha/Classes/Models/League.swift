@@ -66,10 +66,10 @@ public class League: FirebaseBaseModel {
     
     public var isPrivate: Bool {
         get {
-            return self.dict["private"] as? Bool ?? false
+            return self.dict["isPrivate"] as? Bool ?? false
         }
         set {
-            self.dict["private"] = newValue
+            self.dict["isPrivate"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
