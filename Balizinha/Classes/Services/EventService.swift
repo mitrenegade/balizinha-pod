@@ -20,6 +20,9 @@ fileprivate var singleton: EventService?
 public class EventService: NSObject {
     fileprivate var _usersForEvents: [String: AnyObject]?
     fileprivate var _events: [String:Event]?
+    
+    var eventsUpdateAction: (()->())?
+    var eventUsersUpdateAction: (()->())?
     private lazy var __once: () = {
         // firRef is the global firebase ref
         let queryRef = firRef.child("eventUsers")
@@ -28,8 +31,8 @@ public class EventService: NSObject {
             guard snapshot.exists() else { return }
             self._usersForEvents = snapshot.value as? [String: AnyObject]
 
-            // TODO
-//            NotificationCenter.default.post(name: NotificationType.EventsChanged.name(), object: nil)
+            // can be used to trigger a notification, such as NotificationType.EventsChanged
+            self.eventUsersUpdateAction?()
         }
         _events = [:]
     }()
@@ -52,8 +55,8 @@ public class EventService: NSObject {
             if let eventId = featuredEventId {
                 withId(id: eventId, completion: {[weak self] (event) in
                     self?.featuredEvent = event
-                    // TODO
-//                    self?.notify(.EventsChanged, object: nil, userInfo: nil)
+                    // can be used to trigger a notification, such as NotificationType.EventsChanged
+                    self?.eventsUpdateAction?()
                 })
             } else {
                 featuredEvent = nil
@@ -68,7 +71,7 @@ public class EventService: NSObject {
         return _usersForEvents
     }
     
-    public func listenForEventUsers() {
+    public func listenForEventUsers(action: (()->())? = nil) {
         _ = self.__once
     }
     
