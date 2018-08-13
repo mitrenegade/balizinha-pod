@@ -21,8 +21,8 @@ public class EventService: NSObject {
     fileprivate var _usersForEvents: [String: AnyObject]?
     fileprivate var _events: [String:Event]?
     
-    var eventsUpdateAction: (()->())?
-    var eventUsersUpdateAction: (()->())?
+    public var eventsUpdateAction: (()->())?
+    public var eventUsersUpdateAction: (()->())?
     private lazy var __once: () = {
         // firRef is the global firebase ref
         let queryRef = firRef.child("eventUsers")
