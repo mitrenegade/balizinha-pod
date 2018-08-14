@@ -82,6 +82,22 @@ public class League: FirebaseBaseModel {
             return nil
         }
     }
+    
+    public var playerCount: Int {
+        let count = self.dict["playerCount"] as? Int ?? 0
+        if count < 0 {
+            return 0
+        }
+        return count
+    }
+
+    public var eventCount: Int {
+        let count = self.dict["eventCount"] as? Int ?? 0
+        if count < 0 {
+            return 0
+        }
+        return count
+    }
 }
 
 // MARK: - Tags
