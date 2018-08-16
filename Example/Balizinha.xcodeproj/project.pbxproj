@@ -44,6 +44,8 @@
 		8E995879211E8B5400101F50 /* PaymentSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */; };
 		8EBB4AF6211F561400B5B907 /* ActivityIndicatorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBB4AF5211F561400B5B907 /* ActivityIndicatorOverlay.swift */; };
 		94C5CE9F5487058D85022A6C /* Pods_Balizinha_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */; };
+		C6502BD82125270B004A3EED /* Events.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6502BD72125270B004A3EED /* Events.storyboard */; };
+		C6502BDA21252747004A3EED /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6502BD921252747004A3EED /* EventsListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +105,8 @@
 		8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSubmitViewController.swift; sourceTree = "<group>"; };
 		8EBB4AF5211F561400B5B907 /* ActivityIndicatorOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorOverlay.swift; sourceTree = "<group>"; };
 		96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6502BD72125270B004A3EED /* Events.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Events.storyboard; sourceTree = "<group>"; };
+		C6502BD921252747004A3EED /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		CD0B4B52D8F4EC108A0EA635 /* Pods-Balizinha_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Tests/Pods-Balizinha_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		FD4F6317CA270849E7E57832 /* Pods-Balizinha_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Example/Pods-Balizinha_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -166,6 +170,7 @@
 				8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */,
 				8E97405021132A6500242907 /* PlayerListViewController.swift */,
 				8E97404A21132A6200242907 /* PlayersScrollViewController.swift */,
+				C6502BD921252747004A3EED /* EventsListViewController.swift */,
 				8E97404B21132A6400242907 /* Storyboards */,
 				8E97404021132A5C00242907 /* Views */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
@@ -242,6 +247,7 @@
 				8E97404D21132A6400242907 /* Leagues.storyboard */,
 				8E97404E21132A6400242907 /* Main.storyboard */,
 				8E995876211E887800101F50 /* Payments.storyboard */,
+				C6502BD72125270B004A3EED /* Events.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -362,6 +368,7 @@
 				8E97408121132E6700242907 /* GoogleService-Info-dev.plist in Resources */,
 				8E97407521132A7100242907 /* Leagues.storyboard in Resources */,
 				8E97406F21132A7100242907 /* Main.storyboard in Resources */,
+				C6502BD82125270B004A3EED /* Events.storyboard in Resources */,
 				8E97406D21132A7100242907 /* Organizers.storyboard in Resources */,
 				8E97406321132A7100242907 /* LaunchScreen.storyboard in Resources */,
 				8E97408221132E6700242907 /* GoogleService-Info.plist in Resources */,
@@ -483,6 +490,7 @@
 				8E97406C21132A7100242907 /* PlayersScrollViewController.swift in Sources */,
 				8E97407321132A7100242907 /* AppDelegate.swift in Sources */,
 				8E97406B21132A7100242907 /* MenuViewController.swift in Sources */,
+				C6502BDA21252747004A3EED /* EventsListViewController.swift in Sources */,
 				8E97407821132A7100242907 /* PaymentCell.swift in Sources */,
 				8E97406A21132A7100242907 /* OrganizerListViewController.swift in Sources */,
 				8E97407B21132A7100242907 /* PlayerCell.swift in Sources */,
