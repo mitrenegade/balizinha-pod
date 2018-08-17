@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 import Balizinha
 
 class EventsListViewController: ListViewController {
@@ -30,19 +31,19 @@ class EventsListViewController: ListViewController {
                 for dict: DataSnapshot in allObjects {
                     let event = Balizinha.Event(snapshot: dict)
                     if event.isPast {
-                        pastEvents.append(event)
+                        self?.pastEvents.append(event)
                     } else {
-                        currentEvents.append(event)
+                        self?.currentEvents.append(event)
                     }
                 }
                 self?.pastEvents.sort(by: { (p1, p2) -> Bool in
-                    guard let t1 = p1.player.startDate else { return false }
-                    guard let t2 = p2.player.createdAt else { return true}
+                    guard let t1 = p1.startTime else { return false }
+                    guard let t2 = p2.createdAt else { return true}
                     return t1 > t2
                 })
                 self?.currentEvents.sort(by: { (p1, p2) -> Bool in
-                    guard let t1 = p1.player.startDate else { return false }
-                    guard let t2 = p2.player.createdAt else { return true}
+                    guard let t1 = p1.startTime else { return false }
+                    guard let t2 = p2.createdAt else { return true}
                     return t1 > t2
                 })
                 self?.reloadTable()
@@ -76,15 +77,13 @@ extension EventsListViewController {
         let array = indexPath.section == 0 ? currentEvents : pastEvents
         if indexPath.row < array.count {
             let event = array[indexPath.row]
-            cell.configure(event: event)
-        } else {
-            cell.reset()
+            cell.setup(with: event)
         }
         return cell
     }
 }
 
-extension PlayerListViewController {
+extension EventsListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
         
