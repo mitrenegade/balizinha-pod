@@ -19,6 +19,11 @@ class EventsListViewController: ListViewController {
         
         // Do any additional setup after loading the view.
         navigationItem.title = "Games"
+        
+        let service = EventService.shared
+        service.listenForEventUsers { [weak self] in
+            self?.reloadTable()
+        }
     }
     
     override func load() {
