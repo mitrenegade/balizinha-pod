@@ -8,7 +8,6 @@
 
 import UIKit
 import FirebaseCore
-import Balizinha
 
 public enum EventType: String {
     case event3v3 = "3 vs 3"
@@ -21,8 +20,6 @@ public enum EventType: String {
 fileprivate let formatter = DateFormatter()
 
 public class Event: FirebaseBaseModel {
-    public var service = EventService.shared
-    
     public var league: String? {
         get {
             return self.dict["league"] as? String
@@ -186,7 +183,6 @@ public class Event: FirebaseBaseModel {
     }
     
     public var paymentRequired: Bool {
-//        guard SettingsService.paymentRequired() else { return false }
         if let paymentRequired = self.dict["paymentRequired"] as? Bool {
             return paymentRequired
         }
@@ -227,33 +223,6 @@ public extension Event {
         return date.timeStringForPicker()
     }
     
-    public var numPlayers: Int {
-        let users = self.users
-        return users.count
-    }
-    
-    public var users: [String] {
-        guard let usersForEvents = self.service.usersForEvents else { return [] }
-        if let results = usersForEvents[self.id] as? [String: AnyObject] {
-            let filtered = results.filter({ (arg) -> Bool in
-                
-                let (key, val) = arg
-                return val as! Bool
-            })
-            let userIds = filtered.map({ (arg) -> String in
-                
-                let (key, val) = arg
-                return key
-            })
-            return userIds
-        }
-        return []
-    }
-    
-    public func containsPlayer(_ player: Player) -> Bool {
-        return self.users.contains(player.id)
-    }
-    
     public var isFull: Bool {
         return self.maxPlayers == self.numPlayers
     }
@@ -267,13 +236,6 @@ public extension Event {
         }
     }
     
-    public var userIsOrganizer: Bool {
-        guard let owner = self.owner else { return false }
-        guard let user = AuthService.currentUser else { return false }
-        
-        return user.uid == owner
-    }
-    
     public var locationString: String? {
         if let city = self.city, let state = self.state {
             return "\(city), \(state)"
@@ -285,6 +247,26 @@ public extension Event {
             return "\(lat), \(lon)"
         }
         return nil
+    }
+}
+
+// requires Services
+extension Event {
+    public var numPlayers: Int {
+        let users = EventService.shared.users(for: self)
+        return users.count
+    }
+    
+    public func containsPlayer(_ player: Player) -> Bool {
+        let users = EventService.shared.users(for: self)
+        return users.contains(player.id)
+    }
+
+    public var userIsOrganizer: Bool {
+        guard let owner = owner else { return false }
+        guard let user = AuthService.currentUser else { return false }
+        
+        return user.uid == owner
     }
 }
 

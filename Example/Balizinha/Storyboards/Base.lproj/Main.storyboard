@@ -85,6 +85,7 @@
                         <segue destination="UTV-mE-z7b" kind="show" identifier="toLeagues" id="LQC-rO-uFh"/>
                         <segue destination="28L-kh-b5V" kind="show" identifier="toOrganizers" id="RYB-JI-7jv"/>
                         <segue destination="xRf-3u-3MY" kind="show" identifier="toPayments" id="1lo-wq-TLF"/>
+                        <segue destination="RJe-jg-Ef2" kind="show" identifier="toEvents" id="Zpw-mn-4OZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -97,7 +98,7 @@
                 <viewControllerPlaceholder storyboardIdentifier="Leagues" storyboardName="Leagues" id="UTV-mE-z7b" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Idg-ov-wLJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="754" y="288"/>
+            <point key="canvasLocation" x="849" y="218"/>
         </scene>
         <!--Organizers-->
         <scene sceneID="bnh-e7-0cl">
@@ -105,7 +106,15 @@
                 <viewControllerPlaceholder storyboardName="Organizers" id="28L-kh-b5V" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7u9-Gx-ZK7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="778" y="390"/>
+            <point key="canvasLocation" x="844" y="268"/>
+        </scene>
+        <!--Events-->
+        <scene sceneID="az7-jo-K9T">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Events" id="RJe-jg-Ef2" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9AI-no-3ho" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="842" y="322"/>
         </scene>
         <!--Payments-->
         <scene sceneID="W2z-Kk-LlX">

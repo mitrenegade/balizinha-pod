@@ -18,29 +18,17 @@ import FirebaseDatabase
 fileprivate var singleton: EventService?
 
 public class EventService: NSObject {
-    fileprivate var _usersForEvents: [String: AnyObject]?
-    fileprivate var _events: [String:Event]?
+    fileprivate var _usersForEvents: [String: AnyObject] = [:]
+    fileprivate var _events: [String:Event] = [:]
     
     public var eventsUpdateAction: (()->())?
-    public var eventUsersUpdateAction: (()->())?
-    private lazy var __once: () = {
-        // firRef is the global firebase ref
-        let queryRef = firRef.child("eventUsers")
-        queryRef.observe(.value) { (snapshot: DataSnapshot) in
-            // this block is called for every result returned
-            guard snapshot.exists() else { return }
-            self._usersForEvents = snapshot.value as? [String: AnyObject]
-
-            // can be used to trigger a notification, such as NotificationType.EventsChanged
-            self.eventUsersUpdateAction?()
-        }
-        _events = [:]
-    }()
     
     // MARK: - Singleton
     public static var shared: EventService {
         if singleton == nil {
             singleton = EventService()
+            singleton?._events = [:]
+            singleton?._usersForEvents = [:]
         }
         
         return singleton!
@@ -65,14 +53,19 @@ public class EventService: NSObject {
     }
     
     public var featuredEvent: Event?
-    
-    // MARK: - Global/constant listeners
-    public var usersForEvents: [String: AnyObject]? {
-        return _usersForEvents
-    }
-    
     public func listenForEventUsers(action: (()->())? = nil) {
-        _ = self.__once
+        // firRef is the global firebase ref
+        let queryRef = firRef.child("eventUsers")
+        queryRef.observe(.value) { (snapshot: DataSnapshot) in
+            // this block is called for every result returned
+            guard snapshot.exists() else { return }
+            if let dict = snapshot.value as? [String: AnyObject] {
+                self._usersForEvents = dict
+            }
+            
+            // can be used to trigger a notification, such as NotificationType.EventsChanged
+            action?()
+        }
     }
     
     // MARK: - Single call listeners
@@ -292,6 +285,23 @@ public class EventService: NSObject {
             completion?(total, count)
         }
     }
+    
+    public func users(for event: Event) -> [String] {
+        if let results = _usersForEvents[event.id] as? [String: AnyObject] {
+            let filtered = results.filter({ (arg) -> Bool in
+                
+                let (key, val) = arg
+                return val as! Bool
+            })
+            let userIds = filtered.map({ (arg) -> String in
+                
+                let (key, val) = arg
+                return key
+            })
+            return userIds
+        }
+        return []
+    }
 }
 
 // MARK: - Payment helpers
@@ -327,7 +337,7 @@ public extension EventService {
 
 public extension EventService {
     public func withId(id: String, completion: @escaping ((Event?)->Void)) {
-        if let foundEvent = _events?[id] {
+        if let foundEvent = _events[id] {
             completion(foundEvent)
             return
         }
@@ -347,7 +357,7 @@ public extension EventService {
     }
     
     public func cacheEvent(event: Event) {
-        _events?[event.id] = event
+        _events[event.id] = event
     }
 }
 
@@ -377,6 +387,6 @@ extension EventService {
     }
     
     public func eventForAction(with eventId: String) -> Balizinha.Event? {
-        return _events?[eventId] // used by actionService for quick stuff
+        return _events[eventId] // used by actionService for quick stuff
     }
 }

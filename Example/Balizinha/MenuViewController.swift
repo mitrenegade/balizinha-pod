@@ -12,6 +12,7 @@ import Balizinha
 
 enum MenuItem: String {
     case players = "Players"
+    case events = "Games"
     case actions = "Actions"
     case payments = "Payments"
     case leagues = "Leagues"
@@ -19,7 +20,7 @@ enum MenuItem: String {
     case login = "Login"
     case logout = "Logout"
 }
-fileprivate let loggedInMenu: [MenuItem] = [.players, .actions, .payments, .leagues, .version, .logout]
+fileprivate let loggedInMenu: [MenuItem] = [.players, .events, .actions, .payments, .leagues, .version, .logout]
 fileprivate let loggedOutMenu: [MenuItem] = [.login]
 
 class MenuViewController: UIViewController {
@@ -144,6 +145,8 @@ extension MenuViewController: UITableViewDelegate {
         case .players:
             // go to players view
             performSegue(withIdentifier: "toPlayers", sender: nil)
+        case .events:
+            performSegue(withIdentifier: "toEvents", sender: nil)
         case .actions:
             // go to actions view
             performSegue(withIdentifier: "toActions", sender: nil)
