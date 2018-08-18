@@ -196,7 +196,7 @@ extension PaymentsListViewController {
     fileprivate func goToRefund(_ payment: Payment, event: Event) {
         // present options to refund
         let title = "Payment id: \(payment.id)"
-        let message = "Amount: \(payment.amountString!)\nStatus: \(payment.status)\nEvent id: \(event.id)"
+        let message = "Amount: \(payment.amountString!)\nStatus: \(payment.status)\nStripe id: \(payment.dict["id"] as! String)"
         print(title + message)
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
