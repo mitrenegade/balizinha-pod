@@ -41,8 +41,7 @@ class LeagueEditViewController: UIViewController {
     
     @IBOutlet weak var labelPlayerCount: UILabel!
     
-    @IBOutlet weak var containerPlayers: UIView!
-    weak var playersController: PlayersScrollViewController?
+    @IBOutlet weak var playersScrollView: PlayersScrollView!
     @IBOutlet weak var constraintPlayersHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonOrganizers: UIButton!
 
@@ -51,6 +50,7 @@ class LeagueEditViewController: UIViewController {
     var league: League?
     var delegate: LeagueViewDelegate?
     var roster: [Membership]?
+    fileprivate var players: [Player] = []
     
     let disposeBag: DisposeBag = DisposeBag()
     
@@ -59,9 +59,6 @@ class LeagueEditViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         refresh()
-        
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTap(_:)))
-        containerPlayers.addGestureRecognizer(gesture)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -80,6 +77,9 @@ class LeagueEditViewController: UIViewController {
         guard let league = league else { return }
         LeagueService.shared.memberships(for: league) { [weak self] (results) in
             self?.roster = results
+            
+            self?.playersScrollView.delegate = self
+            self?.observePlayers()
         }
     }
     
@@ -88,10 +88,11 @@ class LeagueEditViewController: UIViewController {
             buttonPhoto.setTitle(nil, for: .normal)
             buttonPhoto.backgroundColor = .clear
             photoView.image = image
-        } else if let url = league?.photoUrl {
+        } else if league?.photoUrl != nil { // league has a photo
             buttonPhoto.backgroundColor = .clear
             buttonPhoto.setTitle(nil, for: .normal)
             FirebaseImageService().leaguePhotoUrl(for: league?.id) {[weak self] (url) in
+                print("URL \(String(describing: url?.absoluteString))")
                 DispatchQueue.main.async {
                     if let url = url {
                         self?.photoView.imageUrl = url.absoluteString
@@ -123,11 +124,7 @@ class LeagueEditViewController: UIViewController {
         togglePrivate.isOn = league.isPrivate
         
         // player count
-        LeagueService.shared.players(for: league) { [weak self] (ids) in
-            DispatchQueue.main.async {
-                self?.labelPlayerCount?.text = "\(ids?.count ?? 0)"
-            }
-        }
+        labelPlayerCount?.text = "\(league.playerCount)"
         
         if let owner = league.owner {
             PlayerService.shared.withId(id: owner) { [weak self] (player) in
@@ -151,11 +148,35 @@ class LeagueEditViewController: UIViewController {
             constraintOwnerHeight.constant = 0
         }
     }
-
-    @objc func didTap(_ gesture: UITapGestureRecognizer?) {
-        performSegue(withIdentifier: "toPlayers", sender: nil)
-    }
     
+    func observePlayers() {
+        guard let roster = roster else { return }
+        players.removeAll()
+        let dispatchGroup = DispatchGroup()
+        for membership in roster {
+            let playerId = membership.playerId
+            guard membership.isActive else { continue }
+            dispatchGroup.enter()
+            print("Loading player id \(playerId)")
+            PlayerService.shared.withId(id: playerId, completion: {[weak self] (player) in
+                if let player = player {
+                    print("Finished player id \(playerId)")
+                    self?.players.append(player)
+                }
+                dispatchGroup.leave()
+            })
+        }
+        dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            self?.playersScrollView.reset()
+            guard let players = self?.players else { return }
+            for player in players {
+                self?.playersScrollView.addPlayer(player: player)
+            }
+            
+            self?.playersScrollView.refresh()
+        }
+    }
+
     @IBAction func didClickOrganizers(_ sender: Any?) {
         performSegue(withIdentifier: "toPlayers", sender: sender)
     }
@@ -269,10 +290,7 @@ class LeagueEditViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "embedPlayers", let controller = segue.destination as? PlayersScrollViewController {
-            playersController = controller
-            playersController?.delegate = self
-        } else if segue.identifier == "toPlayers", let controller = segue.destination as? LeaguePlayersViewController {
+        if segue.identifier == "toPlayers", let controller = segue.destination as? LeaguePlayersViewController {
             controller.roster = roster
             controller.league = league
             controller.delegate = self
@@ -349,12 +367,12 @@ extension LeagueEditViewController: UIImagePickerControllerDelegate, UINavigatio
 }
 
 extension LeagueEditViewController: PlayersScrollViewDelegate {
-    func componentHeightChanged(controller: UIViewController, newHeight: CGFloat) {
-        constraintPlayersHeight.constant = newHeight
+    func didSelectPlayer(player: Player) {
+        performSegue(withIdentifier: "toPlayers", sender: nil)
     }
 }
 
-extension LeagueEditViewController: LeaguePlayersDelegate {
+extension LeagueEditViewController: RosterUpdateDelegate {
     func didUpdateRoster() {
         loadRoster()
     }
@@ -367,7 +385,7 @@ extension LeagueEditViewController: UITextFieldDelegate {
         let keyboardRectangle = keyboardFrame.cgRectValue
         keyboardHeight = keyboardRectangle.height
         
-        let lastPosition = containerPlayers.frame.origin.y + containerPlayers.frame.size.height
+        let lastPosition = playersScrollView.frame.origin.y + playersScrollView.frame.size.height
         scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: lastPosition + keyboardHeight)
         if let currentInput = currentInput {
             var frame = currentInput.frame
@@ -377,7 +395,7 @@ extension LeagueEditViewController: UITextFieldDelegate {
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
-        let lastPosition = containerPlayers.frame.origin.y + containerPlayers.frame.size.height
+        let lastPosition = playersScrollView.frame.origin.y + playersScrollView.frame.size.height
         scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: lastPosition)
     }
     

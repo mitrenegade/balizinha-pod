@@ -12,9 +12,10 @@ import Balizinha
 class LeaguePlayerCell: UITableViewCell {
     @IBOutlet weak var imagePhoto: RAImageView!
     @IBOutlet weak var labelName: UILabel!
-    @IBOutlet weak var labelEmail: UILabel!
+    @IBOutlet weak var labelEmail: UILabel?
     @IBOutlet weak var labelCreated: UILabel!
     @IBOutlet weak var labelInitials: UILabel!
+    @IBOutlet weak var labelId: UILabel?
     
     @IBOutlet weak var labelStatus: UILabel!
     
@@ -28,8 +29,9 @@ class LeaguePlayerCell: UITableViewCell {
     
     func configure(player: Player, status: Membership.Status) {
         labelName.text = player.name ?? "Anon"
-        labelEmail.text = player.email
+        labelEmail?.text = player.email
         labelCreated.text = player.createdAt?.dateString()
+        labelId?.text = player.id
         
         labelStatus.text = status.rawValue
         
@@ -54,8 +56,10 @@ class LeaguePlayerCell: UITableViewCell {
     
     func reset() {
         labelName.text = nil
-        labelEmail.text = nil
+        labelEmail?.text = nil
         labelCreated.text = nil
+        labelId?.text = nil
+        labelInitials.text = nil
         imagePhoto.image = nil
         imagePhoto.imageUrl = nil
     }
