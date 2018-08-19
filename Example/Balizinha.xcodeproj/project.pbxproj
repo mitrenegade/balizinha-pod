@@ -47,6 +47,7 @@
 		C6502BD82125270B004A3EED /* Events.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6502BD72125270B004A3EED /* Events.storyboard */; };
 		C6502BDA21252747004A3EED /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6502BD921252747004A3EED /* EventsListViewController.swift */; };
 		C6502BE42126F4A7004A3EED /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6502BE32126F4A7004A3EED /* EventCell.swift */; };
+		C6BC1CDC2126FE1E00A500FD /* SearchablePlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BC1CDB2126FE1E00A500FD /* SearchablePlayersViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,7 @@
 		C6502BD72125270B004A3EED /* Events.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Events.storyboard; sourceTree = "<group>"; };
 		C6502BD921252747004A3EED /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		C6502BE32126F4A7004A3EED /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		C6BC1CDB2126FE1E00A500FD /* SearchablePlayersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchablePlayersViewController.swift; sourceTree = "<group>"; };
 		CD0B4B52D8F4EC108A0EA635 /* Pods-Balizinha_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Tests/Pods-Balizinha_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		FD4F6317CA270849E7E57832 /* Pods-Balizinha_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Example/Pods-Balizinha_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -173,6 +175,7 @@
 				8E97405021132A6500242907 /* PlayerListViewController.swift */,
 				8E97404A21132A6200242907 /* PlayersScrollViewController.swift */,
 				C6502BD921252747004A3EED /* EventsListViewController.swift */,
+				C6BC1CDB2126FE1E00A500FD /* SearchablePlayersViewController.swift */,
 				8E97404B21132A6400242907 /* Storyboards */,
 				8E97404021132A5C00242907 /* Views */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
@@ -509,6 +512,7 @@
 				8E97406821132A7100242907 /* ListViewController.swift in Sources */,
 				8E97407921132A7100242907 /* ActionCell.swift in Sources */,
 				8E97407621132A7100242907 /* PaymentsListViewController.swift in Sources */,
+				C6BC1CDC2126FE1E00A500FD /* SearchablePlayersViewController.swift in Sources */,
 				8E97406921132A7100242907 /* LeagueListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

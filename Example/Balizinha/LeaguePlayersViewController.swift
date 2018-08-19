@@ -11,17 +11,13 @@ import FirebaseCore
 import Balizinha
 import FirebaseDatabase
 
-protocol LeaguePlayersDelegate: class {
-    func didUpdateRoster()
-}
-
 class LeaguePlayersViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
     var league: League?
     var isEditOrganizerMode: Bool = false
     var searchTerm: String?
-    weak var delegate: LeaguePlayersDelegate?
+    weak var delegate: RosterUpdateDelegate?
     
     // search/filter
     @IBOutlet weak var containerSearch: UIView!

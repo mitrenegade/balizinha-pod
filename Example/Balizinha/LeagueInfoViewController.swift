@@ -354,7 +354,7 @@ extension LeagueEditViewController: PlayersScrollViewDelegate {
     }
 }
 
-extension LeagueEditViewController: LeaguePlayersDelegate {
+extension LeagueEditViewController: RosterUpdateDelegate {
     func didUpdateRoster() {
         loadRoster()
     }
