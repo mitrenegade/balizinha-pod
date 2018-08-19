@@ -32,12 +32,13 @@ class SearchablePlayersViewController: UIViewController {
     
     // specific to each subclass
     typealias Section = (name: String, players: [Player])
+    fileprivate var players: [Player] = []
     var sections: [Section] {
-        return [("All", allPlayers)]
+        return [("All", players)]
     }
     
-    fileprivate var allPlayers: [Player] = []
-    fileprivate var memberships: [String: Membership.Status] = [:]
+    var allPlayers: [Player] = []
+    var memberships: [String: Membership.Status] = [:]
     var roster: [Membership]? {
         didSet {
             if let roster = roster {
@@ -49,11 +50,6 @@ class SearchablePlayersViewController: UIViewController {
             }
         }
     }
-    
-    // lists filtered based on search and membership
-//    fileprivate var members: [String] = [] // all members including organizers
-//    fileprivate var organizers: [String] = []
-//    fileprivate var players: [String] = [] // non-members
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,12 +118,13 @@ extension SearchablePlayersViewController: UITableViewDataSource {
         return sectionStruct.name
     }
     
-    var cellIdentifier: String {
-        return "LeaguePlayerCell"
+    @objc var cellIdentifier: String {
+        assertionFailure("Must implement cell identifier")
+        return "None"
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        assertionFailure("Not implemented")
+        assertionFailure("Must implement cellForRow")
         return UITableViewCell()
     }
 }
@@ -145,7 +142,7 @@ extension SearchablePlayersViewController {
     }
     
     func search(for string: String?) {
-        print("Search for string \(string)")
+        print("Search for string \(String(describing: string))")
         
         // filter for search string; if string is nil, uses all players
         searchTerm = string
@@ -161,6 +158,13 @@ extension SearchablePlayersViewController {
             filteredPlayers = allPlayers
         }
         
+        updateSections(filteredPlayers)
         reloadTableData()
+    }
+    
+    @objc func updateSections(_ players: [Player]) {
+        // no op unless the controller needs to have sections
+        self.players = players
+        return
     }
 }

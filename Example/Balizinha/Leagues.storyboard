@@ -639,7 +639,6 @@
                                         <connections>
                                             <outlet property="imagePhoto" destination="AXi-pv-gdx" id="kWl-zO-nU0"/>
                                             <outlet property="labelCreated" destination="i0e-n8-np8" id="F3e-kz-q6C"/>
-                                            <outlet property="labelId" destination="G1Q-tV-ETa" id="AhY-uB-ZqY"/>
                                             <outlet property="labelName" destination="ETk-Gb-Iba" id="wdc-3a-zDm"/>
                                             <outlet property="labelStatus" destination="dXk-tG-XXU" id="4io-B3-Vcm"/>
                                         </connections>

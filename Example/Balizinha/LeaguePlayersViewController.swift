@@ -11,38 +11,18 @@ import FirebaseCore
 import Balizinha
 import FirebaseDatabase
 
-class LeaguePlayersViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
+class LeaguePlayersViewController: SearchablePlayersViewController {
     var league: League?
     var isEditOrganizerMode: Bool = false
-    var searchTerm: String?
-    weak var delegate: RosterUpdateDelegate?
     
-    // search/filter
-    @IBOutlet weak var containerSearch: UIView!
-    @IBOutlet weak var inputSearch: UITextField!
-    @IBOutlet weak var buttonSearch: UIButton!
-
-    fileprivate let sections = ["Organizers", "Members", "Players"]
-    fileprivate var allPlayers: [Player] = []
-    fileprivate var memberships: [String: Membership.Status] = [:]
-    var roster: [Membership]? {
-        didSet {
-            if let roster = roster {
-                for membership in roster {
-                    memberships[membership.playerId] = membership.status
-                }
-            } else {
-                memberships.removeAll()
-            }
-        }
+    override var sections: [Section] {
+        return [("Organizers", organizers), ("Members", members), ("Players", players)]
     }
 
     // lists filtered based on search and membership
-    fileprivate var members: [String] = [] // all members including organizers
-    fileprivate var organizers: [String] = []
-    fileprivate var players: [String] = [] // non-members
+    fileprivate var members: [Player] = [] // all members including organizers
+    fileprivate var organizers: [Player] = []
+    fileprivate var players: [Player] = [] // non-members
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,132 +40,38 @@ class LeaguePlayersViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
-    
-    func reloadTableData() {
-        tableView.reloadData()
-    }
-    
-    
-//    func loadRoster() {
-//        guard let league = league else { return }
-//        LeagueService.shared.memberships(for: league) { [weak self] (results) in
-//            if let memberships = results {
-//                for membership in memberships {
-//                    self?.roster[membership.playerId] = membership.status
-//                }
-//            }
-//            self?.loadFromRef()
-//        }
-//    }
-    
-    
-//    func loadLeaguePlayers() { // only loads league players, using LeagueService cloud call
-//        guard let league = league else { return }
-//        LeagueService.shared.players(for: league) { [weak self] (results) in
-//            guard let playerIds = results, let weakself = self else { return }
-//            weakself.allPlayers.removeAll()
-//            for playerId in playerIds {
-//                print("BOBBYTEST loading player \(playerId)")
-//                PlayerService.shared.withId(id: playerId, completion: { (player) in
-//                    if let player = player {
-//                        weakself.allPlayers.append(player)
-//                        // BOBBY TODO efficiency needed
-//                        self?.allPlayers.sort(by: { (p1, p2) -> Bool in
-//                            guard let t1 = p1.createdAt else { return false }
-//                            guard let t2 = p2.createdAt else { return true}
-//                            return t1 > t2
-//                        })
-//                        self?.search(for: nil)
-//                        //                self?.hideLoadingIndicator()
-//                        print("BOBBYTEST reloading after loaded player \(playerId)")
-//                        self?.reloadTableData()
-//                    }
-//                })
-//            }
-//        }
-//    }
-    
-    func loadFromRef() { // loads all players, using observed player endpoint
-        let playerRef = firRef.child("players").queryOrdered(byChild: "createdAt")
-        playerRef.observe(.value) {[weak self] (snapshot) in
-            guard snapshot.exists() else {
-                return
-            }
-            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
-                self?.allPlayers.removeAll()
-                for playerDict: DataSnapshot in allObjects {
-                    let player = Player(snapshot: playerDict)
-                    self?.allPlayers.append(player)
-                }
-                self?.allPlayers.sort(by: { (p1, p2) -> Bool in
-                    guard let t1 = p1.createdAt else { return false }
-                    guard let t2 = p2.createdAt else { return true}
-                    return t1 > t2
-                })
-                self?.search(for: nil)
-                self?.reloadTableData()
-            }
-        }
-    }
-    
-    @objc func keyboardWillShow(_ notification: Notification) {
-        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
-        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
-        let keyboardRectangle = keyboardFrame.cgRectValue
-        let keyboardHeight = keyboardRectangle.height
-        constraintBottomOffset.constant = keyboardHeight
-    }
-    
-    @objc func keyboardWillHide(_ notification: Notification) {
-        self.constraintBottomOffset.constant = 0
-    }
 }
 
-extension LeaguePlayersViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+extension LeaguePlayersViewController { // UITableViewDataSource
+    override func numberOfSections(in tableView: UITableView) -> Int {
         if isEditOrganizerMode {
             return 2
         }
         return sections.count
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch sections[section] {
-        case "Organizers":
-            return organizers.count
-        case "Members":
-            return members.count
-        case "Players":
-            return players.count
-        default:
-            return 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section]
+
+    override var cellIdentifier: String {
+        return "LeaguePlayerCell"
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayerCell", for: indexPath) as! LeaguePlayerCell
-        let array: [String]
         let status: Membership.Status
-        switch sections[indexPath.section] {
+        let section = sections[indexPath.section]
+        switch section.name {
         case "Organizers":
-            array = organizers
             status = Membership.Status.organizer
         case "Members":
-            array = members
             status = Membership.Status.member
         case "Players":
-            array = players
             status = Membership.Status.none
         default:
             return cell
         }
         cell.reset()
+        let array = section.players
         if indexPath.row < array.count {
-            let playerId = array[indexPath.row]
+            let playerId = array[indexPath.row].id
             PlayerService.shared.withId(id: playerId) { (player) in
                 if let player = player {
                     DispatchQueue.main.async {
@@ -205,24 +91,20 @@ extension LeaguePlayersViewController: UITableViewDelegate {
         
         guard let league = league else { return }
         let newStatus: Membership.Status
-        let playerId: String
-        
-        switch sections[indexPath.section] {
-        case "Organizers":
-            guard indexPath.row < organizers.count else { return }
-            playerId = organizers[indexPath.row]
+
+        let section = sections[indexPath.section]
+        guard indexPath.row < section.players.count else { return }
+        let playerId: String = section.players[indexPath.row].id
+        switch section.name {
+        case "Organizers" :
             newStatus = .member
         case "Members" :
-            guard indexPath.row < members.count else { return }
-            playerId = members[indexPath.row]
             if isEditOrganizerMode {
                 newStatus = .organizer
             } else {
                 newStatus = .none
             }
         case "Players":
-            guard indexPath.row < players.count else { return }
-            playerId = players[indexPath.row]
             newStatus = .member
         default:
             return
@@ -236,8 +118,8 @@ extension LeaguePlayersViewController: UITableViewDelegate {
         search(for: searchTerm)
         
         LeagueService.shared.changeLeaguePlayerStatus(playerId: playerId, league: league, status: newStatus.rawValue, completion: { [weak self] (result, error) in
-            print("Result \(result) error \(error)")
-            if let error = error as? NSError {
+            print("Result \(String(describing: result)) error \(String(describing: error))")
+            if let error = error as NSError? {
                 self?.memberships[playerId] = oldStatus
                 DispatchQueue.main.async {
                     self?.simpleAlert("Update failed", defaultMessage: "Could not update status to \(newStatus.rawValue). ", error: error)
@@ -253,44 +135,10 @@ extension LeaguePlayersViewController: UITableViewDelegate {
 
 // MARK: - Search
 extension LeaguePlayersViewController {
-    @IBAction func didClickSearch(_ sender: Any?) {
-        search(for: inputSearch.text)
-    }
-
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        didClickSearch(nil)
-        return true
-    }
-
-    func search(for string: String?) {
-        print("Search for string \(string)")
-        
-        // filter for search string; if string is nil, uses all players
-        searchTerm = string
-        var filteredPlayers: [Player] = []
-        if let currentSearch = searchTerm?.lowercased(), !currentSearch.isEmpty {
-            filteredPlayers = allPlayers.filter() { player in
-                let nameMatch = player.name?.lowercased().contains(currentSearch) ?? false
-                let emailMatch = player.email?.lowercased().contains(currentSearch) ?? false
-                let idMatch = player.id.lowercased().contains(currentSearch)
-                return nameMatch || emailMatch || idMatch
-            }
-        } else {
-            filteredPlayers = allPlayers
-        }
-        
+    @objc override func updateSections(_ players: [Player]) {
         // filter for membership
-        organizers = filteredPlayers.compactMap({ (player) -> String? in
-            return memberships[player.id] == Membership.Status.organizer ? player.id : nil
-        })
-        members = filteredPlayers.compactMap({ (player) -> String? in
-            return memberships[player.id] == Membership.Status.member ? player.id : nil
-        })
-        players = filteredPlayers.compactMap({ (player) -> String? in
-            return (memberships[player.id] == nil || memberships[player.id] == Membership.Status.none) ? player.id : nil
-        })
-
-        reloadTableData()
+        organizers = players.filter() { return memberships[$0.id] == Membership.Status.organizer }
+        members = players.filter() { return memberships[$0.id] == Membership.Status.member }
+        self.players = players.filter() { return memberships[$0.id] == nil || memberships[$0.id] == Membership.Status.none }
     }
 }
