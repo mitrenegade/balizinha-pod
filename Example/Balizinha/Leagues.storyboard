@@ -396,16 +396,6 @@
                                             <constraint firstItem="HTQ-0h-xFa" firstAttribute="centerY" secondItem="ca3-71-dtO" secondAttribute="centerY" id="w6n-o5-Dbm"/>
                                         </constraints>
                                     </view>
-                                    <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zv4-qm-7ov" userLabel="Container View - attendees">
-                                        <rect key="frame" x="0.0" y="650" width="375" height="40"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="7bA-sg-ABv"/>
-                                        </constraints>
-                                        <connections>
-                                            <segue destination="OEX-nH-zSF" kind="embed" identifier="embedPlayers" id="gfN-w3-Kcw"/>
-                                        </connections>
-                                    </containerView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Players" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CIm-i6-FKT">
                                         <rect key="frame" x="16" y="621" width="56" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -422,22 +412,39 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e26-MA-U7L">
-                                        <rect key="frame" x="80" y="621" width="87" height="21"/>
+                                        <rect key="frame" x="80" y="621" width="87" height="27"/>
                                         <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
                                         <state key="normal" title="Edit Organizers"/>
                                         <connections>
                                             <action selector="didClickOrganizers:" destination="5XU-pd-vqs" eventType="touchUpInside" id="xle-rU-wyD"/>
                                         </connections>
                                     </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nGl-BL-qeD" customClass="PlayersScrollView" customModule="Balizinha_Example" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="650" width="375" height="40"/>
+                                        <subviews>
+                                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9l2-UR-sSC" customClass="Players">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                                <color key="backgroundColor" red="0.63972192999999999" green="0.70638650660000002" blue="0.67304807899999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </scrollView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="9l2-UR-sSC" firstAttribute="leading" secondItem="nGl-BL-qeD" secondAttribute="leading" id="8eM-wy-dBc"/>
+                                            <constraint firstItem="9l2-UR-sSC" firstAttribute="top" secondItem="nGl-BL-qeD" secondAttribute="top" id="9EJ-7c-PZa"/>
+                                            <constraint firstAttribute="bottom" secondItem="9l2-UR-sSC" secondAttribute="bottom" id="Gb6-7w-h0h"/>
+                                            <constraint firstAttribute="height" constant="40" id="f6R-yG-wQB"/>
+                                            <constraint firstAttribute="trailing" secondItem="9l2-UR-sSC" secondAttribute="trailing" id="gxf-mp-Xh1"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="scrollView" destination="9l2-UR-sSC" id="6Oy-NW-1d8"/>
+                                        </connections>
+                                    </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="zv4-qm-7ov" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" id="1uI-Yb-4L8"/>
-                                    <constraint firstItem="zv4-qm-7ov" firstAttribute="top" secondItem="e26-MA-U7L" secondAttribute="bottom" constant="8" symbolic="YES" id="20F-YS-qMC"/>
                                     <constraint firstAttribute="trailing" secondItem="PmZ-U6-QtI" secondAttribute="trailing" constant="104.5" id="2DS-Ej-Bvj"/>
                                     <constraint firstItem="Ych-UU-3tV" firstAttribute="top" secondItem="qQB-sT-HcZ" secondAttribute="bottom" constant="8" symbolic="YES" id="3Kx-Xn-XIo"/>
                                     <constraint firstItem="PmZ-U6-QtI" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" constant="16" id="44i-cT-aM0"/>
                                     <constraint firstItem="Yks-pE-3PZ" firstAttribute="top" secondItem="KXi-cR-nk8" secondAttribute="top" id="4Ln-fR-Ojt"/>
-                                    <constraint firstItem="zv4-qm-7ov" firstAttribute="top" secondItem="Ych-UU-3tV" secondAttribute="bottom" id="52G-9Q-mH8"/>
                                     <constraint firstItem="itZ-qp-nl6" firstAttribute="top" secondItem="hy4-Yp-e9D" secondAttribute="bottom" constant="16" id="7BF-MT-DaY"/>
                                     <constraint firstItem="CIm-i6-FKT" firstAttribute="leading" secondItem="itZ-qp-nl6" secondAttribute="leading" id="BRE-Qk-qSD"/>
                                     <constraint firstItem="Ych-UU-3tV" firstAttribute="top" secondItem="e26-MA-U7L" secondAttribute="top" id="BaC-H5-bIK"/>
@@ -451,16 +458,19 @@
                                     <constraint firstAttribute="trailing" secondItem="KXi-cR-nk8" secondAttribute="trailing" id="NVU-Sg-kRN"/>
                                     <constraint firstItem="tFU-R7-JpF" firstAttribute="top" secondItem="KXi-cR-nk8" secondAttribute="bottom" constant="8" id="Q6O-AU-oK7"/>
                                     <constraint firstItem="qQB-sT-HcZ" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" id="Usq-cJ-L39"/>
+                                    <constraint firstAttribute="trailing" secondItem="nGl-BL-qeD" secondAttribute="trailing" id="UxC-bI-ZUi"/>
                                     <constraint firstItem="Ych-UU-3tV" firstAttribute="firstBaseline" secondItem="CIm-i6-FKT" secondAttribute="firstBaseline" id="YEb-Yj-c01"/>
                                     <constraint firstItem="Yks-pE-3PZ" firstAttribute="bottom" secondItem="KXi-cR-nk8" secondAttribute="bottom" id="bp7-M5-Bjl"/>
+                                    <constraint firstItem="nGl-BL-qeD" firstAttribute="top" secondItem="Ych-UU-3tV" secondAttribute="bottom" id="cgM-Oh-kqx"/>
                                     <constraint firstItem="e26-MA-U7L" firstAttribute="leading" secondItem="CIm-i6-FKT" secondAttribute="trailing" constant="8" symbolic="YES" id="cy9-c7-zij"/>
                                     <constraint firstItem="KXi-cR-nk8" firstAttribute="top" secondItem="xuR-AR-6io" secondAttribute="top" id="erV-up-9O1"/>
                                     <constraint firstItem="Yks-pE-3PZ" firstAttribute="trailing" secondItem="KXi-cR-nk8" secondAttribute="trailing" id="f1x-7z-N9L"/>
+                                    <constraint firstItem="nGl-BL-qeD" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" id="h3E-Lr-b8O"/>
                                     <constraint firstItem="PmZ-U6-QtI" firstAttribute="top" secondItem="MmW-1d-4Pk" secondAttribute="bottom" constant="8" id="hai-RV-av8"/>
                                     <constraint firstItem="NP8-tF-oQL" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" constant="16" id="hq6-TF-cfA"/>
                                     <constraint firstItem="NP8-tF-oQL" firstAttribute="top" secondItem="Knc-lT-xIf" secondAttribute="bottom" constant="8" id="hzL-iJ-r4F"/>
                                     <constraint firstItem="hy4-Yp-e9D" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" constant="16" id="jB8-Gv-OSN"/>
-                                    <constraint firstAttribute="trailing" secondItem="zv4-qm-7ov" secondAttribute="trailing" id="jsG-Pg-B0I"/>
+                                    <constraint firstAttribute="bottom" secondItem="nGl-BL-qeD" secondAttribute="bottom" id="lPO-39-fpi"/>
                                     <constraint firstItem="DPy-v7-Ncv" firstAttribute="top" secondItem="tFU-R7-JpF" secondAttribute="bottom" constant="8" id="luY-22-WGV"/>
                                     <constraint firstItem="qQB-sT-HcZ" firstAttribute="top" secondItem="m3w-ri-LdC" secondAttribute="bottom" constant="8" id="m9W-9G-las"/>
                                     <constraint firstAttribute="trailing" secondItem="DPy-v7-Ncv" secondAttribute="trailing" constant="16" id="mMF-Ca-pVs"/>
@@ -479,7 +489,6 @@
                                     <constraint firstItem="Knc-lT-xIf" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" constant="16" id="vhq-tx-jXu"/>
                                     <constraint firstItem="Yks-pE-3PZ" firstAttribute="leading" secondItem="KXi-cR-nk8" secondAttribute="leading" id="vnN-3g-s4o"/>
                                     <constraint firstAttribute="trailing" secondItem="qQB-sT-HcZ" secondAttribute="trailing" id="wTe-BA-CQz"/>
-                                    <constraint firstAttribute="bottom" secondItem="zv4-qm-7ov" secondAttribute="bottom" id="yyy-AJ-XoG"/>
                                     <constraint firstItem="m3w-ri-LdC" firstAttribute="top" secondItem="hy4-Yp-e9D" secondAttribute="bottom" constant="16" id="zSF-62-ZPv"/>
                                 </constraints>
                             </scrollView>
@@ -505,9 +514,8 @@
                         <outlet property="constraintBottomOffset" destination="O0W-R7-Nwm" id="K3V-G3-jG7"/>
                         <outlet property="constraintOwnerHeight" destination="Vue-yh-jZj" id="zMM-HC-Cxf"/>
                         <outlet property="constraintPhotoWidth" destination="XYZ-Bn-eWI" id="6Hr-bM-XNX"/>
-                        <outlet property="constraintPlayersHeight" destination="7bA-sg-ABv" id="L1O-jy-iKg"/>
+                        <outlet property="constraintPlayersHeight" destination="f6R-yG-wQB" id="Yh0-4o-uyl"/>
                         <outlet property="containerOwner" destination="qQB-sT-HcZ" id="SxJ-Sj-FCe"/>
-                        <outlet property="containerPlayers" destination="zv4-qm-7ov" id="V2K-a3-4dB"/>
                         <outlet property="inputCity" destination="NP8-tF-oQL" id="3bo-C1-TzF"/>
                         <outlet property="inputDescription" destination="MmW-1d-4Pk" id="ToH-4a-EhN"/>
                         <outlet property="inputName" destination="DPy-v7-Ncv" id="7sy-xK-z8A"/>
@@ -516,6 +524,7 @@
                         <outlet property="labelPlayerCount" destination="Ych-UU-3tV" id="Aj1-hs-Fwt"/>
                         <outlet property="photoOwner" destination="HTQ-0h-xFa" id="m5U-f8-zEC"/>
                         <outlet property="photoView" destination="KXi-cR-nk8" id="WW5-TN-7ek"/>
+                        <outlet property="playersScrollView" destination="nGl-BL-qeD" id="N8D-gg-w3U"/>
                         <outlet property="scrollView" destination="xuR-AR-6io" id="0cI-mp-VOu"/>
                         <outlet property="togglePrivate" destination="m3w-ri-LdC" id="TCb-ft-whf"/>
                         <segue destination="1sG-Rz-hHe" kind="show" identifier="toPlayers" id="Pul-y0-teb"/>
@@ -523,47 +532,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bff-BH-02B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2480.8000000000002" y="115.59220389805098"/>
-        </scene>
-        <!--Players Scroll View Controller-->
-        <scene sceneID="JSQ-ap-weB">
-            <objects>
-                <viewController id="OEX-nH-zSF" customClass="PlayersScrollViewController" customModule="Balizinha_Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Uap-pO-KaT"/>
-                        <viewControllerLayoutGuide type="bottom" id="Z4P-Ql-vXF"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="3FK-0C-hkv">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pgi-eI-vHW">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
-                                <color key="backgroundColor" red="0.63972192999999999" green="0.70638650660000002" blue="0.67304807899999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="mnn-T2-I8a"/>
-                                    <constraint firstAttribute="width" constant="375" id="uZM-j2-aQK"/>
-                                </constraints>
-                            </scrollView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="Pgi-eI-vHW" secondAttribute="bottom" id="EgI-GI-wRk"/>
-                            <constraint firstItem="Pgi-eI-vHW" firstAttribute="top" secondItem="3FK-0C-hkv" secondAttribute="top" id="FVM-tH-cM6"/>
-                            <constraint firstAttribute="trailing" secondItem="Pgi-eI-vHW" secondAttribute="trailing" id="NMF-88-iwc"/>
-                            <constraint firstItem="Pgi-eI-vHW" firstAttribute="leading" secondItem="3FK-0C-hkv" secondAttribute="leading" id="f0o-io-KiQ"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="g3O-K4-kdW"/>
-                    </view>
-                    <connections>
-                        <outlet property="constraintContentHeight" destination="mnn-T2-I8a" id="drq-zJ-dN9"/>
-                        <outlet property="constraintContentWidth" destination="uZM-j2-aQK" id="rba-DY-8tC"/>
-                        <outlet property="scrollView" destination="Pgi-eI-vHW" id="f41-nc-TEa"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tRo-ov-tAk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3010" y="634"/>
+            <point key="canvasLocation" x="2480.8000000000002" y="115.14242878560721"/>
         </scene>
         <!--League Players View Controller-->
         <scene sceneID="Wpy-vo-FqJ">
