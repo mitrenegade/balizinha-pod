@@ -236,7 +236,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xuR-AR-6io">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KXi-cR-nk8" customClass="RAImageView">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KXi-cR-nk8" customClass="RAImageView" customModule="Balizinha_Example" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="250" id="Evb-EQ-hVt"/>
@@ -618,6 +618,12 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c9d-pJ-lYq">
+                                                    <rect key="frame" x="15" y="11" width="50" height="50"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="ETk-Gb-Iba" firstAttribute="top" secondItem="PS5-PY-MAM" secondAttribute="topMargin" id="0da-cy-rte"/>
@@ -630,15 +636,20 @@
                                                 <constraint firstItem="i0e-n8-np8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ETk-Gb-Iba" secondAttribute="trailing" constant="8" id="GlQ-f8-0rJ"/>
                                                 <constraint firstItem="dXk-tG-XXU" firstAttribute="leading" secondItem="ETk-Gb-Iba" secondAttribute="leading" id="MHH-9K-oef"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="dXk-tG-XXU" secondAttribute="bottom" constant="6" id="PGg-mG-SBL"/>
+                                                <constraint firstItem="AXi-pv-gdx" firstAttribute="trailing" secondItem="c9d-pJ-lYq" secondAttribute="trailing" id="iKX-ZV-5fE"/>
+                                                <constraint firstItem="AXi-pv-gdx" firstAttribute="bottom" secondItem="c9d-pJ-lYq" secondAttribute="bottom" id="jvm-9E-crM"/>
                                                 <constraint firstItem="i0e-n8-np8" firstAttribute="top" secondItem="PS5-PY-MAM" secondAttribute="topMargin" constant="13" id="n9T-Kw-LoY"/>
+                                                <constraint firstItem="AXi-pv-gdx" firstAttribute="leading" secondItem="c9d-pJ-lYq" secondAttribute="leading" id="t2t-uL-1Bl"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="G1Q-tV-ETa" secondAttribute="bottom" constant="6" id="w60-jD-1Bq"/>
                                                 <constraint firstItem="G1Q-tV-ETa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dXk-tG-XXU" secondAttribute="trailing" constant="8" id="wr7-9K-O47"/>
                                                 <constraint firstItem="ETk-Gb-Iba" firstAttribute="leading" secondItem="AXi-pv-gdx" secondAttribute="trailing" constant="8" id="xRq-Sy-JG5"/>
+                                                <constraint firstItem="AXi-pv-gdx" firstAttribute="top" secondItem="c9d-pJ-lYq" secondAttribute="top" id="zxZ-vu-7Rb"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="imagePhoto" destination="AXi-pv-gdx" id="kWl-zO-nU0"/>
                                             <outlet property="labelCreated" destination="i0e-n8-np8" id="F3e-kz-q6C"/>
+                                            <outlet property="labelInitials" destination="c9d-pJ-lYq" id="7QB-ZO-u86"/>
                                             <outlet property="labelName" destination="ETk-Gb-Iba" id="wdc-3a-zDm"/>
                                             <outlet property="labelStatus" destination="dXk-tG-XXU" id="4io-B3-Vcm"/>
                                         </connections>

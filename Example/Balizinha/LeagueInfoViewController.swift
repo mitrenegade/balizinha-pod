@@ -88,10 +88,11 @@ class LeagueEditViewController: UIViewController {
             buttonPhoto.setTitle(nil, for: .normal)
             buttonPhoto.backgroundColor = .clear
             photoView.image = image
-        } else if let url = league?.photoUrl {
+        } else if league?.photoUrl != nil { // league has a photo
             buttonPhoto.backgroundColor = .clear
             buttonPhoto.setTitle(nil, for: .normal)
             FirebaseImageService().leaguePhotoUrl(for: league?.id) {[weak self] (url) in
+                print("URL \(String(describing: url?.absoluteString))")
                 DispatchQueue.main.async {
                     if let url = url {
                         self?.photoView.imageUrl = url.absoluteString
