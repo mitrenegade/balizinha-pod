@@ -28,7 +28,7 @@ class LeagueListViewController: ListViewController {
         self.tableView.estimatedRowHeight = 44
     }
     
-    override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel {
+    override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
         return League(snapshot: snapshot)
     }
     

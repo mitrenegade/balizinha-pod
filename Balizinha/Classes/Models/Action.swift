@@ -13,12 +13,15 @@ public enum ActionType: String {
     case createEvent
     case joinEvent
     case leaveEvent
-    case systemMessage
+    case addedToEvent
+    case removedFromEvent
+    case joinLeague
+    case leaveLeague
     case holdPaymentForEvent
     case payForEvent
+    case systemMessage
 }
 
-fileprivate let GENERIC_MESSAGE = " is in this game"
 fileprivate let GENERIC_CHAT = "..."
 fileprivate let GENERIC_USERNAME = "A player"
 
@@ -83,12 +86,16 @@ public class Action: FirebaseBaseModel {
     
     public var visible: Bool { // whether an action should appear in the feed
         get {
-            return self.dict["visible"] as? Bool ?? false
+            return self.dict["visible"] as? Bool ?? true
         }
         set {
             self.dict["visible"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
+    }
+    
+    public var defaultMessage: String {
+        return self.dict["defaultMessage"] as? String ?? GENERIC_CHAT
     }
 }
 
@@ -125,7 +132,7 @@ public class ActionViewModel {
     }
     
     public var displayString: String {
-        let userString = self.userIsOrganizer ? "You" : (action.username ?? GENERIC_USERNAME)
+        let userString = userPerformedAction ? "You" : (action.username ?? GENERIC_USERNAME)
         switch action.type {
         case .chat:
             return userString + " said: " + (action.message ?? GENERIC_CHAT)
@@ -135,20 +142,28 @@ public class ActionViewModel {
             return userString + " joined \(eventName)"
         case .leaveEvent:
             return userString + " left \(eventName)"
+        case .addedToEvent:
+            return userString + " was added to \(eventName)"
+        case .removedFromEvent:
+            return userString + " was removed from \(eventName)"
+        case .joinLeague: // TODO: separate event actions and league actions
+            return userString + " joined the league"
+        case .leaveLeague:
+            return userString + " left the league"
         case .holdPaymentForEvent:
-            return userString + " reserved a spot."
+            return userString + " reserved a spot"
         case .payForEvent:
             return userString + " paid for \(eventName)"
         default:
             // system message
-            return "Admin says: hi"
+            return action.defaultMessage
         }
     }
     
-    public var userIsOrganizer: Bool {
-        guard let owner = self.action.userId else { return false }
+    public var userPerformedAction: Bool {
+        guard let userId = self.action.userId else { return false }
         guard let currentUserId = AuthService.currentUser?.uid else { return false }
         
-        return currentUserId == owner
+        return currentUserId == userId
     }
 }
