@@ -106,7 +106,7 @@ public class EventService: NSObject {
             }
             print("getEvents results count: \(results.count)")
             for event in results {
-                self.cacheEvent(event: event)
+                self.cache(event)
             }
             completion(results)
         }
@@ -172,8 +172,8 @@ public class EventService: NSObject {
         
         
     }
-    public func joinEvent(_ event: Event, userId: String, completion: ((Error?)->Void)? = nil) {
-        let params: [String: Any] = ["userId": userId, "eventId": event.id, "join": true]
+    public func joinEvent(_ event: Event, userId: String, admin: Bool = false, completion: ((Error?)->Void)? = nil) {
+        let params: [String: Any] = ["userId": userId, "eventId": event.id, "join": true, "isAdmin": true]
         FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
@@ -182,8 +182,8 @@ public class EventService: NSObject {
         }
     }
     
-    public func leaveEvent(_ event: Event, userId: String, completion: ((Error?)->Void)? = nil) {
-        let params: [String: Any] = ["userId": userId, "eventId": event.id, "join": false]
+    public func leaveEvent(_ event: Event, userId: String, admin: Bool = false, completion: ((Error?)->Void)? = nil) {
+        let params: [String: Any] = ["userId": userId, "eventId": event.id, "join": false, "isAdmin": admin]
         FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
@@ -333,26 +333,26 @@ public extension EventService {
 
 public extension EventService {
     public func withId(id: String, completion: @escaping ((Event?)->Void)) {
-        if let foundEvent = _events[id] {
-            completion(foundEvent)
+        if let found = _events[id] {
+            completion(found)
             return
         }
         
-        let eventRef = firRef.child("events").child(id)
-        eventRef.observe(.value) { [weak self] (snapshot) in
+        let ref = firRef.child("events").child(id)
+        ref.observe(.value) { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
             }
             let event = Event(snapshot: snapshot)
-            self?.cacheEvent(event: event)
+            self?.cache(event)
             completion(event)
             
-            eventRef.removeAllObservers()
+            ref.removeAllObservers()
         }
     }
     
-    public func cacheEvent(event: Event) {
+    public func cache(_ event: Event) {
         _events[event.id] = event
     }
 }
