@@ -8,9 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
-import Balizinha
 
-typealias actionUpdateHandler = (Action, _ visible: Bool) -> (Void)
 fileprivate var _cache: [String:FirebaseBaseModel] = [:]
 class ActionService: NSObject {
     class func delete(action: Action) {
@@ -22,14 +20,7 @@ class ActionService: NSObject {
         queryRef.updateChildValues([actionId: false])
     }
     
-    func observeActions(forEvent event: Balizinha.Event, completion: @escaping actionUpdateHandler) {
-        // returns all current events of a certain type. Returns as snapshot
-        // only gets events once, and removes observer afterwards
-        
-        if AIRPLANE_MODE {
-            return
-        }
-        
+    func observeActions(forEvent event: Balizinha.Event, completion: @escaping (Action)->Void) {
         // sort by time
         let queryRef = firRef.child("eventActions").child(event.id)
         
@@ -38,14 +29,15 @@ class ActionService: NSObject {
             if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
                 for actionDict in allObjects {
                     let actionId = actionDict.key
-                    if let val = actionDict.value as? Bool {
-                        
+                    if let val = actionDict.value as? Bool, val == true {
+                        // query for the action. val should not be false - deleted action should be deleted from eventActions
                         // query for the action
                         let actionQueryRef = firRef.child("actions").child(actionId)
                         actionQueryRef.observeSingleEvent(of: .value, with: { (actionSnapshot) in
                             if actionSnapshot.exists() {
                                 let action = Action(snapshot: actionSnapshot)
-                                completion(action, val)
+                                self.cache(action)
+                                completion(action)
                             }
                         })
                     }
@@ -55,7 +47,7 @@ class ActionService: NSObject {
     }
     
     public func withId(id: String, completion: @escaping ((Action?)->Void)) {
-        if let found = _cache[id] {
+        if let found = _cache[id] as? Action {
             completion(found)
             return
         }

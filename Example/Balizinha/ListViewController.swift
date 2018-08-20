@@ -51,7 +51,7 @@ class ListViewController: UIViewController {
         tableView.reloadData()
     }
     
-    func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel {
+    func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
         return FirebaseBaseModel(snapshot: snapshot)
     }
 }

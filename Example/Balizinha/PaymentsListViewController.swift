@@ -48,7 +48,7 @@ class PaymentsListViewController: ListViewController {
         activityOverlay.setup(frame: view.frame)
     }
     
-    override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel {
+    override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
         return Payment(snapshot: snapshot)
     }
     

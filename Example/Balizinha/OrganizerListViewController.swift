@@ -24,7 +24,7 @@ class OrganizerListViewController: ListViewController {
         navigationItem.title = "Organizers"
     }
     
-    override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel {
+    override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
         return Organizer(snapshot: snapshot)
     }
     

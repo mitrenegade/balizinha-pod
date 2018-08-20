@@ -168,7 +168,7 @@ public class LeagueService: NSObject {
                 for (key, value) in eventDicts {
                     let event = Event(key: key, dict: value)
                     guard event.active else { return } // filters
-                    EventService.shared.cacheEvent(event: event)
+                    EventService.shared.cache(event)
                     events.append(event)
                 }
                 completion(events)

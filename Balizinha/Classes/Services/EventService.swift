@@ -172,8 +172,11 @@ public class EventService: NSObject {
         
         
     }
-    public func joinEvent(_ event: Event, userId: String, admin: Bool = false, completion: ((Error?)->Void)? = nil) {
-        let params: [String: Any] = ["userId": userId, "eventId": event.id, "join": true, "isAdmin": true]
+    public func joinEvent(_ event: Event, userId: String, addedByOrganizer: Bool? = nil, completion: ((Error?)->Void)? = nil) {
+        var params: [String: Any] = ["userId": userId, "eventId": event.id, "join": true]
+        if let admin = addedByOrganizer {
+            params["addedByOrganizer"] = admin
+        }
         FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
@@ -182,8 +185,8 @@ public class EventService: NSObject {
         }
     }
     
-    public func leaveEvent(_ event: Event, userId: String, admin: Bool = false, completion: ((Error?)->Void)? = nil) {
-        let params: [String: Any] = ["userId": userId, "eventId": event.id, "join": false, "isAdmin": admin]
+    public func leaveEvent(_ event: Event, userId: String, removedByOrganizer: Bool? = nil, completion: ((Error?)->Void)? = nil) {
+        var params: [String: Any] = ["userId": userId, "eventId": event.id, "join": false, "removedByOrganizer": removedByOrganizer]
         FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
