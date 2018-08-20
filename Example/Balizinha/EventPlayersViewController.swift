@@ -87,7 +87,7 @@ extension EventPlayersViewController: UITableViewDelegate {
         let playerId: String = section.players[indexPath.row].id
         switch section.name {
         case "Attending", "Attended":
-            EventService.shared.leaveEvent(event, userId: playerId) { [weak self] (error) in
+            EventService.shared.leaveEvent(event, userId: playerId, removedByOrganizer: true) { [weak self] (error) in
                 if let error = error as NSError? {
                     self?.simpleAlert("Could not remove player", defaultMessage: "The player \(playerId) could not be removed from the event", error: error)
                 } else {
@@ -98,7 +98,7 @@ extension EventPlayersViewController: UITableViewDelegate {
                 }
             }
         case "Other":
-            EventService.shared.joinEvent(event, userId: playerId) { [weak self] (error) in
+            EventService.shared.joinEvent(event, userId: playerId, addedByOrganizer: true) { [weak self] (error) in
                 if let error = error as NSError? {
                     self?.simpleAlert("Could not add player", defaultMessage: "The player \(playerId) could not be added to the event", error: error)
                 } else {
