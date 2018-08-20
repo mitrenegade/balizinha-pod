@@ -10,8 +10,8 @@ import UIKit
 import FirebaseDatabase
 
 fileprivate var _cache: [String:FirebaseBaseModel] = [:]
-class ActionService: NSObject {
-    class func delete(action: Action) {
+public class ActionService: NSObject {
+    public class func delete(action: Action) {
         let actionId = action.id
          // instead of deleting the action, just set eventActions for this action to false
          // because eventAction observers don't recognize a delete vs a change/create
@@ -20,7 +20,7 @@ class ActionService: NSObject {
         queryRef.updateChildValues([actionId: false])
     }
     
-    func observeActions(forEvent event: Balizinha.Event, completion: @escaping (Action)->Void) {
+    public func observeActions(forEvent event: Balizinha.Event, completion: @escaping (Action)->Void) {
         // sort by time
         let queryRef = firRef.child("eventActions").child(event.id)
         
