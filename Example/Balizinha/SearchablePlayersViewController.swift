@@ -11,15 +11,9 @@ import FirebaseCore
 import Balizinha
 import FirebaseDatabase
 
-protocol RosterUpdateDelegate: class {
-    func didUpdateRoster()
-}
-
 class SearchablePlayersViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
-
-    weak var delegate: RosterUpdateDelegate?
 
     // search/filter
     var searchTerm: String?
@@ -39,22 +33,9 @@ class SearchablePlayersViewController: UIViewController {
     
     var allPlayers: [Player] = []
     var memberships: [String: Membership.Status] = [:]
-    var roster: [Membership]? {
-        didSet {
-            if let roster = roster {
-                for membership in roster {
-                    memberships[membership.playerId] = membership.status
-                }
-            } else {
-                memberships.removeAll()
-            }
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        loadFromRef()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -64,7 +45,7 @@ class SearchablePlayersViewController: UIViewController {
         tableView.reloadData()
     }
 
-    func loadFromRef() { // loads all players, using observed player endpoint
+    func loadFromRef(completion: (()->())?) { // loads all players, using observed player endpoint
         let playerRef = firRef.child("players").queryOrdered(byChild: "createdAt")
         playerRef.observe(.value) {[weak self] (snapshot) in
             guard snapshot.exists() else {
@@ -80,9 +61,8 @@ class SearchablePlayersViewController: UIViewController {
                     guard let t1 = p1.createdAt else { return false }
                     guard let t2 = p2.createdAt else { return true}
                     return t1 > t2
-                })
-                self?.search(for: nil)
-                self?.reloadTableData()
+                })                
+                completion?()
             }
         }
     }
@@ -119,8 +99,7 @@ extension SearchablePlayersViewController: UITableViewDataSource {
     }
     
     @objc var cellIdentifier: String {
-        assertionFailure("Must implement cell identifier")
-        return "None"
+        return "PlayerCell"
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -134,11 +134,11 @@ public class EventService: NSObject {
             params["info"] = info
         }
         FirebaseAPIService().cloudFunction(functionName: "createEvent", params: params) { (result, error) in
-            if let error = error as? NSError {
+            if let error = error as NSError? {
                 print("CreateEvent v1.4 failed with error \(error)")
                 completion(nil, error)
             } else {
-                print("CreateEvent v1.4 success with result \(result)")
+                print("CreateEvent v1.4 success with result \(String(describing: result))")
                 if let dict = result as? [String: Any], let eventId = dict["eventId"] as? String {
                     self.withId(id: eventId, completion: { (event) in
                         // TODO: the event returned is always nil?
@@ -161,7 +161,7 @@ public class EventService: NSObject {
         eventRef.updateChildValues(["active": false])
         
         // remove users from that event by setting userEvent to false
-        observeUsers(forEvent: event) { (ids) in
+        observeUsers(for: event) { (ids) in
             for userId: String in ids {
                 let userEventRef = firRef.child("userEvents").child(userId)
                 let params: [String: Any] = [eventId: false]
@@ -172,9 +172,8 @@ public class EventService: NSObject {
         
         
     }
-    public func joinEvent(_ event: Event, completion: ((Error?)->Void)? = nil) {
-        guard let user = AuthService.currentUser else { return }
-        let params: [String: Any] = ["userId": user.uid, "eventId": event.id, "join": true]
+    public func joinEvent(_ event: Event, userId: String, completion: ((Error?)->Void)? = nil) {
+        let params: [String: Any] = ["userId": userId, "eventId": event.id, "join": true]
         FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
@@ -183,9 +182,8 @@ public class EventService: NSObject {
         }
     }
     
-    public func leaveEvent(_ event: Event, completion: ((Error?)->Void)? = nil) {
-        guard let user = AuthService.currentUser else { return }
-        let params: [String: Any] = ["userId": user.uid, "eventId": event.id, "join": false]
+    public func leaveEvent(_ event: Event, userId: String, completion: ((Error?)->Void)? = nil) {
+        let params: [String: Any] = ["userId": userId, "eventId": event.id, "join": false]
         FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
@@ -194,7 +192,7 @@ public class EventService: NSObject {
         }
     }
     
-    public func getEventsForUser(_ user: User, completion: @escaping (_ eventIds: [String]) -> Void) {
+    public func getEvents(for user: User, completion: @escaping (_ eventIds: [String]) -> Void) {
         // returns all current events for a user. Returns as snapshot
         // only gets events once, and removes observer afterwards
         print("Get events for user \(user.uid)")
@@ -224,7 +222,7 @@ public class EventService: NSObject {
         }
     }
     
-    public func observeUsers(forEvent event: Event, completion: @escaping (_ userIds: [String]) -> Void) {
+    public func observeUsers(for event: Event, completion: @escaping (_ userIds: [String]) -> Void) {
         // TODO: return each event instead of a list of userIds
         
         // returns all current events for a user. Returns as snapshot
@@ -255,7 +253,7 @@ public class EventService: NSObject {
         // RX version - this allows us to stop observing
         
         return Observable.create({ (observer) -> Disposable in
-            self.observeUsers(forEvent: event, completion: { (userIds) in
+            self.observeUsers(for: event, completion: { (userIds) in
                 observer.onNext(userIds)
             })
             return Disposables.create()
@@ -289,13 +287,11 @@ public class EventService: NSObject {
     public func users(for event: Event) -> [String] {
         if let results = _usersForEvents[event.id] as? [String: AnyObject] {
             let filtered = results.filter({ (arg) -> Bool in
-                
-                let (key, val) = arg
+                let (_, val) = arg
                 return val as! Bool
             })
             let userIds = filtered.map({ (arg) -> String in
-                
-                let (key, val) = arg
+                let (key, _) = arg
                 return key
             })
             return userIds

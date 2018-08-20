@@ -47,6 +47,7 @@
 		C6502BD82125270B004A3EED /* Events.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6502BD72125270B004A3EED /* Events.storyboard */; };
 		C6502BDA21252747004A3EED /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6502BD921252747004A3EED /* EventsListViewController.swift */; };
 		C6502BE42126F4A7004A3EED /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6502BE32126F4A7004A3EED /* EventCell.swift */; };
+		C6993A922129EE560052B69D /* EventPlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6993A912129EE560052B69D /* EventPlayersViewController.swift */; };
 		C6BC1CDC2126FE1E00A500FD /* SearchablePlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BC1CDB2126FE1E00A500FD /* SearchablePlayersViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -110,6 +111,7 @@
 		C6502BD72125270B004A3EED /* Events.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Events.storyboard; sourceTree = "<group>"; };
 		C6502BD921252747004A3EED /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		C6502BE32126F4A7004A3EED /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		C6993A912129EE560052B69D /* EventPlayersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPlayersViewController.swift; sourceTree = "<group>"; };
 		C6BC1CDB2126FE1E00A500FD /* SearchablePlayersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchablePlayersViewController.swift; sourceTree = "<group>"; };
 		CD0B4B52D8F4EC108A0EA635 /* Pods-Balizinha_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Tests/Pods-Balizinha_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		FD4F6317CA270849E7E57832 /* Pods-Balizinha_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Example/Pods-Balizinha_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				8E97405021132A6500242907 /* PlayerListViewController.swift */,
 				C6502BD921252747004A3EED /* EventsListViewController.swift */,
 				C6BC1CDB2126FE1E00A500FD /* SearchablePlayersViewController.swift */,
+				C6993A912129EE560052B69D /* EventPlayersViewController.swift */,
 				8E97404B21132A6400242907 /* Storyboards */,
 				8E97404021132A5C00242907 /* Views */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
@@ -491,6 +494,7 @@
 				8E995879211E8B5400101F50 /* PaymentSubmitViewController.swift in Sources */,
 				8E97406521132A7100242907 /* FirebaseModelIcon.swift in Sources */,
 				8E97407C21132A7100242907 /* LeagueCell.swift in Sources */,
+				C6993A922129EE560052B69D /* EventPlayersViewController.swift in Sources */,
 				8E97407021132A7100242907 /* PlayerListViewController.swift in Sources */,
 				8E97407A21132A7100242907 /* OrganizerCell.swift in Sources */,
 				8EBB4AF6211F561400B5B907 /* ActivityIndicatorOverlay.swift in Sources */,

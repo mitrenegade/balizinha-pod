@@ -55,6 +55,12 @@ class EventsListViewController: ListViewController {
             }
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toPlayers", let controller = segue.destination as? EventPlayersViewController {
+            controller.event = sender as? Balizinha.Event
+        }
+    }
 }
 
 extension EventsListViewController {
@@ -96,6 +102,8 @@ extension EventsListViewController {
         guard indexPath.row < array.count else { return }
 
         // go to event attendance list
+        let event = array[indexPath.row]
+        performSegue(withIdentifier: "toPlayers", sender: event)
     }
 }
 

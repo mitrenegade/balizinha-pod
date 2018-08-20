@@ -11,10 +11,16 @@ import FirebaseCore
 import Balizinha
 import FirebaseDatabase
 
+protocol RosterUpdateDelegate: class {
+    func didUpdateRoster()
+}
+
 class LeaguePlayersViewController: SearchablePlayersViewController {
     var league: League?
     var isEditOrganizerMode: Bool = false
     
+    weak var delegate: RosterUpdateDelegate?
+
     override var sections: [Section] {
         return [("Organizers", organizers), ("Members", members), ("Players", players)]
     }
@@ -24,6 +30,18 @@ class LeaguePlayersViewController: SearchablePlayersViewController {
     fileprivate var organizers: [Player] = []
     fileprivate var players: [Player] = [] // non-members
     
+    var roster: [Membership]? {
+        didSet {
+            if let roster = roster {
+                for membership in roster {
+                    memberships[membership.playerId] = membership.status
+                }
+            } else {
+                memberships.removeAll()
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,10 +53,10 @@ class LeaguePlayersViewController: SearchablePlayersViewController {
             navigationItem.title = "Players"
         }
         
-        loadFromRef()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        loadFromRef {
+            self.search(for: nil)
+            self.reloadTableData()
+        }
     }
 }
 
@@ -50,12 +68,8 @@ extension LeaguePlayersViewController { // UITableViewDataSource
         return sections.count
     }
 
-    override var cellIdentifier: String {
-        return "LeaguePlayerCell"
-    }
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayerCell", for: indexPath) as! LeaguePlayerCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! LeaguePlayerCell
         let status: Membership.Status
         let section = sections[indexPath.section]
         switch section.name {
