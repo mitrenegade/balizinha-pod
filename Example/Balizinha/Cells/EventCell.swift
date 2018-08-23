@@ -16,6 +16,7 @@ class EventCell: UITableViewCell {
     @IBOutlet var labelName: UILabel!
     @IBOutlet var labelTimeDate: UILabel!
     @IBOutlet var eventLogo: RAImageView!
+    @IBOutlet weak var labelID: UILabel!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -32,6 +33,7 @@ class EventCell: UITableViewCell {
     
     func setup(with event: Balizinha.Event) {
         self.event = event
+        labelID.text = event.id
         let name = event.name ?? "Balizinha"
         let type = event.type.rawValue
         self.labelName.text = "\(name) (\(type))"
@@ -76,11 +78,14 @@ class EventCell: UITableViewCell {
         } else {
             containsUser = false
         }
-
+        
         if !event.isPast {
             // Button display and action
             
-            if self.event!.userIsOrganizer {
+            if !event.active {
+                labelFull.text = "Event deleted"
+                return
+            } else if self.event!.userIsOrganizer {
                 self.labelFull.text = "This is your event."
             }
             else if containsUser {
@@ -96,7 +101,12 @@ class EventCell: UITableViewCell {
             }
             self.labelAttendance.text = "\(self.event!.numPlayers)"
         } else {
-            self.labelFull.isHidden = true
+            if !event.active {
+                labelFull.text = "Event deleted"
+                return
+            } else {
+                self.labelFull.isHidden = true
+            }
             self.labelAttendance.text = "\(self.event!.numPlayers)"
         }
     }

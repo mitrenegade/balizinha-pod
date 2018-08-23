@@ -38,7 +38,7 @@ class LeagueEditViewController: UIViewController {
     @IBOutlet weak var labelOwnerName: UILabel!
     @IBOutlet weak var photoOwner: RAImageView!
     @IBOutlet weak var constraintOwnerHeight: NSLayoutConstraint!
-    
+
     @IBOutlet weak var labelPlayerCount: UILabel!
     
     @IBOutlet weak var playersScrollView: PlayersScrollView!
