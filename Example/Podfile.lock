@@ -1,5 +1,5 @@
 PODS:
-  - Balizinha (0.3.1):
+  - Balizinha (0.3.2):
     - Firebase
     - Firebase/Analytics
     - Firebase/Auth
@@ -107,7 +107,6 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - Protobuf (3.6.1)
-  - RACameraHelper (0.1.2)
   - RxCocoa (4.2.0):
     - RxSwift (~> 4.0)
   - RxOptional (3.5.0):
@@ -117,7 +116,6 @@ PODS:
 
 DEPENDENCIES:
   - Balizinha (from `../`)
-  - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.2`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -145,17 +143,9 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Balizinha:
     :path: "../"
-  RACameraHelper:
-    :git: https://github.com/bobbyren/RACameraHelper
-    :tag: 0.1.2
-
-CHECKOUT OPTIONS:
-  RACameraHelper:
-    :git: https://github.com/bobbyren/RACameraHelper
-    :tag: 0.1.2
 
 SPEC CHECKSUMS:
-  Balizinha: 19cdeb97dad2aba975f92673c54a2735e19bf07e
+  Balizinha: 6af1cbee763a849501014c3ed4a6155162abafbd
   Firebase: 75ea9e232eefa158c1049028030b8f661a2ccb62
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: 993577e91157feb40945abedd6ab346d8a4b6ac8
@@ -173,11 +163,10 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  RACameraHelper: 5671f398d8c0805bffaeb611d5ed15ebadb2017d
   RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
   RxOptional: bd32ff8ca9df4177683d56ffeb618a9d4d5d5cad
   RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
 
-PODFILE CHECKSUM: 2cebb0521fc1f863c2b8dc3917f72f12ceab4c97
+PODFILE CHECKSUM: e7ef434eee48db421a75b51f90a415423c124de1
 
 COCOAPODS: 1.5.3

@@ -7,7 +7,5 @@ target 'Balizinha_Example' do
   target 'Balizinha_Tests' do
     inherit! :search_paths
 
-    pod 'RACameraHelper', :git => 'https://github.com/bobbyren/RACameraHelper', :tag => '0.1.2'
-    
   end
 end
