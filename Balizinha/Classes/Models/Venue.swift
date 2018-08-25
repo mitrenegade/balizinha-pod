@@ -9,7 +9,7 @@
 import UIKit
 import Balizinha
 
-class Venue: FirebaseBaseModel {
+public class Venue: FirebaseBaseModel {
     public var name: String? {
         get {
             return self.dict["name"] as? String
@@ -71,7 +71,7 @@ class Venue: FirebaseBaseModel {
     }
     
     // creating a venue locally
-    init(_ name: String?, _ street: String?, _ city: String?, _ state: String?, _ lat: Double?, _ lon: Double?) {
+    public init(_ name: String?, _ street: String?, _ city: String?, _ state: String?, _ lat: Double?, _ lon: Double?) {
         let dict: [String: Any] = ["name": name, "street": street, "city": city, "state": state, "lat": lat, "lon": lon]
         super.init(key: "temp", dict: dict)
     }
