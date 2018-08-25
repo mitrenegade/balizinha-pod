@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0CC2EF0F4E7313F9D13FE586 /* Pods_Balizinha_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3517D46F3B5DE3D0C331AA /* Pods_Balizinha_Example.framework */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		8E18D70721304B84007BE201 /* Leagues.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E18D70621304B84007BE201 /* Leagues.storyboard */; };
 		8E97406021132A7100242907 /* ActionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97403C21132A5600242907 /* ActionListViewController.swift */; };
 		8E97406121132A7100242907 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97403D21132A5700242907 /* Constants.swift */; };
 		8E97406221132A7100242907 /* LeagueEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97403E21132A5900242907 /* LeagueEditViewController.swift */; };
@@ -22,12 +23,10 @@
 		8E97406A21132A7100242907 /* OrganizerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97404721132A6000242907 /* OrganizerListViewController.swift */; };
 		8E97406B21132A7100242907 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97404821132A6100242907 /* MenuViewController.swift */; };
 		8E97406D21132A7100242907 /* Organizers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E97404C21132A6400242907 /* Organizers.storyboard */; };
-		8E97406E21132A7100242907 /* Leagues.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E97404D21132A6400242907 /* Leagues.storyboard */; };
 		8E97406F21132A7100242907 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E97404E21132A6400242907 /* Main.storyboard */; };
 		8E97407021132A7100242907 /* PlayerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405021132A6500242907 /* PlayerListViewController.swift */; };
 		8E97407321132A7100242907 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405321132A6900242907 /* AppDelegate.swift */; };
 		8E97407421132A7100242907 /* LeaguePlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405421132A6A00242907 /* LeaguePlayersViewController.swift */; };
-		8E97407521132A7100242907 /* Leagues.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E97405521132A6C00242907 /* Leagues.storyboard */; };
 		8E97407621132A7100242907 /* PaymentsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405621132A6D00242907 /* PaymentsListViewController.swift */; };
 		8E97407721132A7100242907 /* LeaguePlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405821132A6E00242907 /* LeaguePlayerCell.swift */; };
 		8E97407821132A7100242907 /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405921132A6E00242907 /* PaymentCell.swift */; };
@@ -73,6 +72,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		7F3517D46F3B5DE3D0C331AA /* Pods_Balizinha_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E18D70621304B84007BE201 /* Leagues.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Leagues.storyboard; sourceTree = "<group>"; };
 		8E97403C21132A5600242907 /* ActionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };
 		8E97403D21132A5700242907 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8E97403E21132A5900242907 /* LeagueEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeagueEditViewController.swift; sourceTree = "<group>"; };
@@ -86,12 +86,10 @@
 		8E97404721132A6000242907 /* OrganizerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizerListViewController.swift; sourceTree = "<group>"; };
 		8E97404821132A6100242907 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		8E97404C21132A6400242907 /* Organizers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Organizers.storyboard; sourceTree = "<group>"; };
-		8E97404D21132A6400242907 /* Leagues.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Leagues.storyboard; sourceTree = "<group>"; };
 		8E97404F21132A6400242907 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8E97405021132A6500242907 /* PlayerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerListViewController.swift; sourceTree = "<group>"; };
 		8E97405321132A6900242907 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E97405421132A6A00242907 /* LeaguePlayersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaguePlayersViewController.swift; sourceTree = "<group>"; };
-		8E97405521132A6C00242907 /* Leagues.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Leagues.storyboard; path = ../Leagues.storyboard; sourceTree = "<group>"; };
 		8E97405621132A6D00242907 /* PaymentsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsListViewController.swift; sourceTree = "<group>"; };
 		8E97405821132A6E00242907 /* LeaguePlayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaguePlayerCell.swift; sourceTree = "<group>"; };
 		8E97405921132A6E00242907 /* PaymentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
@@ -252,9 +250,8 @@
 			isa = PBXGroup;
 			children = (
 				8E97403F21132A5B00242907 /* LaunchScreen.storyboard */,
-				8E97405521132A6C00242907 /* Leagues.storyboard */,
+				8E18D70621304B84007BE201 /* Leagues.storyboard */,
 				8E97404C21132A6400242907 /* Organizers.storyboard */,
-				8E97404D21132A6400242907 /* Leagues.storyboard */,
 				8E97404E21132A6400242907 /* Main.storyboard */,
 				8E995876211E887800101F50 /* Payments.storyboard */,
 				C6502BD72125270B004A3EED /* Events.storyboard */,
@@ -382,14 +379,13 @@
 			files = (
 				8E97406721132A7100242907 /* PaymentHeaderView.xib in Resources */,
 				8E97408121132E6700242907 /* GoogleService-Info-dev.plist in Resources */,
-				8E97407521132A7100242907 /* Leagues.storyboard in Resources */,
 				8E97406F21132A7100242907 /* Main.storyboard in Resources */,
 				C6502BD82125270B004A3EED /* Events.storyboard in Resources */,
 				8E97406D21132A7100242907 /* Organizers.storyboard in Resources */,
 				8E97406321132A7100242907 /* LaunchScreen.storyboard in Resources */,
 				8E97408221132E6700242907 /* GoogleService-Info.plist in Resources */,
+				8E18D70721304B84007BE201 /* Leagues.storyboard in Resources */,
 				8E97407D21132A7100242907 /* Assets.xcassets in Resources */,
-				8E97406E21132A7100242907 /* Leagues.storyboard in Resources */,
 				8E995877211E887800101F50 /* Payments.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
