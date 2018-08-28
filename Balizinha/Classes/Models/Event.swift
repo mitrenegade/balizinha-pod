@@ -14,6 +14,8 @@ public enum EventType: String {
     case event5v5 = "5 vs 5"
     case event7v7 = "7 vs 7"
     case event11v11 = "11 vs 11"
+    case group = "Group class"
+    case social = "Social event"
     case other
 }
 
@@ -42,7 +44,7 @@ public class Event: FirebaseBaseModel {
     
     public var type: EventType {
         get {
-            for type: EventType in [.event3v3, .event5v5, .event7v7, .event11v11] {
+            for type: EventType in [.event3v3, .event5v5, .event7v7, .event11v11, .group, .social] {
                 if type.rawValue == self.dict["type"] as? String {
                     return type
                 }
