@@ -44,10 +44,8 @@ public class Event: FirebaseBaseModel {
     
     public var type: EventType {
         get {
-            for type: EventType in [.event3v3, .event5v5, .event7v7, .event11v11, .group, .social] {
-                if type.rawValue == self.dict["type"] as? String {
-                    return type
-                }
+            if let string = self.dict["type"] as? String, let newType = EventType(rawValue: string) {
+                return newType
             }
             return .other
         }
