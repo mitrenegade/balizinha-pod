@@ -32,7 +32,7 @@ public class FirebaseImageService: NSObject {
             return
         }
         
-        let imageRef: StorageReference = imageBaseRef.child(ImageType.player.rawValue).child(uid)
+        let imageRef: StorageReference = imageBaseRef.child(type.rawValue).child(uid)
         let uploadTask = imageRef.putData(data, metadata: nil) { (meta, error) in
             if error != nil {
                 completion(nil)
