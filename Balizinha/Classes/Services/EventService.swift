@@ -21,8 +21,6 @@ public class EventService: NSObject {
     fileprivate var _usersForEvents: [String: AnyObject] = [:]
     fileprivate var _events: [String:Event] = [:]
     
-    public var eventsUpdateAction: (()->())?
-    
     // MARK: - Singleton
     public static var shared: EventService {
         if singleton == nil {
@@ -42,17 +40,15 @@ public class EventService: NSObject {
         didSet {
             if let eventId = featuredEventId {
                 withId(id: eventId, completion: {[weak self] (event) in
-                    self?.featuredEvent = event
-                    // can be used to trigger a notification, such as NotificationType.EventsChanged
-                    self?.eventsUpdateAction?()
+                    self?.featuredEvent.value = event
                 })
             } else {
-                featuredEvent = nil
+                featuredEvent.value = nil
             }
         }
     }
     
-    public var featuredEvent: Event?
+    public var featuredEvent: Variable<Event?> = Variable(nil)
     public func listenForEventUsers(action: (()->())? = nil) {
         // firRef is the global firebase ref
         let queryRef = firRef.child("eventUsers")
