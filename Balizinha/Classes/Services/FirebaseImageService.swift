@@ -122,8 +122,7 @@ public class FirebaseImageService: NSObject {
             completion(nil)
             return
         }
-        let id = event.photoId ?? event.id
-        let ref = FirebaseImageService.referenceForImage(type: .event, id: id)
+        let ref = FirebaseImageService.referenceForImage(type: .event, id: event.id)
         ref?.downloadURL(completion: { (url, error) in
             if let url = url {
                 completion(url)

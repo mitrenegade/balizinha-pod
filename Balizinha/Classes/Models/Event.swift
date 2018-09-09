@@ -54,18 +54,7 @@ public class Event: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
-    
-    // event's photoId may not be its UID. before event is saved or if a photo is copied
-    public var photoId: String? {
-        get {
-            return self.dict["photoId"] as? String
-        }
-        set {
-            self.dict["photoId"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
-        }
-    }
-    
+
     public var city: String? {
         get {
             return self.dict["city"] as? String
