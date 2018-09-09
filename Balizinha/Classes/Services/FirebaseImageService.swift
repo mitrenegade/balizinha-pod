@@ -102,12 +102,12 @@ public class FirebaseImageService: NSObject {
         })
     }
     
-    public func leaguePhotoUrl(for id: String?, completion: @escaping ((URL?)->Void)) {
-        guard let id = id else {
+    public func leaguePhotoUrl(for league: League?, completion: @escaping ((URL?)->Void)) {
+        guard let league = league else {
             completion(nil)
             return
         }
-        let ref = FirebaseImageService.referenceForImage(type: .league, id: id)
+        let ref = FirebaseImageService.referenceForImage(type: .league, id: league.id)
         ref?.downloadURL(completion: { (url, error) in
             if let url = url {
                 completion(url)
