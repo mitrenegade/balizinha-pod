@@ -110,15 +110,20 @@ public class EventService: NSObject {
     
     public func getAvailableEvents(completion: (([Balizinha.Event])->Void)?) {
         guard let user = AuthService.currentUser else { return }
-        FirebaseAPIService().cloudFunction(functionName: "getEventsAvailableToUser", method: "POST", params: ["userId": user.uid]) { (results, error) in
-            var events: [Balizinha.Event] = []
-            for (key, val) in results as? [String: Any] ?? [:] {
-                if let dict = val as? [String: Any] {
-                    let event = Balizinha.Event(key: key, dict: dict)
-                    events.append(event)
+        FirebaseAPIService().cloudFunction(functionName: "getEventsAvailableToUser", method: "POST", params: ["userId": user.uid]) { [weak self] (results, error) in
+            if error != nil {
+                completion?([])
+            } else {
+                var events: [Balizinha.Event] = []
+                for (key, val) in results as? [String: Any] ?? [:] {
+                    if let dict = val as? [String: Any] {
+                        let event = Balizinha.Event(key: key, dict: dict)
+                        events.append(event)
+                        self?.cache(event)
+                    }
                 }
+                completion?(events)
             }
-            completion?(events)
         }
     }
     

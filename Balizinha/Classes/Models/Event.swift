@@ -23,10 +23,12 @@ fileprivate let formatter = DateFormatter()
 
 public class Event: FirebaseBaseModel {
     public override convenience init(key: String, dict: [String: Any]?) {
-        self.init(key: key, dict: dict)
+        self.init()
+        self.firebaseKey = key
         self.firebaseRef = firRef.child("events").child(key)
+        self.dict = dict ?? [:]
     }
-    
+
     public var league: String? {
         get {
             return self.dict["league"] as? String
