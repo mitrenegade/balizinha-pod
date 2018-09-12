@@ -343,14 +343,10 @@ extension LeagueEditViewController {
     
     fileprivate func uploadPhoto(_ photo: UIImage, id: String, completion: @escaping ((_ url: String?)->Void)) {
         activityIndicator.startAnimating()
-        DispatchQueue.global().async {
-            FirebaseImageService.uploadImage(image: photo, type: .league, uid: id, completion: { [weak self] (url) in
-                DispatchQueue.main.async {
-                    self?.activityIndicator.stopAnimating()
-                }
-                completion(url)
-            })
-        }
+        FirebaseImageService.uploadImage(image: photo, type: .league, uid: id, completion: { [weak self] (url) in
+            self?.activityIndicator.stopAnimating()
+            completion(url)
+        })
     }
 }
 
