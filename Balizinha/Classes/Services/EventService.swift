@@ -108,6 +108,20 @@ public class EventService: NSObject {
         }
     }
     
+    public func getAvailableEvents(completion: (([Balizinha.Event])->Void)?) {
+        guard let user = AuthService.currentUser else { return }
+        FirebaseAPIService().cloudFunction(functionName: "getEventsAvailableToUser", method: "POST", params: ["userId": user.uid]) { (results, error) in
+            var events: [Balizinha.Event] = []
+            for (key, val) in results as? [String: Any] ?? [:] {
+                if let dict = val as? [String: Any] {
+                    let event = Balizinha.Event(key: key, dict: dict)
+                    events.append(event)
+                }
+            }
+            completion?(events)
+        }
+    }
+    
     public func createEvent(_ name: String, type: EventType, city: String, state: String, lat: Double?, lon: Double?, place: String, startTime: Date, endTime: Date, maxPlayers: UInt, info: String?, paymentRequired: Bool, amount: NSNumber? = 0, leagueId: String?, completion:@escaping (Event?, NSError?) -> Void) {
         
         print ("Create events")

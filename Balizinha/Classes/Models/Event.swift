@@ -22,6 +22,11 @@ public enum EventType: String {
 fileprivate let formatter = DateFormatter()
 
 public class Event: FirebaseBaseModel {
+    public override init(key: String, dict: [String: Any]?) {
+        super.init(key: key, dict: dict)
+        self.firebaseRef = firRef.child("events").child(key)
+    }
+    
     public var league: String? {
         get {
             return self.dict["league"] as? String
