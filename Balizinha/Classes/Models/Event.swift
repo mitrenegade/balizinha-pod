@@ -22,8 +22,8 @@ public enum EventType: String {
 fileprivate let formatter = DateFormatter()
 
 public class Event: FirebaseBaseModel {
-    public override init(key: String, dict: [String: Any]?) {
-        super.init(key: key, dict: dict)
+    public override convenience init(key: String, dict: [String: Any]?) {
+        self.init(key: key, dict: dict)
         self.firebaseRef = firRef.child("events").child(key)
     }
     
@@ -257,20 +257,20 @@ extension Event {
 extension Event {
     //***************** hack: for test purposes only
     class func randomEvent() -> Event {
-        let event = Event()
+        let key = FirebaseAPIService.uniqueId()
         let hours: Int = Int(arc4random_uniform(72))
-        event.dict = ["type": event.randomType() as AnyObject, "place": event.randomPlace() as AnyObject, "startTime": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject, "info": "Randomly generated event" as AnyObject]
-        event.firebaseKey = FirebaseAPIService.uniqueId()
+        let dict: [String: Any] = ["type": Event.randomType() as AnyObject, "place": Event.randomPlace() as AnyObject, "startTime": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject, "info": "Randomly generated event" as AnyObject]
+        let event = Event(key: key, dict: dict)
         return event
     }
     
-    func randomType() -> String {
+    class func randomType() -> String {
         let types: [EventType] = [.event3v3]
         let random = Int(arc4random_uniform(UInt32(types.count)))
         return types[random].rawValue
     }
     
-    func randomPlace() -> String {
+    class func randomPlace() -> String {
         let places = ["Boston", "New York", "Philadelphia", "Florida"]
         let random = Int(arc4random_uniform(UInt32(places.count)))
         return places[random]
