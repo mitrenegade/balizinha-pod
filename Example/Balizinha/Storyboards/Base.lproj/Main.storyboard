@@ -35,7 +35,7 @@
         <!--Menu View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MenuViewController" customModule="Balizinha_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MenuViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -86,6 +86,7 @@
                         <segue destination="28L-kh-b5V" kind="show" identifier="toOrganizers" id="RYB-JI-7jv"/>
                         <segue destination="xRf-3u-3MY" kind="show" identifier="toPayments" id="1lo-wq-TLF"/>
                         <segue destination="RJe-jg-Ef2" kind="show" identifier="toEvents" id="Zpw-mn-4OZ"/>
+                        <segue destination="v89-CX-aUY" kind="show" identifier="toUtils" id="LUy-FA-fzi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -116,6 +117,66 @@
             </objects>
             <point key="canvasLocation" x="842" y="322"/>
         </scene>
+        <!--Utils View Controller-->
+        <scene sceneID="xj7-tR-hh9">
+            <objects>
+                <viewController id="v89-CX-aUY" customClass="UtilsViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="SOm-zc-ZDw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Xdw-wg-Pwe">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UtilCell" textLabel="Ntb-Il-Lvh" detailTextLabel="nVf-B4-OPA" style="IBUITableViewCellStyleSubtitle" id="7lp-3U-S8W">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7lp-3U-S8W" id="0Dz-09-RxC">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ntb-Il-Lvh">
+                                                    <rect key="frame" x="15" y="5" width="33.5" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nVf-B4-OPA">
+                                                    <rect key="frame" x="15" y="25.5" width="44" height="14.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="v89-CX-aUY" id="dUy-Xc-MW2"/>
+                                    <outlet property="delegate" destination="v89-CX-aUY" id="3UQ-X3-CVA"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Xdw-wg-Pwe" firstAttribute="leading" secondItem="cLc-af-bZg" secondAttribute="leading" id="BCr-9p-jS0"/>
+                            <constraint firstItem="Xdw-wg-Pwe" firstAttribute="top" secondItem="cLc-af-bZg" secondAttribute="top" id="FdO-YW-6hT"/>
+                            <constraint firstItem="Xdw-wg-Pwe" firstAttribute="bottom" secondItem="cLc-af-bZg" secondAttribute="bottom" id="GwE-OK-ASx"/>
+                            <constraint firstItem="Xdw-wg-Pwe" firstAttribute="trailing" secondItem="cLc-af-bZg" secondAttribute="trailing" id="m7u-p0-unT"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="cLc-af-bZg"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="Xdw-wg-Pwe" id="gM8-cF-7OY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7cl-Yw-JX7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1008.8" y="795.6521739130435"/>
+        </scene>
         <!--Payments-->
         <scene sceneID="W2z-Kk-LlX">
             <objects>
@@ -127,7 +188,7 @@
         <!--Player List View Controller-->
         <scene sceneID="5KI-VU-vjG">
             <objects>
-                <viewController id="JcF-hV-p6C" customClass="PlayerListViewController" customModule="Balizinha_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="JcF-hV-p6C" customClass="PlayerListViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yAX-gX-fO3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -136,7 +197,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlayerCell" rowHeight="300" id="gck-IW-1MH" customClass="PlayerCell" customModule="Balizinha_Example" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlayerCell" rowHeight="300" id="gck-IW-1MH" customClass="PlayerCell" customModule="Admin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gck-IW-1MH" id="bLT-mf-BeG">
@@ -177,7 +238,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="K6a-vY-Gpu" customClass="RAImageView" customModule="Balizinha_Example" customModuleProvider="target">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="K6a-vY-Gpu" customClass="RAImageView" customModule="Admin" customModuleProvider="target">
                                                     <rect key="frame" x="15" y="11" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="K6a-vY-Gpu" secondAttribute="height" multiplier="1:1" id="9hO-ok-fmF"/>
@@ -242,7 +303,7 @@
         <!--Action List View Controller-->
         <scene sceneID="hJh-yG-JIb">
             <objects>
-                <viewController id="RIz-Mv-g3I" customClass="ActionListViewController" customModule="Balizinha_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="RIz-Mv-g3I" customClass="ActionListViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ICw-gZ-eFL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -251,14 +312,14 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActionCell" rowHeight="44" id="IV6-DH-bMV" customClass="ActionCell" customModule="Balizinha_Example" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActionCell" rowHeight="44" id="IV6-DH-bMV" customClass="ActionCell" customModule="Admin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IV6-DH-bMV" id="LFv-FF-Fvn">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="3jr-LJ-w2D" customClass="RAImageView" customModule="Balizinha_Example" customModuleProvider="target">
+                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="3jr-LJ-w2D" customClass="RAImageView" customModule="Admin" customModuleProvider="target">
                                                     <rect key="frame" x="16" y="5" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="9zx-QO-e3A"/>
