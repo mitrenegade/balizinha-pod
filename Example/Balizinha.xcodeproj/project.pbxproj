@@ -10,6 +10,7 @@
 		0CC2EF0F4E7313F9D13FE586 /* Pods_Balizinha_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3517D46F3B5DE3D0C331AA /* Pods_Balizinha_Example.framework */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		8E18D70721304B84007BE201 /* Leagues.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E18D70621304B84007BE201 /* Leagues.storyboard */; };
+		8E8D62D82149CF7F0043C204 /* UtilsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8D62D72149CF7F0043C204 /* UtilsViewController.swift */; };
 		8E97406021132A7100242907 /* ActionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97403C21132A5600242907 /* ActionListViewController.swift */; };
 		8E97406121132A7100242907 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97403D21132A5700242907 /* Constants.swift */; };
 		8E97406221132A7100242907 /* LeagueEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97403E21132A5900242907 /* LeagueEditViewController.swift */; };
@@ -73,6 +74,7 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		7F3517D46F3B5DE3D0C331AA /* Pods_Balizinha_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E18D70621304B84007BE201 /* Leagues.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Leagues.storyboard; sourceTree = "<group>"; };
+		8E8D62D72149CF7F0043C204 /* UtilsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilsViewController.swift; sourceTree = "<group>"; };
 		8E97403C21132A5600242907 /* ActionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };
 		8E97403D21132A5700242907 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8E97403E21132A5900242907 /* LeagueEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeagueEditViewController.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				C6502BD921252747004A3EED /* EventsListViewController.swift */,
 				C6BC1CDB2126FE1E00A500FD /* SearchablePlayersViewController.swift */,
 				C6993A912129EE560052B69D /* EventPlayersViewController.swift */,
+				8E8D62D72149CF7F0043C204 /* UtilsViewController.swift */,
 				8E97404B21132A6400242907 /* Storyboards */,
 				8E97404021132A5C00242907 /* Views */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
@@ -479,6 +482,7 @@
 				C64E187D2129DB630042DB68 /* PlayersScrollView.swift in Sources */,
 				8E995879211E8B5400101F50 /* PaymentSubmitViewController.swift in Sources */,
 				8E97406521132A7100242907 /* FirebaseModelIcon.swift in Sources */,
+				8E8D62D82149CF7F0043C204 /* UtilsViewController.swift in Sources */,
 				8E97407C21132A7100242907 /* LeagueCell.swift in Sources */,
 				C6993A922129EE560052B69D /* EventPlayersViewController.swift in Sources */,
 				8E97407021132A7100242907 /* PlayerListViewController.swift in Sources */,
