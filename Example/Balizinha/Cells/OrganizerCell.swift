@@ -40,7 +40,7 @@ class OrganizerCell: UITableViewCell {
         photoView.layer.cornerRadius = photoView.frame.size.width / 4
         photoView.clipsToBounds = true
         photoView.contentMode = .scaleAspectFill
-        FirebaseImageService().profileUrl(for: currentId) {[weak self] (url) in
+        FirebaseImageService().profileUrl(with: currentId) {[weak self] (url) in
             DispatchQueue.main.async {
                 if let urlString = url?.absoluteString {
                     self?.photoView?.imageUrl = urlString

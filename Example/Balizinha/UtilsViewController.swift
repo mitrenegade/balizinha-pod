@@ -100,42 +100,70 @@ extension UtilsViewController {
             var photoIdCount: Int = 0
             var alreadyConvertedCount: Int = 0
             var noPhotoUrlCount: Int = 0
+            var photoIdFailed: Int = 0
+            var photoUrlFailed: Int = 0
+            let dispatchGroup = DispatchGroup()
             for childSnapshot: DataSnapshot in allObjects {
                 let event = Balizinha.Event(snapshot: childSnapshot)
+                dispatchGroup.enter()
                 guard event.dict["alreadyConverted"] == nil else {
                     alreadyConvertedCount += 1
                     // TODO: delete photoUrl and photoId when new app is out
+                    dispatchGroup.leave()
                     continue
                 }
-                if let photoId = event.dict["photoId"] {
+                if let photoId = event.dict["photoId"] as? String {
+                    print("---> Event \(event.id) has photoId \(photoId)")
+                    guard photoId != event.id else {
+                        alreadyConvertedCount += 1
+                        dispatchGroup.leave()
+                        // TODO: delete photoId
+                        continue
+                    }
                     FirebaseImageService().eventPhotoUrl(for: event, completion: { (url) in
                         if let url = url {
                             // if the url already exists, count this as already converted
                             alreadyConvertedCount += 1
-                            
+                            print("Event \(event.id) has valid url \(url.absoluteString)")
+
                             // TODO: download the image and make sure it works
+                            dispatchGroup.leave()
                         } else {
-                            photoIdCount += 1
                             // TODO: download the image and store it
+                            FirebaseImageService().eventPhotoUrl(with: photoId, completion: { (url) in
+                                if let url = url {
+                                    print("Event \(event.id) has photoId url \(url.absoluteString)")
+                                    photoIdCount += 1
+                                    dispatchGroup.leave()
+                                } else {
+                                    print("Event \(event.id) does not have a valid photoId url")
+                                    photoIdFailed += 1
+                                    dispatchGroup.leave()
+                                    // TODO: delete photoId
+                                }
+                            })
                         }
-                        print("migrateEventUrls: photoUrl \(photoUrlCount) photoId \(photoIdCount) alreadyConverted \(alreadyConvertedCount) noPhotoUrl \(noPhotoUrlCount)")
                     })
-                } else if let photoUrl = event.dict["photoUrl"] {
+                } else if let photoUrl = event.dict["photoUrl"] as? String {
                     FirebaseImageService().eventPhotoUrl(for: event, completion: { (url) in
                         if let url = url {
                             // if the url already exists, count this as already converted
                             alreadyConvertedCount += 1
-                            
+                            dispatchGroup.leave()
                             // TODO: download the image and make sure it works
                         } else {
                             photoUrlCount += 1
+                            dispatchGroup.leave()
                             // TODO: download the image and store it
                         }
-                        print("migrateEventUrls: photoUrl \(photoUrlCount) photoId \(photoIdCount) alreadyConverted \(alreadyConvertedCount) noPhotoUrl \(noPhotoUrlCount)")
                     })
                 } else {
                     noPhotoUrlCount += 1
+                    dispatchGroup.leave()
                 }
+            }
+            dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+                print("migrateEventUrls: photoUrl \(photoUrlCount) photoId \(photoIdCount) photoIdFailed \(photoIdFailed) alreadyConverted \(alreadyConvertedCount) noPhotoUrl \(noPhotoUrlCount)")
             }
         }
     }
