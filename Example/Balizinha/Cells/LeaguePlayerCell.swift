@@ -39,7 +39,7 @@ class LeaguePlayerCell: UITableViewCell {
         imagePhoto.layer.cornerRadius = imagePhoto.frame.size.height / 2
         labelInitials.layer.cornerRadius = labelInitials.frame.size.height / 2
         labelInitials.font = UIFont.systemFont(ofSize: imagePhoto.frame.size.width / 2)
-        FirebaseImageService().profileUrl(for: player.id) {[weak self] (url) in
+        FirebaseImageService().profileUrl(with: player.id) {[weak self] (url) in
             DispatchQueue.main.async {
                 if let url = url {
                     self?.imagePhoto.imageUrl = url.absoluteString

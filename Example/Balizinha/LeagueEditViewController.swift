@@ -91,7 +91,7 @@ class LeagueEditViewController: UIViewController {
         } else if league?.photoUrl != nil { // league has a photo
             buttonPhoto.backgroundColor = .clear
             buttonPhoto.setTitle(nil, for: .normal)
-            FirebaseImageService().leaguePhotoUrl(for: league?.id) {[weak self] (url) in
+            FirebaseImageService().leaguePhotoUrl(with: league?.id) {[weak self] (url) in
                 print("URL \(String(describing: url?.absoluteString))")
                 DispatchQueue.main.async {
                     if let url = url {
@@ -132,7 +132,7 @@ class LeagueEditViewController: UIViewController {
                     self?.labelOwnerName.text = player?.name ?? player?.email ?? player?.id
                 }
             }
-            FirebaseImageService().profileUrl(for: owner) { [weak self] (url) in
+            FirebaseImageService().profileUrl(with: owner) { [weak self] (url) in
                 DispatchQueue.main.async {
                     if let url = url {
                         self?.photoOwner.image = nil

@@ -87,7 +87,7 @@ public class FirebaseImageService: NSObject {
         return resizeImageForProfile(image:image)
     }
     
-    public func profileUrl(for id: String?, completion: @escaping ((URL?)->Void)) {
+    public func profileUrl(with id: String?, completion: @escaping ((URL?)->Void)) {
         guard let id = id else {
             completion(nil)
             return
@@ -102,7 +102,7 @@ public class FirebaseImageService: NSObject {
         })
     }
     
-    public func leaguePhotoUrl(for id: String?, completion: @escaping ((URL?)->Void)) {
+    public func leaguePhotoUrl(with id: String?, completion: @escaping ((URL?)->Void)) {
         guard let id = id else {
             completion(nil)
             return
@@ -123,6 +123,21 @@ public class FirebaseImageService: NSObject {
             return
         }
         let ref = FirebaseImageService.referenceForImage(type: .event, id: event.id)
+        ref?.downloadURL(completion: { (url, error) in
+            if let url = url {
+                completion(url)
+            } else {
+                completion(nil)
+            }
+        })
+    }
+
+    public func eventPhotoUrl(with id: String?, completion: @escaping ((URL?)->Void)) {
+        guard let id = id else {
+            completion(nil)
+            return
+        }
+        let ref = FirebaseImageService.referenceForImage(type: .event, id: id)
         ref?.downloadURL(completion: { (url, error) in
             if let url = url {
                 completion(url)
