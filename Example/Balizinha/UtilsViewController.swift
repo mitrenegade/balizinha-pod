@@ -9,13 +9,16 @@
 import UIKit
 import Balizinha
 
-enum UtilItem: String {
+enum UtilItem: String, CaseIterable {
     case updateEventLeagueIsPrivate = "updateEventLeagueIsPrivate"
-    
+    case recountLeagueStats = "recountLeagueStats"
+
     var details: String {
         switch self {
         case .updateEventLeagueIsPrivate:
             return "Updates all event's leagueIsPrivate parameter"
+        case .recountLeagueStats:
+            return "Regenerates league player and event counts"
         }
     }
 }
@@ -23,7 +26,7 @@ class UtilsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
-    var menuItems: [UtilItem] = [.updateEventLeagueIsPrivate]
+    var menuItems: [UtilItem] = UtilItem.allCases
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,8 +66,8 @@ extension UtilsViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         guard indexPath.row < menuItems.count else { return }
         let selection = menuItems[indexPath.row]
-        switch selection {
-        case .updateEventLeagueIsPrivate:
+//        switch selection {
+//        case .updateEventLeagueIsPrivate:
             activityOverlay.show()
             FirebaseAPIService().cloudFunction(functionName: selection.rawValue, method: "POST", params: nil) { [weak self] (result, error) in
                 DispatchQueue.main.async {
@@ -76,6 +79,8 @@ extension UtilsViewController: UITableViewDelegate {
                     print("Result: \(String(describing: result))")
                 }
             }
-        }
+//        case .recountLeagueStats:
+//            activityOverlay.show()
+//        }
     }
 }
