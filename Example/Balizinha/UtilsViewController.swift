@@ -8,10 +8,12 @@
 
 import UIKit
 import Balizinha
+import Firebase
 
 enum UtilItem: String, CaseIterable {
     case updateEventLeagueIsPrivate = "updateEventLeagueIsPrivate"
     case recountLeagueStats = "recountLeagueStats"
+    case migrateEventImages = "migrateEventImages"
 
     var details: String {
         switch self {
@@ -19,6 +21,8 @@ enum UtilItem: String, CaseIterable {
             return "Updates all event's leagueIsPrivate parameter"
         case .recountLeagueStats:
             return "Regenerates league player and event counts"
+        case .migrateEventImages:
+            return "Ensures event images are stored under the event id"
         }
     }
 }
@@ -66,8 +70,10 @@ extension UtilsViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         guard indexPath.row < menuItems.count else { return }
         let selection = menuItems[indexPath.row]
-//        switch selection {
-//        case .updateEventLeagueIsPrivate:
+        switch selection {
+        case .migrateEventImages:
+            migrateEventImages()
+        default:
             activityOverlay.show()
             FirebaseAPIService().cloudFunction(functionName: selection.rawValue, method: "POST", params: nil) { [weak self] (result, error) in
                 DispatchQueue.main.async {
@@ -79,8 +85,58 @@ extension UtilsViewController: UITableViewDelegate {
                     print("Result: \(String(describing: result))")
                 }
             }
-//        case .recountLeagueStats:
-//            activityOverlay.show()
-//        }
+        }
+    }
+}
+
+extension UtilsViewController {
+    func migrateEventImages() {
+        // handles event urls locally because firebase image functions exist
+        let eventRef = firRef.child("events")
+        eventRef.observeSingleEvent(of: .value) {[weak self] (snapshot) in
+            guard snapshot.exists() else { return }
+            guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
+            var photoUrlCount: Int = 0
+            var photoIdCount: Int = 0
+            var alreadyConvertedCount: Int = 0
+            var noPhotoUrlCount: Int = 0
+            for childSnapshot: DataSnapshot in allObjects {
+                let event = Balizinha.Event(snapshot: childSnapshot)
+                guard event.dict["alreadyConverted"] == nil else {
+                    alreadyConvertedCount += 1
+                    // TODO: delete photoUrl and photoId when new app is out
+                    continue
+                }
+                if let photoId = event.dict["photoId"] {
+                    FirebaseImageService().eventPhotoUrl(for: event, completion: { (url) in
+                        if let url = url {
+                            // if the url already exists, count this as already converted
+                            alreadyConvertedCount += 1
+                            
+                            // TODO: download the image and make sure it works
+                        } else {
+                            photoIdCount += 1
+                            // TODO: download the image and store it
+                        }
+                        print("migrateEventUrls: photoUrl \(photoUrlCount) photoId \(photoIdCount) alreadyConverted \(alreadyConvertedCount) noPhotoUrl \(noPhotoUrlCount)")
+                    })
+                } else if let photoUrl = event.dict["photoUrl"] {
+                    FirebaseImageService().eventPhotoUrl(for: event, completion: { (url) in
+                        if let url = url {
+                            // if the url already exists, count this as already converted
+                            alreadyConvertedCount += 1
+                            
+                            // TODO: download the image and make sure it works
+                        } else {
+                            photoUrlCount += 1
+                            // TODO: download the image and store it
+                        }
+                        print("migrateEventUrls: photoUrl \(photoUrlCount) photoId \(photoIdCount) alreadyConverted \(alreadyConvertedCount) noPhotoUrl \(noPhotoUrlCount)")
+                    })
+                } else {
+                    noPhotoUrlCount += 1
+                }
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import Balizinha
 
-let TESTING = true
+let TESTING = false
 let AIRPLANE_MODE = false
 
 extension UIColor {
