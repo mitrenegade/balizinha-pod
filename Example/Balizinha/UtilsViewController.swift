@@ -189,11 +189,20 @@ extension UtilsViewController {
                                     // DONE: delete photoId
                                     event.firebaseRef?.child("photoUrl").removeValue()
                                 }
-                            })                        }
+                            })
+                        }
                     })
                 } else {
-                    noPhotoUrlCount += 1
-                    dispatchGroup.leave()
+                    FirebaseImageService().eventPhotoUrl(for: event, completion: { (url) in
+                        if let url = url {
+                            alreadyConvertedCount += 1
+                            dispatchGroup.leave()
+                            print("Event \(event.id) has valid url \(url.absoluteString)")
+                        } else {
+                            noPhotoUrlCount += 1
+                            dispatchGroup.leave()
+                        }
+                    })
                 }
             }
             dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
