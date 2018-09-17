@@ -126,12 +126,28 @@ extension UtilsViewController {
                             event.firebaseRef?.child("photoId").removeValue()
                         } else {
                             FirebaseImageService().eventPhotoUrl(with: photoId, completion: { (url) in
-                                if let url = url {
-                                    print("Event \(event.id) has photoId url \(url.absoluteString)")
-                                    photoIdCount += 1
-                                    dispatchGroup.leave()
-                                    // TODO: download the image and store it
-                                    FirebaseImageService.
+                                if let urlString = url?.absoluteString {
+                                    let manager = RAImageManager(imageView: nil)
+                                    // DONE: download the image and store it
+                                    manager.load(imageUrl: urlString, completion: { [weak self] (image) in
+                                        if let image = image {
+                                            DispatchQueue.main.async {
+                                                FirebaseImageService.uploadImage(image: image, type: .event, uid: event.id, completion: { (url) in
+                                                    print("Event \(event.id) has photoId url \(urlString), converted")
+                                                    photoIdCount += 1
+                                                    dispatchGroup.leave()
+                                                    // DONE: delete photoId
+                                                    event.firebaseRef?.child("photoId").removeValue()
+                                                })
+                                            }
+                                        } else {
+                                            print("Event \(event.id) has photoId url \(urlString), was invalid")
+                                            photoIdFailed += 1
+                                            dispatchGroup.leave()
+                                            // DONE: delete photoId
+                                            event.firebaseRef?.child("photoId").removeValue()
+                                        }
+                                    })
                                 } else {
                                     print("Event \(event.id) does not have a valid photoId url")
                                     photoIdFailed += 1
