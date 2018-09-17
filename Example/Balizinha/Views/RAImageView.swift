@@ -47,10 +47,10 @@ class RAImageManager: NSObject {
             } else if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
                 let image = UIImage(data: data)
                 RAImageManager.imageCache[currentUrl] = image
-                guard self?.loadingUrl == currentUrl else {
-                    print("url has changed - cancel")
-                    return
-                }
+//                guard self?.loadingUrl == currentUrl else {
+//                    print("url has changed - cancel")
+//                    return
+//                }
                 completion?(image)
             }
         })

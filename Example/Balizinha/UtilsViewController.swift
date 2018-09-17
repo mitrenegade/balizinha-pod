@@ -127,8 +127,8 @@ extension UtilsViewController {
                         } else {
                             FirebaseImageService().eventPhotoUrl(with: photoId, completion: { (url) in
                                 if let urlString = url?.absoluteString {
-                                    let manager = RAImageManager(imageView: nil)
                                     // DONE: download the image and store it
+                                    let manager = RAImageManager(imageView: nil)
                                     manager.load(imageUrl: urlString, completion: { [weak self] (image) in
                                         if let image = image {
                                             DispatchQueue.main.async {
@@ -164,12 +164,32 @@ extension UtilsViewController {
                             // if the url already exists, count this as already converted
                             alreadyConvertedCount += 1
                             dispatchGroup.leave()
-                            // TODO: download the image and make sure it works
+                            print("Event \(event.id) has valid url \(url.absoluteString)")
+                            
+                            // DONE: delete photoUrl
+                            event.firebaseRef?.child("photoUrl").removeValue()
                         } else {
-                            photoUrlCount += 1
-                            dispatchGroup.leave()
-                            // TODO: download the image and store it
-                        }
+                            // DONE: download the image and store it
+                            let manager = RAImageManager(imageView: nil)
+                            manager.load(imageUrl: photoUrl, completion: { [weak self] (image) in
+                                if let image = image {
+                                    DispatchQueue.main.async {
+                                        FirebaseImageService.uploadImage(image: image, type: .event, uid: event.id, completion: { (url) in
+                                            print("Event \(event.id) has photoUrl \(photoUrl), converted")
+                                            photoUrlCount += 1
+                                            dispatchGroup.leave()
+                                            // DONE: delete photoUrl
+                                            event.firebaseRef?.child("photoUrl").removeValue()
+                                        })
+                                    }
+                                } else {
+                                    print("Event \(event.id) has photoUrl \(photoUrl), was invalid")
+                                    photoUrlFailed += 1
+                                    dispatchGroup.leave()
+                                    // DONE: delete photoId
+                                    event.firebaseRef?.child("photoUrl").removeValue()
+                                }
+                            })                        }
                     })
                 } else {
                     noPhotoUrlCount += 1
@@ -177,7 +197,7 @@ extension UtilsViewController {
                 }
             }
             dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
-                print("migrateEventUrls: photoUrl \(photoUrlCount) photoId \(photoIdCount) photoIdFailed \(photoIdFailed) alreadyConverted \(alreadyConvertedCount) noPhotoUrl \(noPhotoUrlCount)")
+                print("migrateEventUrls: photoUrl \(photoUrlCount) photoUrlFailed \(photoUrlFailed) photoId \(photoIdCount) photoIdFailed \(photoIdFailed) alreadyConverted \(alreadyConvertedCount) noPhotoUrl \(noPhotoUrlCount)")
             }
         }
     }
