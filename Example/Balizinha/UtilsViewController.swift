@@ -11,9 +11,10 @@ import Balizinha
 import Firebase
 
 enum UtilItem: String, CaseIterable {
-    case updateEventLeagueIsPrivate = "updateEventLeagueIsPrivate"
-    case recountLeagueStats = "recountLeagueStats"
-    case migrateEventImages = "migrateEventImages"
+    case updateEventLeagueIsPrivate
+    case recountLeagueStats
+    case migrateEventImages
+    case cleanupAnonymousAuth
 
     var details: String {
         switch self {
@@ -23,6 +24,8 @@ enum UtilItem: String, CaseIterable {
             return "Regenerates league player and event counts"
         case .migrateEventImages:
             return "Ensures event images are stored under the event id"
+        case .cleanupAnonymousAuth:
+            return "Removes old anonymous auth users"
         }
     }
 }
@@ -73,6 +76,8 @@ extension UtilsViewController: UITableViewDelegate {
         switch selection {
         case .migrateEventImages:
             migrateEventImages()
+        case .cleanupAnonymousAuth:
+            cleanupAnonymousAuth()
         default:
             activityOverlay.show()
             FirebaseAPIService().cloudFunction(functionName: selection.rawValue, method: "POST", params: nil) { [weak self] (result, error) in
@@ -82,7 +87,7 @@ extension UtilsViewController: UITableViewDelegate {
                 if let error = error {
                     print("Error: \(error)")
                 } else {
-                    print("Result: \(String(describing: result))")
+                    print("Result: \(String(describing: result)))")
                 }
             }
         }
@@ -90,6 +95,28 @@ extension UtilsViewController: UITableViewDelegate {
 }
 
 extension UtilsViewController {
+    func cleanupAnonymousAuth() {
+        activityOverlay.show()
+        FirebaseAPIService().cloudFunction(functionName: "cleanupAnonymousAuth", method: "POST", params: nil) { [weak self] (result, error) in
+            DispatchQueue.main.async {
+                self?.activityOverlay.hide()
+            }
+            if let error = error {
+                print("Error: \(error)")
+            } else if let users = result as? [String: Any] {
+                // result should be ["uid": ["exists": true or "deleted": true/false]]
+                // function returns {result: [ ]}
+                print("Result: \(users)")
+                let userCount = users.count
+                let players = users.filter() { $0.value as? String == "exists" }
+                let deletedUsers = users.filter() { return ($0.value as? [String: Any] ?? [:])["deleted"] as? Bool == true }
+
+                let deletedCount = deletedUsers.count
+                let playerCount = players.count
+                print("Total users \(userCount) players \(playerCount) deleted \(deletedCount)")
+            }
+        }
+    }
     func migrateEventImages() {
         // handles event urls locally because firebase image functions exist
         let eventRef = firRef.child("events")
