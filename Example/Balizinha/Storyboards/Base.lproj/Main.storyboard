@@ -86,6 +86,7 @@
                         <segue destination="xRf-3u-3MY" kind="show" identifier="toPayments" id="1lo-wq-TLF"/>
                         <segue destination="RJe-jg-Ef2" kind="show" identifier="toEvents" id="Zpw-mn-4OZ"/>
                         <segue destination="v89-CX-aUY" kind="show" identifier="toUtils" id="LUy-FA-fzi"/>
+                        <segue destination="cw7-ZE-qAm" kind="show" identifier="toFeedback" id="1lY-Dj-DNS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -115,6 +116,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9AI-no-3ho" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="842" y="322"/>
+        </scene>
+        <!--Feedback-->
+        <scene sceneID="IAZ-rg-JsA">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Feedback" id="cw7-ZE-qAm" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4eu-Np-hHw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="826" y="366"/>
         </scene>
         <!--Utils View Controller-->
         <scene sceneID="xj7-tR-hh9">

@@ -41,6 +41,9 @@
 		8E974085211478CB00242907 /* RAImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E974084211478CA00242907 /* RAImageView.swift */; };
 		8E995877211E887800101F50 /* Payments.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E995876211E887800101F50 /* Payments.storyboard */; };
 		8E995879211E8B5400101F50 /* PaymentSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */; };
+		8EA99E1121534299001BC643 /* Feedback.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA99E1021534299001BC643 /* Feedback.storyboard */; };
+		8EA99E13215342C6001BC643 /* FeedbackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA99E12215342C6001BC643 /* FeedbackListViewController.swift */; };
+		8EA99E15215342E4001BC643 /* FeedbackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA99E14215342E4001BC643 /* FeedbackCell.swift */; };
 		8EBB4AF6211F561400B5B907 /* ActivityIndicatorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBB4AF5211F561400B5B907 /* ActivityIndicatorOverlay.swift */; };
 		94C5CE9F5487058D85022A6C /* Pods_Balizinha_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */; };
 		C64E187D2129DB630042DB68 /* PlayersScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64E187C2129DB630042DB68 /* PlayersScrollView.swift */; };
@@ -105,6 +108,9 @@
 		8E974084211478CA00242907 /* RAImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAImageView.swift; sourceTree = "<group>"; };
 		8E995876211E887800101F50 /* Payments.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Payments.storyboard; sourceTree = "<group>"; };
 		8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSubmitViewController.swift; sourceTree = "<group>"; };
+		8EA99E1021534299001BC643 /* Feedback.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Feedback.storyboard; sourceTree = "<group>"; };
+		8EA99E12215342C6001BC643 /* FeedbackListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackListViewController.swift; sourceTree = "<group>"; };
+		8EA99E14215342E4001BC643 /* FeedbackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackCell.swift; sourceTree = "<group>"; };
 		8EBB4AF5211F561400B5B907 /* ActivityIndicatorOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorOverlay.swift; sourceTree = "<group>"; };
 		96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C64E187C2129DB630042DB68 /* PlayersScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersScrollView.swift; sourceTree = "<group>"; };
@@ -181,6 +187,7 @@
 				C6BC1CDB2126FE1E00A500FD /* SearchablePlayersViewController.swift */,
 				C6993A912129EE560052B69D /* EventPlayersViewController.swift */,
 				8E8D62D72149CF7F0043C204 /* UtilsViewController.swift */,
+				8EA99E12215342C6001BC643 /* FeedbackListViewController.swift */,
 				8E97404B21132A6400242907 /* Storyboards */,
 				8E97404021132A5C00242907 /* Views */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
@@ -258,6 +265,7 @@
 				8E97404E21132A6400242907 /* Main.storyboard */,
 				8E995876211E887800101F50 /* Payments.storyboard */,
 				C6502BD72125270B004A3EED /* Events.storyboard */,
+				8EA99E1021534299001BC643 /* Feedback.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -272,6 +280,7 @@
 				8E97405C21132A6E00242907 /* PlayerCell.swift */,
 				8E97405D21132A6E00242907 /* LeagueCell.swift */,
 				C6502BE32126F4A7004A3EED /* EventCell.swift */,
+				8EA99E14215342E4001BC643 /* FeedbackCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -390,6 +399,7 @@
 				8E97408221132E6700242907 /* GoogleService-Info.plist in Resources */,
 				8E18D70721304B84007BE201 /* Leagues.storyboard in Resources */,
 				8E97407D21132A7100242907 /* Assets.xcassets in Resources */,
+				8EA99E1121534299001BC643 /* Feedback.storyboard in Resources */,
 				8E995877211E887800101F50 /* Payments.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -492,6 +502,7 @@
 				8E97406B21132A7100242907 /* MenuViewController.swift in Sources */,
 				C6502BDA21252747004A3EED /* EventsListViewController.swift in Sources */,
 				8E97407821132A7100242907 /* PaymentCell.swift in Sources */,
+				8EA99E13215342C6001BC643 /* FeedbackListViewController.swift in Sources */,
 				8E97406A21132A7100242907 /* OrganizerListViewController.swift in Sources */,
 				8E97407B21132A7100242907 /* PlayerCell.swift in Sources */,
 				8E97407721132A7100242907 /* LeaguePlayerCell.swift in Sources */,
@@ -502,6 +513,7 @@
 				8E97406121132A7100242907 /* Constants.swift in Sources */,
 				8E97407421132A7100242907 /* LeaguePlayersViewController.swift in Sources */,
 				C6502BE42126F4A7004A3EED /* EventCell.swift in Sources */,
+				8EA99E15215342E4001BC643 /* FeedbackCell.swift in Sources */,
 				8E97406621132A7100242907 /* PlayerIcon.swift in Sources */,
 				8E97406821132A7100242907 /* ListViewController.swift in Sources */,
 				8E97407921132A7100242907 /* ActionCell.swift in Sources */,
