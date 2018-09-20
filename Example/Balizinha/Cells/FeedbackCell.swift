@@ -25,7 +25,7 @@ class FeedbackCell: UITableViewCell {
         labelDetails.text = dict["details"] as? String
 
         labelDetails.sizeToFit()
-        constraintLabelHeight.constant = max(40, labelDetails.frame.size.height)
+        constraintLabelHeight.constant = max(20, labelDetails.frame.size.height)
         
         labelDate.text = feedback.createdAt?.dateString()
     }
