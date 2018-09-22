@@ -165,7 +165,6 @@ public class Event: FirebaseBaseModel {
             self.dict["info"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
-        
     }
     
     public var paymentRequired: Bool {
@@ -189,6 +188,15 @@ public class Event: FirebaseBaseModel {
         }
         
         return true
+    }
+    
+    public var shareLink: String {
+        get {
+            if let val = self.dict["shareLink"] as? String {
+                return val
+            }
+            return ""
+        }
     }
 }
 
