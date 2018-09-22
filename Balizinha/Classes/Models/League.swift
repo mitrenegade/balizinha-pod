@@ -98,6 +98,12 @@ public class League: FirebaseBaseModel {
         }
         return count
     }
+    
+    public var shareLink: String? {
+        get {
+            return self.dict["shareLink"] as? String
+        }
+    }
 }
 
 // MARK: - Tags

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14295.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ab5-rn-vVC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ab5-rn-vVC">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14270.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -228,11 +228,11 @@
             <objects>
                 <viewController id="5XU-pd-vqs" customClass="LeagueEditViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HnY-UE-U29">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xuR-AR-6io">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="790"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KXi-cR-nk8" customClass="RAImageView" customModule="Admin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
@@ -437,6 +437,16 @@
                                             <outlet property="scrollView" destination="9l2-UR-sSC" id="6Oy-NW-1d8"/>
                                         </connections>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Is2-rx-GWx">
+                                        <rect key="frame" x="0.0" y="698" width="375" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="4Mc-Sw-eKW"/>
+                                        </constraints>
+                                        <state key="normal" title="Share Link"/>
+                                        <connections>
+                                            <action selector="didClickShareLink:" destination="5XU-pd-vqs" eventType="touchUpInside" id="E64-k4-FuZ"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="PmZ-U6-QtI" secondAttribute="trailing" constant="104.5" id="2DS-Ej-Bvj"/>
@@ -449,7 +459,9 @@
                                     <constraint firstItem="qr8-2z-T9n" firstAttribute="top" secondItem="NP8-tF-oQL" secondAttribute="bottom" constant="8" id="C31-ji-SCo"/>
                                     <constraint firstItem="Knc-lT-xIf" firstAttribute="top" secondItem="DPy-v7-Ncv" secondAttribute="bottom" constant="8" id="CRG-8c-7eP"/>
                                     <constraint firstItem="qr8-2z-T9n" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" constant="16" id="DsY-BP-mxR"/>
+                                    <constraint firstAttribute="bottom" secondItem="Is2-rx-GWx" secondAttribute="bottom" constant="8" id="GZ1-fk-KtW"/>
                                     <constraint firstAttribute="trailing" secondItem="MmW-1d-4Pk" secondAttribute="trailing" constant="16" id="Goa-lR-h0w"/>
+                                    <constraint firstAttribute="trailing" secondItem="Is2-rx-GWx" secondAttribute="trailing" id="HHv-3z-DRY"/>
                                     <constraint firstAttribute="trailing" secondItem="NP8-tF-oQL" secondAttribute="trailing" constant="16" id="HeI-OO-4Gn"/>
                                     <constraint firstAttribute="trailing" secondItem="tFU-R7-JpF" secondAttribute="trailing" constant="16" id="IXF-bR-LEn"/>
                                     <constraint firstItem="tFU-R7-JpF" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" constant="16" id="KDB-Ax-ZpE"/>
@@ -468,7 +480,6 @@
                                     <constraint firstItem="NP8-tF-oQL" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" constant="16" id="hq6-TF-cfA"/>
                                     <constraint firstItem="NP8-tF-oQL" firstAttribute="top" secondItem="Knc-lT-xIf" secondAttribute="bottom" constant="8" id="hzL-iJ-r4F"/>
                                     <constraint firstItem="hy4-Yp-e9D" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" constant="16" id="jB8-Gv-OSN"/>
-                                    <constraint firstAttribute="bottom" secondItem="nGl-BL-qeD" secondAttribute="bottom" id="lPO-39-fpi"/>
                                     <constraint firstItem="DPy-v7-Ncv" firstAttribute="top" secondItem="tFU-R7-JpF" secondAttribute="bottom" constant="8" id="luY-22-WGV"/>
                                     <constraint firstItem="qQB-sT-HcZ" firstAttribute="top" secondItem="m3w-ri-LdC" secondAttribute="bottom" constant="8" id="m9W-9G-las"/>
                                     <constraint firstAttribute="trailing" secondItem="DPy-v7-Ncv" secondAttribute="trailing" constant="16" id="mMF-Ca-pVs"/>
@@ -480,6 +491,7 @@
                                     <constraint firstItem="qQB-sT-HcZ" firstAttribute="top" secondItem="itZ-qp-nl6" secondAttribute="bottom" constant="18" id="pSe-ed-5jo"/>
                                     <constraint firstItem="MmW-1d-4Pk" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" constant="16" id="qRy-O7-rgM"/>
                                     <constraint firstItem="KXi-cR-nk8" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" id="rK3-y2-YdR"/>
+                                    <constraint firstItem="Is2-rx-GWx" firstAttribute="top" secondItem="nGl-BL-qeD" secondAttribute="bottom" constant="8" id="tLL-5O-9rl"/>
                                     <constraint firstItem="DPy-v7-Ncv" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" constant="16" id="tWy-pH-c0Q"/>
                                     <constraint firstAttribute="trailing" secondItem="Ych-UU-3tV" secondAttribute="trailing" constant="15" id="u6c-x5-wAk"/>
                                     <constraint firstAttribute="trailing" secondItem="m3w-ri-LdC" secondAttribute="trailing" constant="16" id="vfG-eP-UzZ"/>
@@ -487,6 +499,7 @@
                                     <constraint firstItem="Knc-lT-xIf" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" constant="16" id="vhq-tx-jXu"/>
                                     <constraint firstItem="Yks-pE-3PZ" firstAttribute="leading" secondItem="KXi-cR-nk8" secondAttribute="leading" id="vnN-3g-s4o"/>
                                     <constraint firstAttribute="trailing" secondItem="qQB-sT-HcZ" secondAttribute="trailing" id="wTe-BA-CQz"/>
+                                    <constraint firstItem="Is2-rx-GWx" firstAttribute="leading" secondItem="xuR-AR-6io" secondAttribute="leading" id="xoZ-FA-5Xp"/>
                                     <constraint firstItem="m3w-ri-LdC" firstAttribute="top" secondItem="hy4-Yp-e9D" secondAttribute="bottom" constant="16" id="zSF-62-ZPv"/>
                                 </constraints>
                             </scrollView>
@@ -504,11 +517,12 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="375" height="690"/>
+                    <size key="freeformSize" width="375" height="790"/>
                     <connections>
                         <outlet property="activityIndicator" destination="1z6-TU-wCW" id="h5b-le-7Ug"/>
                         <outlet property="buttonOrganizers" destination="e26-MA-U7L" id="Wjf-cy-6DB"/>
                         <outlet property="buttonPhoto" destination="Yks-pE-3PZ" id="dUg-SV-Unk"/>
+                        <outlet property="buttonShareLink" destination="Is2-rx-GWx" id="9Ne-X4-lsj"/>
                         <outlet property="constraintBottomOffset" destination="O0W-R7-Nwm" id="K3V-G3-jG7"/>
                         <outlet property="constraintOwnerHeight" destination="Vue-yh-jZj" id="zMM-HC-Cxf"/>
                         <outlet property="constraintPhotoWidth" destination="XYZ-Bn-eWI" id="6Hr-bM-XNX"/>

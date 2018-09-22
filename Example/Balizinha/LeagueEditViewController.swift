@@ -44,6 +44,8 @@ class LeagueEditViewController: UIViewController {
     @IBOutlet weak var playersScrollView: PlayersScrollView!
     @IBOutlet weak var constraintPlayersHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonOrganizers: UIButton!
+    
+    @IBOutlet weak var buttonShareLink: UIButton!
 
     var selectedPhoto: UIImage?
 
@@ -146,6 +148,12 @@ class LeagueEditViewController: UIViewController {
             constraintOwnerHeight.constant = 40
         } else {
             constraintOwnerHeight.constant = 0
+        }
+        
+        if let shareLink = league.shareLink {
+            buttonShareLink.setTitle(shareLink, for: .normal)
+        } else {
+            buttonShareLink.setTitle("Generate a share link", for: .normal)
         }
     }
     
@@ -297,6 +305,27 @@ class LeagueEditViewController: UIViewController {
             
             if sender as? UIButton == buttonOrganizers {
                 controller.isEditOrganizerMode = true
+            }
+        }
+    }
+    
+    @IBAction func didClickShareLink(_ sender: Any?) {
+        guard let id = league?.id else { return }
+        if let shareLink = league?.shareLink, let url = URL(string: shareLink) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            showLoadingIndicator()
+            FirebaseAPIService().cloudFunction(functionName: "generateShareLink", method: "POST", params: ["type": "leagues", "id": id]) { [weak self] (result, error) in
+                DispatchQueue.main.async {
+                    self?.hideLoadingIndicator()
+                    print("Result \(String(describing: result)) error \(String(describing: error))")
+                    if let result = result as? [String: Any], let link = result["shareLink"] as? String {
+                        self?.league?.dict["shareLink"] = link // temporary
+                        self?.refresh()
+                    } else {
+                        self?.simpleAlert("Generate link failed", defaultMessage: "Could not generate share link", error: error as NSError?)
+                    }
+                }
             }
         }
     }
