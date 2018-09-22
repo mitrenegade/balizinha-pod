@@ -190,12 +190,9 @@ public class Event: FirebaseBaseModel {
         return true
     }
     
-    public var shareLink: String {
+    public var shareLink: String? {
         get {
-            if let val = self.dict["shareLink"] as? String {
-                return val
-            }
-            return ""
+            return self.dict["shareLink"] as? String
         }
     }
 }

@@ -44,6 +44,8 @@ class LeagueEditViewController: UIViewController {
     @IBOutlet weak var playersScrollView: PlayersScrollView!
     @IBOutlet weak var constraintPlayersHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonOrganizers: UIButton!
+    
+    @IBOutlet weak var buttonShareLink: UIButton!
 
     var selectedPhoto: UIImage?
 
@@ -146,6 +148,12 @@ class LeagueEditViewController: UIViewController {
             constraintOwnerHeight.constant = 40
         } else {
             constraintOwnerHeight.constant = 0
+        }
+        
+        if let shareLink = league.shareLink {
+            buttonShareLink.setTitle(shareLink, for: .normal)
+        } else {
+            buttonShareLink.setTitle("Generate a share link", for: .normal)
         }
     }
     
@@ -299,6 +307,10 @@ class LeagueEditViewController: UIViewController {
                 controller.isEditOrganizerMode = true
             }
         }
+    }
+    
+    @IBAction func didClickShareLink(_ sender: Any?) {
+        
     }
 }
 
