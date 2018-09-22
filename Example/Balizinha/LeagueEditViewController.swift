@@ -310,7 +310,24 @@ class LeagueEditViewController: UIViewController {
     }
     
     @IBAction func didClickShareLink(_ sender: Any?) {
-        
+        guard let id = league?.id else { return }
+        if let shareLink = league?.shareLink, let url = URL(string: shareLink) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            showLoadingIndicator()
+            FirebaseAPIService().cloudFunction(functionName: "generateShareLink", method: "POST", params: ["type": "leagues", "id": id]) { [weak self] (result, error) in
+                DispatchQueue.main.async {
+                    self?.hideLoadingIndicator()
+                    print("Result \(String(describing: result)) error \(String(describing: error))")
+                    if let result = result as? [String: Any], let link = result["shareLink"] as? String {
+                        self?.league?.dict["shareLink"] = link // temporary
+                        self?.refresh()
+                    } else {
+                        self?.simpleAlert("Generate link failed", defaultMessage: "Could not generate share link", error: error as NSError?)
+                    }
+                }
+            }
+        }
     }
 }
 
