@@ -315,7 +315,9 @@ class LeagueEditViewController: UIViewController {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
             showLoadingIndicator()
-            FirebaseAPIService().cloudFunction(functionName: "generateShareLink", method: "POST", params: ["type": "leagues", "id": id]) { [weak self] (result, error) in
+            let name = league?.name ?? "Panna Social Leagues"
+            let info = league?.info ?? "Join a league on Panna and play pickup."
+            FirebaseAPIService().cloudFunction(functionName: "generateShareLink", method: "POST", params: ["type": "leagues", "id": id, "socialTitle": name, "socialDescription": info]) { [weak self] (result, error) in
                 DispatchQueue.main.async {
                     self?.hideLoadingIndicator()
                     print("Result \(String(describing: result)) error \(String(describing: error))")

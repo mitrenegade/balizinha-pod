@@ -228,7 +228,7 @@ public class LeagueService: NSObject {
         }
         
         let ref = firRef.child("leagues").child(id)
-        ref.observe(.value) { [weak self] (snapshot) in
+        ref.observe(.value) { (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
@@ -239,4 +239,14 @@ public class LeagueService: NSObject {
             completion(league)
         }
     }
+    
+    public class func delete(_ league: League) {
+        let id = league.id
+        let queryRef = firRef.child("leagues").child(id)
+        queryRef.setValue(nil)
+        
+        let playersRef = firRef.child("leaguePlayers").child(id)
+        playersRef.setValue(nil)
+    }
+
 }

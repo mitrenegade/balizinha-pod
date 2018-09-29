@@ -64,6 +64,29 @@ extension LeagueListViewController {
         guard let league = objects[indexPath.row] as? League else { return }
         performSegue(withIdentifier: "toLeague", sender: league)
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard indexPath.row < objects.count else {
+            return
+        }
+        guard let league = objects[indexPath.row] as? League else { return }
+        
+        if editingStyle == .delete {
+            let name: String = league.name ?? ""
+            let alert = UIAlertController(title: "Delete league", message: "Are you sure you want to delete league \(league.id) \(name)? This cannot be undone.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) in
+                if let index = self.objects.firstIndex(of: league) {
+                    LeagueService.delete(league)
+                    self.objects.remove(at: index)
+                    self.tableView.reloadData()
+                } else {
+                    print("Could not delete league")
+                }
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alert, animated: true)
+        }
+    }
 }
 
 extension LeagueListViewController: LeagueViewDelegate {
