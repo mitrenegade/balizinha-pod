@@ -8,6 +8,7 @@
 
 import UIKit
 import Balizinha
+import Firebase
 
 class FeedItemsListViewController: ListViewController {
     @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
@@ -70,6 +71,42 @@ class FeedItemsListViewController: ListViewController {
         load()
         cancelInput()
     }
+    
+    override func load() {
+        let ref: DatabaseQuery
+        ref = firRef.child(refName)
+        if let leagueId = leagueId {
+            ref.queryEqual(toValue: leagueId, childKey: "leagueId")
+        }
+        ref.queryOrdered(byChild: "createdAt")
+        ref.observe(.value) {[weak self] (snapshot) in
+            guard snapshot.exists() else { return }
+            if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
+                self?.objects.removeAll()
+                for dict: DataSnapshot in allObjects {
+                    if let object = self?.createObject(from: dict) {
+                        self?.objects.append(object)
+                    }
+                }
+                self?.objects.sort(by: { (p1, p2) -> Bool in
+                    guard let t1 = p1.createdAt else { return false }
+                    guard let t2 = p2.createdAt else { return true}
+                    return t1 > t2
+                })
+                
+                self?.reloadTable()
+            }
+        }
+    }
+    
+    override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
+        let feedItem = FeedItem(snapshot: snapshot)
+        if feedItem.visible {
+            return feedItem
+        }
+        return nil
+    }
+
 }
 
 extension FeedItemsListViewController {
