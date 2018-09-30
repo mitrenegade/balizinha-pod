@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="SYr-ok-idw">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -139,8 +139,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Khw-ck-jxh">
                                 <rect key="frame" x="0.0" y="20" width="375" height="50"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name, email, or id" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GVb-pp-KIx">
-                                        <rect key="frame" x="13" y="10" width="288" height="30"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select a league" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GVb-pp-KIx">
+                                        <rect key="frame" x="80" y="10" width="287" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="search"/>
@@ -148,25 +148,22 @@
                                             <outlet property="delegate" destination="SYr-ok-idw" id="hTT-NV-NB9"/>
                                         </connections>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b1E-WP-wcc">
-                                        <rect key="frame" x="309" y="7" width="50" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="Cmg-JF-d3o"/>
-                                        </constraints>
-                                        <state key="normal" title="Search"/>
-                                        <connections>
-                                            <action selector="didClickSearch:" destination="SYr-ok-idw" eventType="touchUpInside" id="XmM-Rl-umZ"/>
-                                        </connections>
-                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="League:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LN3-N0-yDH">
+                                        <rect key="frame" x="8" y="14.5" width="64" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="b1E-WP-wcc" secondAttribute="trailing" constant="16" id="3bg-Q8-fMi"/>
+                                    <constraint firstAttribute="trailing" secondItem="GVb-pp-KIx" secondAttribute="trailing" constant="8" id="7NE-2e-awh"/>
                                     <constraint firstAttribute="height" constant="50" id="A1W-63-AUw"/>
-                                    <constraint firstItem="b1E-WP-wcc" firstAttribute="leading" secondItem="GVb-pp-KIx" secondAttribute="trailing" constant="8" symbolic="YES" id="S4Z-kv-p2f"/>
+                                    <constraint firstItem="GVb-pp-KIx" firstAttribute="leading" secondItem="LN3-N0-yDH" secondAttribute="trailing" constant="8" id="O1A-ea-ZLv"/>
                                     <constraint firstItem="GVb-pp-KIx" firstAttribute="centerY" secondItem="Khw-ck-jxh" secondAttribute="centerY" id="Uue-jU-jzC"/>
-                                    <constraint firstItem="GVb-pp-KIx" firstAttribute="leading" secondItem="Khw-ck-jxh" secondAttribute="leading" constant="13" id="w8z-0O-Hu7"/>
-                                    <constraint firstItem="b1E-WP-wcc" firstAttribute="top" secondItem="Khw-ck-jxh" secondAttribute="top" constant="7" id="yBf-W3-mMm"/>
+                                    <constraint firstItem="LN3-N0-yDH" firstAttribute="leading" secondItem="Khw-ck-jxh" secondAttribute="leading" constant="8" id="ZQ0-XI-eS9"/>
+                                    <constraint firstItem="LN3-N0-yDH" firstAttribute="centerY" secondItem="Khw-ck-jxh" secondAttribute="centerY" id="r1p-LJ-lEa"/>
+                                    <constraint firstItem="GVb-pp-KIx" firstAttribute="leading" secondItem="Khw-ck-jxh" secondAttribute="leading" constant="80" id="w8z-0O-Hu7"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -184,7 +181,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="sw4-5A-oK1"/>
                     <connections>
-                        <outlet property="buttonSearch" destination="b1E-WP-wcc" id="EvT-ab-Fhm"/>
                         <outlet property="constraintBottomOffset" destination="RJe-Z7-1Bl" id="0b3-eo-E6t"/>
                         <outlet property="containerSearch" destination="Khw-ck-jxh" id="f4D-Nz-e7Y"/>
                         <outlet property="inputSearch" destination="GVb-pp-KIx" id="wUj-KB-BIz"/>
