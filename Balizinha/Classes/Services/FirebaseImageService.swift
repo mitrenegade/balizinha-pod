@@ -147,4 +147,19 @@ public class FirebaseImageService: NSObject {
             }
         })
     }
+    
+    public func feedItemPhotoUrl(with id: String?, completion: @escaping ((URL?)->Void)) {
+        guard let id = id else {
+            completion(nil)
+            return
+        }
+        let ref = FirebaseImageService.referenceForImage(type: .feed, id: id)
+        ref?.downloadURL(completion: { (url, error) in
+            if let url = url {
+                completion(url)
+            } else {
+                completion(nil)
+            }
+        })
+    }
 }

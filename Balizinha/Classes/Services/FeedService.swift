@@ -22,14 +22,14 @@ public class FeedService: NSObject {
         
         let id = FirebaseAPIService.uniqueId()
         let feedRef = firRef.child("feedItems").child(id)
-        let type: FeedItemType = .chat
         let userId = player.id
         
-        var params: [String: Any] = ["type": type.rawValue, "leagueId": leagueId, "userId": userId]
+        var params: [String: Any] = ["leagueId": leagueId, "userId": userId]
         if let message = message {
             params["message"] = message
         }
         if let image = image {
+            params["type"] = FeedItemType.photo.rawValue
             FirebaseImageService.uploadImage(image: image, type: .feed, uid: id) { (url) in
                 params["image"] = true
                 feedRef.setValue(params) { (error, ref) in
@@ -38,6 +38,7 @@ public class FeedService: NSObject {
                 }
             }
         } else {
+            params["type"] = FeedItemType.chat.rawValue
             feedRef.setValue(params) { (error, ref) in
                 print("Chat created for user \(userId) league \(leagueId) message \(String(describing: message))")
                 completion?(error)

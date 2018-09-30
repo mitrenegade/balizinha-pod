@@ -10,6 +10,9 @@
 		0CC2EF0F4E7313F9D13FE586 /* Pods_Balizinha_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3517D46F3B5DE3D0C331AA /* Pods_Balizinha_Example.framework */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		8E18D70721304B84007BE201 /* Leagues.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E18D70621304B84007BE201 /* Leagues.storyboard */; };
+		8E5AD7F021612D9E00A78539 /* FeedItemsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5AD7EF21612D9E00A78539 /* FeedItemsListViewController.swift */; };
+		8E5AD7F22161580800A78539 /* FeedItems.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E5AD7F12161580800A78539 /* FeedItems.storyboard */; };
+		8E5AD7F4216158FF00A78539 /* FeedItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5AD7F3216158FF00A78539 /* FeedItemCell.swift */; };
 		8E8D62D82149CF7F0043C204 /* UtilsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8D62D72149CF7F0043C204 /* UtilsViewController.swift */; };
 		8E97406021132A7100242907 /* ActionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97403C21132A5600242907 /* ActionListViewController.swift */; };
 		8E97406121132A7100242907 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97403D21132A5700242907 /* Constants.swift */; };
@@ -77,6 +80,9 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		7F3517D46F3B5DE3D0C331AA /* Pods_Balizinha_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E18D70621304B84007BE201 /* Leagues.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Leagues.storyboard; sourceTree = "<group>"; };
+		8E5AD7EF21612D9E00A78539 /* FeedItemsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsListViewController.swift; sourceTree = "<group>"; };
+		8E5AD7F12161580800A78539 /* FeedItems.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FeedItems.storyboard; sourceTree = "<group>"; };
+		8E5AD7F3216158FF00A78539 /* FeedItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemCell.swift; sourceTree = "<group>"; };
 		8E8D62D72149CF7F0043C204 /* UtilsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilsViewController.swift; sourceTree = "<group>"; };
 		8E97403C21132A5600242907 /* ActionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };
 		8E97403D21132A5700242907 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -174,6 +180,7 @@
 				8E97405E21132A7000242907 /* Assets.xcassets */,
 				8E97405721132A6E00242907 /* Cells */,
 				8E97403D21132A5700242907 /* Constants.swift */,
+				8E5AD7EF21612D9E00A78539 /* FeedItemsListViewController.swift */,
 				8E97403E21132A5900242907 /* LeagueEditViewController.swift */,
 				8E97404621132A5E00242907 /* LeagueListViewController.swift */,
 				8E97405421132A6A00242907 /* LeaguePlayersViewController.swift */,
@@ -261,6 +268,7 @@
 			children = (
 				8E97403F21132A5B00242907 /* LaunchScreen.storyboard */,
 				8E18D70621304B84007BE201 /* Leagues.storyboard */,
+				8E5AD7F12161580800A78539 /* FeedItems.storyboard */,
 				8E97404C21132A6400242907 /* Organizers.storyboard */,
 				8E97404E21132A6400242907 /* Main.storyboard */,
 				8E995876211E887800101F50 /* Payments.storyboard */,
@@ -281,6 +289,7 @@
 				8E97405D21132A6E00242907 /* LeagueCell.swift */,
 				C6502BE32126F4A7004A3EED /* EventCell.swift */,
 				8EA99E14215342E4001BC643 /* FeedbackCell.swift */,
+				8E5AD7F3216158FF00A78539 /* FeedItemCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -391,6 +400,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E97406721132A7100242907 /* PaymentHeaderView.xib in Resources */,
+				8E5AD7F22161580800A78539 /* FeedItems.storyboard in Resources */,
 				8E97408121132E6700242907 /* GoogleService-Info-dev.plist in Resources */,
 				8E97406F21132A7100242907 /* Main.storyboard in Resources */,
 				C6502BD82125270B004A3EED /* Events.storyboard in Resources */,
@@ -495,6 +505,7 @@
 				8E8D62D82149CF7F0043C204 /* UtilsViewController.swift in Sources */,
 				8E97407C21132A7100242907 /* LeagueCell.swift in Sources */,
 				C6993A922129EE560052B69D /* EventPlayersViewController.swift in Sources */,
+				8E5AD7F021612D9E00A78539 /* FeedItemsListViewController.swift in Sources */,
 				8E97407021132A7100242907 /* PlayerListViewController.swift in Sources */,
 				8E97407A21132A7100242907 /* OrganizerCell.swift in Sources */,
 				8EBB4AF6211F561400B5B907 /* ActivityIndicatorOverlay.swift in Sources */,
@@ -515,6 +526,7 @@
 				C6502BE42126F4A7004A3EED /* EventCell.swift in Sources */,
 				8EA99E15215342E4001BC643 /* FeedbackCell.swift in Sources */,
 				8E97406621132A7100242907 /* PlayerIcon.swift in Sources */,
+				8E5AD7F4216158FF00A78539 /* FeedItemCell.swift in Sources */,
 				8E97406821132A7100242907 /* ListViewController.swift in Sources */,
 				8E97407921132A7100242907 /* ActionCell.swift in Sources */,
 				8E97407621132A7100242907 /* PaymentsListViewController.swift in Sources */,

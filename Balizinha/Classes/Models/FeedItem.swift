@@ -12,7 +12,7 @@ public enum FeedItemType: String {
     case photo
     case other
 }
-class FeedItem: FirebaseBaseModel {
+public class FeedItem: FirebaseBaseModel {
     public var type: FeedItemType {
         get {
             if let typeString = self.dict["type"] as? String, let type = FeedItemType(rawValue: typeString) {
@@ -45,6 +45,16 @@ class FeedItem: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
+
+    public var message: String? {
+        get {
+            return self.dict["message"] as? String
+        }
+        set {
+            self.dict["message"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
     
     public var visible: Bool { // whether an action should appear in the feed
         get {
@@ -56,19 +66,15 @@ class FeedItem: FirebaseBaseModel {
         }
     }
     
-    public var hasImage: Bool {
-        get {
-            return self.dict["image"] as? Bool ?? false
-        }
-        set {
-            self.dict["image"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
-        }
-    }
-    
     // generic string to display for backwards compatibility
     let GENERIC_FEED_MESSAGE = ""
     public var defaultMessage: String {
         return self.dict["defaultMessage"] as? String ?? GENERIC_FEED_MESSAGE
+    }
+}
+
+public extension FeedItem {
+    public var hasPhoto: Bool {
+        return type == .photo
     }
 }
