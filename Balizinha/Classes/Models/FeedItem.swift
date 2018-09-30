@@ -46,16 +46,6 @@ class FeedItem: FirebaseBaseModel {
         }
     }
     
-    public var photoId: String? {
-        get {
-            return self.dict["photoId"] as? String
-        }
-        set {
-            self.dict["photoId"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
-        }
-    }
-    
     public var visible: Bool { // whether an action should appear in the feed
         get {
             return self.dict["visible"] as? Bool ?? true
@@ -66,8 +56,19 @@ class FeedItem: FirebaseBaseModel {
         }
     }
     
+    public var hasImage: Bool {
+        get {
+            return self.dict["image"] as? Bool ?? false
+        }
+        set {
+            self.dict["image"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }
+    
     // generic string to display for backwards compatibility
+    let GENERIC_FEED_MESSAGE = ""
     public var defaultMessage: String {
-        return self.dict["defaultMessage"] as? String ?? GENERIC_CHAT
+        return self.dict["defaultMessage"] as? String ?? GENERIC_FEED_MESSAGE
     }
 }
