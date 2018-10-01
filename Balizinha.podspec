@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Balizinha'
-  s.version          = '0.3.15'
+  s.version          = '0.3.16'
   s.summary          = 'Services and models for the Balizinha backend'
 
 # This description is used to generate tags and improve search results.
