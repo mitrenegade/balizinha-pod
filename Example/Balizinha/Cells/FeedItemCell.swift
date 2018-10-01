@@ -27,7 +27,7 @@ class FeedItemCell: UITableViewCell {
         } else {
             labelMessage.text = message
         }
-        labelId.text = feedItem.id
+        labelId.text = "id: \(feedItem.id)"
         labelCreated.text = feedItem.createdAt?.dateString()
 
         if feedItem.hasPhoto {

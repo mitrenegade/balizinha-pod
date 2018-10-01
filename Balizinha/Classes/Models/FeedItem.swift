@@ -28,10 +28,10 @@ public class FeedItem: FirebaseBaseModel {
     
     public var userId: String? {
         get {
-            return self.dict["user"] as? String
+            return self.dict["userId"] as? String
         }
         set {
-            self.dict["user"] = newValue
+            self.dict["userId"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }

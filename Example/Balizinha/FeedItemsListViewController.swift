@@ -73,14 +73,15 @@ class FeedItemsListViewController: ListViewController {
     }
     
     override func load() {
-        let ref: DatabaseQuery
-        ref = firRef.child(refName)
+        var ref: DatabaseQuery = firRef.child(refName)
         if let leagueId = leagueId {
-            ref.queryEqual(toValue: leagueId, childKey: "leagueId")
+            ref = ref.queryOrdered(byChild: "leagueId").queryEqual(toValue: leagueId)
         }
-        ref.queryOrdered(byChild: "createdAt")
         ref.observe(.value) {[weak self] (snapshot) in
-            guard snapshot.exists() else { return }
+            guard snapshot.exists() else {
+                self?.objects.removeAll()
+                return
+            }
             if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
                 self?.objects.removeAll()
                 for dict: DataSnapshot in allObjects {
