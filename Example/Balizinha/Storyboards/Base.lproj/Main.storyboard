@@ -87,6 +87,7 @@
                         <segue destination="RJe-jg-Ef2" kind="show" identifier="toEvents" id="Zpw-mn-4OZ"/>
                         <segue destination="v89-CX-aUY" kind="show" identifier="toUtils" id="LUy-FA-fzi"/>
                         <segue destination="cw7-ZE-qAm" kind="show" identifier="toFeedback" id="1lY-Dj-DNS"/>
+                        <segue destination="Eqd-6O-tYQ" kind="show" identifier="toFeed" id="zKt-um-6vp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -124,6 +125,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4eu-Np-hHw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="826" y="366"/>
+        </scene>
+        <!--FeedItems-->
+        <scene sceneID="BFj-5t-YhL">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="FeedItems" storyboardName="FeedItems" id="Eqd-6O-tYQ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="utW-QC-BBZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="766" y="403"/>
         </scene>
         <!--Utils View Controller-->
         <scene sceneID="xj7-tR-hh9">
@@ -393,6 +402,13 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qee-qq-RSM" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1697" y="116"/>
+        </scene>
+        <!--Storyboard Reference-->
+        <scene sceneID="yW0-xp-H0p">
+            <objects>
+                <viewControllerPlaceholder id="YkQ-WW-scB" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xUC-xT-oeO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>

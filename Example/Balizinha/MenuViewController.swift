@@ -16,13 +16,14 @@ enum MenuItem: String {
     case actions = "Actions"
     case payments = "Payments"
     case leagues = "Leagues"
+    case feed = "Feed"
     case feedback = "Feedback/Inquiries"
     case version = "Version"
     case utils = "Utils"
     case login = "Login"
     case logout = "Logout"
 }
-fileprivate let loggedInMenu: [MenuItem] = [.players, .events, .actions, .payments, .leagues, .feedback, .version, .utils, .logout]
+fileprivate let loggedInMenu: [MenuItem] = [.players, .events, .actions, .payments, .leagues, .feed, .feedback, .version, .utils, .logout]
 fileprivate let loggedOutMenu: [MenuItem] = [.login]
 
 class MenuViewController: UIViewController {
@@ -156,6 +157,8 @@ extension MenuViewController: UITableViewDelegate {
             performSegue(withIdentifier: "toPayments", sender: nil)
         case .leagues:
             performSegue(withIdentifier: "toLeagues", sender: nil)
+        case .feed:
+            performSegue(withIdentifier: "toFeed", sender: nil)
         case .feedback:
             performSegue(withIdentifier: "toFeedback", sender: nil)
         case .utils:

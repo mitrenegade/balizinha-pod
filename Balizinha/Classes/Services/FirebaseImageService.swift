@@ -20,6 +20,7 @@ public class FirebaseImageService: NSObject {
         case player
         case event
         case league
+        case feed
     }
     
     fileprivate class func referenceForImage(type: ImageType, id: String) -> StorageReference? {
@@ -138,6 +139,21 @@ public class FirebaseImageService: NSObject {
             return
         }
         let ref = FirebaseImageService.referenceForImage(type: .event, id: id)
+        ref?.downloadURL(completion: { (url, error) in
+            if let url = url {
+                completion(url)
+            } else {
+                completion(nil)
+            }
+        })
+    }
+    
+    public func feedItemPhotoUrl(with id: String?, completion: @escaping ((URL?)->Void)) {
+        guard let id = id else {
+            completion(nil)
+            return
+        }
+        let ref = FirebaseImageService.referenceForImage(type: .feed, id: id)
         ref?.downloadURL(completion: { (url, error) in
             if let url = url {
                 completion(url)
