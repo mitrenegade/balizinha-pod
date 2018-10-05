@@ -31,7 +31,6 @@ public class FeedService: NSObject {
         if let image = image {
             params["type"] = FeedItemType.photo.rawValue
             FirebaseImageService.uploadImage(image: image, type: .feed, uid: id) { (url) in
-                params["image"] = true
                 feedRef.setValue(params) { (error, ref) in
                     print("Chat created for user \(userId) league \(leagueId) message \(String(describing: message))")
                     completion?(error)
@@ -44,5 +43,19 @@ public class FeedService: NSObject {
                 completion?(error)
             }
         }
+    }
+    
+    public func observeFeedItems(for league: League, completion: @escaping (FeedItem)->Void) {
+        let queryRef = firRef.child("feedItems").queryOrdered(byChild: "leagueId").queryEqual(toValue: league.id)
+        
+        // query for feedItems
+        queryRef.observe(.value, with: { (snapshot) in
+            if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
+                for snapshot in allObjects {
+                    let feedItem = FeedItem(snapshot: snapshot)
+                    completion(feedItem)
+                }
+            }
+        })
     }
 }
