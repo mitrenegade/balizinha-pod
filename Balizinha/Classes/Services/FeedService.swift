@@ -22,18 +22,32 @@ public class FeedService: NSObject {
         let id = FirebaseAPIService.uniqueId()
         let userId = player.id
         
-        var params: [String: Any] = ["leagueId": leagueId, "userId": userId]
-        if let message = message {
+        var params: [String: Any] = ["leagueId": leagueId, "userId": userId, "id": id]
+        if let message = message, !message.isEmpty {
             params["message"] = message
         }
         if let image = image {
             params["type"] = FeedItemType.photo.rawValue
+            let dispatchGroup = DispatchGroup()
+            var createResult: Any?
+            var createError: Error?
+            dispatchGroup.enter()
             FirebaseImageService.uploadImage(image: image, type: .feed, uid: id) { (url) in
-                FirebaseAPIService().cloudFunction(functionName: "createFeedItem", params: params, completion: { (result, error) in
-                    print("result \(String(describing: result)) error \(String(describing: error))")
-                    completion?(error)
-                })
+                dispatchGroup.leave()
             }
+
+            dispatchGroup.enter()
+            FirebaseAPIService().cloudFunction(functionName: "createFeedItem", params: params, completion: { (result, err) in
+                createResult = result
+                createError = err
+                dispatchGroup.leave()
+            })
+            
+            dispatchGroup.notify(queue: DispatchQueue.main) {
+                print("result \(String(describing: createResult)) error \(String(describing: createError))")
+                completion?(createError)
+            }
+            
         } else {
             params["type"] = FeedItemType.chat.rawValue
             FirebaseAPIService().cloudFunction(functionName: "createFeedItem", params: params, completion: { (result, error) in
