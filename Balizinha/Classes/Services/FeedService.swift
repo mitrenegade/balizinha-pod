@@ -65,9 +65,16 @@ public class FeedService: NSObject {
             if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
                 for snapshot in allObjects {
                     let feedItem = FeedItem(snapshot: snapshot)
-                    completion(feedItem)
+                    if feedItem.visible {
+                        completion(feedItem)
+                    }
                 }
             }
         })
+    }
+    
+    public func delete(feedItemId: String) {
+        let queryRef = firRef.child("feedItems").child(feedItemId)
+        queryRef.updateChildValues(["visible": false])
     }
 }

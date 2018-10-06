@@ -118,6 +118,11 @@ extension FeedItemsListViewController {
         cell.configure(feedItem: feedItem)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard indexPath.row < objects.count, let feedItem = objects[indexPath.row] as? FeedItem else { return }
+        FeedService.shared.delete(feedItemId: feedItem.id)
+    }
 }
 
 extension FeedItemsListViewController {
