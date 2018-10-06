@@ -67,9 +67,10 @@ public class FeedItem: FirebaseBaseModel {
     }
     
     // generic string to display for backwards compatibility
-    let GENERIC_FEED_MESSAGE = ""
+    let GENERIC_FEED_MESSAGE = "..."
+    let GENERIC_PHOTO_MESSAGE = "posted an image"
     public var defaultMessage: String {
-        return self.dict["defaultMessage"] as? String ?? GENERIC_FEED_MESSAGE
+        return self.dict["defaultMessage"] as? String ?? (hasPhoto ? GENERIC_PHOTO_MESSAGE : GENERIC_FEED_MESSAGE)
     }
 }
 
