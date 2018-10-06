@@ -11,12 +11,16 @@ import Balizinha
 
 class FeedItemCell: UITableViewCell {
     @IBOutlet weak var labelMessage: UILabel!
+    @IBOutlet weak var labelLeague: UILabel!
     @IBOutlet weak var labelId: UILabel!
     @IBOutlet weak var labelCreated: UILabel!
     
     @IBOutlet weak var imagePhoto: RAImageView?
 
     func configure(feedItem: FeedItem) {
+        LeagueService.shared.withId(id: feedItem.leagueId!) { [weak self] (league) in
+            self?.labelLeague.text = "League: \(league!.id)"
+        }
         labelMessage.text = ".."
         let message = feedItem.message ?? feedItem.defaultMessage
         if let userId = feedItem.userId {
