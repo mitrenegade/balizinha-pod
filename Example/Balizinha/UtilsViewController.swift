@@ -15,6 +15,7 @@ enum UtilItem: String, CaseIterable {
     case recountLeagueStats
     case migrateEventImages
     case cleanupAnonymousAuth
+    case refreshAllPlayerTopics
 
     var details: String {
         switch self {
@@ -26,21 +27,50 @@ enum UtilItem: String, CaseIterable {
             return "Ensures event images are stored under the event id"
         case .cleanupAnonymousAuth:
             return "Removes old anonymous auth users"
+        case .refreshAllPlayerTopics:
+            return "Enables notifications for leagues and events for a player"
+            
         }
     }
 }
+
 class UtilsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     var menuItems: [UtilItem] = UtilItem.allCases
-    
+
+    // player selection
+    let inputPlayerSelector: UITextField = UITextField()
+    var pickerView: UIPickerView = UIPickerView()
+    var players: [Player] = []
+    var selectingPlayerId: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationItem.title = "Utils"
         activityOverlay.setup(frame: view.frame)
-        view.addSubview(activityOverlay)
+        tableView.addSubview(activityOverlay)
+        
+        pickerView.sizeToFit()
+        pickerView.backgroundColor = .white
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        inputPlayerSelector.inputView = pickerView
+        
+        let keyboardNextButtonView = UIToolbar()
+        keyboardNextButtonView.sizeToFit()
+        keyboardNextButtonView.barStyle = UIBarStyle.black
+        keyboardNextButtonView.isTranslucent = true
+        keyboardNextButtonView.tintColor = UIColor.white
+        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.done, target: self, action: #selector(cancelInput))
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let next: UIBarButtonItem = UIBarButtonItem(title: "Go", style: UIBarButtonItemStyle.done, target: self, action: #selector(selectPlayer))
+        keyboardNextButtonView.setItems([flex, cancel, next], animated: true)
+        
+        inputPlayerSelector.inputAccessoryView = keyboardNextButtonView
+
     }
 
     override func viewDidLayoutSubviews() {
@@ -78,6 +108,8 @@ extension UtilsViewController: UITableViewDelegate {
             migrateEventImages()
         case .cleanupAnonymousAuth:
             cleanupAnonymousAuth()
+        case .refreshAllPlayerTopics:
+            refreshAllPlayerTopics()
         default:
             activityOverlay.show()
             FirebaseAPIService().cloudFunction(functionName: selection.rawValue, method: "POST", params: nil) { [weak self] (result, error) in
@@ -236,5 +268,102 @@ extension UtilsViewController {
                 print("migrateEventUrls: photoUrl \(photoUrlCount) photoUrlFailed \(photoUrlFailed) photoId \(photoIdCount) photoIdFailed \(photoIdFailed) alreadyConverted \(alreadyConvertedCount) noPhotoUrl \(noPhotoUrlCount)")
             }
         }
+    }
+}
+
+// refresh player topics
+extension UtilsViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    func refreshAllPlayerTopics() {
+        view.addSubview(inputPlayerSelector)
+        activityOverlay.show()
+        let playerRef = firRef.child("players").queryOrdered(byChild: "createdAt")
+        playerRef.observe(.value) {[weak self] (snapshot) in
+            guard snapshot.exists() else { return }
+            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+                self?.players.removeAll()
+                for playerDict: DataSnapshot in allObjects {
+                    let player = Player(snapshot: playerDict)
+                    self?.players.append((player))
+                }
+                self?.players.sort(by: { (p1, p2) -> Bool in
+                    guard let t1 = p1.name else { return false }
+                    guard let t2 = p2.name else { return true}
+                    if p1.id == "48PJmg3CsXWPKaQUUf496Pt1Xjh1" { return true }
+                    if p2.id == "48PJmg3CsXWPKaQUUf496Pt1Xjh1" { return false }
+                    return t1 > t2
+                })
+                self?.activityOverlay.hide()
+                self?.inputPlayerSelector.becomeFirstResponder()
+                self?.selectingPlayerId = self?.players[0].id
+            }
+        }
+    }
+
+    @objc func cancelInput() {
+        selectingPlayerId = nil
+        view.endEditing(true)
+        inputPlayerSelector.removeFromSuperview()
+    }
+    
+    @objc func selectPlayer() {
+        view.endEditing(true)
+        inputPlayerSelector.removeFromSuperview()
+        guard let userId = selectingPlayerId else {
+            simpleAlert("No player selected", message: nil)
+            return
+        }
+        print("RefreshAllPlayerTopics for userId \(userId)")
+        let params: [String: Any] = ["userId": userId, "pushEnabled": true]
+        activityOverlay.show()
+        FirebaseAPIService().cloudFunction(functionName: "refreshAllPlayerTopics", method: "POST", params: params) { [weak self] (result, error) in
+            if let error = error as NSError? {
+                DispatchQueue.main.async {
+                    self?.simpleAlert("RefreshAllPlayerTopics failed", defaultMessage: "There was an error creating topics for player \(userId)", error: error)
+                }
+            } else {
+                FirebaseAPIService().cloudFunction(functionName: "refreshPlayerSubscriptions", params: params) { [weak self] (result, error) in
+                    print("Result \(String(describing: result)) error \(String(describing: error))")
+                    DispatchQueue.main.async {
+                        if let error = error as NSError? {
+                            self?.simpleAlert("RefreshPlayerSubscriptions failed", defaultMessage: "There was an error creating topics for player \(userId)", error: error)
+                        } else {
+                            var subscribed: Int = -1
+                            var unsubscribed: Int = -1
+                            if let dict = result as? [String: Any] {
+                                if let sub = dict["subscribed"] as? Int {
+                                    subscribed = sub
+                                }
+                                if let unsub = dict["unsubscribed"] as? Int {
+                                    unsubscribed = unsub
+                                }
+                            }
+                            self?.simpleAlert("RefreshSubscriptions complete", message: "Subscribed \(subscribed) unsubscribed \(unsubscribed)")
+                            self?.activityOverlay.hide()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return players.count
+    }
+    
+    // The data to return for the row and component (column) that's being passed in
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let index = row
+        guard index < players.count else { return nil }
+        return "\(players[index].name ?? "Anon") \(players[index].id)"
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let index = row
+        guard index < players.count else { return }
+        selectingPlayerId = players[index].id
     }
 }

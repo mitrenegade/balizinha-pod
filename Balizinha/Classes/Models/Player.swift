@@ -164,5 +164,19 @@ public class Player: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
+    
+    public var notificationsEnabled: Bool {
+        get {
+            guard let dict = self.dict else { return true }
+            if let val = dict["notificationsEnabled"] as? Bool {
+                return val
+            }
+            return true
+        }
+        set {
+            self.dict["notificationsEnabled"] = newValue
+            self.firebaseRef?.updateChildValues(self.dict)
+        }
+    }    
 }
 
