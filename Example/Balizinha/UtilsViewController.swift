@@ -324,7 +324,22 @@ extension UtilsViewController: UIPickerViewDataSource, UIPickerViewDelegate {
                 FirebaseAPIService().cloudFunction(functionName: "refreshPlayerSubscriptions", params: params) { [weak self] (result, error) in
                     print("Result \(String(describing: result)) error \(String(describing: error))")
                     DispatchQueue.main.async {
-                        self?.activityOverlay.hide()
+                        if let error = error as NSError? {
+                            self?.simpleAlert("RefreshPlayerSubscriptions failed", defaultMessage: "There was an error creating topics for player \(userId)", error: error)
+                        } else {
+                            var subscribed: Int = -1
+                            var unsubscribed: Int = -1
+                            if let dict = result as? [String: Any] {
+                                if let sub = dict["subscribed"] as? Int {
+                                    subscribed = sub
+                                }
+                                if let unsub = dict["unsubscribed"] as? Int {
+                                    unsubscribed = unsub
+                                }
+                            }
+                            self?.simpleAlert("RefreshSubscriptions complete", message: "Subscribed \(subscribed) unsubscribed \(unsubscribed)")
+                            self?.activityOverlay.hide()
+                        }
                     }
                 }
             }
