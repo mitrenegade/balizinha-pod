@@ -13,6 +13,7 @@ import FirebaseDatabase
 
 class PlayerListViewController: ListViewController {
     var players: [(player: Player, expanded: Bool)] = []
+    var profileImageUrl: [String: String] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,11 @@ class PlayerListViewController: ListViewController {
                 self?.players.removeAll()
                 for playerDict: DataSnapshot in allObjects {
                     let player = Player(snapshot: playerDict)
+                    FirebaseImageService().profileUrl(with: player.id) {[weak self] (url) in
+                        if let urlString = url?.absoluteString {
+                            self?.profileImageUrl[player.id] = urlString
+                        }
+                    }
                     self?.players.append((player, false))
                 }
                 self?.players.sort(by: { (p1, p2) -> Bool in
@@ -53,7 +59,7 @@ extension PlayerListViewController {
             let tuple = players[indexPath.row]
             let player = tuple.player
             let expanded = tuple.expanded
-            cell.configure(player: player, expanded: expanded)
+            cell.configure(player: player, expanded: expanded, url: profileImageUrl[player.id])
         } else {
             cell.reset()
         }
