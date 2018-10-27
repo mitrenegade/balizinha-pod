@@ -42,10 +42,11 @@ public class Action: FirebaseBaseModel {
     public var userId: String? {
         // if user is nil, then it should be a system message
         get {
-            return self.dict["user"] as? String
+            return self.dict["userId"] as? String ?? self.dict["user"] as? String
         }
         set {
-            self.dict["user"] = newValue
+            self.dict["userId"] = newValue
+            self.dict["user"] = newValue // legacy
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
@@ -53,10 +54,7 @@ public class Action: FirebaseBaseModel {
     public var username: String? {
         // makes it easier to generate displayString
         get {
-            if let username = self.dict["username"] as? String {
-                return username
-            }
-            return nil
+            return self.dict["username"] as? String
         }
         set {
             self.dict["username"] = newValue
@@ -66,14 +64,10 @@ public class Action: FirebaseBaseModel {
     
     public var eventId: String? { // if an action is directly related to an event
         get {
-            if let eventId = self.dict["eventId"] as? String {
-                return eventId
-            } else {
-                // legacy
-                return self.dict["event"] as? String
-            }
+            return self.dict["eventId"] as? String ?? self.dict["event"] as? String
         }
         set {
+            self.dict["event"] = newValue // legacy
             self.dict["eventId"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
