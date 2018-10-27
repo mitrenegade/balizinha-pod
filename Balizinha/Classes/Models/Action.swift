@@ -42,10 +42,11 @@ public class Action: FirebaseBaseModel {
     public var userId: String? {
         // if user is nil, then it should be a system message
         get {
-            return self.dict["user"] as? String
+            return self.dict["userId"] as? String ?? self.dict["user"] as? String
         }
         set {
-            self.dict["user"] = newValue
+            self.dict["userId"] = newValue
+            self.dict["user"] = newValue // legacy
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
@@ -53,10 +54,7 @@ public class Action: FirebaseBaseModel {
     public var username: String? {
         // makes it easier to generate displayString
         get {
-            if let username = self.dict["username"] as? String {
-                return username
-            }
-            return nil
+            return self.dict["username"] as? String
         }
         set {
             self.dict["username"] = newValue
@@ -64,12 +62,13 @@ public class Action: FirebaseBaseModel {
         }
     }
     
-    public var event: String? { // if an action is directly related to an event
+    public var eventId: String? { // if an action is directly related to an event
         get {
-            return self.dict["event"] as? String
+            return self.dict["eventId"] as? String ?? self.dict["event"] as? String
         }
         set {
-            self.dict["event"] = newValue
+            self.dict["event"] = newValue // legacy
+            self.dict["eventId"] = newValue
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
@@ -107,7 +106,7 @@ public class ActionViewModel {
         self.action = action
         switch action.type {
         case .createEvent, .joinEvent, .leaveEvent, .payForEvent:
-            if let eventId = action.event {
+            if let eventId = action.eventId {
                 EventService.shared.withId(id: eventId, completion: { [weak self] (event) in
                     self?.event = event
                 })
@@ -125,7 +124,7 @@ public class ActionViewModel {
     }
     
     public var eventName: String {
-        if let eventId = action.event, let foundEvent = EventService.shared.eventForAction(with: eventId) {
+        if let eventId = action.eventId, let foundEvent = EventService.shared.eventForAction(with: eventId) {
             return foundEvent.name ?? "an event"
         }
         return event?.name ?? "an event"

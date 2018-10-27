@@ -10,6 +10,7 @@ import UIKit
 public enum FeedItemType: String {
     case chat
     case photo
+    case action
     case other
 }
 public class FeedItem: FirebaseBaseModel {
@@ -45,6 +46,12 @@ public class FeedItem: FirebaseBaseModel {
             self.firebaseRef?.updateChildValues(self.dict)
         }
     }
+    
+    public var actionId: String? {
+        get {
+            return self.dict["actionId"] as? String
+        }
+    }
 
     public var message: String? {
         get {
@@ -71,6 +78,13 @@ public class FeedItem: FirebaseBaseModel {
     let GENERIC_PHOTO_MESSAGE = "posted an image"
     public var defaultMessage: String {
         return self.dict["defaultMessage"] as? String ?? (hasPhoto ? GENERIC_PHOTO_MESSAGE : GENERIC_FEED_MESSAGE)
+    }
+    
+    public var userCreatedFeedItem: Bool {
+        guard let userId = self.userId else { return false }
+        guard let currentUserId = AuthService.currentUser?.uid else { return false }
+        
+        return currentUserId == userId // TODO: if actions created by events also show up as feed items, filter them out
     }
 }
 

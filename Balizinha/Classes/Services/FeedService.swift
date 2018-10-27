@@ -77,4 +77,8 @@ public class FeedService: NSObject {
         let queryRef = firRef.child("feedItems").child(feedItemId)
         queryRef.updateChildValues(["visible": false])
     }
+    
+    public class func delete(feedItem: FeedItem) {
+        feedItem.visible = false
+    }
 }

@@ -24,36 +24,27 @@ class PlayerCell: UITableViewCell {
     // detail constraints
     @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint!
 
-    func configure(player: Player, expanded: Bool) {
+    func configure(player: Player, expanded: Bool, url: String?) {
         labelName.text = player.name ?? player.email ?? "Anon"
         labelId.text = player.id
         labelCreated.text = player.createdAt?.dateString()
 
-        FirebaseImageService().profileUrl(with: player.id) {[weak self] (url) in
-            DispatchQueue.main.async {
-                if let weakself = self, let urlString = url?.absoluteString {
-                    weakself.updatePhoto(urlString: urlString)
-                    
-                    if expanded {
-                        weakself.constraintImageWidth.constant = weakself.frame.size.width - 30
-                        weakself.constraintNameLeftOffset.constant = 15
-                        weakself.constraintNameTopOffset.constant = weakself.frame.size.width - 30
-                        
-                    } else {
-                        weakself.constraintImageWidth.constant = 50
-                        weakself.constraintNameLeftOffset.constant = 15 + 50 + 8
-                        weakself.constraintNameTopOffset.constant = 0
-                    }
-                } else {
-                    self?.constraintImageWidth.constant = 0
-                    self?.constraintNameLeftOffset.constant = 15
-                    self?.constraintNameTopOffset.constant = 0
-                }
+        if let urlString = url {
+            if expanded {
+                constraintImageWidth.constant = frame.size.width - 30
+                constraintNameLeftOffset.constant = 15
+                constraintNameTopOffset.constant = frame.size.width - 30
+                
+            } else {
+                constraintImageWidth.constant = 50
+                constraintNameLeftOffset.constant = 15 + 50 + 8
+                constraintNameTopOffset.constant = 0
             }
-        }
-        
-        if player.id == "oWNfx7Z4M9QVlOMfPJyH6hf8fh33" {
-            print("Here")
+            updatePhoto(urlString: urlString)
+        } else {
+            constraintImageWidth.constant = 0
+            constraintNameLeftOffset.constant = 15
+            constraintNameTopOffset.constant = 0
         }
         
         var detailText: String = ""
