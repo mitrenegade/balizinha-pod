@@ -15,7 +15,7 @@ public class ActionService: NSObject {
         let actionId = action.id
         // instead of deleting the action, just set eventActions for this action to false
         // because eventAction observers don't recognize a delete vs a change/create
-        guard let eventId = action.event else { return }
+        guard let eventId = action.eventId else { return }
         let queryRef = firRef.child("eventActions").child(eventId)
         queryRef.updateChildValues([actionId: false])
     }
