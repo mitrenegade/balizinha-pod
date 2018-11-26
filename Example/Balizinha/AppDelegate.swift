@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let urlSuffix = TESTING ? "-dev" : "-c9cd7"
         FirebaseAPIService.baseURL = URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
 
-        AuthService.startup()
+        AuthService.shared.startup()
         
         return true
     }

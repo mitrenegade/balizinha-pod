@@ -10,7 +10,7 @@
 		0CC2EF0F4E7313F9D13FE586 /* Pods_Balizinha_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F3517D46F3B5DE3D0C331AA /* Pods_Balizinha_Example.framework */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		8E09572C21ABA1000037DA17 /* LoginStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E09572B21ABA1000037DA17 /* LoginStateTests.swift */; };
-		8E09573021ABA32A0037DA17 /* MockDefaultsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E09572F21ABA32A0037DA17 /* MockDefaultsProvider.swift */; };
+		8E09573221ABA4950037DA17 /* MockDefaultsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E09572F21ABA32A0037DA17 /* MockDefaultsProvider.swift */; };
 		8E18D70721304B84007BE201 /* Leagues.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E18D70621304B84007BE201 /* Leagues.storyboard */; };
 		8E5AD7F021612D9E00A78539 /* FeedItemsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5AD7EF21612D9E00A78539 /* FeedItemsListViewController.swift */; };
 		8E5AD7F22161580800A78539 /* FeedItems.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E5AD7F12161580800A78539 /* FeedItems.storyboard */; };
@@ -375,6 +375,7 @@
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = H799H8B8DD;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 607FACCF1AFB9204008FA782;
@@ -509,7 +510,6 @@
 				8E995879211E8B5400101F50 /* PaymentSubmitViewController.swift in Sources */,
 				8E97406521132A7100242907 /* FirebaseModelIcon.swift in Sources */,
 				8E8D62D82149CF7F0043C204 /* UtilsViewController.swift in Sources */,
-				8E09573021ABA32A0037DA17 /* MockDefaultsProvider.swift in Sources */,
 				8E97407C21132A7100242907 /* LeagueCell.swift in Sources */,
 				C6993A922129EE560052B69D /* EventPlayersViewController.swift in Sources */,
 				8E5AD7F021612D9E00A78539 /* FeedItemsListViewController.swift in Sources */,
@@ -546,6 +546,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E09573221ABA4950037DA17 /* MockDefaultsProvider.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 				8E09572C21ABA1000037DA17 /* LoginStateTests.swift in Sources */,
 			);
@@ -722,7 +723,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = H799H8B8DD;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -738,7 +739,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Balizinha_Example.app/Balizinha_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Admin.app/Admin";
 			};
 			name = Debug;
 		};
@@ -749,7 +750,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = H799H8B8DD;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -761,7 +762,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Balizinha_Example.app/Balizinha_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Admin.app/Admin";
 			};
 			name = Release;
 		};

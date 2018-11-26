@@ -12,5 +12,15 @@ import Balizinha
 class MockDefaultsProvider: NSObject, DefaultsProvider {
     var dict: [String: Any] = [:]
     
+    override func setValue(_ value: Any?, forKey key: String) {
+        dict[key] = value
+    }
     
+    override func value(forKey key: String) -> Any? {
+        return dict[key]
+    }
+    
+    func reset() {
+        dict.removeAll()
+    }
 }

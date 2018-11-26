@@ -44,7 +44,7 @@ class MenuViewController: UIViewController {
             return
         }
 
-        AuthService.startup()
+        AuthService.shared.startup()
         AuthService.shared.loginState.subscribe(onNext: { [weak self] state in
             if state == .loggedOut {
                 self?.menuItems = loggedOutMenu

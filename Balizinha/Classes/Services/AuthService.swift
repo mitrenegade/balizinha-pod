@@ -21,7 +21,7 @@ public class AuthService: NSObject {
     public static var shared: AuthService = AuthService(defaults: UserDefaults.standard)
     fileprivate let defaultsProvider: DefaultsProvider!
     
-    init(defaults: DefaultsProvider) {
+    public init(defaults: DefaultsProvider) {
         // TODO: inject firAuth as well
         defaultsProvider = defaults
         super.init()

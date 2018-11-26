@@ -7,29 +7,32 @@
 //
 
 import XCTest
+import Balizinha
+import RxSwift
 
 class LoginStateTests: XCTestCase {
     
-    let authService = AuthService(
+    let provider = MockDefaultsProvider()
+    var authService: AuthService!
+    var disposeBag: DisposeBag!
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        authService = AuthService(defaults: provider)
+        disposeBag = DisposeBag()
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        authService = nil
+        provider.reset()
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testLoginStateIsLoggedOut() {
+        let exp = expectation(description: "Login state is logged out")
+        authService.loginState.asObservable().subscribe(onNext: { (state) in
+            if case .loggedOut = state {
+                exp.fulfill()
+            }
+        }).disposed(by: disposeBag)
+        waitForExpectations(timeout: 1, handler: nil)
     }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }
