@@ -12,14 +12,23 @@ import FirebaseAuth
 import FirebaseCore
 
 class MockAuthProvider: NSObject, AuthProvider {
+    var listener: ((AuthType, UserType?) -> Void)?
     func addStateDidChangeListener(_ listener: @escaping (AuthType, UserType?) -> Void) -> AuthStateDidChangeListenerHandle {
-        listener(mockAuth, mockUser)
+        self.listener = listener
         
         return NSObject()
     }
     
-    var mockAuth: AuthType! = MockAuthType()
-    var mockUser: UserType?
+    var mockAuth: AuthType! = MockAuthType() {
+        didSet {
+            listener?(mockAuth, mockUser)
+        }
+    }
+    var mockUser: UserType? {
+        didSet {
+            listener?(mockAuth, mockUser)
+        }
+    }
 }
 
 class MockAuthType: AuthType {
@@ -27,7 +36,8 @@ class MockAuthType: AuthType {
 }
 
 class MockUserType: UserType {
+    var mockIsAnonymous: Bool = false
     var isAnonymous: Bool {
-        return false
+        return mockIsAnonymous
     }
 }

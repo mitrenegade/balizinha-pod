@@ -35,14 +35,16 @@ public class AuthService: NSObject {
         
         stateChangeHandler = auth.addStateDidChangeListener({ [weak self] (state, user) in
             print("LoginLogout: auth state changed: \(state)")
+            guard let self = self else { return }
             if let user = user, !user.isAnonymous {
                 // already logged in, don't do anything
                 print("FirAuth: user logged in")
-                self?.loginState.accept(.loggedIn)
-            }
-            else {
+                self.loginState.accept(.loggedIn)
+            } else if let user = user, user.isAnonymous, self.defaultsProvider.value(forKey: DefaultsKey.guestEventId.rawValue) != nil {
+                self.loginState.accept(.guest)
+            } else {
                 print("Need to display login")
-                self?.loginState.accept(.loggedOut)
+                self.loginState.accept(.loggedOut)
             }
         })
     }
