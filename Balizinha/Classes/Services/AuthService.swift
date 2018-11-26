@@ -14,10 +14,18 @@ import RxSwift
 public enum LoginState {
     case loggedOut
     case loggedIn
+    case guest // user has joined an event but has not signed up
 }
 
 public class AuthService: NSObject {
-    public static var shared: AuthService = AuthService()
+    public static var shared: AuthService = AuthService(defaults: UserDefaults.standard)
+    fileprivate let defaultsProvider: DefaultsProvider!
+    
+    init(defaults: DefaultsProvider) {
+        // TODO: inject firAuth as well
+        defaultsProvider = defaults
+        super.init()
+    }
     
     public class var currentUser: User? {
         return firAuth.currentUser
@@ -28,10 +36,10 @@ public class AuthService: NSObject {
         return user.isAnonymous
     }
 
-    public class func startup() {
-        if UserDefaults.standard.value(forKey: "appFirstTimeOpened") == nil {
+    public func startup() {
+        if defaultsProvider.value(forKey: "appFirstTimeOpened") == nil {
             //if app is first time opened, make sure no auth exists in keychain from previously deleted app
-            UserDefaults.standard.setValue(true, forKey: "appFirstTimeOpened")
+            defaultsProvider.setValue(true, forKey: "appFirstTimeOpened")
             // signOut from FIRAuth
             try! firAuth.signOut()
         }
