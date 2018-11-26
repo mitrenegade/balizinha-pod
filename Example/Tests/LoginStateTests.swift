@@ -12,18 +12,19 @@ import RxSwift
 
 class LoginStateTests: XCTestCase {
     
-    let provider = MockDefaultsProvider()
+    let defaultsProvider = MockDefaultsProvider()
+    let authProvider = MockAuthProvider()
     var authService: AuthService!
     var disposeBag: DisposeBag!
 
     override func setUp() {
-        authService = AuthService(defaults: provider)
+        authService = AuthService(defaults: defaultsProvider, auth: authProvider)
         disposeBag = DisposeBag()
     }
 
     override func tearDown() {
         authService = nil
-        provider.reset()
+        defaultsProvider.reset()
     }
 
     func testLoginStateIsLoggedOut() {

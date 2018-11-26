@@ -11,6 +11,7 @@
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		8E09572C21ABA1000037DA17 /* LoginStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E09572B21ABA1000037DA17 /* LoginStateTests.swift */; };
 		8E09573221ABA4950037DA17 /* MockDefaultsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E09572F21ABA32A0037DA17 /* MockDefaultsProvider.swift */; };
+		8E09573A21ABB0800037DA17 /* MockAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E09573821ABAE630037DA17 /* MockAuthProvider.swift */; };
 		8E18D70721304B84007BE201 /* Leagues.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E18D70621304B84007BE201 /* Leagues.storyboard */; };
 		8E5AD7F021612D9E00A78539 /* FeedItemsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5AD7EF21612D9E00A78539 /* FeedItemsListViewController.swift */; };
 		8E5AD7F22161580800A78539 /* FeedItems.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E5AD7F12161580800A78539 /* FeedItems.storyboard */; };
@@ -83,6 +84,7 @@
 		7F3517D46F3B5DE3D0C331AA /* Pods_Balizinha_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E09572B21ABA1000037DA17 /* LoginStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStateTests.swift; sourceTree = "<group>"; };
 		8E09572F21ABA32A0037DA17 /* MockDefaultsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDefaultsProvider.swift; sourceTree = "<group>"; };
+		8E09573821ABAE630037DA17 /* MockAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthProvider.swift; sourceTree = "<group>"; };
 		8E18D70621304B84007BE201 /* Leagues.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Leagues.storyboard; sourceTree = "<group>"; };
 		8E5AD7EF21612D9E00A78539 /* FeedItemsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsListViewController.swift; sourceTree = "<group>"; };
 		8E5AD7F12161580800A78539 /* FeedItems.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FeedItems.storyboard; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				8E09572B21ABA1000037DA17 /* LoginStateTests.swift */,
 				8E09572F21ABA32A0037DA17 /* MockDefaultsProvider.swift */,
+				8E09573821ABAE630037DA17 /* MockAuthProvider.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -546,6 +549,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E09573A21ABB0800037DA17 /* MockAuthProvider.swift in Sources */,
 				8E09573221ABA4950037DA17 /* MockDefaultsProvider.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 				8E09572C21ABA1000037DA17 /* LoginStateTests.swift in Sources */,
