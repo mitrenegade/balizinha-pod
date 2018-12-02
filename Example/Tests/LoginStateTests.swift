@@ -37,21 +37,34 @@ class LoginStateTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
     
-//    func testLoginStateIsGuestIfGuestEventIdExistsForAnonymousUser() {
-//        // store an eventId in defaults
-//        defaultsProvider.setValue("123", forKey: DefaultsKey.guestEventId.rawValue)
-//
-//        // create a mock user that will return anonymous type
-//        let mockUser = MockUserType()
-//        mockUser.mockIsAnonymous = true
-//        authProvider.mockUser = mockUser
-//
-//        let exp = expectation(description: "Login state is guest")
-//        authService.loginState.asObservable().subscribe(onNext: { (state) in
-//            if case .guest = state {
-//                exp.fulfill()
-//            }
-//        }).disposed(by: disposeBag)
-//        waitForExpectations(timeout: 1, handler: nil)
-//    }
+    func testLoginStateIsGuestIfGuestEventIdExistsForAnonymousUser() {
+        // store an eventId in defaults
+        defaultsProvider.setValue("123", forKey: DefaultsKey.guestEventId.rawValue)
+
+        // create a mock user that will return anonymous type
+        let mockUser = MockUserType()
+        mockUser.mockIsAnonymous = true
+        authProvider.mockUser = mockUser
+
+        let exp = expectation(description: "Anonymous user with an eventId is a guest")
+        
+        let loginState: Observable<LoginState> = authService.loginState.distinctUntilChanged().asObservable()
+        let eventId: Observable<Any> = defaultsProvider.valueStream(for: .guestEventId)!.filterNil().distinctUntilChanged({ (val1, val2) -> Bool in
+            let str1 = val1 as? String
+            let str2 = val2 as? String
+            return str1 != str2
+        }).asObservable()
+        
+        Observable<Bool>.combineLatest(loginState, eventId, resultSelector: { state, eventId in
+            let isGuest = state == .loggedOut && (eventId as? String) != nil
+            print("State \(state) eventId \(eventId) isGuest \(isGuest)")
+            return isGuest
+        }).observeOn(MainScheduler.instance).subscribe(onNext: { (isGuest) in
+            if isGuest {
+                exp.fulfill()
+            }
+        }).disposed(by: disposeBag)
+        
+        waitForExpectations(timeout: 1, handler: nil)
+    }
 }
