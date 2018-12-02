@@ -13,7 +13,7 @@ import RxSwift
 
 class MockDefaultsProvider: NSObject, DefaultsProvider {
     fileprivate var anyValueStream: BehaviorRelay<Any?> = BehaviorRelay<Any?>(value: nil)
-    func valueStream(for key: DefaultsKey) -> BehaviorRelay<Any?>? {
+    func valueStream(for key: DefaultsKey) -> BehaviorRelay<Any?> {
         return anyValueStream
     }
     
@@ -31,6 +31,4 @@ class MockDefaultsProvider: NSObject, DefaultsProvider {
     func reset() {
         dict.removeAll()
     }
-    
-    
 }

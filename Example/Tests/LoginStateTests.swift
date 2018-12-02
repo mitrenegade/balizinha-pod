@@ -49,7 +49,7 @@ class LoginStateTests: XCTestCase {
         let exp = expectation(description: "Anonymous user with an eventId is a guest")
         
         let loginState: Observable<LoginState> = authService.loginState.distinctUntilChanged().asObservable()
-        let eventId: Observable<Any> = defaultsProvider.valueStream(for: .guestEventId)!.filterNil().distinctUntilChanged({ (val1, val2) -> Bool in
+        let eventId: Observable<Any?> = defaultsProvider.valueStream(for: .guestEventId).distinctUntilChanged({ (val1, val2) -> Bool in
             let str1 = val1 as? String
             let str2 = val2 as? String
             return str1 != str2
@@ -57,7 +57,7 @@ class LoginStateTests: XCTestCase {
         
         Observable<Bool>.combineLatest(loginState, eventId, resultSelector: { state, eventId in
             let isGuest = state == .loggedOut && (eventId as? String) != nil
-            print("State \(state) eventId \(eventId) isGuest \(isGuest)")
+            print("State \(state) eventId \(String(describing: eventId)) isGuest \(isGuest)")
             return isGuest
         }).observeOn(MainScheduler.instance).subscribe(onNext: { (isGuest) in
             if isGuest {
