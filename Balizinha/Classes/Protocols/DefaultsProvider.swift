@@ -21,12 +21,14 @@ public protocol DefaultsProvider {
     func valueStream(for key: DefaultsKey) -> BehaviorRelay<Any?>?
 }
 
-class DefaultsManager: DefaultsProvider {
-    func value(forKey: String) -> Any? {
+public class DefaultsManager: DefaultsProvider {
+    public static let shared = DefaultsManager()
+    
+    public func value(forKey: String) -> Any? {
         return UserDefaults.standard.value(forKey: forKey)
     }
     
-    func setValue(_ value: Any?, forKey: String) {
+    public func setValue(_ value: Any?, forKey: String) {
         UserDefaults.standard.setValue(value, forKey: forKey)
         UserDefaults.standard.synchronize()
         
@@ -39,7 +41,7 @@ class DefaultsManager: DefaultsProvider {
     fileprivate var guestEventId: BehaviorRelay<Any?> = BehaviorRelay<Any?>(value: nil)
     
     // more general way to get a stream for a given key
-    func valueStream(for key: DefaultsKey) -> BehaviorRelay<Any?>? {
+    public func valueStream(for key: DefaultsKey) -> BehaviorRelay<Any?>? {
         if key == DefaultsKey.guestEventId {
             return guestEventId
         }
