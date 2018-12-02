@@ -15,11 +15,10 @@ import RxCocoa
 public enum LoginState {
     case loggedOut
     case loggedIn
-    case guest // user has joined an event but has not signed up
 }
 
 public class AuthService: NSObject {
-    public static var shared: AuthService = AuthService(defaults: UserDefaults.standard, auth: FIRAuthProvider.standard)
+    public static var shared: AuthService = AuthService(defaults: DefaultsManager(), auth: FIRAuthProvider.standard)
     
     // injectables
     fileprivate let defaultsProvider: DefaultsProvider!
@@ -40,8 +39,6 @@ public class AuthService: NSObject {
                 // already logged in, don't do anything
                 print("FirAuth: user logged in")
                 self.loginState.accept(.loggedIn)
-            } else if let user = user, user.isAnonymous, self.defaultsProvider.value(forKey: DefaultsKey.guestEventId.rawValue) != nil {
-                self.loginState.accept(.guest)
             } else {
                 print("Need to display login")
                 self.loginState.accept(.loggedOut)

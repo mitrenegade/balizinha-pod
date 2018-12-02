@@ -37,21 +37,21 @@ class LoginStateTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
     
-    func testLoginStateIsGuestIfGuestEventIdExistsForAnonymousUser() {
-        // store an eventId in defaults
-        defaultsProvider.setValue("123", forKey: DefaultsKey.guestEventId.rawValue)
-
-        // create a mock user that will return anonymous type
-        let mockUser = MockUserType()
-        mockUser.mockIsAnonymous = true
-        authProvider.mockUser = mockUser
-
-        let exp = expectation(description: "Login state is guest")
-        authService.loginState.asObservable().subscribe(onNext: { (state) in
-            if case .guest = state {
-                exp.fulfill()
-            }
-        }).disposed(by: disposeBag)
-        waitForExpectations(timeout: 1, handler: nil)
-    }
+//    func testLoginStateIsGuestIfGuestEventIdExistsForAnonymousUser() {
+//        // store an eventId in defaults
+//        defaultsProvider.setValue("123", forKey: DefaultsKey.guestEventId.rawValue)
+//
+//        // create a mock user that will return anonymous type
+//        let mockUser = MockUserType()
+//        mockUser.mockIsAnonymous = true
+//        authProvider.mockUser = mockUser
+//
+//        let exp = expectation(description: "Login state is guest")
+//        authService.loginState.asObservable().subscribe(onNext: { (state) in
+//            if case .guest = state {
+//                exp.fulfill()
+//            }
+//        }).disposed(by: disposeBag)
+//        waitForExpectations(timeout: 1, handler: nil)
+//    }
 }
