@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseAPIService.baseURL = URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
 
         AuthService.startup()
+        let _ = PaymentService.shared // triggers loading
         
         return true
     }
