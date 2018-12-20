@@ -89,7 +89,16 @@ public class PaymentService: NSObject {
             guard snapshot.exists() else {
                 return
             }
-            _stripeCustomers = snapshot.value as? [String: String] ?? [:]
+            _stripeCustomers.removeAll()
+            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+                for dict: DataSnapshot in allObjects {
+                    guard dict.exists() else { continue }
+                    let playerId = dict.key
+                    if let value = dict.value as? [String: String], let customerId = value["customer_id"] {
+                        _stripeCustomers[playerId] = customerId
+                    }
+                }
+            }
             completion?(_stripeCustomers)
         }
     }
