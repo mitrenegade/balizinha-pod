@@ -9,7 +9,15 @@
 import UIKit
 import FirebaseDatabase
 
+fileprivate var _stripeCustomers: [String: String] = [:]
+
 public class PaymentService: NSObject {
+    public static let shared: PaymentService = PaymentService()
+    public override init() {
+        super.init()
+        getStripeCustomers(completion: nil)
+    }
+
     public func checkForPayment(for eventId: String, by playerId: String, completion:@escaping ((Bool)->Void)) {
         let ref = firRef.child("charges/events/\(eventId)")
         print("checking for payment on \(ref)")
@@ -72,6 +80,28 @@ public class PaymentService: NSObject {
         }
         FirebaseAPIService().cloudFunction(functionName: "refundCharge", method: "POST", params: info) { (results, error) in
             completion?(results, error)
+        }
+    }
+    
+    public func getStripeCustomers(completion: ((_ results: [String: String]) -> Void)?) {
+        let queryRef = firRef.child("stripe_customers")
+        queryRef.observeSingleEvent(of: .value) { (snapshot) in
+            guard snapshot.exists() else {
+                return
+            }
+            _stripeCustomers = snapshot.value as? [String: String] ?? [:]
+            completion?(_stripeCustomers)
+        }
+    }
+    
+    public func playerIdForCustomer(_ customerId: String) -> String? {
+        let result = _stripeCustomers.filter { (key, val) -> Bool in
+            return val == customerId
+        }
+        if let playerId = result.first?.key {
+            return playerId
+        } else {
+            return nil
         }
     }
 }
