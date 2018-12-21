@@ -88,4 +88,8 @@ public class Payment: FirebaseBaseModel {
         }
         return nil
     }
+    
+    public var customerId: String? {
+        return dict["customer"] as? String
+    }
 }
