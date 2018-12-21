@@ -44,10 +44,11 @@ class MenuViewController: UIViewController {
             return
         }
 
-        AuthService.startup()
-        AuthService.shared.loginState.subscribe(onNext: { [weak self] state in
+        AuthService.shared.startup()
+        AuthService.shared.loginState.skip(1).subscribe(onNext: { [weak self] state in
             if state == .loggedOut {
                 self?.menuItems = loggedOutMenu
+                self?.reloadTable()
                 self?.promptForLogin()
             } else {
                 self?.menuItems = loggedInMenu

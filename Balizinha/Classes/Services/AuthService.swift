@@ -10,6 +10,7 @@ import UIKit
 import FirebaseCore
 import FirebaseAuth
 import RxSwift
+import RxCocoa
 
 public enum LoginState {
     case loggedOut
@@ -17,8 +18,36 @@ public enum LoginState {
 }
 
 public class AuthService: NSObject {
-    public static var shared: AuthService = AuthService()
+    public static var shared: AuthService = AuthService(defaults: DefaultsManager(), auth: FIRAuthProvider.standard)
     
+    // injectables
+    fileprivate let defaultsProvider: DefaultsProvider!
+    fileprivate let authProvider: AuthProvider!
+    
+    fileprivate var stateChangeHandler: AuthStateDidChangeListenerHandle?
+    
+    public init(defaults: DefaultsProvider, auth: AuthProvider) {
+        // TODO: inject firAuth as well
+        defaultsProvider = defaults
+        authProvider = auth
+        super.init()
+        
+        stateChangeHandler = auth.addStateDidChangeListener({ [weak self] (state, user) in
+            print("LoginLogout: auth state changed: \(state)")
+            guard let self = self else { return }
+            if let user = user, !user.isAnonymous {
+                // already logged in, don't do anything
+                print("FirAuth: user logged in")
+                self.loginState.accept(.loggedIn)
+            } else {
+                print("Need to display login")
+                self.loginState.accept(.loggedOut)
+            }
+        })
+    }
+    
+    public var loginState: BehaviorRelay<LoginState> = BehaviorRelay<LoginState>(value: .loggedOut)
+
     public class var currentUser: User? {
         return firAuth.currentUser
     }
@@ -28,30 +57,13 @@ public class AuthService: NSObject {
         return user.isAnonymous
     }
 
-    public class func startup() {
-        if UserDefaults.standard.value(forKey: "appFirstTimeOpened") == nil {
+    public func startup() {
+        if defaultsProvider.value(forKey: "appFirstTimeOpened") == nil {
             //if app is first time opened, make sure no auth exists in keychain from previously deleted app
-            UserDefaults.standard.setValue(true, forKey: "appFirstTimeOpened")
+            defaultsProvider.setValue(true, forKey: "appFirstTimeOpened")
             // signOut from FIRAuth
             try! firAuth.signOut()
         }
-    }
-
-    public var loginState: Observable<LoginState> = Observable.create { (observer) -> Disposable in
-        print("LoginLogout: start listening for user")
-        firAuth.addStateDidChangeListener({ (auth, user) in
-            print("LoginLogout: auth state changed: \(auth)")
-            if let user = user, !user.isAnonymous {
-                // already logged in, don't do anything
-                print("FirAuth: user logged in")
-                observer.onNext(.loggedIn)
-            }
-            else {
-                print("Need to display login")
-                observer.onNext(.loggedOut)
-            }
-        })
-        return Disposables.create()
     }
 
     public func loginUser(email: String, password: String, completion: ((Error?)->Void)?) {

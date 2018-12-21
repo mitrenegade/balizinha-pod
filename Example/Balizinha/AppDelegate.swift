@@ -12,7 +12,6 @@ import Balizinha
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -30,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let urlSuffix = TESTING ? "-dev" : "-c9cd7"
         FirebaseAPIService.baseURL = URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
 
-        AuthService.startup()
+        AuthService.shared.startup()
         let _ = PaymentService.shared // triggers loading
         
         return true
