@@ -10,6 +10,10 @@ import UIKit
 
 fileprivate let API_VERSION: String = "1.1"
 
+public protocol CloudAPIService {
+    func cloudFunction(functionName: String, method: String, params: [String: Any]?, completion: ((_ response: Any?, _ error: Error?) -> ())?)
+}
+
 public class FirebaseAPIService: NSObject {
     // variables for creating customer key
     private var urlSession: URLSession?
