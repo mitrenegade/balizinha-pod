@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseCore
 import Balizinha
+import RenderPay
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseAPIService.baseURL = URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
 
         AuthService.shared.startup()
-        let _ = PaymentService.shared // triggers loading
+        let _ = StripeService.shared // triggers loading
         
         return true
     }
