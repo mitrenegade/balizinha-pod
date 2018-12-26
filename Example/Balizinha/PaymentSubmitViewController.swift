@@ -8,6 +8,7 @@
 
 import UIKit
 import Balizinha
+import RenderPay
 
 class PaymentSubmitViewController: UIViewController {
     
@@ -21,14 +22,14 @@ class PaymentSubmitViewController: UIViewController {
     @IBOutlet weak var buttonRelease: UIButton!
     @IBOutlet weak var buttonRefund: UIButton!
 
-    var paymentService: PaymentService!
+    var paymentService: StripeService!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         refresh()
-        paymentService = PaymentService()
+        paymentService = StripeService()
     }
     
     fileprivate func refresh() {

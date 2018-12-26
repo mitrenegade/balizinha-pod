@@ -8,6 +8,7 @@
 
 import UIKit
 import Balizinha
+import RenderPay
 
 class PaymentCell: UITableViewCell {
     @IBOutlet weak var labelName: UILabel!
@@ -23,7 +24,7 @@ class PaymentCell: UITableViewCell {
             PlayerService.shared.withId(id: id, completion: { [weak self] (player) in
                 self?.labelName.text = player?.name ?? player?.email ?? "Anon"
             })
-        } else if let customerId = payment.customerId, let playerId = PaymentService.shared.playerIdForCustomer(customerId) {
+        } else if let customerId = payment.customerId, let playerId = StripeService.shared.playerIdForCustomer(customerId) {
             PlayerService.shared.withId(id: playerId, completion: { [weak self] (player) in
                 self?.labelName.text = player?.name ?? player?.email ?? "Anon"
             })

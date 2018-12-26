@@ -10,6 +10,7 @@ import UIKit
 import FirebaseCore
 import Balizinha
 import FirebaseDatabase
+import RenderPay
 
 class PaymentsListViewController: ListViewController {
     
@@ -216,7 +217,7 @@ extension PaymentsListViewController {
     
     fileprivate func doRefund(chargeId: String, eventId: String) {
         activityOverlay.show()
-        PaymentService().refundPayment(eventId: eventId, chargeId: chargeId, params: ["isAdmin": true]) { [weak self] (result, error) in
+        StripeService.shared.refundPayment(eventId: eventId, chargeId: chargeId, params: ["isAdmin": true]) { [weak self] (result, error) in
             print("FirebaseAPIService: result \(String(describing: result)) error \(String(describing: error))")
             DispatchQueue.main.async {
                 self?.activityOverlay.hide()
@@ -245,7 +246,7 @@ extension PaymentsListViewController {
     fileprivate func capturePayment(paymentId: String, eventId: String) {
         guard let player = PlayerService.shared.current.value else { return }
         activityOverlay.show()
-        PaymentService().capturePayment(userId: player.id, eventId: eventId, chargeId: paymentId, params: ["isAdmin": true]) { [weak self] (result, error) in
+        StripeService.shared.capturePayment(userId: player.id, eventId: eventId, chargeId: paymentId, params: ["isAdmin": true]) { [weak self] (result, error) in
             print("Capture payment Results \(String(describing: result)) error \(String(describing: error))")
             DispatchQueue.main.async {
                 self?.activityOverlay.hide()
