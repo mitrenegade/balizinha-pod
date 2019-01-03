@@ -13,7 +13,7 @@ public class Payment: FirebaseBaseModel {
         return self.dict["amount"] as? NSNumber
     }
 
-    public var refunded: NSNumber? {
+    public var amountRefunded: NSNumber? {
         return self.dict["amount_refunded"] as? NSNumber
     }
     
@@ -45,19 +45,19 @@ public class Payment: FirebaseBaseModel {
     }
 
     public var status: Payment.Status {
-        guard let string = self.dict["status"] as? String else {
-            if error != nil {
-                return .error
-            }
+        guard let statusString = self.dict["status"] as? String else {
             return .unknown
         }
-        if let refunded = refunded, refunded.doubleValue > 0 {
-            return (refunded == amount) ? .refunded : .partialRefund
+        if let amountRefunded = amountRefunded, amountRefunded.doubleValue > 0 {
+            return (amountRefunded == amount) ? .refunded : .partialRefund
+        }
+        if error != nil {
+            return .error
         }
         if let captured = captured, !captured {
             return .hold
         }
-        guard let newStatus = Status(rawValue: string) else { return .unknown }
+        guard let newStatus = Status(rawValue: statusString) else { return .unknown }
         return newStatus
     }
     

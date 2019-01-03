@@ -297,7 +297,7 @@ public class EventService: NSObject {
                 for snapshot: DataSnapshot in allObjects {
                     let playerId = snapshot.key // TODO: display all players who've paid
                     let payment = Payment(snapshot: snapshot)
-                    guard payment.paid, let amount = payment.amount, let refunded = payment.refunded else { continue }
+                    guard payment.paid, let amount = payment.amount, let refunded = payment.amountRefunded else { continue }
                     let netPayment: Double = (amount.doubleValue - refunded.doubleValue) / 100.0
                     total += netPayment
                     count += 1
