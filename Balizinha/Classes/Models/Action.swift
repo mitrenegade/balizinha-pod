@@ -142,9 +142,11 @@ public class ActionViewModel {
         case .leaveEvent:
             return userString + " left \(eventName)"
         case .addedToEvent:
-            return userString + " was added to \(eventName)"
+            let article = userPerformedAction ? "were" : "was"
+            return userString + " \(article) added to \(eventName)"
         case .removedFromEvent:
-            return userString + " was removed from \(eventName)"
+            let article = userPerformedAction ? "were" : "was"
+            return userString + " \(article) removed from \(eventName)"
         case .joinLeague: // TODO: separate event actions and league actions
             return userString + " joined the league"
         case .leaveLeague:
