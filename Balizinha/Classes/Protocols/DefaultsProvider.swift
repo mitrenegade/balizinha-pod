@@ -12,6 +12,10 @@ import RxCocoa
 public enum DefaultsKey: String {
     case guestUsername
     case guestEventId
+
+    case locationPermissionDeniedWarningShown
+    case shouldFilterNearbyEvents
+    case showedTutorial
 }
 
 public protocol DefaultsProvider {
