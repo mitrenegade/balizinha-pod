@@ -22,18 +22,20 @@ class PaymentCell: UITableViewCell {
         if let id = playerId {
             print("Loading player with key \(id)")
             PlayerService.shared.withId(id: id, completion: { [weak self] (player) in
-                self?.labelName.text = player?.name ?? player?.email ?? "Anon"
+                self?.labelName.text = player?.name ?? player?.email ?? "Unknown player"
             })
         } else if let customerId = payment.customerId, let playerId = StripeService.shared.playerIdForCustomer(customerId) {
             PlayerService.shared.withId(id: playerId, completion: { [weak self] (player) in
-                self?.labelName.text = player?.name ?? player?.email ?? "Anon"
+                self?.labelName.text = player?.name ?? player?.email ?? "Unknown player"
             })
+        } else {
+            self?.labelName.text = "Unknown player"
         }
 
         if let amountString: String = payment.amountString {
             labelAmount.text = amountString
         } else {
-            labelAmount.text = ""
+            labelAmount.text = "No amount specified"
         }
 
         labelDate.text = payment.createdAt?.dateString()
@@ -57,7 +59,7 @@ class PaymentCell: UITableViewCell {
             labelStatus.textColor = .blue
             self.accessoryType = .disclosureIndicator
         case .unknown:
-            labelStatus.text = "Status: \(payment.dict["status"])"
+            labelStatus.text = "Unknown status: \(String(describing: payment.dict["status"]))"
             labelStatus.textColor = .darkGray
             self.accessoryType = .none
         case .partialRefund:

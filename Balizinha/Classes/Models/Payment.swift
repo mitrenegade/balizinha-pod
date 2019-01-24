@@ -45,9 +45,6 @@ public class Payment: FirebaseBaseModel {
     }
 
     public var status: Payment.Status {
-        guard let statusString = self.dict["status"] as? String else {
-            return .unknown
-        }
         if let amountRefunded = amountRefunded, amountRefunded.doubleValue > 0 {
             return (amountRefunded == amount) ? .refunded : .partialRefund
         }
@@ -57,7 +54,9 @@ public class Payment: FirebaseBaseModel {
         if let captured = captured, !captured {
             return .hold
         }
-        guard let newStatus = Status(rawValue: statusString) else { return .unknown }
+        guard let statusString = self.dict["status"] as? String, let newStatus = Status(rawValue: statusString) else {
+            return .unknown
+        }
         return newStatus
     }
     
