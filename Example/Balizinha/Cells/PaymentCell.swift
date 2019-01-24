@@ -17,7 +17,7 @@ class PaymentCell: UITableViewCell {
     @IBOutlet weak var labelStatus: UILabel!
     
     func configure(payment: Payment, isEvent: Bool) {
-        self.labelName.text = "Loading..." // payment.id
+        labelName.text = "Loading..." // payment.id
         let playerId: String? = isEvent ? payment.playerId : payment.firebaseKey
         if let id = playerId {
             print("Loading player with key \(id)")
@@ -29,7 +29,7 @@ class PaymentCell: UITableViewCell {
                 self?.labelName.text = player?.name ?? player?.email ?? "Unknown player"
             })
         } else {
-            self?.labelName.text = "Unknown player"
+            labelName.text = "Unknown player"
         }
 
         if let amountString: String = payment.amountString {
