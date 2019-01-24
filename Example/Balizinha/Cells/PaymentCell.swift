@@ -29,7 +29,7 @@ class PaymentCell: UITableViewCell {
                 self?.labelName.text = player?.name ?? player?.email ?? "Unknown player"
             })
         } else {
-            labelName.text = "Unknown player"
+            labelName.text = "PaymentId: \(payment.id)"
         }
 
         if let amountString: String = payment.amountString {
@@ -38,7 +38,7 @@ class PaymentCell: UITableViewCell {
             labelAmount.text = "No amount specified"
         }
 
-        labelDate.text = payment.createdAt?.dateString()
+        labelDate.text = payment.createdAt?.dateString() ?? "Unknown date"
         
         // status
         switch payment.status {
