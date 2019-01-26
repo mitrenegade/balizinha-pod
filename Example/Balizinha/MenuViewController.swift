@@ -11,19 +11,37 @@ import RxSwift
 import Balizinha
 
 enum MenuItem: String {
-    case players = "Players"
-    case events = "Games"
-    case actions = "Actions"
-    case payments = "Payments"
-    case leagues = "Leagues"
-    case feed = "Feed"
-    case feedback = "Feedback/Inquiries"
-    case version = "Version"
-    case utils = "Utils"
-    case login = "Login"
-    case logout = "Logout"
+    case players
+    case events
+    case actions
+    case payments
+    case leagues
+    case feed
+    case connect
+    case feedback
+    case version
+    case utils
+    case login
+    case logout
+    
+    var description: String {
+        switch self {
+        case players: return "Players"
+        case events: return "Games"
+        case actions: return "Actions"
+        case payments: return "Payments"
+        case leagues: return "Leagues"
+        case feed: return "Feed"
+        case stripe: return "Stripe Connect"
+        case feedback: return "Feedback/Inquiries"
+        case version: return "Version"
+        case utils: return "Utils"
+        case login: return "Login"
+        case logout: return "Logout"
+        }
+    }
 }
-fileprivate let loggedInMenu: [MenuItem] = [.players, .events, .actions, .payments, .leagues, .feed, .feedback, .version, .utils, .logout]
+fileprivate let loggedInMenu: [MenuItem] = [.players, .events, .actions, .payments, .leagues, .feed, .connect, .feedback, .version, .utils, .logout]
 fileprivate let loggedOutMenu: [MenuItem] = [.login]
 
 class MenuViewController: UIViewController {
@@ -121,7 +139,7 @@ extension MenuViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         if indexPath.row < menuItems.count {
-            cell.textLabel?.text = menuItems[indexPath.row].rawValue
+            cell.textLabel?.text = menuItems[indexPath.row].description
             
             switch menuItems[indexPath.row] {
             case .version:
@@ -146,29 +164,13 @@ extension MenuViewController: UITableViewDelegate {
         switch selection {
         case .login:
             promptForLogin()
-        case .players:
-            // go to players view
-            performSegue(withIdentifier: "toPlayers", sender: nil)
-        case .events:
-            performSegue(withIdentifier: "toEvents", sender: nil)
-        case .actions:
-            // go to actions view
-            performSegue(withIdentifier: "toActions", sender: nil)
-        case .payments:
-            performSegue(withIdentifier: "toPayments", sender: nil)
-        case .leagues:
-            performSegue(withIdentifier: "toLeagues", sender: nil)
-        case .feed:
-            performSegue(withIdentifier: "toFeed", sender: nil)
-        case .feedback:
-            performSegue(withIdentifier: "toFeedback", sender: nil)
-        case .utils:
-            performSegue(withIdentifier: "toUtils", sender: nil)
         case .version:
             break
         case .logout:
             AuthService.shared.logout()
             reloadTable()
+        default:
+            performSegue(withIdentifier: selection.rawValue, sender: nil)
         }
     }
 }

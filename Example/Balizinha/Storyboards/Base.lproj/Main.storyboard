@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.23.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WVj-tz-ZLn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WVj-tz-ZLn">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.16.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -79,15 +79,16 @@
                     <navigationItem key="navigationItem" id="s4a-tc-54L"/>
                     <connections>
                         <outlet property="tableView" destination="bUp-Vb-wWV" id="625-Dh-PMx"/>
-                        <segue destination="JcF-hV-p6C" kind="show" identifier="toPlayers" id="IhM-kc-n4K"/>
-                        <segue destination="RIz-Mv-g3I" kind="show" identifier="toActions" id="Csl-s6-aXX"/>
-                        <segue destination="UTV-mE-z7b" kind="show" identifier="toLeagues" id="LQC-rO-uFh"/>
-                        <segue destination="28L-kh-b5V" kind="show" identifier="toOrganizers" id="RYB-JI-7jv"/>
-                        <segue destination="xRf-3u-3MY" kind="show" identifier="toPayments" id="1lo-wq-TLF"/>
-                        <segue destination="RJe-jg-Ef2" kind="show" identifier="toEvents" id="Zpw-mn-4OZ"/>
+                        <segue destination="JcF-hV-p6C" kind="show" identifier="players" id="IhM-kc-n4K"/>
+                        <segue destination="RIz-Mv-g3I" kind="show" identifier="actions" id="Csl-s6-aXX"/>
+                        <segue destination="UTV-mE-z7b" kind="show" identifier="leagues" id="LQC-rO-uFh"/>
+                        <segue destination="28L-kh-b5V" kind="show" identifier="organizers" id="RYB-JI-7jv"/>
+                        <segue destination="xRf-3u-3MY" kind="show" identifier="paymenmts" id="1lo-wq-TLF"/>
+                        <segue destination="RJe-jg-Ef2" kind="show" identifier="events" id="Zpw-mn-4OZ"/>
                         <segue destination="v89-CX-aUY" kind="show" identifier="toUtils" id="LUy-FA-fzi"/>
-                        <segue destination="cw7-ZE-qAm" kind="show" identifier="toFeedback" id="1lY-Dj-DNS"/>
-                        <segue destination="Eqd-6O-tYQ" kind="show" identifier="toFeed" id="zKt-um-6vp"/>
+                        <segue destination="cw7-ZE-qAm" kind="show" identifier="feedback" id="1lY-Dj-DNS"/>
+                        <segue destination="Eqd-6O-tYQ" kind="show" identifier="feed" id="zKt-um-6vp"/>
+                        <segue destination="ncL-MI-Mj3" kind="show" identifier="stripe" id="V0a-0r-0a4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -409,6 +410,14 @@
                 <viewControllerPlaceholder id="YkQ-WW-scB" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xUC-xT-oeO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+        </scene>
+        <!--Stripe-->
+        <scene sceneID="nb1-qN-8H2">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Stripe" id="ncL-MI-Mj3" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NMN-BD-83b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="838" y="75"/>
         </scene>
     </scenes>
     <resources>
