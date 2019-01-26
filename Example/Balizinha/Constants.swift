@@ -27,3 +27,9 @@ extension UIColor {
     static let lightBlue = UIColor(red: 152.0/255.0, green: 170.0/255.0, blue: 188.0/255.0, alpha: 1)
     static let offWhite = UIColor(red: 217.0/255.0, green: 214.0/255.0, blue: 214.0/255.0, alpha: 1)
 }
+
+let STRIPE_CLIENT_ID_DEV = "ca_ECowy0cLCEaImKunoIsUfm2n4EbhxrMO"
+let STRIPE_CLIENT_ID_PROD = "ca_ECowdoBb2DfRFlBMQSZ2jT4SSXAUJ6Lx"
+
+let FIREBASE_URL_DEV = "https://us-central1-balizinha-dev.cloudfunctions.net/"
+let FIREBASE_URL_PROD = "https://us-central1-balizinha-c9cd7.cloudfunctions.net/"

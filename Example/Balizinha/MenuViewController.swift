@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import Balizinha
 
-enum MenuItem: String {
+fileprivate enum MenuItem: String {
     case players
     case events
     case actions
