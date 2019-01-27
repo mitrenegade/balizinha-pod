@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import RenderCloud
 
 public class FeedService: NSObject {
     public static let shared = FeedService()
