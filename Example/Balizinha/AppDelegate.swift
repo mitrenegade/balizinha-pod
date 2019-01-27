@@ -10,6 +10,7 @@ import UIKit
 import FirebaseCore
 import Balizinha
 import RenderPay
+import RenderCloud
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

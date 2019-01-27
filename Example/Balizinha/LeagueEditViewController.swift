@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import FirebaseCore
 import Balizinha
+import RenderCloud
 
 protocol LeagueViewDelegate {
     func didUpdate()

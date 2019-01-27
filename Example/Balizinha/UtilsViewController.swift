@@ -9,6 +9,7 @@
 import UIKit
 import Balizinha
 import Firebase
+import RenderCloud
 
 enum UtilItem: String, CaseIterable {
     case updateEventLeagueIsPrivate
