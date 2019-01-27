@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import RenderCloud
 
 public class FeedService: NSObject {
     public static let shared = FeedService()
@@ -19,7 +20,7 @@ public class FeedService: NSObject {
             return
         }
         
-        let id = FirebaseAPIService.uniqueId()
+        let id = FirebaseAPIService().uniqueId()
         let userId = player.id
         
         var params: [String: Any] = ["leagueId": leagueId, "userId": userId, "id": id]
