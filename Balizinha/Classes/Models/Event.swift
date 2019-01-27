@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseCore
+import RenderCloud
 
 public enum EventType: String {
     case event3v3 = "3 vs 3"
@@ -264,7 +265,7 @@ extension Event {
 extension Event {
     //***************** hack: for test purposes only
     class func randomEvent() -> Event {
-        let key = FirebaseAPIService.uniqueId()
+        let key = FirebaseAPIService().uniqueId()
         let hours: Int = Int(arc4random_uniform(72))
         let dict: [String: Any] = ["type": Event.randomType() as AnyObject, "place": Event.randomPlace() as AnyObject, "startTime": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject, "info": "Randomly generated event" as AnyObject]
         let event = Event(key: key, dict: dict)

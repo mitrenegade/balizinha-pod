@@ -31,7 +31,7 @@ The demo project is an admin project that allows the user to check out their das
   s.source           = { :git => 'https://bitbucket.org/renderapps/balizinha-pod.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '10.0'
   s.swift_version = '4.1'
   s.static_framework = true
 
