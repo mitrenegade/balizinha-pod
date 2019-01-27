@@ -7,6 +7,11 @@
 //
 
 import UIKit
+import RenderCloud
+import Balizinha
+import RenderPay
+import RxSwift
+import RxCocoa
 
 fileprivate enum MenuItem: String {
     case info
@@ -24,9 +29,13 @@ class StripeMenuViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var connectService: StripeConnectService?
     fileprivate var menuItems: [MenuItem] = [.info, .connect]
+    var userId: String?
+    var disposeBag: DisposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard let userId = userId else { return }
 
         // Do any additional setup after loading the view.
         let clientId = TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD
@@ -44,7 +53,8 @@ class StripeMenuViewController: UIViewController {
     
     func connectToStripe() {
         guard let player = PlayerService.shared.current.value else { return }
-        guard let userId = player.id, let urlString = connectService?.getOAuthUrl(userId), let url = URL(string: urlString) else { return }
+        let userId = player.id
+        guard let urlString = connectService?.getOAuthUrl(userId), let url = URL(string: urlString) else { return }
         UIApplication.shared.openURL(url)
     }
 }

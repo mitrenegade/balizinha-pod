@@ -17,6 +17,7 @@ fileprivate enum MenuItem: String {
     case payments
     case leagues
     case feed
+    case stripe
     case connect
     case feedback
     case version
@@ -26,18 +27,18 @@ fileprivate enum MenuItem: String {
     
     var description: String {
         switch self {
-        case players: return "Players"
-        case events: return "Games"
-        case actions: return "Actions"
-        case payments: return "Payments"
-        case leagues: return "Leagues"
-        case feed: return "Feed"
-        case stripe: return "Stripe Connect"
-        case feedback: return "Feedback/Inquiries"
-        case version: return "Version"
-        case utils: return "Utils"
-        case login: return "Login"
-        case logout: return "Logout"
+        case .players: return "Players"
+        case .events: return "Games"
+        case .actions: return "Actions"
+        case .payments: return "Payments"
+        case .leagues: return "Leagues"
+        case .feed: return "Feed"
+        case .stripe: return "Stripe Connect"
+        case .feedback: return "Feedback/Inquiries"
+        case .version: return "Version"
+        case .utils: return "Utils"
+        case .login: return "Login"
+        case .logout: return "Logout"
         }
     }
 }
@@ -48,7 +49,7 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     fileprivate let disposeBag = DisposeBag()
     
-    var menuItems: [MenuItem] = loggedOutMenu
+    fileprivate var menuItems: [MenuItem] = loggedOutMenu
     
     override func viewDidLoad() {
         super.viewDidLoad()
