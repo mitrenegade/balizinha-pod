@@ -24,7 +24,7 @@ class PaymentCell: UITableViewCell {
             PlayerService.shared.withId(id: id, completion: { [weak self] (player) in
                 self?.labelName.text = player?.name ?? player?.email ?? "Unknown player"
             })
-        } else if let customerId = payment.customerId, let playerId = StripeService.shared.playerIdForCustomer(customerId) {
+        } else if let customerId = payment.customerId, let playerId = StripePaymentService().playerIdForCustomer(customerId) {
             PlayerService.shared.withId(id: playerId, completion: { [weak self] (player) in
                 self?.labelName.text = player?.name ?? player?.email ?? "Unknown player"
             })

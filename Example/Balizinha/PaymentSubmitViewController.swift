@@ -22,14 +22,14 @@ class PaymentSubmitViewController: UIViewController {
     @IBOutlet weak var buttonRelease: UIButton!
     @IBOutlet weak var buttonRefund: UIButton!
 
-    var paymentService: StripeService!
+    var paymentService: StripePaymentService!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         refresh()
-        paymentService = StripeService()
+        paymentService = StripePaymentService()
     }
     
     fileprivate func refresh() {

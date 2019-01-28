@@ -10,6 +10,7 @@ import UIKit
 import FirebaseCore
 import Balizinha
 import RenderPay
+import RenderCloud
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,12 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let path = filePath, let fileopts = FirebaseOptions.init(contentsOfFile: path) {
             FirebaseApp.configure(options: fileopts)
         }
-        
-        let urlSuffix = TESTING ? "-dev" : "-c9cd7"
-        FirebaseAPIService.baseURL = URL(string: "https://us-central1-balizinha\(urlSuffix).cloudfunctions.net/")
 
+        let baseUrl = TESTING ? FIREBASE_URL_DEV : FIREBASE_URL_PROD
+        FirebaseAPIService.baseURL = URL(string: baseUrl)
+        
         AuthService.shared.startup()
-        let _ = StripeService.shared // triggers loading
+        let _ = StripePaymentService() // triggers loading
         
         return true
     }
