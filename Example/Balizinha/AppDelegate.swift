@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseAPIService.baseURL = URL(string: baseUrl)
         
         AuthService.shared.startup()
-        let _ = StripeService.shared // triggers loading
+        let _ = StripePaymentService() // triggers loading
         
         return true
     }

@@ -18,7 +18,6 @@ fileprivate enum MenuItem: String {
     case leagues
     case feed
     case stripe
-    case connect
     case feedback
     case version
     case utils
@@ -42,7 +41,7 @@ fileprivate enum MenuItem: String {
         }
     }
 }
-fileprivate let loggedInMenu: [MenuItem] = [.players, .events, .actions, .payments, .leagues, .feed, .connect, .feedback, .version, .utils, .logout]
+fileprivate let loggedInMenu: [MenuItem] = [.players, .events, .actions, .payments, .leagues, .feed, .stripe, .feedback, .version, .utils, .logout]
 fileprivate let loggedOutMenu: [MenuItem] = [.login]
 
 class MenuViewController: UIViewController {
