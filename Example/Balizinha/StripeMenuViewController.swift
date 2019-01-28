@@ -16,13 +16,6 @@ import RxCocoa
 fileprivate enum MenuItem: String {
     case info
     case connect
-    
-    var description: String {
-        switch self {
-        case .info: return "Account info"
-        case .connect: return "Click to connect account"
-        }
-    }
 }
 class StripeMenuViewController: UIViewController {
 
@@ -75,9 +68,20 @@ extension StripeMenuViewController: UITableViewDataSource {
         if indexPath.row < menuItems.count {
             switch menuItems[indexPath.row] {
             case .info:
-                cell.textLabel?.text = "Current merchant account: \(connectService.accountState.value.description)"
+                cell.textLabel?.text = "Current merchant account:"
+                cell.detailTextLabel?.text = "\(connectService.accountState.value.description)"
             case .connect:
-                cell.textLabel?.text = menuItems[indexPath.row].description
+                cell.detailTextLabel?.text = nil
+                switch connectService.accountState.value {
+                case .none:
+                    cell.textLabel?.text = "Click to connect your Stripe merchant account"
+                case .loading:
+                    cell.textLabel?.text = "Loading..."
+                case .unknown:
+                    cell.textLabel?.text = nil
+                case .account:
+                    cell.textLabel?.text = "Click to change your Stripe account"
+                }
             }
         } else {
             cell.textLabel?.text = nil
@@ -95,7 +99,12 @@ extension StripeMenuViewController: UITableViewDelegate {
         case .info:
             return
         case .connect:
-            connectToStripe()
+            switch connectService.accountState.value {
+            case .account, .none:
+                connectToStripe()
+            default:
+                return
+            }
         }
     }
 }
