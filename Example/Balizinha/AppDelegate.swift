@@ -9,8 +9,8 @@
 import UIKit
 import FirebaseCore
 import Balizinha
-import RenderPay
 import RenderCloud
+import Stripe
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -31,8 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let baseUrl = TESTING ? FIREBASE_URL_DEV : FIREBASE_URL_PROD
         FirebaseAPIService.baseURL = URL(string: baseUrl)
         
+        let config = STPPaymentConfiguration.shared()
+        config.publishableKey = TESTING ? STRIPE_PUBLISHABLE_KEY_DEV : STRIPE_PUBLISHABLE_KEY_PROD
+
         AuthService.shared.startup()
-        let _ = StripePaymentService() // triggers loading
         
         return true
     }

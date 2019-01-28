@@ -11,14 +11,18 @@ import FirebaseCore
 import Balizinha
 import FirebaseDatabase
 import RenderPay
+import RxSwift
+import RenderCloud
 
 class PaymentsListViewController: ListViewController {
     
     @IBOutlet fileprivate weak var selectorType: UISegmentedControl!
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
+    let paymentService: StripePaymentService = StripePaymentService(apiService: FirebaseAPIService())
 
     var data: [String: [Payment]] = [:]
-    var events: [String: Event] = [:]
+    var events: [String: Balizinha.Event] = [:]
+    let disposeBag: DisposeBag = DisposeBag()
 
     override var refName: String {
         if selectorType.selectedSegmentIndex == 0 {
@@ -42,6 +46,20 @@ class PaymentsListViewController: ListViewController {
         
         activityOverlay.setup(frame: view.frame)
         view.addSubview(activityOverlay)
+        
+        PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { [weak self] (player) in
+            let userId = player.id
+            
+            guard let self = self else { return }
+            
+            // Do any additional setup after loading the view.
+            self.paymentService.startListeningForAccount(userId: userId)
+            self.paymentService.customersDidLoad.asObservable().distinctUntilChanged().subscribe(onNext: { [weak self] (didLoad) in
+                if didLoad {
+                    self?.reloadTable()
+                }
+            }).disposed(by: self.disposeBag)
+        }).disposed(by: disposeBag)
     }
     
     override func viewDidLayoutSubviews() {
@@ -120,7 +138,7 @@ extension PaymentsListViewController {
 
         if indexPath.row < payments.count {
             let payment = payments[row]
-            cell.configure(payment: payment, isEvent: selectorType.selectedSegmentIndex == 0)
+            cell.configure(payment: payment, isEvent: selectorType.selectedSegmentIndex == 0, service: paymentService)
         }
         return cell
     }
@@ -166,7 +184,7 @@ extension PaymentsListViewController {
         }
     }
     
-    fileprivate func goToCapture(_ payment: Payment, event: Event) {
+    fileprivate func goToCapture(_ payment: Payment, event: Balizinha.Event) {
         // capture or release
         let title = "Payment id: \(payment.id)"
         let message = "Do you want to capture or cancel this held payment for Amount: \(payment.amountString!)?"
@@ -194,7 +212,7 @@ extension PaymentsListViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    fileprivate func goToRefund(_ payment: Payment, event: Event) {
+    fileprivate func goToRefund(_ payment: Payment, event: Balizinha.Event) {
         // present options to refund
         let title = "Payment id: \(payment.id)"
         let message = "Amount: \(payment.amountString!)\nStatus: \(payment.status)\nStripe id: \(payment.dict["id"] as! String)"
