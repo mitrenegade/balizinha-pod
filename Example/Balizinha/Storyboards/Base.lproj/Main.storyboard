@@ -85,7 +85,7 @@
                         <segue destination="28L-kh-b5V" kind="show" identifier="organizers" id="RYB-JI-7jv"/>
                         <segue destination="xRf-3u-3MY" kind="show" identifier="payments" id="1lo-wq-TLF"/>
                         <segue destination="RJe-jg-Ef2" kind="show" identifier="events" id="Zpw-mn-4OZ"/>
-                        <segue destination="v89-CX-aUY" kind="show" identifier="toUtils" id="LUy-FA-fzi"/>
+                        <segue destination="v89-CX-aUY" kind="show" identifier="utils" id="LUy-FA-fzi"/>
                         <segue destination="cw7-ZE-qAm" kind="show" identifier="feedback" id="1lY-Dj-DNS"/>
                         <segue destination="Eqd-6O-tYQ" kind="show" identifier="feed" id="zKt-um-6vp"/>
                         <segue destination="ncL-MI-Mj3" kind="show" identifier="stripe" id="V0a-0r-0a4"/>
