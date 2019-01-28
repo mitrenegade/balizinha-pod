@@ -20,14 +20,15 @@ fileprivate enum MenuItem: String {
     var description: String {
         switch self {
         case .info: return "Account info"
-        case .connect: return "Connect account"
+        case .connect: return "Click to connect account"
         }
     }
 }
 class StripeMenuViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    var connectService: StripeConnectService?
+    var connectService: StripeConnectService = StripeConnectService(clientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD, apiService: FirebaseAPIService())
+    let paymentService: StripePaymentService = StripePaymentService(apiService: FirebaseAPIService())
     fileprivate var menuItems: [MenuItem] = [.info, .connect]
     var disposeBag: DisposeBag = DisposeBag()
 
@@ -40,10 +41,8 @@ class StripeMenuViewController: UIViewController {
             guard let self = self else { return }
             
             // Do any additional setup after loading the view.
-            let clientId = TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD
-            self.connectService = StripeConnectService(clientId: clientId, apiService: FirebaseAPIService())
-            self.connectService?.startListeningForAccount(userId: userId)
-            self.connectService?.accountState.skip(1).distinctUntilChanged().subscribe(onNext: { [weak self] state in
+            self.connectService.startListeningForAccount(userId: userId)
+            self.connectService.accountState.distinctUntilChanged().subscribe(onNext: { [weak self] state in
                 print("StripeConnectService accountState changed: \(state)")
                 self?.reloadTable()
             }).disposed(by: self.disposeBag)
@@ -57,7 +56,7 @@ class StripeMenuViewController: UIViewController {
     func connectToStripe() {
         guard let player = PlayerService.shared.current.value else { return }
         let userId = player.id
-        guard let urlString = connectService?.getOAuthUrl(userId), let url = URL(string: urlString) else { return }
+        guard let urlString = connectService.getOAuthUrl(userId), let url = URL(string: urlString) else { return }
         UIApplication.shared.openURL(url)
     }
 }
@@ -72,11 +71,11 @@ extension StripeMenuViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "StripeMenuCell", for: indexPath)
         if indexPath.row < menuItems.count {
             switch menuItems[indexPath.row] {
             case .info:
-                cell.textLabel?.text = connectService?.accountState.value.description
+                cell.textLabel?.text = "Current merchant account: \(connectService.accountState.value.description)"
             case .connect:
                 cell.textLabel?.text = menuItems[indexPath.row].description
             }
