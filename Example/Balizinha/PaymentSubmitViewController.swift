@@ -9,6 +9,7 @@
 import UIKit
 import Balizinha
 import RenderPay
+import RenderCloud
 
 class PaymentSubmitViewController: UIViewController {
     
@@ -22,14 +23,13 @@ class PaymentSubmitViewController: UIViewController {
     @IBOutlet weak var buttonRelease: UIButton!
     @IBOutlet weak var buttonRefund: UIButton!
 
-    var paymentService: StripePaymentService!
+    let paymentService: StripePaymentService = StripePaymentService(apiService: FirebaseAPIService())
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         refresh()
-        paymentService = StripePaymentService()
     }
     
     fileprivate func refresh() {

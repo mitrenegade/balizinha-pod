@@ -16,7 +16,7 @@ class PaymentCell: UITableViewCell {
     @IBOutlet weak var labelDate: UILabel!
     @IBOutlet weak var labelStatus: UILabel!
     
-    func configure(payment: Payment, isEvent: Bool) {
+    func configure(payment: Payment, isEvent: Bool, service: StripePaymentService? = nil) {
         labelName.text = "Loading..." // payment.id
         let playerId: String? = isEvent ? payment.playerId : payment.firebaseKey
         if let id = playerId {
@@ -24,7 +24,7 @@ class PaymentCell: UITableViewCell {
             PlayerService.shared.withId(id: id, completion: { [weak self] (player) in
                 self?.labelName.text = player?.name ?? player?.email ?? "Unknown player"
             })
-        } else if let customerId = payment.customerId, let playerId = StripePaymentService().playerIdForCustomer(customerId) {
+        } else if let customerId = payment.customerId, let playerId = service?.playerIdForCustomer(customerId) {
             PlayerService.shared.withId(id: playerId, completion: { [weak self] (player) in
                 self?.labelName.text = player?.name ?? player?.email ?? "Unknown player"
             })

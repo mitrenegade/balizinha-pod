@@ -29,21 +29,24 @@ class StripeMenuViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var connectService: StripeConnectService?
     fileprivate var menuItems: [MenuItem] = [.info, .connect]
-    var userId: String?
     var disposeBag: DisposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let userId = userId else { return }
-
-        // Do any additional setup after loading the view.
-        let clientId = TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD
-        connectService = StripeConnectService(clientId: clientId, apiService: FirebaseAPIService())
-        connectService?.startListeningForAccount(userId: userId)
-        connectService?.accountState.skip(1).distinctUntilChanged().subscribe(onNext: { [weak self] state in
-            print("StripeConnectService accountState changed: \(state)")
-            self?.reloadTable()
+        PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { [weak self] (player) in
+            let userId = player.id
+            
+            guard let self = self else { return }
+            
+            // Do any additional setup after loading the view.
+            let clientId = TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD
+            self.connectService = StripeConnectService(clientId: clientId, apiService: FirebaseAPIService())
+            self.connectService?.startListeningForAccount(userId: userId)
+            self.connectService?.accountState.skip(1).distinctUntilChanged().subscribe(onNext: { [weak self] state in
+                print("StripeConnectService accountState changed: \(state)")
+                self?.reloadTable()
+            }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
     }
     
