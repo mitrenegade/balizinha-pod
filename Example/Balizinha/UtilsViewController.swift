@@ -17,6 +17,7 @@ enum UtilItem: String, CaseIterable {
     case migrateEventImages
     case cleanupAnonymousAuth
     case refreshAllPlayerTopics
+    case migrateStripeCustomers
 
     var details: String {
         switch self {
@@ -30,7 +31,8 @@ enum UtilItem: String, CaseIterable {
             return "Removes old anonymous auth users"
         case .refreshAllPlayerTopics:
             return "Enables notifications for leagues and events for a player"
-            
+        case .migrateStripeCustomers:
+            return "Updates all stripe_customers to stripeCustomers"
         }
     }
 }
@@ -116,11 +118,13 @@ extension UtilsViewController: UITableViewDelegate {
             FirebaseAPIService().cloudFunction(functionName: selection.rawValue, method: "POST", params: nil) { [weak self] (result, error) in
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
-                }
-                if let error = error {
-                    print("Error: \(error)")
-                } else {
-                    print("Result: \(String(describing: result)))")
+                    if let error = error as NSError? {
+                        print("Error: \(error)")
+                        self?.simpleAlert("Error with \(selection.rawValue)", defaultMessage: "Error", error: error)
+                    } else {
+                        print("Result: \(String(describing: result)))")
+                        self?.simpleAlert("Success with \(selection.rawValue)", message: "Results: \(result)")
+                    }
                 }
             }
         }
