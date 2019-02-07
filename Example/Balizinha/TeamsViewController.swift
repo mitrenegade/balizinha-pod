@@ -97,8 +97,18 @@ class TeamsViewController: UIViewController {
                 simpleAlert("Could not assign player", message: "There was a strange issue assigning players. Currently there are \(randomPlayers.count) unassigned players and \(teams.count) existing teams")
                 return
             }
-            playerTeam[player.id] = newTeam
+            self.playerTeam[player.id] = newTeam
         }
+
+        // reorder player list in team order
+        let orderedTeams = Array(teams).sorted()
+        var orderedPlayers: [Player] = []
+        for team in orderedTeams {
+            let squad = teamPlayers(team: team)
+            orderedPlayers.append(contentsOf: squad)
+        }
+        self.players = orderedPlayers
+
         tableView.reloadData()
     }
     
