@@ -26,7 +26,8 @@ class TeamsViewController: UIViewController {
     
     @objc func didClickRandom(_ sender: Any) {
         if playerTeam.isEmpty {
-            randomizeOrder()
+            players = randomizeOrder(oldPlayers: players)
+            tableView.reloadData()
         }
     }
     
@@ -41,21 +42,21 @@ class TeamsViewController: UIViewController {
         })
     }
     
-    func randomizeOrder() {
+    func randomizeOrder(oldPlayers: [Player]) -> [Player] {
         var newPlayers: [Player] = []
-        let oldPlayers = players
+        var players = oldPlayers
         while let player = players.randomElement(), let index = players.firstIndex(of: player) {
             players.remove(at: index)
             newPlayers.append(player)
         }
         guard newPlayers.count == oldPlayers.count else {
             simpleAlert("Could not randomize", message: "There was a strange issue randomizing the whole list. There were \(oldPlayers.count) players but now there are \(newPlayers.count).")
-            players = oldPlayers
-            return
+            return oldPlayers
         }
-        players = newPlayers
-        tableView.reloadData()
+        return newPlayers
     }
+    
+    
 }
 
 extension TeamsViewController: UITableViewDataSource {
