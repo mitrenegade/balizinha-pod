@@ -21,7 +21,7 @@ class TeamsViewController: UIViewController {
         navigationItem.title = "Create Teams"
         refreshRightNavButton()
 
-        simpleAlert("To create teams", message: "Click on players to manually assign them to teams. Click on Random to assign everyone else to teams. Up to 12 teams can be manually assigned. If no captains are selected, the order will be randomized.")
+        simpleAlert("To create teams", message: "Click on players to manually assign them to teams. Click on Random to assign everyone else to teams. Up to 12 teams can be manually assigned. If no captains are selected, the order will be randomized. To remove a team assignment, swipe left.")
         
         players = randomizeOrder(oldPlayers: players)
     }
@@ -142,6 +142,14 @@ extension TeamsViewController: UITableViewDataSource {
         }
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        let row = indexPath.row
+        guard row < players.count else { return false }
+        let player = players[row]
+        
+        return playerTeam[player.id] != nil
+    }
 }
 
 extension TeamsViewController: UITableViewDelegate {
@@ -162,5 +170,16 @@ extension TeamsViewController: UITableViewDelegate {
         }
         
         tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let row = indexPath.row
+        guard row < players.count else { return }
+        let player = players[row]
+        
+        playerTeam.removeValue(forKey: player.id)
+        tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
+        
+        refreshRightNavButton()
     }
 }
