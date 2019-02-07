@@ -38,6 +38,8 @@ class EventPlayersViewController: SearchablePlayersViewController {
                 self.reloadTableData()
             }
         }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Teams", style: .done, target: self, action: #selector(didClickTeams(_:)))
     }
     
     func loadEventPlayers(completion: (()->())?) {
@@ -49,6 +51,19 @@ class EventPlayersViewController: SearchablePlayersViewController {
             self?.attendingPlayerIds = playerIds
             completion?()
         }
+    }
+    
+    @objc func didClickTeams(_ sender: Any) {
+        guard !eventPlayers.isEmpty else {
+            simpleAlert("Can't view teams", message: "No players are attending this event!")
+            return
+        }
+        performSegue(withIdentifier: "toTeams", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "toTeams", let controller = segue.destination as? TeamsViewController else { return }
+        controller.players = eventPlayers
     }
 }
 
