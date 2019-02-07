@@ -19,16 +19,35 @@ class TeamsViewController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.title = "Create Teams"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Random", style: .done, target: self, action: #selector(didClickRandom(_:)))
+        refreshRightNavButton()
 
         simpleAlert("To create teams", message: "Click on players to manually assign them to teams. Click on Random to assign everyone else to teams. Up to 12 teams can be manually assigned. If no captains are selected, the order will be randomized.")
+        
+        players = randomizeOrder(oldPlayers: players)
+    }
+    
+    func refreshRightNavButton() {
+        if playerTeam.count == players.count {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Clear", style: .done, target: self, action: #selector(didClickClear(_:)))
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Random", style: .done, target: self, action: #selector(didClickRandom(_:)))
+        }
     }
     
     @objc func didClickRandom(_ sender: Any) {
         if playerTeam.isEmpty {
             players = randomizeOrder(oldPlayers: players)
             tableView.reloadData()
+        } else {
+            fillRoster(allPlayers: players, playerTeams: playerTeam)
         }
+        refreshRightNavButton()
+    }
+    
+    @objc func didClickClear(_ sender: Any) {
+        playerTeam.removeAll()
+        tableView.reloadData()
+        refreshRightNavButton()
     }
     
     // convenience function to list the players in a team
@@ -56,7 +75,46 @@ class TeamsViewController: UIViewController {
         return newPlayers
     }
     
+    func fillRoster(allPlayers: [Player], playerTeams: [String: Int]) {
+        var players: [Player] = []
+        var teams: Set<Int> = Set<Int>()
+        
+        // create list of teams, and list of players not on a team
+        for player in allPlayers {
+            if let team = playerTeams[player.id] {
+                teams.insert(team)
+            } else {
+                players.append(player)
+            }
+        }
+        
+        // randomize remaining players
+        let randomPlayers = randomizeOrder(oldPlayers: players)
+        
+        // insert each player into the lowest team count
+        for player in randomPlayers {
+            guard let newTeam = assignPlayer(player, teams: Array(teams)) else {
+                simpleAlert("Could not assign player", message: "There was a strange issue assigning players. Currently there are \(randomPlayers.count) unassigned players and \(teams.count) existing teams")
+                return
+            }
+            playerTeam[player.id] = newTeam
+        }
+        tableView.reloadData()
+    }
     
+    private func assignPlayer(_ player: Player, teams: [Int]) -> Int? {
+        // find the team with the lowest count
+        var currentMinTeamSize = 999
+        var currentTeamNumber: Int?
+        for team in teams {
+            let playerCount = teamPlayers(team: team).count
+            if playerCount < currentMinTeamSize {
+                currentMinTeamSize = playerCount
+                currentTeamNumber = team
+            }
+        }
+        return currentTeamNumber
+    }
 }
 
 extension TeamsViewController: UITableViewDataSource {
@@ -83,13 +141,14 @@ extension TeamsViewController: UITableViewDelegate {
         let player = players[row]
         
         if let team = playerTeam[player.id] {
-            var newTeam = team + 1
+            let newTeam = team + 1
             if newTeam > MAX_TEAMS {
-                newTeam = 1
+                playerTeam.removeValue(forKey: player.id)
+            } else {
+                playerTeam[player.id] = newTeam
             }
-            playerTeam[player.id] = newTeam
         } else {
-            playerTeam.removeValue(forKey: player.id)
+            playerTeam[player.id] = 1
         }
         
         tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
