@@ -19,13 +19,15 @@ class TeamsViewController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.title = "Create Teams"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Teams", style: .done, target: self, action: #selector(didClickRandom(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Random", style: .done, target: self, action: #selector(didClickRandom(_:)))
 
         simpleAlert("To create teams", message: "Click on players to manually assign them to teams. Click on Random to assign everyone else to teams. Up to 12 teams can be manually assigned. If no captains are selected, the order will be randomized.")
     }
     
     @objc func didClickRandom(_ sender: Any) {
-        
+        if playerTeam.isEmpty {
+            randomizeOrder()
+        }
     }
     
     // convenience function to list the players in a team
@@ -37,6 +39,22 @@ class TeamsViewController: UIViewController {
                 return nil
             }
         })
+    }
+    
+    func randomizeOrder() {
+        var newPlayers: [Player] = []
+        let oldPlayers = players
+        while let player = players.randomElement(), let index = players.firstIndex(of: player) {
+            players.remove(at: index)
+            newPlayers.append(player)
+        }
+        guard newPlayers.count == oldPlayers.count else {
+            simpleAlert("Could not randomize", message: "There was a strange issue randomizing the whole list. There were \(oldPlayers.count) players but now there are \(newPlayers.count).")
+            players = oldPlayers
+            return
+        }
+        players = newPlayers
+        tableView.reloadData()
     }
 }
 
@@ -70,7 +88,7 @@ extension TeamsViewController: UITableViewDelegate {
             }
             playerTeam[player.id] = newTeam
         } else {
-            playerTeam[player.id] = 1
+            playerTeam.removeValue(forKey: player.id)
         }
         
         tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
