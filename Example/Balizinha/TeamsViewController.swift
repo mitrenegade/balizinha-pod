@@ -10,7 +10,9 @@ import UIKit
 import Balizinha
 
 class TeamsViewController: UIViewController {
+    private let MAX_TEAMS = 12
     var players: [Player] = []
+    var playerTeam: [String: Int] = [:]
     
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
@@ -25,6 +27,17 @@ class TeamsViewController: UIViewController {
     @objc func didClickRandom(_ sender: Any) {
         
     }
+    
+    // convenience function to list the players in a team
+    func teamPlayers(team: Int) -> [Player] {
+        return playerTeam.compactMap({ (playerId, playerTeam) -> Player? in
+            if team == playerTeam {
+                return players.first(where: {$0.id == playerId})
+            } else {
+                return nil
+            }
+        })
+    }
 }
 
 extension TeamsViewController: UITableViewDataSource {
@@ -37,8 +50,29 @@ extension TeamsViewController: UITableViewDataSource {
         cell.reset()
         if indexPath.row < players.count {
             let player = players[indexPath.row]
-            cell.configure(player: player, team: 1)
+            let team: Int? = playerTeam[player.id]
+            cell.configure(player: player, team: team)
         }
         return cell
+    }
+}
+
+extension TeamsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let row = indexPath.row
+        guard row < players.count else { return }
+        let player = players[row]
+        
+        if let team = playerTeam[player.id] {
+            var newTeam = team + 1
+            if newTeam > MAX_TEAMS {
+                newTeam = 1
+            }
+            playerTeam[player.id] = newTeam
+        } else {
+            playerTeam[player.id] = 1
+        }
+        
+        tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
     }
 }
