@@ -8,12 +8,15 @@
 
 import UIKit
 import Balizinha
+import MessageUI
 
 class TeamsViewController: UIViewController {
     private let MAX_TEAMS = 12
     var players: [Player] = []
     var playerTeam: [String: Int] = [:]
-    
+    private var email: String?
+    var event: Balizinha.Event?
+
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,25 +128,62 @@ class TeamsViewController: UIViewController {
         }
         return currentTeamNumber
     }
+    
+    func sendEmail() {
+        guard MFMailComposeViewController.canSendMail() else {
+            simpleAlert("Cannot send email", message: "Your device is unable to send emails.")
+            return
+        }
+        
+        let composeVC = MFMailComposeViewController()
+        composeVC.mailComposeDelegate = self
+        
+        // Configure the fields of the interface.
+        if let email = DefaultsManager.shared.value(forKey: "lastEmail") as? String { //}, email.isValidEmail() {
+            composeVC.setToRecipients([email])
+        }
+        
+        let date: String = event?.startTime?.dateStringForPicker() ?? Date().dateStringForPicker()
+        let name = event?.name ?? "Unnamed event"
+        composeVC.setSubject("Team roster")
+        var message = "Date: \(date)\nEvent: \(name)"
+        composeVC.setMessageBody(message, isHTML: false)
+        
+        // Present the view controller modally.
+        present(composeVC, animated: true, completion: nil)
+    }
 }
 
 extension TeamsViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return players.count
+        if section == 0 {
+            return players.count
+        }
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerCell", for: indexPath) as! TeamPlayerCell // using leaguePlayerCell is fine
-        cell.reset()
-        if indexPath.row < players.count {
-            let player = players[indexPath.row]
-            let team: Int? = playerTeam[player.id]
-            cell.configure(player: player, team: team)
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerCell", for: indexPath) as! TeamPlayerCell // using leaguePlayerCell is fine
+            cell.reset()
+            if indexPath.row < players.count {
+                let player = players[indexPath.row]
+                let team: Int? = playerTeam[player.id]
+                cell.configure(player: player, team: team)
+            }
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SendCell", for: indexPath)
+            return cell
         }
-        return cell
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard indexPath.section == 0 else { return false }
         let row = indexPath.row
         guard row < players.count else { return false }
         let player = players[row]
@@ -154,25 +194,30 @@ extension TeamsViewController: UITableViewDataSource {
 
 extension TeamsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let row = indexPath.row
-        guard row < players.count else { return }
-        let player = players[row]
-        
-        if let team = playerTeam[player.id] {
-            let newTeam = team + 1
-            if newTeam > MAX_TEAMS {
-                playerTeam.removeValue(forKey: player.id)
+        if indexPath.section == 0 {
+            let row = indexPath.row
+            guard row < players.count else { return }
+            let player = players[row]
+            
+            if let team = playerTeam[player.id] {
+                let newTeam = team + 1
+                if newTeam > MAX_TEAMS {
+                    playerTeam.removeValue(forKey: player.id)
+                } else {
+                    playerTeam[player.id] = newTeam
+                }
             } else {
-                playerTeam[player.id] = newTeam
+                playerTeam[player.id] = 1
             }
+            
+            tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
         } else {
-            playerTeam[player.id] = 1
+            sendEmail()
         }
-        
-        tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard indexPath.section == 0 else { return }
         let row = indexPath.row
         guard row < players.count else { return }
         let player = players[row]
@@ -181,5 +226,23 @@ extension TeamsViewController: UITableViewDelegate {
         tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
         
         refreshRightNavButton()
+    }
+}
+
+extension TeamsViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        if let error = error as NSError? {
+            simpleAlert("Could not send email", defaultMessage: "", error: error)
+        } else {
+            switch result {
+            case .sent:
+                if let email = email {
+                    simpleAlert("Email sent", message: "Your team was sent to \(email)")
+                    DefaultsManager.shared.setValue(email, forKey: "lastEmail")
+                }
+            default:
+                return
+            }
+        }
     }
 }

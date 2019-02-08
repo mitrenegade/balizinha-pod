@@ -64,6 +64,7 @@ class EventPlayersViewController: SearchablePlayersViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "toTeams", let controller = segue.destination as? TeamsViewController else { return }
         controller.players = eventPlayers
+        controller.event = event
     }
 }
 
