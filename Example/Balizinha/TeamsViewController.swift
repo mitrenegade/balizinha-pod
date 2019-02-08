@@ -249,13 +249,10 @@ extension TeamsViewController: MFMailComposeViewControllerDelegate {
         dismiss(animated: true) {
             if let error = error as NSError? {
                 self.simpleAlert("Could not send email", defaultMessage: "", error: error)
-            } else {
-                switch result {
-                case .sent:
-                    self.simpleAlert("Email sent", message: "Your team was sent to \(email)")
-                default:
-                    return
-                }
+            } else if result == .sent {
+                self.simpleAlert("Email sent", message: "Your team was sent successfully")
+            } else if result == .failed {
+                self.simpleAlert("Could not send email", message: "Mail composer had an issue")
             }
         }
     }

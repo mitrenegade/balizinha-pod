@@ -16,8 +16,6 @@ public enum DefaultsKey: String {
     case locationPermissionDeniedWarningShown
     case shouldFilterNearbyEvents
     case showedTutorial
-    
-//    case lastEmail
 }
 
 public protocol DefaultsProvider {
