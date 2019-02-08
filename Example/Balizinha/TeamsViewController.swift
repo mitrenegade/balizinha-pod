@@ -14,7 +14,6 @@ class TeamsViewController: UIViewController {
     private let MAX_TEAMS = 12
     var players: [Player] = []
     var playerTeam: [String: Int] = [:]
-    private var email: String?
     var event: Balizinha.Event?
 
     @IBOutlet weak var tableView: UITableView!
@@ -139,10 +138,6 @@ class TeamsViewController: UIViewController {
         composeVC.mailComposeDelegate = self
         
         // Configure the fields of the interface.
-        if let email = DefaultsManager.shared.value(forKey: "lastEmail") as? String { //}, email.isValidEmail() {
-            composeVC.setToRecipients([email])
-        }
-        
         let date: String = event?.startTime?.dateStringForPicker() ?? Date().dateStringForPicker()
         let name = event?.name ?? "Unnamed event"
         composeVC.setSubject("Team roster")
@@ -150,14 +145,21 @@ class TeamsViewController: UIViewController {
         
         // reorder player list in team order
         let orderedTeams = Array(Set(playerTeam.values)).sorted()
-        for team in orderedTeams {
-            message = "\(message)\nTeam \(team)"
-            let squad = teamPlayers(team: team)
-            for player in squad {
+        if !orderedTeams.isEmpty {
+            for team in orderedTeams {
+                message = "\(message)\nTeam \(team)"
+                let squad = teamPlayers(team: team)
+                for player in squad {
+                    let name = player.name ?? player.email ?? "Unknown name"
+                    message = "\(message)\n\(name)"
+                }
+                message = message + "\n"
+            }
+        } else {
+            for player in players {
                 let name = player.name ?? player.email ?? "Unknown name"
                 message = "\(message)\n\(name)"
             }
-            message = message + "\n"
         }
 
         composeVC.setMessageBody(message, isHTML: false)
@@ -244,20 +246,17 @@ extension TeamsViewController: UITableViewDelegate {
 
 extension TeamsViewController: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        if let error = error as NSError? {
-            simpleAlert("Could not send email", defaultMessage: "", error: error)
-        } else {
-            switch result {
-            case .sent:
-                if let email = email {
-                    simpleAlert("Email sent", message: "Your team was sent to \(email)")
-                    DefaultsManager.shared.setValue(email, forKey: "lastEmail")
+        dismiss(animated: true) {
+            if let error = error as NSError? {
+                self.simpleAlert("Could not send email", defaultMessage: "", error: error)
+            } else {
+                switch result {
+                case .sent:
+                    self.simpleAlert("Email sent", message: "Your team was sent to \(email)")
+                default:
+                    return
                 }
-            default:
-                return
             }
         }
     }
-    
-    
 }
