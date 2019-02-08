@@ -12,39 +12,39 @@ import Balizinha
 class PlayerCell: UITableViewCell {
     @IBOutlet weak var imagePhoto: RAImageView!
     @IBOutlet weak var labelName: UILabel!
-    @IBOutlet weak var labelId: UILabel!
-    @IBOutlet weak var labelCreated: UILabel!
-    @IBOutlet weak var labelDetails: UILabel!
+    @IBOutlet weak var labelId: UILabel?
+    @IBOutlet weak var labelCreated: UILabel?
+    @IBOutlet weak var labelDetails: UILabel?
     
     // photo constraints
-    @IBOutlet weak var constraintImageWidth: NSLayoutConstraint!
-    @IBOutlet weak var constraintNameLeftOffset: NSLayoutConstraint!
-    @IBOutlet weak var constraintNameTopOffset: NSLayoutConstraint!
+    @IBOutlet weak var constraintImageWidth: NSLayoutConstraint?
+    @IBOutlet weak var constraintNameLeftOffset: NSLayoutConstraint?
+    @IBOutlet weak var constraintNameTopOffset: NSLayoutConstraint?
     
     // detail constraints
-    @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint!
+    @IBOutlet weak var constraintDetailHeight: NSLayoutConstraint?
 
     func configure(player: Player, expanded: Bool, url: String?) {
         labelName.text = player.name ?? player.email ?? "Anon"
-        labelId.text = player.id
-        labelCreated.text = player.createdAt?.dateString()
+        labelId?.text = player.id
+        labelCreated?.text = player.createdAt?.dateString()
 
         if let urlString = url {
             if expanded {
-                constraintImageWidth.constant = frame.size.width - 30
-                constraintNameLeftOffset.constant = 15
-                constraintNameTopOffset.constant = frame.size.width - 30
+                constraintImageWidth?.constant = frame.size.width - 30
+                constraintNameLeftOffset?.constant = 15
+                constraintNameTopOffset?.constant = frame.size.width - 30
                 
             } else {
-                constraintImageWidth.constant = 50
-                constraintNameLeftOffset.constant = 15 + 50 + 8
-                constraintNameTopOffset.constant = 0
+                constraintImageWidth?.constant = 50
+                constraintNameLeftOffset?.constant = 15 + 50 + 8
+                constraintNameTopOffset?.constant = 0
             }
             updatePhoto(urlString: urlString)
         } else {
-            constraintImageWidth.constant = 0
-            constraintNameLeftOffset.constant = 15
-            constraintNameTopOffset.constant = 0
+            constraintImageWidth?.constant = 0
+            constraintNameLeftOffset?.constant = 15
+            constraintNameTopOffset?.constant = 0
         }
         
         var detailText: String = ""
@@ -61,12 +61,14 @@ class PlayerCell: UITableViewCell {
             let time = active.dateString()
             detailText = detailText + "Location: \(lat), \(lon)\nActive: \(time)"
         }
-        labelDetails.text = detailText
-        let bounds = (detailText as NSString).size(withAttributes: [NSAttributedStringKey.font: labelDetails.font])
-        if expanded {
-            constraintDetailHeight.constant = bounds.height + 50
-        } else {
-            constraintDetailHeight.constant = 0
+        if let details = labelDetails {
+            details.text = detailText
+            let bounds = (detailText as NSString).size(withAttributes: [NSAttributedStringKey.font: details.font])
+            if expanded {
+                constraintDetailHeight?.constant = bounds.height + 50
+            } else {
+                constraintDetailHeight?.constant = 0
+            }
         }
     }
     
@@ -77,7 +79,7 @@ class PlayerCell: UITableViewCell {
 
     func reset() {
         labelName.text = nil
-        labelId.text = nil
-        labelCreated.text = nil
+        labelId?.text = nil
+        labelCreated?.text = nil
     }
 }

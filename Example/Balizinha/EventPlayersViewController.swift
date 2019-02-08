@@ -38,6 +38,8 @@ class EventPlayersViewController: SearchablePlayersViewController {
                 self.reloadTableData()
             }
         }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Teams", style: .done, target: self, action: #selector(didClickTeams(_:)))
     }
     
     func loadEventPlayers(completion: (()->())?) {
@@ -49,6 +51,20 @@ class EventPlayersViewController: SearchablePlayersViewController {
             self?.attendingPlayerIds = playerIds
             completion?()
         }
+    }
+    
+    @objc func didClickTeams(_ sender: Any) {
+        guard !eventPlayers.isEmpty else {
+            simpleAlert("Can't view teams", message: "No players are attending this event!")
+            return
+        }
+        performSegue(withIdentifier: "toTeams", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "toTeams", let controller = segue.destination as? TeamsViewController else { return }
+        controller.players = eventPlayers
+        controller.event = event
     }
 }
 
@@ -85,6 +101,25 @@ extension EventPlayersViewController: UITableViewDelegate {
         let section = sections[indexPath.section]
         guard indexPath.row < section.players.count else { return }
         let playerId: String = section.players[indexPath.row].id
+        
+        let message: String
+        switch section.name {
+        case "Attending", "Attended":
+            message = "Remove player from event?"
+        case "Other":
+            message = "Add player to event?"
+        default:
+            message = "Clicking on this player will do nothing."
+        }
+        let alert = UIAlertController(title: "Toggle player?", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+            self.togglePlayerAttendance(playerId: playerId, section: section, event: event)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func togglePlayerAttendance(playerId: String, section: Section, event: Event) {
         switch section.name {
         case "Attending", "Attended":
             EventService.shared.leaveEvent(event, userId: playerId, removedByOrganizer: true) { [weak self] (error) in
@@ -111,7 +146,6 @@ extension EventPlayersViewController: UITableViewDelegate {
         default:
             return
         }
-        
     }
 }
 
