@@ -146,7 +146,20 @@ class TeamsViewController: UIViewController {
         let date: String = event?.startTime?.dateStringForPicker() ?? Date().dateStringForPicker()
         let name = event?.name ?? "Unnamed event"
         composeVC.setSubject("Team roster")
-        var message = "Date: \(date)\nEvent: \(name)"
+        var message = "Date: \(date)\nEvent: \(name)\n"
+        
+        // reorder player list in team order
+        let orderedTeams = Array(Set(playerTeam.values)).sorted()
+        for team in orderedTeams {
+            message = "\(message)\nTeam \(team)"
+            let squad = teamPlayers(team: team)
+            for player in squad {
+                let name = player.name ?? player.email ?? "Unknown name"
+                message = "\(message)\n\(name)"
+            }
+            message = message + "\n"
+        }
+
         composeVC.setMessageBody(message, isHTML: false)
         
         // Present the view controller modally.
@@ -245,4 +258,6 @@ extension TeamsViewController: MFMailComposeViewControllerDelegate {
             }
         }
     }
+    
+    
 }
