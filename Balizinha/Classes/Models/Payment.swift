@@ -91,4 +91,8 @@ public class Payment: FirebaseBaseModel {
     public var customerId: String? {
         return dict["customer"] as? String
     }
+    
+    public var connectId: String? {
+        return dict["connectId"] as? String
+    }
 }

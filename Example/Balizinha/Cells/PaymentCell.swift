@@ -43,7 +43,11 @@ class PaymentCell: UITableViewCell {
         // status
         switch payment.status {
         case .succeeded:
-            labelStatus.text = "Single payment"
+            if let connectId = payment.connectId {
+                labelStatus.text = "Single payment"
+            } else {
+                labelStatus.text = "Captured payment"
+            }
             labelStatus.textColor = .green
             self.accessoryType = .none
         case .active:
