@@ -108,15 +108,15 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - Protobuf (3.6.1)
-  - RenderCloud (1.0.1)
-  - RenderPay (0.0.8):
+  - RenderCloud (1.1.0)
+  - RenderPay (0.1.0):
     - Firebase
     - Firebase/Auth
     - Firebase/Core
     - Firebase/Database
     - Firebase/RemoteConfig
     - Firebase/Storage
-    - RenderCloud (~> 1.0.1)
+    - RenderCloud (~> 1.1.0)
     - RxCocoa
     - RxOptional
     - RxSwift
@@ -127,12 +127,12 @@ PODS:
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
   - RxSwift (4.2.0)
-  - Stripe (14.0.0)
+  - Stripe (15.0.0)
 
 DEPENDENCIES:
   - Balizinha (from `../`)
-  - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `1.0.1`)"
-  - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `0.0.8`)"
+  - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `1.1.0`)"
+  - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `0.1.0`)"
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -163,18 +163,18 @@ EXTERNAL SOURCES:
     :path: "../"
   RenderCloud:
     :git: "git@bitbucket.org:renderapps/RenderCloud.git"
-    :tag: 1.0.1
+    :tag: 1.1.0
   RenderPay:
     :git: "git@bitbucket.org:renderapps/renderpay.git"
-    :tag: 0.0.8
+    :tag: 0.1.0
 
 CHECKOUT OPTIONS:
   RenderCloud:
     :git: "git@bitbucket.org:renderapps/RenderCloud.git"
-    :tag: 1.0.1
+    :tag: 1.1.0
   RenderPay:
     :git: "git@bitbucket.org:renderapps/renderpay.git"
-    :tag: 0.0.8
+    :tag: 0.1.0
 
 SPEC CHECKSUMS:
   Balizinha: 55b0717589198fa87b25f7ee4f46f956541a7ac1
@@ -195,13 +195,13 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  RenderCloud: 17a47967c389a215e76a9cca77397d18d19990dd
-  RenderPay: cc351b460699827dded04f8626da32a060d50838
+  RenderCloud: 2206a9dba1f8b28a394867718dfabd2cb846fa87
+  RenderPay: e7c5c694749ee0e84d708898aba5a98013f4530e
   RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
   RxOptional: bd32ff8ca9df4177683d56ffeb618a9d4d5d5cad
   RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
-  Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
+  Stripe: 312b22a67af9fa55c246d26148b3f3a9636a0ff2
 
-PODFILE CHECKSUM: 547f3e01da00a4ae9251eab9449ba27c55fbc37f
+PODFILE CHECKSUM: 20d4138320d8e8fc35df95a44dc73c71ac57cddc
 
-COCOAPODS: 1.6.0
+COCOAPODS: 1.6.1
