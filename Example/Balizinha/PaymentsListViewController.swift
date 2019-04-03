@@ -18,7 +18,7 @@ class PaymentsListViewController: ListViewController {
     
     @IBOutlet fileprivate weak var selectorType: UISegmentedControl!
     fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
-    let paymentService: StripePaymentService = StripePaymentService(apiService: FirebaseAPIService())
+    let paymentService: StripePaymentService = StripePaymentService(apiService: RenderAPIService())
 
     var data: [String: [Payment]] = [:]
     var events: [String: Balizinha.Event] = [:]
@@ -236,7 +236,7 @@ extension PaymentsListViewController {
     fileprivate func doRefund(chargeId: String, eventId: String) {
         activityOverlay.show()
         paymentService.refundPayment(eventId: eventId, chargeId: chargeId, params: ["isAdmin": true]) { [weak self] (result, error) in
-            print("FirebaseAPIService: result \(String(describing: result)) error \(String(describing: error))")
+            print("RenderAPIService: result \(String(describing: result)) error \(String(describing: error))")
             DispatchQueue.main.async {
                 self?.activityOverlay.hide()
                 if let result = result {

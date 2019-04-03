@@ -115,7 +115,7 @@ extension UtilsViewController: UITableViewDelegate {
             refreshAllPlayerTopics()
         default:
             activityOverlay.show()
-            FirebaseAPIService().cloudFunction(functionName: selection.rawValue, method: "POST", params: nil) { [weak self] (result, error) in
+            RenderAPIService().cloudFunction(functionName: selection.rawValue, method: "POST", params: nil) { [weak self] (result, error) in
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
                     if let error = error as NSError? {
@@ -134,7 +134,7 @@ extension UtilsViewController: UITableViewDelegate {
 extension UtilsViewController {
     func cleanupAnonymousAuth() {
         activityOverlay.show()
-        FirebaseAPIService().cloudFunction(functionName: "cleanupAnonymousAuth", method: "POST", params: nil) { [weak self] (result, error) in
+        RenderAPIService().cloudFunction(functionName: "cleanupAnonymousAuth", method: "POST", params: nil) { [weak self] (result, error) in
             DispatchQueue.main.async {
                 self?.activityOverlay.hide()
             }
@@ -320,13 +320,13 @@ extension UtilsViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         print("RefreshAllPlayerTopics for userId \(userId)")
         let params: [String: Any] = ["userId": userId, "pushEnabled": true]
         activityOverlay.show()
-        FirebaseAPIService().cloudFunction(functionName: "refreshAllPlayerTopics", method: "POST", params: params) { [weak self] (result, error) in
+        RenderAPIService().cloudFunction(functionName: "refreshAllPlayerTopics", method: "POST", params: params) { [weak self] (result, error) in
             if let error = error as NSError? {
                 DispatchQueue.main.async {
                     self?.simpleAlert("RefreshAllPlayerTopics failed", defaultMessage: "There was an error creating topics for player \(userId)", error: error)
                 }
             } else {
-                FirebaseAPIService().cloudFunction(functionName: "refreshPlayerSubscriptions", params: params) { [weak self] (result, error) in
+                RenderAPIService().cloudFunction(functionName: "refreshPlayerSubscriptions", params: params) { [weak self] (result, error) in
                     print("Result \(String(describing: result)) error \(String(describing: error))")
                     DispatchQueue.main.async {
                         if let error = error as NSError? {

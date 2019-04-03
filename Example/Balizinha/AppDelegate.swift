@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         let baseUrl = TESTING ? FIREBASE_URL_DEV : FIREBASE_URL_PROD
-        FirebaseAPIService.baseURL = URL(string: baseUrl)
+        RenderAPIService.baseURL = URL(string: baseUrl)
         
         let config = STPPaymentConfiguration.shared()
         config.publishableKey = TESTING ? STRIPE_PUBLISHABLE_KEY_DEV : STRIPE_PUBLISHABLE_KEY_PROD

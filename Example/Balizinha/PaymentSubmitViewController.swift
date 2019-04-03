@@ -23,7 +23,7 @@ class PaymentSubmitViewController: UIViewController {
     @IBOutlet weak var buttonRelease: UIButton!
     @IBOutlet weak var buttonRefund: UIButton!
 
-    let paymentService: StripePaymentService = StripePaymentService(apiService: FirebaseAPIService())
+    let paymentService: StripePaymentService = StripePaymentService(apiService: RenderAPIService())
     
     override func viewDidLoad() {
         super.viewDidLoad()

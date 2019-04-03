@@ -20,7 +20,7 @@ public class FeedService: NSObject {
             return
         }
         
-        let id = FirebaseAPIService().uniqueId()
+        let id = RenderAPIService().uniqueId()
         let userId = player.id
         
         var params: [String: Any] = ["leagueId": leagueId, "userId": userId, "id": id]
@@ -38,7 +38,7 @@ public class FeedService: NSObject {
             }
 
             dispatchGroup.enter()
-            FirebaseAPIService().cloudFunction(functionName: "createFeedItem", params: params, completion: { (result, err) in
+            RenderAPIService().cloudFunction(functionName: "createFeedItem", params: params, completion: { (result, err) in
                 createResult = result
                 createError = err
                 dispatchGroup.leave()
@@ -51,7 +51,7 @@ public class FeedService: NSObject {
             
         } else {
             params["type"] = FeedItemType.chat.rawValue
-            FirebaseAPIService().cloudFunction(functionName: "createFeedItem", params: params, completion: { (result, error) in
+            RenderAPIService().cloudFunction(functionName: "createFeedItem", params: params, completion: { (result, error) in
                 print("result \(String(describing: result)) error \(String(describing: error))")
                 completion?(error)
             })

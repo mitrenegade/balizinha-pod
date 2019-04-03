@@ -53,7 +53,7 @@ public class LeagueService: NSObject {
     public func create(name: String, city: String, info: String, completion: @escaping ((_ result: Any?, _ error: Error?)->Void)) {
         guard let user = AuthService.currentUser else { return }
         let params = ["name": name, "city": city, "info": info, "userId": user.uid]
-        FirebaseAPIService().cloudFunction(functionName: "createLeague", method: "POST", params: params, completion: { (result, error) in
+        RenderAPIService().cloudFunction(functionName: "createLeague", method: "POST", params: params, completion: { (result, error) in
             guard error == nil else {
                 print("League creation error \(error)")
                 completion(nil, error)
@@ -66,7 +66,7 @@ public class LeagueService: NSObject {
     
     public func join(league: League, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
         guard let user = AuthService.currentUser else { return }
-        FirebaseAPIService().cloudFunction(functionName: "joinLeaveLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": true]) { (result, error) in
+        RenderAPIService().cloudFunction(functionName: "joinLeaveLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": true]) { (result, error) in
             guard error == nil else {
                 print("League join error \(error)")
                 completion(nil, error)
@@ -79,7 +79,7 @@ public class LeagueService: NSObject {
     
     public func leave(league: League, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
         guard let user = AuthService.currentUser else { return }
-        FirebaseAPIService().cloudFunction(functionName: "joinLeaveLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": false]) { (result, error) in
+        RenderAPIService().cloudFunction(functionName: "joinLeaveLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": false]) { (result, error) in
             guard error == nil else {
                 print("League leave error \(error)")
                 completion(nil, error)
@@ -109,7 +109,7 @@ public class LeagueService: NSObject {
     }
     
     public func memberships(for league: League, completion: @escaping (([Membership]?)->Void)) {
-        FirebaseAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
+        RenderAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
                 //print("Players for league error \(error)")
                 completion(nil)
@@ -133,7 +133,7 @@ public class LeagueService: NSObject {
     }
     
     public func players(for league: League, completion: @escaping (([String]?)->Void)) {
-        FirebaseAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
+        RenderAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
                 //print("Players for league error \(error)")
                 completion(nil)
@@ -157,7 +157,7 @@ public class LeagueService: NSObject {
     }
     
     public func events(for league: League, completion: @escaping (([Event]?)->Void)) {
-        FirebaseAPIService().cloudFunction(functionName: "getEventsForLeague", params: ["leagueId": league.id]) { (result, error) in
+        RenderAPIService().cloudFunction(functionName: "getEventsForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
                 print("Events for league error \(error)")
                 completion(nil)
@@ -180,7 +180,7 @@ public class LeagueService: NSObject {
     }
     
     public func leagueMemberships(for player: Player, completion: @escaping (([String: Membership.Status]?)->Void)) {
-        FirebaseAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { (result, error) in
+        RenderAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { (result, error) in
             guard error == nil else {
                 //print("Leagues for player error \(error)")
                 completion(nil)
@@ -211,7 +211,7 @@ public class LeagueService: NSObject {
     }
     
     public func changeLeaguePlayerStatus(playerId: String, league: League, status: String, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
-        FirebaseAPIService().cloudFunction(functionName: "changeLeaguePlayerStatus", method: "POST", params: ["userId": playerId, "leagueId": league.id, "status": status]) { (result, error) in
+        RenderAPIService().cloudFunction(functionName: "changeLeaguePlayerStatus", method: "POST", params: ["userId": playerId, "leagueId": league.id, "status": status]) { (result, error) in
             guard error == nil else {
                 print("Player status change error \(error)")
                 completion(nil, error)
