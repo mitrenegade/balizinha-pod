@@ -111,7 +111,7 @@ public class EventService: NSObject {
     
     public func getAvailableEvents(completion: (([Balizinha.Event])->Void)?) {
         guard let user = AuthService.currentUser else { return }
-        FirebaseAPIService().cloudFunction(functionName: "getEventsAvailableToUser", method: "POST", params: ["userId": user.uid]) { [weak self] (results, error) in
+        RenderAPIService().cloudFunction(functionName: "getEventsAvailableToUser", method: "POST", params: ["userId": user.uid]) { [weak self] (results, error) in
             if error != nil {
                 print("Error: \(error as? NSError)")
                 completion?([])
@@ -152,7 +152,7 @@ public class EventService: NSObject {
         if let info = info {
             params["info"] = info
         }
-        FirebaseAPIService().cloudFunction(functionName: "createEvent", params: params) { (result, error) in
+        RenderAPIService().cloudFunction(functionName: "createEvent", params: params) { (result, error) in
             if let error = error as NSError? {
                 print("CreateEvent v1.4 failed with error \(error)")
                 completion(nil, error)
@@ -196,7 +196,7 @@ public class EventService: NSObject {
         if let admin = addedByOrganizer {
             params["addedByOrganizer"] = admin
         }
-        FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
+        RenderAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
             }
@@ -209,7 +209,7 @@ public class EventService: NSObject {
         if let admin = removedByOrganizer {
             params["removedByOrganizer"] = removedByOrganizer
         }
-        FirebaseAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
+        RenderAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
             }

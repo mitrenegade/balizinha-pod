@@ -20,8 +20,8 @@ fileprivate enum MenuItem: String {
 class StripeMenuViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    var connectService: StripeConnectService = StripeConnectService(clientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD, apiService: FirebaseAPIService())
-    let paymentService: StripePaymentService = StripePaymentService(apiService: FirebaseAPIService())
+    var connectService: StripeConnectService = StripeConnectService(clientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD, apiService: RenderAPIService())
+    let paymentService: StripePaymentService = StripePaymentService(apiService: RenderAPIService())
     fileprivate var menuItems: [MenuItem] = [.info, .connect]
     var disposeBag: DisposeBag = DisposeBag()
 
