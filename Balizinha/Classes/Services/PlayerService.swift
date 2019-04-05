@@ -64,7 +64,6 @@ public class PlayerService: NSObject {
     }
     
     public class func resetOnLogout() {
-        print("PlayerService resetOnLogout")
         shared.disposeBag = DisposeBag()
         shared.current.value = nil
         shared.startAuthListener()
