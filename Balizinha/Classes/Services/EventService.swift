@@ -20,7 +20,7 @@ fileprivate var singleton: EventService?
 
 public class EventService: NSObject {
     fileprivate var _usersForEvents: [String: AnyObject] = [:]
-    fileprivate var _events: [String:Event] = [:]
+    fileprivate var _events: [String:Balizinha.Event] = [:]
     
     // MARK: - Singleton
     public static var shared: EventService {
@@ -49,7 +49,7 @@ public class EventService: NSObject {
         }
     }
     
-    public var featuredEvent: Variable<Event?> = Variable(nil)
+    public var featuredEvent: Variable<Balizinha.Event?> = Variable(nil)
     public func listenForEventUsers(action: (()->())? = nil) {
         // firRef is the global firebase ref
         let queryRef = firRef.child("eventUsers")
@@ -67,11 +67,9 @@ public class EventService: NSObject {
     
     // MARK: - Single call listeners
     
-    public func getEvents(type: String?, completion: @escaping (_ results: [Event]) -> Void) {
+    public func getEvents(type: String?, completion: @escaping (_ results: [Balizinha.Event]) -> Void) {
         // returns all current events of a certain type. Returns as snapshot
         // only gets events once, and removes observer afterwards
-        print("Get events")
-        
         let eventQueryRef = firRef.child("events")//childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // sort by time
@@ -91,11 +89,11 @@ public class EventService: NSObject {
                 completion([])
                 return
             }
-            var results: [Event] = []
+            var results: [Balizinha.Event] = []
             if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
                 for eventDict: DataSnapshot in allObjects {
                     guard eventDict.exists() else { continue }
-                    let event = Event(snapshot: eventDict)
+                    let event = Balizinha.Event(snapshot: eventDict)
                     if event.active {
                         results.append(event)
                     }
@@ -131,9 +129,7 @@ public class EventService: NSObject {
         }
     }
     
-    public func createEvent(_ name: String, type: EventType, city: String, state: String, lat: Double?, lon: Double?, place: String, startTime: Date, endTime: Date, maxPlayers: UInt, info: String?, paymentRequired: Bool, amount: NSNumber? = 0, leagueId: String?, completion:@escaping (Event?, NSError?) -> Void) {
-        
-        print ("Create events")
+    public func createEvent(_ name: String, type: Balizinha.Event.EventType, city: String, state: String, lat: Double?, lon: Double?, place: String, startTime: Date, endTime: Date, maxPlayers: UInt, info: String?, paymentRequired: Bool, amount: NSNumber? = 0, leagueId: String?, completion:@escaping (Balizinha.Event?, NSError?) -> Void) {
         
         guard let user = AuthService.currentUser else { return }
         
@@ -173,7 +169,7 @@ public class EventService: NSObject {
         }
     }
     
-    public func deleteEvent(_ event: Event) {
+    public func deleteEvent(_ event: Balizinha.Event) {
         //let userId = user.uid
         let eventId = event.id
         let eventRef = firRef.child("events").child(eventId)
@@ -191,7 +187,7 @@ public class EventService: NSObject {
         
         
     }
-    public func joinEvent(_ event: Event, userId: String, addedByOrganizer: Bool? = nil, completion: ((Error?)->Void)? = nil) {
+    public func joinEvent(_ event: Balizinha.Event, userId: String, addedByOrganizer: Bool? = nil, completion: ((Error?)->Void)? = nil) {
         var params: [String: Any] = ["userId": userId, "eventId": event.id, "join": true]
         if let admin = addedByOrganizer {
             params["addedByOrganizer"] = admin
@@ -207,11 +203,11 @@ public class EventService: NSObject {
     public func leaveEvent(_ event: Event, userId: String, removedByOrganizer: Bool? = nil, completion: ((Error?)->Void)? = nil) {
         var params: [String: Any] = ["userId": userId, "eventId": event.id, "join": false]
         if let admin = removedByOrganizer {
-            params["removedByOrganizer"] = removedByOrganizer
+            params["removedByOrganizer"] = admin
         }
         RenderAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
             if let error = error {
-                print("JoinEvent error \(error)")
+                print("LeaveEvent error \(error)")
             }
             completion?(error)
         }
@@ -247,7 +243,7 @@ public class EventService: NSObject {
         }
     }
     
-    public func observeUsers(for event: Event, completion: @escaping (_ userIds: [String]) -> Void) {
+    public func observeUsers(for event: Balizinha.Event, completion: @escaping (_ userIds: [String]) -> Void) {
         // TODO: return each event instead of a list of userIds
         
         // returns all current events for a user. Returns as snapshot
@@ -274,7 +270,7 @@ public class EventService: NSObject {
         }
     }
     
-    public func usersObserver(for event: Event) -> Observable<[String]> {
+    public func usersObserver(for event: Balizinha.Event) -> Observable<[String]> {
         // RX version - this allows us to stop observing
         
         return Observable.create({ (observer) -> Disposable in
@@ -285,7 +281,7 @@ public class EventService: NSObject {
         })
     }
     
-    public func totalAmountPaid(for event: Event, completion: ((Double, Int)->())?) {
+    public func totalAmountPaid(for event: Balizinha.Event, completion: ((Double, Int)->())?) {
         let queryRef = firRef.child("charges/events").child(event.id)
         queryRef.observe(.value) { (snapshot: DataSnapshot) in
             guard snapshot.exists() else {
@@ -309,7 +305,7 @@ public class EventService: NSObject {
         }
     }
     
-    public func users(for event: Event) -> [String] {
+    public func users(for event: Balizinha.Event) -> [String] {
         if let results = _usersForEvents[event.id] as? [String: AnyObject] {
             let filtered = results.filter({ (arg) -> Bool in
                 let (_, val) = arg
@@ -357,7 +353,7 @@ public extension EventService {
 }
 
 public extension EventService {
-    public func withId(id: String, completion: @escaping ((Event?)->Void)) {
+    public func withId(id: String, completion: @escaping ((Balizinha.Event?)->Void)) {
         if let found = _events[id] {
             completion(found)
             return
@@ -369,7 +365,7 @@ public extension EventService {
                 completion(nil)
                 return
             }
-            let event = Event(snapshot: snapshot)
+            let event = Balizinha.Event(snapshot: snapshot)
             self?.cache(event)
             completion(event)
             
@@ -377,20 +373,20 @@ public extension EventService {
         }
     }
     
-    public func cache(_ event: Event) {
+    public func cache(_ event: Balizinha.Event) {
         _events[event.id] = event
     }
 }
 
 extension EventService {
-    public func actions(for event: Event?, eventId: String? = nil, completion: @escaping ( ([Action])->() )) {
+    public func actions(for event: Balizinha.Event?, eventId: String? = nil, completion: @escaping ( ([Action])->() )) {
         // returns all actions
         guard let id = event?.id ?? eventId else {
             completion([])
             return
         }
         let queryRef = firRef.child("actions")
-        queryRef.queryOrdered(byChild: "event").queryEqual(toValue: id).observeSingleEvent(of: .value, with: { (snapshot) in
+        queryRef.queryOrdered(byChild: "eventId").queryEqual(toValue: id).observeSingleEvent(of: .value, with: { (snapshot) in
             guard snapshot.exists() else {
                 completion([])
                 return
