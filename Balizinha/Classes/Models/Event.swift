@@ -25,9 +25,9 @@ public class Event: FirebaseBaseModel {
     
     public enum Status: String {
         case active
-        case inactive
         case cancelled
         case deleted
+        case unknown
     }
 
     public override convenience init(key: String, dict: [String: Any]?) {
@@ -191,10 +191,12 @@ public class Event: FirebaseBaseModel {
     }
     
     public var active: Bool {
-        if let isActive = self.dict["active"] as? Bool {
-            return isActive
+        if status == .unknown {
+            if let isActive = self.dict["active"] as? Bool {
+                return isActive
+            }
         }
-        
+
         return status == .active
     }
     
@@ -202,7 +204,7 @@ public class Event: FirebaseBaseModel {
         if let statusString = dict["status"] as? String, let status = Status(rawValue: statusString) {
             return status
         }
-        return .inactive
+        return .unknown
     }
     
     public var shareLink: String? {
