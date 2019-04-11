@@ -13,6 +13,7 @@ import Balizinha
 class EventsListViewController: ListViewController {
     var currentEvents: [Balizinha.Event] = []
     var pastEvents: [Balizinha.Event] = []
+    let service = EventService.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,6 @@ class EventsListViewController: ListViewController {
         // Do any additional setup after loading the view.
         navigationItem.title = "Games"
         
-        let service = EventService.shared
         service.listenForEventUsers { [weak self] in
             self?.reloadTable()
         }
@@ -60,6 +60,19 @@ class EventsListViewController: ListViewController {
         if segue.identifier == "toPlayers", let controller = segue.destination as? EventPlayersViewController {
             controller.event = sender as? Balizinha.Event
         }
+    }
+    
+    private func doCancelEvent(event: Balizinha.Event) {
+        service.cancelEvent(event, isCancelled: !event.isCancelled, completion: { [weak self] (error) in
+            let isCancelled = !event.isCancelled
+            if let error = error as NSError? {
+                let title = "Could not " + (isCancelled ? "cancel" : "reinstate") + " event"
+                self?.simpleAlert(title, defaultMessage: "There was an error updating the event's cancellation status. ", error: error)
+            } else {
+                self?.load()
+            }
+        })
+
     }
 }
 
@@ -103,7 +116,22 @@ extension EventsListViewController {
 
         // go to event attendance list
         let event = array[indexPath.row]
-        performSegue(withIdentifier: "toPlayers", sender: event)
+        if event.isPast {
+            performSegue(withIdentifier: "toPlayers", sender: event)
+        } else {
+            let title = "Event: \(event.id)"
+            let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "View players", style: .default, handler: { (action) in
+                self.performSegue(withIdentifier: "toPlayers", sender: event)
+            }))
+            let cancelText: String = event.isCancelled ? "Uncancel event" : "Cancel event"
+            alert.addAction(UIAlertAction(title: cancelText, style: .default) { [weak self] (action) in
+                self?.doCancelEvent(event: event)
+            })
+            alert.addAction(UIAlertAction(title: "Never mind", style: .cancel) { (action) in
+            })
+            present(alert, animated: true, completion: nil)
+        }
     }
 }
 

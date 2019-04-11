@@ -10,19 +10,25 @@ import UIKit
 import FirebaseCore
 import RenderCloud
 
-public enum EventType: String {
-    case event3v3 = "3 vs 3"
-    case event5v5 = "5 vs 5"
-    case event7v7 = "7 vs 7"
-    case event11v11 = "11 vs 11"
-    case group = "Group class"
-    case social = "Social event"
-    case other
-}
-
 fileprivate let formatter = DateFormatter()
 
 public class Event: FirebaseBaseModel {
+    public enum EventType: String {
+        case event3v3 = "3 vs 3"
+        case event5v5 = "5 vs 5"
+        case event7v7 = "7 vs 7"
+        case event11v11 = "11 vs 11"
+        case group = "Group class"
+        case social = "Social event"
+        case other
+    }
+    
+    public enum Status: String {
+        case active
+        case cancelled
+        case unknown
+    }
+
     public override convenience init(key: String, dict: [String: Any]?) {
         self.init()
         self.firebaseKey = key
@@ -182,15 +188,7 @@ public class Event: FirebaseBaseModel {
     public var owner: String? {
         return self.dict["owner"] as? String
     }
-    
-    public var active: Bool {
-        if let isActive = self.dict["active"] as? Bool {
-            return isActive
-        }
-        
-        return true
-    }
-    
+
     public var shareLink: String? {
         get {
             return self.dict["shareLink"] as? String
@@ -198,14 +196,44 @@ public class Event: FirebaseBaseModel {
     }
 }
 
+public extension Event {
+    private var status: Status {
+        if let statusString = dict["status"] as? String, let status = Status(rawValue: statusString) {
+            return status
+        }
+        return .unknown
+    }
+
+    var isActive: Bool {
+        // status supercedes active because absense of ["active"] means active
+        if status == .unknown {
+            if let isActive = self.dict["active"] as? Bool {
+                return isActive
+            }
+            return true
+        }
+
+        return status == .active
+    }
+
+    var isCancelled: Bool {
+        if status == .unknown {
+            if let isActive = self.dict["active"] as? Bool, !isActive {
+                return true
+            }
+        }
+        return status == .cancelled
+    }
+}
+
 // Utils
 public extension Event {
-    public func dateString(_ date: Date) -> String {
+    func dateString(_ date: Date) -> String {
         //return "\((date as NSDate).day()) \(months[(date as NSDate).month() - 1]) \((date as NSDate).year())"
         return date.dateStringForPicker()
     }
     
-    public func timeString(_ date: Date) -> String {
+    func timeString(_ date: Date) -> String {
         /*
          formatter.dateStyle = .none
          formatter.timeStyle = .short
@@ -215,11 +243,11 @@ public extension Event {
         return date.timeStringForPicker()
     }
     
-    public var isFull: Bool {
+    var isFull: Bool {
         return self.maxPlayers == self.numPlayers
     }
     
-    public var isPast: Bool {
+    var isPast: Bool {
         if let endTime = self.endTime {
             return (ComparisonResult.orderedAscending == endTime.compare(Date())) //event time happened before current time
         }
@@ -228,7 +256,7 @@ public extension Event {
         }
     }
     
-    public var locationString: String? {
+    var locationString: String? {
         if let city = self.city, let state = self.state {
             return "\(city), \(state)"
         }

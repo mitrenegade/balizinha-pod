@@ -164,12 +164,11 @@ public class LeagueService: NSObject {
                 completion(nil)
                 return
             }
-            print("Events for league results \(result)")
             if let resultDict = result as? [String: Any], let eventDicts = resultDict["result"] as? [String:[String: Any]] {
                 var events = [Event]()
                 for (key, value) in eventDicts {
                     let event = Event(key: key, dict: value)
-                    guard event.active else { return } // filters
+                    guard event.isActive || event.isCancelled else { return }
                     EventService.shared.cache(event)
                     events.append(event)
                 }
