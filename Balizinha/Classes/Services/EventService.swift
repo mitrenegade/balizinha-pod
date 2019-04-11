@@ -94,7 +94,7 @@ public class EventService: NSObject {
                 for eventDict: DataSnapshot in allObjects {
                     guard eventDict.exists() else { continue }
                     let event = Balizinha.Event(snapshot: eventDict)
-                    if event.active {
+                    if event.isActive || event.isCancelled {
                         results.append(event)
                     }
                 }
@@ -118,7 +118,7 @@ public class EventService: NSObject {
                 for (key, val) in eventsDict {
                     if let dict = val as? [String: Any] {
                         let event = Balizinha.Event(key: key, dict: dict)
-                        if event.active {
+                        if event.isActive || event.isCancelled {
                             events.append(event)
                         }
                         self?.cache(event)

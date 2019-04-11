@@ -81,8 +81,8 @@ class EventCell: UITableViewCell {
             // Button display and action
             labelFull.isHidden = false
 
-            if !event.active {
-                labelFull.text = "Event deleted"
+            if !event.isActive {
+                labelFull.text = "Event cancelled"
                 return
             } else if self.event!.userIsOrganizer {
                 self.labelFull.text = "This is your event."
@@ -99,8 +99,8 @@ class EventCell: UITableViewCell {
                 }
             }
         } else {
-            if !event.active {
-                labelFull.text = "Event deleted"
+            if !event.isActive {
+                labelFull.text = "Event cancelled"
                 labelFull.isHidden = false
                 return
             } else {
