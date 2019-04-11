@@ -425,5 +425,3 @@ public extension EventService {
 // todo
 // event should use a readwritequeue
 // update action enums to add cancelEvent and uncancelEvent
-// add test functionality in admin app to test cancelEvent, uncancelEvent, and deleteEvent
-// server: cancelEvent should send a notification. uncancel event should send a notification ?

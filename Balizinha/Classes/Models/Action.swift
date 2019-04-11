@@ -15,10 +15,20 @@ public enum ActionType: String {
     case leaveEvent
     case addedToEvent
     case removedFromEvent
+    
+    // league
     case joinLeague
     case leaveLeague
+    
+    // payment
     case holdPaymentForEvent
     case payForEvent
+    case stripeConnectChargeForEvent
+
+    // cancel event
+    case cancelEvent
+    case uncancelEvent
+    
     case systemMessage
 }
 
@@ -153,9 +163,13 @@ public class ActionViewModel {
             return userString + " left the league"
         case .holdPaymentForEvent:
             return userString + " reserved a spot"
-        case .payForEvent:
+        case .payForEvent, .stripeConnectChargeForEvent:
             return userString + " paid for \(eventName)"
-        default:
+        case .cancelEvent:
+            return userString + " cancelled \(eventName)"
+        case .uncancelEvent:
+            return userString + " reinstated \(eventName)"
+        case .systemMessage:
             // system message
             return action.defaultMessage
         }
