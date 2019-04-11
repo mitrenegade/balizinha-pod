@@ -10,19 +10,26 @@ import UIKit
 import FirebaseCore
 import RenderCloud
 
-public enum EventType: String {
-    case event3v3 = "3 vs 3"
-    case event5v5 = "5 vs 5"
-    case event7v7 = "7 vs 7"
-    case event11v11 = "11 vs 11"
-    case group = "Group class"
-    case social = "Social event"
-    case other
-}
-
 fileprivate let formatter = DateFormatter()
 
 public class Event: FirebaseBaseModel {
+    public enum EventType: String {
+        case event3v3 = "3 vs 3"
+        case event5v5 = "5 vs 5"
+        case event7v7 = "7 vs 7"
+        case event11v11 = "11 vs 11"
+        case group = "Group class"
+        case social = "Social event"
+        case other
+    }
+    
+    public enum Status: String {
+        case active
+        case inactive
+        case cancelled
+        case deleted
+    }
+
     public override convenience init(key: String, dict: [String: Any]?) {
         self.init()
         self.firebaseKey = key
@@ -188,7 +195,14 @@ public class Event: FirebaseBaseModel {
             return isActive
         }
         
-        return true
+        return status == .active
+    }
+    
+    var status: Status {
+        if let statusString = dict["status"] as? String, let status = Status(rawValue: statusString) {
+            return status
+        }
+        return .inactive
     }
     
     public var shareLink: String? {
