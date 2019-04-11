@@ -22,6 +22,8 @@ public class EventService: NSObject {
     fileprivate var _usersForEvents: [String: AnyObject] = [:]
     fileprivate var _events: [String:Balizinha.Event] = [:]
     
+    fileprivate let readWriteQueue = DispatchQueue(label: "eventServiceReadWriteQueue", attributes: .concurrent)
+    
     // MARK: - Singleton
     public static var shared: EventService {
         if singleton == nil {
@@ -336,7 +338,7 @@ public extension EventService {
 
 public extension EventService {
     func withId(id: String, completion: @escaping ((Balizinha.Event?)->Void)) {
-        if let found = _events[id] {
+        if let found = cached(id) {
             completion(found)
             return
         }
@@ -356,7 +358,17 @@ public extension EventService {
     }
     
     func cache(_ event: Balizinha.Event) {
-        _events[event.id] = event
+        readWriteQueue.async(flags: .barrier) { [weak self] in
+            self?._events[event.id] = event
+        }
+    }
+    
+    func cached(_ eventId: String) -> Balizinha.Event? {
+        var event: Balizinha.Event?
+        readWriteQueue.sync { [weak self] in
+            event = self?._events[eventId]
+        }
+        return event
     }
 }
 
@@ -386,7 +398,7 @@ extension EventService {
     }
     
     public func eventForAction(with eventId: String) -> Balizinha.Event? {
-        return _events[eventId] // used by actionService for quick stuff
+        return cached(eventId) // used by actionService for synchronous event fetch
     }
 }
 
@@ -421,7 +433,3 @@ public extension EventService {
     }
 
 }
-
-// todo
-// event should use a readwritequeue
-// update action enums to add cancelEvent and uncancelEvent
