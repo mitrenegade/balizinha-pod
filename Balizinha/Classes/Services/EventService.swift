@@ -168,25 +168,7 @@ public class EventService: NSObject {
             }
         }
     }
-    
-    public func deleteEvent(_ event: Balizinha.Event) {
-        //let userId = user.uid
-        let eventId = event.id
-        let eventRef = firRef.child("events").child(eventId)
-        eventRef.updateChildValues(["active": false])
-        
-        // remove users from that event by setting userEvent to false
-        observeUsers(for: event) { (ids) in
-            for userId: String in ids {
-                let userEventRef = firRef.child("userEvents").child(userId)
-                let params: [String: Any] = [eventId: false]
-                userEventRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
-                })
-            }
-        }
-        
-        
-    }
+
     public func joinEvent(_ event: Balizinha.Event, userId: String, addedByOrganizer: Bool? = nil, completion: ((Error?)->Void)? = nil) {
         var params: [String: Any] = ["userId": userId, "eventId": event.id, "join": true]
         if let admin = addedByOrganizer {
@@ -323,7 +305,7 @@ public class EventService: NSObject {
 
 // MARK: - Payment helpers
 public extension EventService {
-    public class func amountNumber(from text: String?) -> NSNumber? {
+    class func amountNumber(from text: String?) -> NSNumber? {
         guard let inputText = text else { return nil }
         if let amount = Double(inputText) {
             return amount as NSNumber
@@ -334,7 +316,7 @@ public extension EventService {
         return nil
     }
     
-    public class func amountString(from number: NSNumber?) -> String? {
+    class func amountString(from number: NSNumber?) -> String? {
         guard let number = number else { return nil }
         return currencyFormatter.string(from: number)
     }
@@ -353,7 +335,7 @@ public extension EventService {
 }
 
 public extension EventService {
-    public func withId(id: String, completion: @escaping ((Balizinha.Event?)->Void)) {
+    func withId(id: String, completion: @escaping ((Balizinha.Event?)->Void)) {
         if let found = _events[id] {
             completion(found)
             return
@@ -373,7 +355,7 @@ public extension EventService {
         }
     }
     
-    public func cache(_ event: Balizinha.Event) {
+    func cache(_ event: Balizinha.Event) {
         _events[event.id] = event
     }
 }
@@ -407,3 +389,45 @@ extension EventService {
         return _events[eventId] // used by actionService for quick stuff
     }
 }
+
+// cancellation
+public extension EventService {
+    func cancelEvent(_ event: Balizinha.Event, isCancelled: Bool, completion: ((Error?)->Void)?) {
+        let functionName: String
+        if isCancelled {
+            functionName = "cancelEvent"
+        } else {
+            functionName = "uncancelEvent"
+        }
+        RenderAPIService().cloudFunction(functionName: functionName, method: "POST", params: ["eventId": event.id]) { (results, error) in
+            if let error = error {
+                completion?(error)
+            } else {
+                completion?(nil)
+            }
+        }
+    }
+
+    func deleteEvent(_ event: Balizinha.Event) {
+        //let userId = user.uid
+        let eventId = event.id
+        let eventRef = firRef.child("events").child(eventId)
+        eventRef.updateChildValues(["active": false])
+        
+        // remove users from that event by setting userEvent to false
+        observeUsers(for: event) { (ids) in
+            for userId: String in ids {
+                let userEventRef = firRef.child("userEvents").child(userId)
+                let params: [String: Any] = [eventId: false]
+                userEventRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
+                })
+            }
+        }
+    }
+
+}
+
+// todo
+// event should use a readwritequeue
+// update action enums to add cancelEvent and uncancelEvent
+// add test functionality in admin app to test cancelEvent, uncancelEvent, and deleteEvent
