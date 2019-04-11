@@ -393,13 +393,8 @@ extension EventService {
 // cancellation
 public extension EventService {
     func cancelEvent(_ event: Balizinha.Event, isCancelled: Bool, completion: ((Error?)->Void)?) {
-        let functionName: String
-        if isCancelled {
-            functionName = "cancelEvent"
-        } else {
-            functionName = "uncancelEvent"
-        }
-        RenderAPIService().cloudFunction(functionName: functionName, method: "POST", params: ["eventId": event.id]) { (results, error) in
+        let params: [String: Any] = ["eventId": event.id, "isCancelled": isCancelled]
+        RenderAPIService().cloudFunction(functionName: "cancelEvent", params: params) { (results, error) in
             if let error = error {
                 completion?(error)
             } else {
@@ -431,3 +426,4 @@ public extension EventService {
 // event should use a readwritequeue
 // update action enums to add cancelEvent and uncancelEvent
 // add test functionality in admin app to test cancelEvent, uncancelEvent, and deleteEvent
+// server: cancelEvent should send a notification. uncancel event should send a notification ?
