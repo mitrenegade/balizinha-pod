@@ -76,9 +76,11 @@ class EventCell: UITableViewCell {
             containsUser = false
         }
         
+        self.labelAttendance.text = "\(self.event!.numPlayers)"
         if !event.isPast {
             // Button display and action
-            
+            labelFull.isHidden = false
+
             if !event.active {
                 labelFull.text = "Event deleted"
                 return
@@ -96,15 +98,14 @@ class EventCell: UITableViewCell {
                     self.labelFull.text = "Available"
                 }
             }
-            self.labelAttendance.text = "\(self.event!.numPlayers)"
         } else {
             if !event.active {
                 labelFull.text = "Event deleted"
+                labelFull.isHidden = false
                 return
             } else {
-                self.labelFull.isHidden = true
+                labelFull.isHidden = true
             }
-            self.labelAttendance.text = "\(self.event!.numPlayers)"
         }
     }
 }
