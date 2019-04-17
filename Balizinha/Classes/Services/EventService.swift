@@ -1,5 +1,5 @@
 //
-//  EventService.swift
+// EventService.swift
 // Balizinha
 //
 //  Created by Bobby Ren on 5/12/16.
@@ -12,6 +12,7 @@
 import UIKit
 import FirebaseCore
 import RxSwift
+import RxCocoa
 import FirebaseAuth
 import FirebaseDatabase
 import RenderCloud
@@ -21,8 +22,19 @@ fileprivate var singleton: EventService?
 public class EventService: NSObject {
     fileprivate var _usersForEvents: [String: AnyObject] = [:]
     fileprivate var _events: [String:Balizinha.Event] = [:]
+    private var _userEvents: Set<String>?
+    // behaviorRelay that changes when _userEvents changes
+    private var userEvents: BehaviorRelay<[String]?> = BehaviorRelay<[String]?>(value: nil)
+    // observable that emits an array of eventIds, including empty arrays, but does not emit on nil
+    public var userEventsObservable: Observable<[String]> {
+        return userEvents
+            .distinctUntilChanged()
+            .filterNil()
+            .asObservable()
+    }
     
     fileprivate let readWriteQueue = DispatchQueue(label: "eventServiceReadWriteQueue", attributes: .concurrent)
+    fileprivate let eventIdQueue = DispatchQueue(label: "eventServiceIdReadWriteQueue", attributes: .concurrent)
     
     // MARK: - Singleton
     public static var shared: EventService {
@@ -30,6 +42,9 @@ public class EventService: NSObject {
             singleton = EventService()
             singleton?._events = [:]
             singleton?._usersForEvents = [:]
+            singleton?.eventIdQueue.async(flags: .barrier) {
+                singleton?._userEvents = nil
+            }
         }
         
         return singleton!
@@ -170,7 +185,7 @@ public class EventService: NSObject {
             }
         }
     }
-
+    
     public func joinEvent(_ event: Balizinha.Event, userId: String, addedByOrganizer: Bool? = nil, completion: ((Error?)->Void)? = nil) {
         var params: [String: Any] = ["userId": userId, "eventId": event.id, "join": true]
         if let admin = addedByOrganizer {
@@ -197,33 +212,36 @@ public class EventService: NSObject {
         }
     }
     
-    public func getEvents(for user: User, completion: @escaping (_ eventIds: [String]) -> Void) {
+    public func observeEvents(for user: User) {
         // returns all current events for a user. Returns as snapshot
-        // only gets events once, and removes observer afterwards
+        // TODO: does this trigger when userEvents changes ie delete on event?
         print("Get events for user \(user.uid)")
         
         let eventQueryRef = firRef.child("userEvents").child(user.uid)
         
         // do query
-        eventQueryRef.observe(.value) { (snapshot) in
+        eventQueryRef.observeSingleEvent(of: .value) { [weak self] (snapshot) in
+            defer {
+                var events: [String]?
+                self?.eventIdQueue.sync {
+                    if let _events = self?._userEvents {
+                        events = Array(_events)
+                    }
+                }
+                self?.userEvents.accept(events)
+            }
+            
             guard snapshot.exists() else {
-                completion([])
                 return
             }
-            var results: [String] = []
             if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
                 for snapshot: DataSnapshot in allObjects {
                     let eventId = snapshot.key
                     if let val = snapshot.value as? Bool {
-                        if val == true {
-                            results.append(eventId)
-                        }
+                        self?.cacheId(eventId, shouldInsert: val)
                     }
                 }
             }
-            print("getEventsForUser \(user.uid) results count: \(results.count)")
-            completion(results)
-            eventQueryRef.removeAllObservers()
         }
     }
     
@@ -370,6 +388,19 @@ public extension EventService {
         }
         return event
     }
+    
+    func cacheId(_ eventId: String, shouldInsert: Bool) {
+        eventIdQueue.async(flags: .barrier) { [weak self] in
+            if self?._userEvents == nil {
+                self?._userEvents = Set<String>()
+            }
+            if shouldInsert {
+                self?._userEvents?.insert(eventId)
+            } else {
+                self?._userEvents?.remove(eventId)
+            }
+        }
+    }
 }
 
 extension EventService {
@@ -414,7 +445,7 @@ public extension EventService {
             }
         }
     }
-
+    
     func deleteEvent(_ event: Balizinha.Event) {
         //let userId = user.uid
         let eventId = event.id
@@ -431,5 +462,5 @@ public extension EventService {
             }
         }
     }
-
+    
 }
