@@ -123,7 +123,7 @@ public class EventService: NSObject {
         if let info = info {
             params["info"] = info
         }
-        apiService.cloudFunction(functionName: "createEvent", params: params) { (result, error) in
+        apiService.cloudFunction(functionName: "createEvent", method: "POST", params: params) { (result, error) in
             if let error = error as NSError? {
                 print("CreateEvent v1.4 failed with error \(error)")
                 completion(nil, error)
@@ -149,7 +149,7 @@ public class EventService: NSObject {
         if let admin = addedByOrganizer {
             params["addedByOrganizer"] = admin
         }
-        apiService.cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
+        apiService.cloudFunction(functionName: "joinOrLeaveEvent", method: "POST", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
             }
@@ -162,7 +162,7 @@ public class EventService: NSObject {
         if let admin = removedByOrganizer {
             params["removedByOrganizer"] = admin
         }
-        apiService.cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
+        apiService.cloudFunction(functionName: "joinOrLeaveEvent", method: "POST", params: params) { (result, error) in
             if let error = error {
                 print("LeaveEvent error \(error)")
             }
@@ -394,7 +394,7 @@ extension EventService {
 public extension EventService {
     func cancelEvent(_ event: Balizinha.Event, isCancelled: Bool, completion: ((Error?)->Void)?) {
         let params: [String: Any] = ["eventId": event.id, "isCancelled": isCancelled]
-        apiService.cloudFunction(functionName: "cancelEvent", params: params) { (results, error) in
+        apiService.cloudFunction(functionName: "cancelEvent", method: "POST", params: params) { (results, error) in
             if let error = error {
                 completion?(error)
             } else {

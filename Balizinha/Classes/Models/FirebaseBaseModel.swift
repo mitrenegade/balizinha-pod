@@ -11,8 +11,8 @@ import FirebaseAuth
 import FirebaseDatabase
 import RenderCloud
 
-public let firRef = Database.database().reference()
-public let firAuth = Auth.auth()
+public let firRef: DatabaseReference = Database.database().reference()
+public let firAuth: Auth = Auth.auth()
 
 open class FirebaseBaseModel: NSObject {
     // Firebase objects have structure:
