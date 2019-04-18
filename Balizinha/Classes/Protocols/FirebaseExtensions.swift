@@ -9,11 +9,10 @@ import Foundation
 import RenderCloud
 import FirebaseDatabase
 
-// BOBBY TODO: this should go into RenderCloud?
 // conform Firebase's DatabaseReference to RenderCloud Reference
 extension DataSnapshot: Snapshot {
     public var allChildren: [Snapshot]? {
-        return self.children.allObjects as? [Snapshot]
+        return children.allObjects as? [Snapshot]
     }
     
     public var reference: Reference? {
@@ -23,11 +22,7 @@ extension DataSnapshot: Snapshot {
 
 extension DatabaseReference: Reference {
     public func observeSingleValue(completion: @escaping (Snapshot) -> Void) {
-        observeSingleEvent(of: .value) { (snapshot) in
-            if let snapshot = snapshot as? Snapshot {
-                completion(snapshot)
-            }
-        }
+        observeSingleEvent(of: .value, with: completion)
     }
     
     public func queryOrdered(by child: String) -> Query {
@@ -35,13 +30,11 @@ extension DatabaseReference: Reference {
     }
     
     public func child(path: String) -> Reference {
-        return self.child(path)
+        return child(path)
     }
     
     public func observeValue(completion: @escaping (Snapshot) -> Void) {
-        observe(.value) { (snapshot) in
-            
-        }
+        observe(.value, with: completion)
     }
 }
 
