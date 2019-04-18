@@ -33,25 +33,24 @@ public class EventService: NSObject {
             .asObservable()
     }
     
+    fileprivate let ref: Reference
+    init(reference: Reference = firRef) {
+        ref = reference
+        super.init()
+    }
+
+    // read write queues
     fileprivate let readWriteQueue = DispatchQueue(label: "eventServiceReadWriteQueue", attributes: .concurrent)
     fileprivate let eventIdQueue = DispatchQueue(label: "eventServiceIdReadWriteQueue", attributes: .concurrent)
     
     // MARK: - Singleton
-    public static var shared: EventService {
-        if singleton == nil {
-            singleton = EventService()
-            singleton?._events = [:]
-            singleton?._usersForEvents = [:]
-            singleton?.eventIdQueue.async(flags: .barrier) {
-                singleton?._userEvents = nil
-            }
-        }
-        
-        return singleton!
-    }
-    
+    public static var shared: EventService = EventService()
     public class func resetOnLogout() {
-        singleton = nil
+        shared._events = [:]
+        shared._usersForEvents = [:]
+        shared.eventIdQueue.async(flags: .barrier) {
+            shared._userEvents = nil
+        }
     }
     
     public var featuredEventId: String? {
