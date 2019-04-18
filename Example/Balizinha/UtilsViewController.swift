@@ -176,7 +176,7 @@ extension UtilsViewController {
                         alreadyConvertedCount += 1
                         dispatchGroup.leave()
                         // DONE: delete photoId
-                        event.firebaseRef?.child("photoId").removeValue()
+                        event.firebaseRef?.child(path: "photoId").removeValue()
                         continue
                     }
                     FirebaseImageService().eventPhotoUrl(for: event, completion: { (url) in
@@ -187,7 +187,7 @@ extension UtilsViewController {
                             print("Event \(event.id) has valid url \(url.absoluteString)")
 
                             // DONE: delete photoId
-                            event.firebaseRef?.child("photoId").removeValue()
+                            event.firebaseRef?.child(path: "photoId").removeValue()
                         } else {
                             FirebaseImageService().eventPhotoUrl(with: photoId, completion: { (url) in
                                 if let urlString = url?.absoluteString {
@@ -201,7 +201,7 @@ extension UtilsViewController {
                                                     photoIdCount += 1
                                                     dispatchGroup.leave()
                                                     // DONE: delete photoId
-                                                    event.firebaseRef?.child("photoId").removeValue()
+                                                    event.firebaseRef?.child(path: "photoId").removeValue()
                                                 })
                                             }
                                         } else {
@@ -209,7 +209,7 @@ extension UtilsViewController {
                                             photoIdFailed += 1
                                             dispatchGroup.leave()
                                             // DONE: delete photoId
-                                            event.firebaseRef?.child("photoId").removeValue()
+                                            event.firebaseRef?.child(path: "photoId").removeValue()
                                         }
                                     })
                                 } else {
@@ -217,7 +217,7 @@ extension UtilsViewController {
                                     photoIdFailed += 1
                                     dispatchGroup.leave()
                                     // DONE: delete photoId
-                                    event.firebaseRef?.child("photoId").removeValue()
+                                    event.firebaseRef?.child(path: "photoId").removeValue()
                                 }
                             })
                         }
@@ -231,7 +231,7 @@ extension UtilsViewController {
                             print("Event \(event.id) has valid url \(url.absoluteString)")
                             
                             // DONE: delete photoUrl
-                            event.firebaseRef?.child("photoUrl").removeValue()
+                            event.firebaseRef?.child(path: "photoUrl").removeValue()
                         } else {
                             // DONE: download the image and store it
                             let manager = RAImageManager(imageView: nil)
@@ -243,7 +243,7 @@ extension UtilsViewController {
                                             photoUrlCount += 1
                                             dispatchGroup.leave()
                                             // DONE: delete photoUrl
-                                            event.firebaseRef?.child("photoUrl").removeValue()
+                                            event.firebaseRef?.child(path: "photoUrl").removeValue()
                                         })
                                     }
                                 } else {
@@ -251,7 +251,7 @@ extension UtilsViewController {
                                     photoUrlFailed += 1
                                     dispatchGroup.leave()
                                     // DONE: delete photoId
-                                    event.firebaseRef?.child("photoUrl").removeValue()
+                                    event.firebaseRef?.child(path: "photoUrl").removeValue()
                                 }
                             })
                         }

@@ -1,5 +1,5 @@
 //
-//  EventService.swift
+// EventService.swift
 // Balizinha
 //
 //  Created by Bobby Ren on 5/12/16.
@@ -10,10 +10,9 @@
 // service.getEvents()
 
 import UIKit
-import FirebaseCore
 import RxSwift
+import RxCocoa
 import FirebaseAuth
-import FirebaseDatabase
 import RenderCloud
 
 fileprivate var singleton: EventService?
@@ -21,22 +20,38 @@ fileprivate var singleton: EventService?
 public class EventService: NSObject {
     fileprivate var _usersForEvents: [String: AnyObject] = [:]
     fileprivate var _events: [String:Balizinha.Event] = [:]
-    
-    fileprivate let readWriteQueue = DispatchQueue(label: "eventServiceReadWriteQueue", attributes: .concurrent)
-    
-    // MARK: - Singleton
-    public static var shared: EventService {
-        if singleton == nil {
-            singleton = EventService()
-            singleton?._events = [:]
-            singleton?._usersForEvents = [:]
-        }
-        
-        return singleton!
+    private var _userEvents: Set<String>?
+    // behaviorRelay that changes when _userEvents changes
+    private var userEvents: BehaviorRelay<[String]?> = BehaviorRelay<[String]?>(value: nil)
+    // observable that emits an array of eventIds, including empty arrays, but does not emit on nil
+    public var userEventsObservable: Observable<[String]> {
+        return userEvents
+            .distinctUntilChanged()
+            .filterNil()
+            .asObservable()
     }
     
+    // service protocols
+    fileprivate let ref: Reference
+    fileprivate let apiService: CloudAPIService
+    public init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService()) {
+        ref = reference
+        self.apiService = apiService
+        super.init()
+    }
+
+    // read write queues
+    fileprivate let readWriteQueue = DispatchQueue(label: "eventServiceReadWriteQueue", attributes: .concurrent)
+    fileprivate let eventIdQueue = DispatchQueue(label: "eventServiceIdReadWriteQueue", attributes: .concurrent)
+    
+    // MARK: - Singleton
+    public static var shared: EventService = EventService()
     public class func resetOnLogout() {
-        singleton = nil
+        shared._events = [:]
+        shared._usersForEvents = [:]
+        shared.eventIdQueue.async(flags: .barrier) {
+            shared._userEvents = nil
+        }
     }
     
     public var featuredEventId: String? {
@@ -54,8 +69,8 @@ public class EventService: NSObject {
     public var featuredEvent: Variable<Balizinha.Event?> = Variable(nil)
     public func listenForEventUsers(action: (()->())? = nil) {
         // firRef is the global firebase ref
-        let queryRef = firRef.child("eventUsers")
-        queryRef.observe(.value) { (snapshot: DataSnapshot) in
+        let queryRef = ref.child(path: "eventUsers")
+        queryRef.observeValue { (snapshot) in
             // this block is called for every result returned
             guard snapshot.exists() else { return }
             if let dict = snapshot.value as? [String: AnyObject] {
@@ -66,54 +81,11 @@ public class EventService: NSObject {
             action?()
         }
     }
-    
-    // MARK: - Single call listeners
-    
-    public func getEvents(type: String?, completion: @escaping (_ results: [Balizinha.Event]) -> Void) {
-        // returns all current events of a certain type. Returns as snapshot
-        // only gets events once, and removes observer afterwards
-        let eventQueryRef = firRef.child("events")//childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
-        
-        // sort by time
-        eventQueryRef.queryOrdered(byChild: "startTime")
-        
-        // filter for type - this does not work
-        /*
-         if let _ = type {
-         // should be queryOrdered(byChild: "type").equalTo(type)
-         eventQueryRef.queryEqual(toValue: type!, childKey: "type")
-         }
-         */
-        
-        eventQueryRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
-            // this block is called for every result returned
-            guard snapshot.exists() else {
-                completion([])
-                return
-            }
-            var results: [Balizinha.Event] = []
-            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
-                for eventDict: DataSnapshot in allObjects {
-                    guard eventDict.exists() else { continue }
-                    let event = Balizinha.Event(snapshot: eventDict)
-                    if event.isActive || event.isCancelled {
-                        results.append(event)
-                    }
-                }
-            }
-            print("getEvents results count: \(results.count)")
-            for event in results {
-                self.cache(event)
-            }
-            completion(results)
-        }
-    }
-    
-    public func getAvailableEvents(completion: (([Balizinha.Event])->Void)?) {
-        guard let user = AuthService.currentUser else { return }
-        RenderAPIService().cloudFunction(functionName: "getEventsAvailableToUser", method: "POST", params: ["userId": user.uid]) { [weak self] (results, error) in
+
+    public func getAvailableEvents(for userId: String, completion: (([Balizinha.Event])->Void)?) {
+        apiService.cloudFunction(functionName: "getEventsAvailableToUser", method: "POST", params: ["userId": userId]) { [weak self] (results, error) in
             if error != nil {
-                print("Error: \(error as? NSError)")
+                print("Error: \(error as NSError?)")
                 completion?([])
             } else if let dict = results as? [String: Any], let eventsDict = dict["results"] as? [String: Any] {
                 var events: [Balizinha.Event] = []
@@ -150,7 +122,7 @@ public class EventService: NSObject {
         if let info = info {
             params["info"] = info
         }
-        RenderAPIService().cloudFunction(functionName: "createEvent", params: params) { (result, error) in
+        apiService.cloudFunction(functionName: "createEvent", method: "POST", params: params) { (result, error) in
             if let error = error as NSError? {
                 print("CreateEvent v1.4 failed with error \(error)")
                 completion(nil, error)
@@ -170,13 +142,13 @@ public class EventService: NSObject {
             }
         }
     }
-
+    
     public func joinEvent(_ event: Balizinha.Event, userId: String, addedByOrganizer: Bool? = nil, completion: ((Error?)->Void)? = nil) {
         var params: [String: Any] = ["userId": userId, "eventId": event.id, "join": true]
         if let admin = addedByOrganizer {
             params["addedByOrganizer"] = admin
         }
-        RenderAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
+        apiService.cloudFunction(functionName: "joinOrLeaveEvent", method: "POST", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
             }
@@ -189,7 +161,7 @@ public class EventService: NSObject {
         if let admin = removedByOrganizer {
             params["removedByOrganizer"] = admin
         }
-        RenderAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
+        apiService.cloudFunction(functionName: "joinOrLeaveEvent", method: "POST", params: params) { (result, error) in
             if let error = error {
                 print("LeaveEvent error \(error)")
             }
@@ -197,33 +169,36 @@ public class EventService: NSObject {
         }
     }
     
-    public func getEvents(for user: User, completion: @escaping (_ eventIds: [String]) -> Void) {
+    public func observeEvents(for user: User) {
         // returns all current events for a user. Returns as snapshot
-        // only gets events once, and removes observer afterwards
+        // TODO: does this trigger when userEvents changes ie delete on event?
         print("Get events for user \(user.uid)")
         
-        let eventQueryRef = firRef.child("userEvents").child(user.uid)
+        let eventQueryRef = ref.child(path: "userEvents").child(path: user.uid)
         
         // do query
-        eventQueryRef.observe(.value) { (snapshot) in
+        eventQueryRef.observeSingleValue { [weak self] (snapshot) in
+            defer {
+                var events: [String]?
+                self?.eventIdQueue.sync {
+                    if let _events = self?._userEvents {
+                        events = Array(_events)
+                    }
+                }
+                self?.userEvents.accept(events)
+                eventQueryRef.removeAllObservers()
+            }
+            
             guard snapshot.exists() else {
-                completion([])
                 return
             }
-            var results: [String] = []
-            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
-                for snapshot: DataSnapshot in allObjects {
-                    let eventId = snapshot.key
-                    if let val = snapshot.value as? Bool {
-                        if val == true {
-                            results.append(eventId)
-                        }
+            if let allObjects = snapshot.allChildren {
+                for snapshot: Snapshot in allObjects {
+                    if let eventId = snapshot.key as? String, let val = snapshot.value as? Bool {
+                        self?.cacheId(eventId, shouldInsert: val)
                     }
                 }
             }
-            print("getEventsForUser \(user.uid) results count: \(results.count)")
-            completion(results)
-            eventQueryRef.removeAllObservers()
         }
     }
     
@@ -234,17 +209,16 @@ public class EventService: NSObject {
         // only gets events once, and removes observer afterwards
         print("Get users for event \(event.id)")
         
-        let queryRef = firRef.child("eventUsers").child(event.id) // this creates a query on the endpoint lotsports.firebase.com/events/
+        let queryRef = ref.child(path: "eventUsers").child(path: event.id) // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // do query
-        queryRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
+        queryRef.observeSingleValue { (snapshot) in
             guard snapshot.exists() else { return }
             // this block is called for every result returned
             var results: [String] = []
-            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
-                for snapshot: DataSnapshot in allObjects {
-                    let userId = snapshot.key
-                    if let val = snapshot.value as? Bool, val == true {
+            if let allObjects = snapshot.allChildren {
+                for snapshot: Snapshot in allObjects {
+                    if let userId = snapshot.key as? String, let val = snapshot.value as? Bool, val == true {
                         results.append(userId)
                     }
                 }
@@ -266,16 +240,16 @@ public class EventService: NSObject {
     }
     
     public func totalAmountPaid(for event: Balizinha.Event, completion: ((Double, Int)->())?) {
-        let queryRef = firRef.child("charges/events").child(event.id)
-        queryRef.observe(.value) { (snapshot: DataSnapshot) in
+        let queryRef = ref.child(path: "charges/events").child(path: event.id)
+        queryRef.observeValue { (snapshot) in
             guard snapshot.exists() else {
                 completion?(0, 0)
                 return
             }
             var total: Double = 0
             var count: Int = 0
-            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
-                for snapshot: DataSnapshot in allObjects {
+            if let allObjects = snapshot.allChildren {
+                for snapshot: Snapshot in allObjects {
                     let playerId = snapshot.key // TODO: display all players who've paid
                     let payment = Payment(snapshot: snapshot)
                     guard payment.paid, let amount = payment.amount, let refunded = payment.amountRefunded else { continue }
@@ -343,8 +317,8 @@ public extension EventService {
             return
         }
         
-        let ref = firRef.child("events").child(id)
-        ref.observe(.value) { [weak self] (snapshot) in
+        let reference = ref.child(path: "events").child(path: id)
+        reference.observeValue { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
@@ -353,7 +327,7 @@ public extension EventService {
             self?.cache(event)
             completion(event)
             
-            ref.removeAllObservers()
+            reference.removeAllObservers()
         }
     }
     
@@ -370,6 +344,19 @@ public extension EventService {
         }
         return event
     }
+    
+    func cacheId(_ eventId: String, shouldInsert: Bool) {
+        eventIdQueue.async(flags: .barrier) { [weak self] in
+            if self?._userEvents == nil {
+                self?._userEvents = Set<String>()
+            }
+            if shouldInsert {
+                self?._userEvents?.insert(eventId)
+            } else {
+                self?._userEvents?.remove(eventId)
+            }
+        }
+    }
 }
 
 extension EventService {
@@ -379,22 +366,22 @@ extension EventService {
             completion([])
             return
         }
-        let queryRef = firRef.child("actions")
-        queryRef.queryOrdered(byChild: "eventId").queryEqual(toValue: id).observeSingleEvent(of: .value, with: { (snapshot) in
+        let queryRef = ref.child(path: "actions")
+        queryRef.queryOrdered(by: "eventId").queryEqual(to: id).observeSingleValue { (snapshot) in
             guard snapshot.exists() else {
                 completion([])
                 return
             }
             var results: [Action] = []
-            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
-                for snapshot: DataSnapshot in allObjects {
+            if let allObjects = snapshot.allChildren {
+                for snapshot: Snapshot in allObjects {
                     let action = Action(snapshot: snapshot)
                     results.append(action)
                 }
             }
             print("Actions retrieved: \(results.count) for event \(id)")
             completion(results)
-        }, withCancel: nil)
+        }
     }
     
     public func eventForAction(with eventId: String) -> Balizinha.Event? {
@@ -406,7 +393,7 @@ extension EventService {
 public extension EventService {
     func cancelEvent(_ event: Balizinha.Event, isCancelled: Bool, completion: ((Error?)->Void)?) {
         let params: [String: Any] = ["eventId": event.id, "isCancelled": isCancelled]
-        RenderAPIService().cloudFunction(functionName: "cancelEvent", params: params) { (results, error) in
+        apiService.cloudFunction(functionName: "cancelEvent", method: "POST", params: params) { (results, error) in
             if let error = error {
                 completion?(error)
             } else {
@@ -414,22 +401,21 @@ public extension EventService {
             }
         }
     }
-
+    
     func deleteEvent(_ event: Balizinha.Event) {
         //let userId = user.uid
         let eventId = event.id
-        let eventRef = firRef.child("events").child(eventId)
+        let eventRef = ref.child(path: "events").child(path: eventId)
         eventRef.updateChildValues(["active": false])
         
         // remove users from that event by setting userEvent to false
-        observeUsers(for: event) { (ids) in
+        observeUsers(for: event) { [weak self] (ids) in
             for userId: String in ids {
-                let userEventRef = firRef.child("userEvents").child(userId)
+                let userEventRef = self?.ref.child(path: "userEvents").child(path: userId)
                 let params: [String: Any] = [eventId: false]
-                userEventRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
-                })
+                userEventRef?.updateChildValues(params)
             }
         }
     }
-
+    
 }

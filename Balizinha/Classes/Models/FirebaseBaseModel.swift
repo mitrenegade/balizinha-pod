@@ -9,9 +9,10 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import RenderCloud
 
-public let firRef = Database.database().reference()
-public let firAuth = Auth.auth()
+public let firRef: DatabaseReference = Database.database().reference()
+public let firAuth: Auth = Auth.auth()
 
 open class FirebaseBaseModel: NSObject {
     // Firebase objects have structure:
@@ -22,13 +23,13 @@ open class FirebaseBaseModel: NSObject {
     // }
     
     public var firebaseKey: String! // store id
-    public var firebaseRef: DatabaseReference? // url like lotsportz.firebase.com/model/id
+    public var firebaseRef: Reference? // RenderCloud protocol
     public var dict: [String: Any]! // {key1: val1, key2: val2 ...}
     
-    public init(snapshot: DataSnapshot?) {
+    public init(snapshot: Snapshot?) {
         if let snapshot = snapshot, snapshot.exists() {
-            self.firebaseKey = snapshot.key
-            self.firebaseRef = snapshot.ref
+            self.firebaseKey = snapshot.key as! String
+            self.firebaseRef = snapshot.reference
             self.dict = snapshot.value as? [String: AnyObject]
             
             // a new user doesn't have a dictionary

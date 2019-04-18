@@ -9,38 +9,57 @@
 import UIKit
 import Firebase
 import Balizinha
+import RenderCloud
 
 class EventsListViewController: ListViewController {
     var currentEvents: [Balizinha.Event] = []
     var pastEvents: [Balizinha.Event] = []
-    let service = EventService.shared
-    
+    var service: EventService?
+    var reference: Reference?
+
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
         navigationItem.title = "Games"
         
-        service.listenForEventUsers { [weak self] in
+        if AIRPLANE_MODE {
+            let eventDict: [String: Any] = ["name": "Test event",
+                                            "status": "active",
+                                            "startTime": (Date().timeIntervalSince1970 + Double(Int(arc4random_uniform(72)) * 3600))]
+            let referenceSnapshot = MockDataSnapshot(exists: true,
+                                                     key: "1",
+                                                     value: eventDict,
+                                                     ref: nil)
+            reference = MockDatabaseReference(snapshot: referenceSnapshot)
+            let apiService = MockCloudAPIService(uniqueId: "abc", results: ["success": true])
+            service = EventService(reference: reference!, apiService: apiService)
+        } else {
+            service = EventService.shared
+            reference = firRef
+        }
+        
+        super.viewDidLoad()
+        
+        service?.listenForEventUsers { [weak self] in
             self?.reloadTable()
         }
     }
     
     override func load() {
-        let eventRef = firRef.child("events").observe(.value) { [weak self] (snapshot) in
+        // don't use EventService.getAvailableEvents because admin app doesn't filter by user
+        reference?.child(path: "events").observeValue { [weak self] (snapshot) in
             guard snapshot.exists() else { return }
-            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+            if let allObjects = snapshot.allChildren {
                 self?.currentEvents.removeAll()
                 self?.pastEvents.removeAll()
                 
-                for dict: DataSnapshot in allObjects {
+                for dict: Snapshot in allObjects {
                     let event = Balizinha.Event(snapshot: dict)
                     if event.isPast {
                         self?.pastEvents.append(event)
                     } else {
                         self?.currentEvents.append(event)
                     }
-                    EventService.shared.cache(event)
+                    self?.service?.cache(event)
                 }
                 self?.pastEvents.sort(by: { (p1, p2) -> Bool in
                     guard let t1 = p1.startTime else { return false }
@@ -64,7 +83,7 @@ class EventsListViewController: ListViewController {
     }
     
     private func doCancelEvent(event: Balizinha.Event) {
-        service.cancelEvent(event, isCancelled: !event.isCancelled, completion: { [weak self] (error) in
+        service?.cancelEvent(event, isCancelled: !event.isCancelled, completion: { [weak self] (error) in
             let isCancelled = !event.isCancelled
             if let error = error as NSError? {
                 let title = "Could not " + (isCancelled ? "cancel" : "reinstate") + " event"
