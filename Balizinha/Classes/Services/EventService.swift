@@ -411,7 +411,7 @@ extension EventService {
             return
         }
         let queryRef = ref.child(path: "actions")
-        queryRef.queryOrdered(byChild: "eventId").queryEqual(toValue: id).observeSingleEvent(of: .value, with: { (snapshot) in
+        queryRef.queryOrdered(by: "eventId").queryEqual(toValue: id).observeSingleEvent(of: .value, with: { (snapshot) in
             guard snapshot.exists() else {
                 completion([])
                 return
@@ -457,8 +457,7 @@ public extension EventService {
             for userId: String in ids {
                 let userEventRef = self?.ref.child(path: "userEvents").child(path: userId)
                 let params: [String: Any] = [eventId: false]
-                userEventRef?.updateChildValues(params, withCompletionBlock: { (error, ref) in
-                })
+                userEventRef?.updateChildValues(params)
             }
         }
     }
