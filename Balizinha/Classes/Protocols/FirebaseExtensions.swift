@@ -9,6 +9,7 @@ import Foundation
 import RenderCloud
 import FirebaseDatabase
 
+// BOBBY TODO: this should go into RenderCloud?
 // conform Firebase's DatabaseReference to RenderCloud Reference
 extension DatabaseReference: Reference {
     public func observeSingleValue(completion: @escaping (Snapshot) -> Void) {
