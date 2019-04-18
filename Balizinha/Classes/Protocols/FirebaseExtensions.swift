@@ -11,6 +11,16 @@ import FirebaseDatabase
 
 // BOBBY TODO: this should go into RenderCloud?
 // conform Firebase's DatabaseReference to RenderCloud Reference
+extension DataSnapshot: Snapshot {
+    public var childrens: NSEnumerator? {
+        return self.children
+    }
+    
+    public var reference: Reference? {
+        return ref
+    }
+}
+
 extension DatabaseReference: Reference {
     public func observeSingleValue(completion: @escaping (Snapshot) -> Void) {
         observeSingleEvent(of: .value) { (snapshot) in

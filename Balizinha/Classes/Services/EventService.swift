@@ -106,7 +106,7 @@ public class EventService: NSObject {
                 return
             }
             var results: [Balizinha.Event] = []
-            if let allObjects = snapshot.children?.allObjects as? [Snapshot] {
+            if let allObjects = snapshot.childrens?.allObjects as? [Snapshot] {
                 for eventDict: Snapshot in allObjects {
                     guard eventDict.exists() else { continue }
                     let event = Balizinha.Event(snapshot: eventDict)
@@ -234,7 +234,7 @@ public class EventService: NSObject {
             guard snapshot.exists() else {
                 return
             }
-            if let allObjects = snapshot.children?.allObjects as? [Snapshot] {
+            if let allObjects = snapshot.childrens?.allObjects as? [Snapshot] {
                 for snapshot: Snapshot in allObjects {
                     if let eventId = snapshot.key as? String, let val = snapshot.value as? Bool {
                         self?.cacheId(eventId, shouldInsert: val)
@@ -258,7 +258,7 @@ public class EventService: NSObject {
             guard snapshot.exists() else { return }
             // this block is called for every result returned
             var results: [String] = []
-            if let allObjects = snapshot.children?.allObjects as? [Snapshot] {
+            if let allObjects = snapshot.childrens?.allObjects as? [Snapshot] {
                 for snapshot: Snapshot in allObjects {
                     if let userId = snapshot.key as? String, let val = snapshot.value as? Bool, val == true {
                         results.append(userId)
@@ -290,7 +290,7 @@ public class EventService: NSObject {
             }
             var total: Double = 0
             var count: Int = 0
-            if let allObjects = snapshot.children?.allObjects as? [Snapshot] {
+            if let allObjects = snapshot.childrens?.allObjects as? [Snapshot] {
                 for snapshot: Snapshot in allObjects {
                     let playerId = snapshot.key // TODO: display all players who've paid
                     let payment = Payment(snapshot: snapshot)
@@ -415,7 +415,7 @@ extension EventService {
                 return
             }
             var results: [Action] = []
-            if let allObjects = snapshot.children?.allObjects as? [Snapshot] {
+            if let allObjects = snapshot.childrens?.allObjects as? [Snapshot] {
                 for snapshot: Snapshot in allObjects {
                     let action = Action(snapshot: snapshot)
                     results.append(action)
