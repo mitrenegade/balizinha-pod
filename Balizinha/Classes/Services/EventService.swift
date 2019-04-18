@@ -34,7 +34,7 @@ public class EventService: NSObject {
     }
     
     fileprivate let ref: Reference
-    init(reference: Reference = firRef) {
+    public init(reference: Reference = firRef) {
         ref = reference
         super.init()
     }
@@ -361,8 +361,8 @@ public extension EventService {
             return
         }
         
-        let ref = ref.child(path: "events").child(path: id)
-        ref.observe(.value) { [weak self] (snapshot) in
+        let reference = ref.child(path: "events").child(path: id)
+        reference.observe(.value) { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
@@ -371,7 +371,7 @@ public extension EventService {
             self?.cache(event)
             completion(event)
             
-            ref.removeAllObservers()
+            reference.removeAllObservers()
         }
     }
     
@@ -453,11 +453,11 @@ public extension EventService {
         eventRef.updateChildValues(["active": false])
         
         // remove users from that event by setting userEvent to false
-        observeUsers(for: event) { (ids) in
+        observeUsers(for: event) { [weak self] (ids) in
             for userId: String in ids {
-                let userEventRef = ref.child(path: "userEvents").child(path: userId)
+                let userEventRef = self?.ref.child(path: "userEvents").child(path: userId)
                 let params: [String: Any] = [eventId: false]
-                userEventRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
+                userEventRef?.updateChildValues(params, withCompletionBlock: { (error, ref) in
                 })
             }
         }
