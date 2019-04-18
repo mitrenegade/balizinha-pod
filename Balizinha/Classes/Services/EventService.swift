@@ -229,6 +229,7 @@ public class EventService: NSObject {
                     }
                 }
                 self?.userEvents.accept(events)
+                eventQueryRef.removeAllObservers()
             }
             
             guard snapshot.exists() else {
