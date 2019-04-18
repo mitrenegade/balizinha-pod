@@ -68,8 +68,8 @@ public class EventService: NSObject {
     public var featuredEvent: Variable<Balizinha.Event?> = Variable(nil)
     public func listenForEventUsers(action: (()->())? = nil) {
         // firRef is the global firebase ref
-        let queryRef = firRef.child("eventUsers")
-        queryRef.observe(.value) { (snapshot: DataSnapshot) in
+        let queryRef = ref.child(path: "eventUsers")
+        queryRef.observeValue { (snapshot) in
             // this block is called for every result returned
             guard snapshot.exists() else { return }
             if let dict = snapshot.value as? [String: AnyObject] {
@@ -86,7 +86,7 @@ public class EventService: NSObject {
     public func getEvents(type: String?, completion: @escaping (_ results: [Balizinha.Event]) -> Void) {
         // returns all current events of a certain type. Returns as snapshot
         // only gets events once, and removes observer afterwards
-        let eventQueryRef = firRef.child("events")//childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
+        let eventQueryRef = ref.child(path: "events")//childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // sort by time
         eventQueryRef.queryOrdered(byChild: "startTime")
@@ -216,7 +216,7 @@ public class EventService: NSObject {
         // TODO: does this trigger when userEvents changes ie delete on event?
         print("Get events for user \(user.uid)")
         
-        let eventQueryRef = firRef.child("userEvents").child(user.uid)
+        let eventQueryRef = ref.child(path: "userEvents").child(path: user.uid)
         
         // do query
         eventQueryRef.observeSingleEvent(of: .value) { [weak self] (snapshot) in
@@ -252,7 +252,7 @@ public class EventService: NSObject {
         // only gets events once, and removes observer afterwards
         print("Get users for event \(event.id)")
         
-        let queryRef = firRef.child("eventUsers").child(event.id) // this creates a query on the endpoint lotsports.firebase.com/events/
+        let queryRef = ref.child(path: "eventUsers").child(path: event.id) // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // do query
         queryRef.observeSingleEvent(of: .value) { (snapshot: DataSnapshot) in
@@ -284,7 +284,7 @@ public class EventService: NSObject {
     }
     
     public func totalAmountPaid(for event: Balizinha.Event, completion: ((Double, Int)->())?) {
-        let queryRef = firRef.child("charges/events").child(event.id)
+        let queryRef = ref.child(path: "charges/events").child(path: event.id)
         queryRef.observe(.value) { (snapshot: DataSnapshot) in
             guard snapshot.exists() else {
                 completion?(0, 0)
@@ -361,7 +361,7 @@ public extension EventService {
             return
         }
         
-        let ref = firRef.child("events").child(id)
+        let ref = ref.child(path: "events").child(path: id)
         ref.observe(.value) { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
@@ -410,7 +410,7 @@ extension EventService {
             completion([])
             return
         }
-        let queryRef = firRef.child("actions")
+        let queryRef = ref.child(path: "actions")
         queryRef.queryOrdered(byChild: "eventId").queryEqual(toValue: id).observeSingleEvent(of: .value, with: { (snapshot) in
             guard snapshot.exists() else {
                 completion([])
@@ -449,13 +449,13 @@ public extension EventService {
     func deleteEvent(_ event: Balizinha.Event) {
         //let userId = user.uid
         let eventId = event.id
-        let eventRef = firRef.child("events").child(eventId)
+        let eventRef = ref.child(path: "events").child(path: eventId)
         eventRef.updateChildValues(["active": false])
         
         // remove users from that event by setting userEvent to false
         observeUsers(for: event) { (ids) in
             for userId: String in ids {
-                let userEventRef = firRef.child("userEvents").child(userId)
+                let userEventRef = ref.child(path: "userEvents").child(path: userId)
                 let params: [String: Any] = [eventId: false]
                 userEventRef.updateChildValues(params, withCompletionBlock: { (error, ref) in
                 })
