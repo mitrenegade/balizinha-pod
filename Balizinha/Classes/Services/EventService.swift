@@ -10,11 +10,9 @@
 // service.getEvents()
 
 import UIKit
-import FirebaseCore
 import RxSwift
 import RxCocoa
 import FirebaseAuth
-import FirebaseDatabase
 import RenderCloud
 
 fileprivate var singleton: EventService?
@@ -33,9 +31,12 @@ public class EventService: NSObject {
             .asObservable()
     }
     
+    // service protocols
     fileprivate let ref: Reference
-    public init(reference: Reference = firRef) {
+    fileprivate let apiService: CloudAPIService
+    public init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService()) {
         ref = reference
+        self.apiService = apiService
         super.init()
     }
 
@@ -80,54 +81,12 @@ public class EventService: NSObject {
             action?()
         }
     }
-    
-    // MARK: - Single call listeners
-    
-    public func getEvents(type: String?, completion: @escaping (_ results: [Balizinha.Event]) -> Void) {
-        // returns all current events of a certain type. Returns as snapshot
-        // only gets events once, and removes observer afterwards
-        let eventQueryRef = ref.child(path: "events")//childByAppendingPath("events") // this creates a query on the endpoint lotsports.firebase.com/events/
-        
-        // sort by time
-        eventQueryRef.queryOrdered(by: "startTime")
-        
-        // filter for type - this does not work
-        /*
-         if let _ = type {
-         // should be queryOrdered(byChild: "type").equalTo(type)
-         eventQueryRef.queryEqual(toValue: type!, childKey: "type")
-         }
-         */
-        
-        eventQueryRef.observeSingleValue{ [weak self] (snapshot) in
-            // this block is called for every result returned
-            guard snapshot.exists() else {
-                completion([])
-                return
-            }
-            var results: [Balizinha.Event] = []
-            if let allObjects = snapshot.childrens?.allObjects as? [Snapshot] {
-                for eventDict: Snapshot in allObjects {
-                    guard eventDict.exists() else { continue }
-                    let event = Balizinha.Event(snapshot: eventDict)
-                    if event.isActive || event.isCancelled {
-                        results.append(event)
-                    }
-                }
-            }
-            print("getEvents results count: \(results.count)")
-            for event in results {
-                self?.cache(event)
-            }
-            completion(results)
-        }
-    }
-    
+
     public func getAvailableEvents(completion: (([Balizinha.Event])->Void)?) {
         guard let user = AuthService.currentUser else { return }
-        RenderAPIService().cloudFunction(functionName: "getEventsAvailableToUser", method: "POST", params: ["userId": user.uid]) { [weak self] (results, error) in
+        apiService.cloudFunction(functionName: "getEventsAvailableToUser", method: "POST", params: ["userId": user.uid]) { [weak self] (results, error) in
             if error != nil {
-                print("Error: \(error as? NSError)")
+                print("Error: \(error as NSError?)")
                 completion?([])
             } else if let dict = results as? [String: Any], let eventsDict = dict["results"] as? [String: Any] {
                 var events: [Balizinha.Event] = []
@@ -164,7 +123,7 @@ public class EventService: NSObject {
         if let info = info {
             params["info"] = info
         }
-        RenderAPIService().cloudFunction(functionName: "createEvent", params: params) { (result, error) in
+        apiService.cloudFunction(functionName: "createEvent", params: params) { (result, error) in
             if let error = error as NSError? {
                 print("CreateEvent v1.4 failed with error \(error)")
                 completion(nil, error)
@@ -190,7 +149,7 @@ public class EventService: NSObject {
         if let admin = addedByOrganizer {
             params["addedByOrganizer"] = admin
         }
-        RenderAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
+        apiService.cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
             if let error = error {
                 print("JoinEvent error \(error)")
             }
@@ -203,7 +162,7 @@ public class EventService: NSObject {
         if let admin = removedByOrganizer {
             params["removedByOrganizer"] = admin
         }
-        RenderAPIService().cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
+        apiService.cloudFunction(functionName: "joinOrLeaveEvent", params: params) { (result, error) in
             if let error = error {
                 print("LeaveEvent error \(error)")
             }
@@ -435,7 +394,7 @@ extension EventService {
 public extension EventService {
     func cancelEvent(_ event: Balizinha.Event, isCancelled: Bool, completion: ((Error?)->Void)?) {
         let params: [String: Any] = ["eventId": event.id, "isCancelled": isCancelled]
-        RenderAPIService().cloudFunction(functionName: "cancelEvent", params: params) { (results, error) in
+        apiService.cloudFunction(functionName: "cancelEvent", params: params) { (results, error) in
             if let error = error {
                 completion?(error)
             } else {
