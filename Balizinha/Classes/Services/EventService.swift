@@ -236,8 +236,7 @@ public class EventService: NSObject {
             }
             if let allObjects = snapshot.children?.allObjects as? [Snapshot] {
                 for snapshot: Snapshot in allObjects {
-                    let eventId = snapshot.key
-                    if let val = snapshot.value as? Bool {
+                    if let eventId = snapshot.key as? String, let val = snapshot.value as? Bool {
                         self?.cacheId(eventId, shouldInsert: val)
                     }
                 }
@@ -261,8 +260,7 @@ public class EventService: NSObject {
             var results: [String] = []
             if let allObjects = snapshot.children?.allObjects as? [Snapshot] {
                 for snapshot: Snapshot in allObjects {
-                    let userId = snapshot.key
-                    if let val = snapshot.value as? Bool, val == true {
+                    if let userId = snapshot.key as? String, let val = snapshot.value as? Bool, val == true {
                         results.append(userId)
                     }
                 }
