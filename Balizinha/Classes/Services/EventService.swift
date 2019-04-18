@@ -82,9 +82,8 @@ public class EventService: NSObject {
         }
     }
 
-    public func getAvailableEvents(completion: (([Balizinha.Event])->Void)?) {
-        guard let user = AuthService.currentUser else { return }
-        apiService.cloudFunction(functionName: "getEventsAvailableToUser", method: "POST", params: ["userId": user.uid]) { [weak self] (results, error) in
+    public func getAvailableEvents(for userId: String, completion: (([Balizinha.Event])->Void)?) {
+        apiService.cloudFunction(functionName: "getEventsAvailableToUser", method: "POST", params: ["userId": userId]) { [weak self] (results, error) in
             if error != nil {
                 print("Error: \(error as NSError?)")
                 completion?([])
