@@ -12,8 +12,8 @@ import FirebaseDatabase
 // BOBBY TODO: this should go into RenderCloud?
 // conform Firebase's DatabaseReference to RenderCloud Reference
 extension DataSnapshot: Snapshot {
-    public var childrens: NSEnumerator? {
-        return self.children
+    public var allChildren: [Snapshot]? {
+        return self.children.allObjects as? [Snapshot]
     }
     
     public var reference: Reference? {

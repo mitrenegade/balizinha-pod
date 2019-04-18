@@ -9,11 +9,13 @@
 import UIKit
 import Firebase
 import Balizinha
+import RenderCloud
 
 class EventsListViewController: ListViewController {
     var currentEvents: [Balizinha.Event] = []
     var pastEvents: [Balizinha.Event] = []
-    let service = EventService.shared
+    let service: EventService = AIRPLANE_MODE ? MockEventService() : EventService.shared
+    let reference: Reference = AIRPLANE_MODE ? MockDatabaseReference() : firRef
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,20 +29,20 @@ class EventsListViewController: ListViewController {
     }
     
     override func load() {
-        let eventRef = firRef.child("events").observe(.value) { [weak self] (snapshot) in
+        reference.child(path: "events").observeValue { [weak self] (snapshot) in
             guard snapshot.exists() else { return }
-            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+            if let allObjects = snapshot.allChildren {
                 self?.currentEvents.removeAll()
                 self?.pastEvents.removeAll()
                 
-                for dict: DataSnapshot in allObjects {
+                for dict: Snapshot in allObjects {
                     let event = Balizinha.Event(snapshot: dict)
                     if event.isPast {
                         self?.pastEvents.append(event)
                     } else {
                         self?.currentEvents.append(event)
                     }
-                    EventService.shared.cache(event)
+                    self?.service.cache(event)
                 }
                 self?.pastEvents.sort(by: { (p1, p2) -> Bool in
                     guard let t1 = p1.startTime else { return false }
