@@ -16,8 +16,7 @@ public class League: FirebaseBaseModel {
             return self.dict["name"] as? String
         }
         set {
-            self.dict["name"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "name", value: newValue)
         }
     }
     
@@ -26,8 +25,7 @@ public class League: FirebaseBaseModel {
             return self.dict["city"] as? String
         }
         set {
-            self.dict["city"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "city", value: newValue)
         }
     }
     
@@ -39,8 +37,7 @@ public class League: FirebaseBaseModel {
             return ""
         }
         set {
-            self.dict["info"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "info", value: newValue)
         }
     }
 
@@ -49,8 +46,7 @@ public class League: FirebaseBaseModel {
             return self.dict["photoUrl"] as? String
         }
         set {
-            self.dict["photoUrl"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "photoUrl", value: newValue)
         }
     }
     
@@ -59,8 +55,7 @@ public class League: FirebaseBaseModel {
             return self.dict["tags"] as? [String] ?? []
         }
         set {
-            self.dict["tags"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "tags", value: newValue)
         }
     }
     
@@ -69,8 +64,7 @@ public class League: FirebaseBaseModel {
             return self.dict["isPrivate"] as? Bool ?? false
         }
         set {
-            self.dict["isPrivate"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "isPrivate", value: newValue)
         }
     }
     
