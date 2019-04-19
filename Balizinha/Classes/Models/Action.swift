@@ -44,8 +44,7 @@ public class Action: FirebaseBaseModel {
             return .systemMessage
         }
         set {
-            self.dict["type"] = newValue.rawValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "type", value: newValue)
         }
     }
     
@@ -55,9 +54,7 @@ public class Action: FirebaseBaseModel {
             return self.dict["userId"] as? String ?? self.dict["user"] as? String
         }
         set {
-            self.dict["userId"] = newValue
-            self.dict["user"] = newValue // legacy
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "userId", value: newValue)
         }
     }
     
@@ -67,8 +64,7 @@ public class Action: FirebaseBaseModel {
             return self.dict["username"] as? String
         }
         set {
-            self.dict["username"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "username", value: newValue)
         }
     }
     
@@ -77,9 +73,7 @@ public class Action: FirebaseBaseModel {
             return self.dict["eventId"] as? String ?? self.dict["event"] as? String
         }
         set {
-            self.dict["event"] = newValue // legacy
-            self.dict["eventId"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "eventId", value: newValue)
         }
     }
 
@@ -88,8 +82,7 @@ public class Action: FirebaseBaseModel {
             return self.dict["message"] as? String
         }
         set {
-            self.dict["message"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "message", value: newValue)
         }
     }
     
@@ -98,8 +91,7 @@ public class Action: FirebaseBaseModel {
             return self.dict["visible"] as? Bool ?? true
         }
         set {
-            self.dict["visible"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "visible", value: newValue)
         }
     }
     
