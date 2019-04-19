@@ -173,8 +173,8 @@ public class Event: FirebaseBaseModel {
         return self.dict["amount"] as? NSNumber
     }
     
-    public var owner: String? {
-        return self.dict["owner"] as? String
+    public var organizer: String? {
+        return self.dict["organizer"] as? String ?? self.dict["owner"] as? String
     }
 
     public var shareLink: String? {
@@ -271,10 +271,10 @@ extension Event {
     }
 
     public var userIsOrganizer: Bool {
-        guard let owner = owner else { return false }
+        guard let organizerId = organizer else { return false }
         guard let user = AuthService.currentUser else { return false }
         
-        return user.uid == owner
+        return user.uid == organizerId
     }
 }
 
