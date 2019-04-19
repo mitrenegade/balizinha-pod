@@ -70,5 +70,14 @@ open class FirebaseBaseModel: NSObject {
         }
         return nil
     }
+    
+    func update(key: String, value: Any?) {
+        dict[key] = value
+        if let newValue = value {
+            firebaseRef?.updateChildValues([key: newValue])
+        } else {
+            firebaseRef?.child(path: key).removeValue()
+        }
+    }
 }
 

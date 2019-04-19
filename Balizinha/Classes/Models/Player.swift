@@ -24,11 +24,10 @@ public class Player: FirebaseBaseModel {
             return nil
         }
         set {
-            self.dict["name"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "name", value: newValue)
         }
     }
-
+    
     public var email: String? {
         get {
             guard let dict = self.dict else { return nil }
@@ -38,8 +37,7 @@ public class Player: FirebaseBaseModel {
             return nil
         }
         set {
-            self.dict["email"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "email", value: newValue)
         }
     }
     
@@ -52,8 +50,7 @@ public class Player: FirebaseBaseModel {
             return nil
         }
         set {
-            self.dict["city"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "city", value: newValue)
         }
     }
     
@@ -66,11 +63,10 @@ public class Player: FirebaseBaseModel {
             return nil
         }
         set {
-            self.dict["photoUrl"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "photoUrl", value: newValue)
         }
     }
-
+    
     public var info: String? {
         get {
             guard let dict = self.dict else { return nil }
@@ -80,8 +76,7 @@ public class Player: FirebaseBaseModel {
             return nil
         }
         set {
-            self.dict["info"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "info", value: newValue)
         }
     }
     
@@ -95,19 +90,17 @@ public class Player: FirebaseBaseModel {
             return self.dict?["promotionId"] as? String
         }
         set {
-            self.dict["promotionId"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "promotionId", value: newValue)
         }
     }
-
+    
     // MARK: - Push
     public var fcmToken: String? {
         get {
             return self.dict?["fcmToken"] as? String
         }
         set {
-            self.dict["fcmToken"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "fcmToken", value: newValue)
         }
     }
     
@@ -117,21 +110,19 @@ public class Player: FirebaseBaseModel {
             return self.dict?["lat"] as? Double
         }
         set {
-            self.dict["lat"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "lat", value: newValue)
         }
     }
-
+    
     public var lon: Double? {
         get {
             return self.dict?["lon"] as? Double
         }
         set {
-            self.dict["lon"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "lon", value: newValue)
         }
     }
-
+    
     public var lastLocationTimestamp: Date? {
         get {
             if let val = self.dict["lastLocationTimestamp"] as? TimeInterval {
@@ -140,8 +131,7 @@ public class Player: FirebaseBaseModel {
             return nil
         }
         set {
-            self.dict["lastLocationTimestamp"] = newValue?.timeIntervalSince1970
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "lastLocationTimestamp", value: newValue)
         }
     }
     
@@ -150,8 +140,7 @@ public class Player: FirebaseBaseModel {
             return self.dict["os"] as? String
         }
         set {
-            self.dict["os"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "os", value: newValue)
         }
     }
     
@@ -160,8 +149,7 @@ public class Player: FirebaseBaseModel {
             return self.dict["appVersion"] as? String
         }
         set {
-            self.dict["appVersion"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "appVersion", value: newValue)
         }
     }
     
@@ -174,9 +162,8 @@ public class Player: FirebaseBaseModel {
             return true
         }
         set {
-            self.dict["notificationsEnabled"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "notificationsEnabled", value: newValue)
         }
-    }    
+    }
 }
 

@@ -22,8 +22,7 @@ public class FeedItem: FirebaseBaseModel {
             return .other
         }
         set {
-            self.dict["type"] = newValue.rawValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "type", value: newValue)
         }
     }
     
@@ -32,8 +31,7 @@ public class FeedItem: FirebaseBaseModel {
             return self.dict["userId"] as? String
         }
         set {
-            self.dict["userId"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "userId", value: newValue)
         }
     }
 
@@ -42,8 +40,7 @@ public class FeedItem: FirebaseBaseModel {
             return self.dict["leagueId"] as? String
         }
         set {
-            self.dict["leagueId"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "leagueId", value: newValue)
         }
     }
     
@@ -58,8 +55,7 @@ public class FeedItem: FirebaseBaseModel {
             return self.dict["message"] as? String
         }
         set {
-            self.dict["message"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "message", value: newValue)
         }
     }
     
@@ -68,8 +64,7 @@ public class FeedItem: FirebaseBaseModel {
             return self.dict["visible"] as? Bool ?? true
         }
         set {
-            self.dict["visible"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "visible", value: newValue)
         }
     }
     
@@ -89,7 +84,7 @@ public class FeedItem: FirebaseBaseModel {
 }
 
 public extension FeedItem {
-    public var hasPhoto: Bool {
+    var hasPhoto: Bool {
         return type == .photo
     }
 }

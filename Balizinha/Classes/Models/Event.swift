@@ -41,8 +41,7 @@ public class Event: FirebaseBaseModel {
             return self.dict["league"] as? String
         }
         set {
-            self.dict["league"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "league", value: newValue)
         }
     }
     
@@ -51,8 +50,7 @@ public class Event: FirebaseBaseModel {
             return self.dict["name"] as? String
         }
         set {
-            self.dict["name"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "name", value: newValue)
         }
     }
     
@@ -64,8 +62,7 @@ public class Event: FirebaseBaseModel {
             return .other
         }
         set {
-            self.dict["type"] = newValue.rawValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "type", value: newValue)
         }
     }
 
@@ -74,8 +71,7 @@ public class Event: FirebaseBaseModel {
             return self.dict["city"] as? String
         }
         set {
-            self.dict["city"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "city", value: newValue)
         }
     }
     
@@ -84,8 +80,7 @@ public class Event: FirebaseBaseModel {
             return self.dict["state"] as? String
         }
         set {
-            self.dict["state"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "state", value: newValue)
         }
     }
     
@@ -94,8 +89,7 @@ public class Event: FirebaseBaseModel {
             return self.dict["place"] as? String
         }
         set {
-            self.dict["place"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "place", value: newValue)
         }
     }
     
@@ -104,8 +98,7 @@ public class Event: FirebaseBaseModel {
             return self.dict["lat"] as? Double
         }
         set {
-            self.dict["lat"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "lat", value: newValue)
         }
     }
     
@@ -114,8 +107,7 @@ public class Event: FirebaseBaseModel {
             return self.dict["lon"] as? Double
         }
         set {
-            self.dict["lon"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "lon", value: newValue)
         }
     }
     
@@ -127,8 +119,7 @@ public class Event: FirebaseBaseModel {
             return nil // what is a valid date equivalent of TBD?
         }
         set {
-            self.dict["startTime"] = newValue?.timeIntervalSince1970
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "startTime", value: newValue?.timeIntervalSince1970)
         }
     }
     
@@ -140,8 +131,7 @@ public class Event: FirebaseBaseModel {
             return nil // what is a valid date equivalent of TBD?
         }
         set {
-            self.dict["endTime"] = newValue?.timeIntervalSince1970
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "endTime", value: newValue?.timeIntervalSince1970)
         }
     }
     public var maxPlayers: Int {
@@ -155,8 +145,7 @@ public class Event: FirebaseBaseModel {
             return 0
         }
         set {
-            self.dict["maxPlayers"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "maxPlayers", value: newValue)
         }
         
     }
@@ -169,8 +158,7 @@ public class Event: FirebaseBaseModel {
             return ""
         }
         set {
-            self.dict["info"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "nainfome", value: newValue)
         }
     }
     
@@ -185,8 +173,8 @@ public class Event: FirebaseBaseModel {
         return self.dict["amount"] as? NSNumber
     }
     
-    public var owner: String? {
-        return self.dict["owner"] as? String
+    public var organizer: String? {
+        return self.dict["organizer"] as? String ?? self.dict["owner"] as? String
     }
 
     public var shareLink: String? {
@@ -283,10 +271,10 @@ extension Event {
     }
 
     public var userIsOrganizer: Bool {
-        guard let owner = owner else { return false }
+        guard let organizerId = organizer else { return false }
         guard let user = AuthService.currentUser else { return false }
         
-        return user.uid == owner
+        return user.uid == organizerId
     }
 }
 

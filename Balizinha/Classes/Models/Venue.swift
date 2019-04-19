@@ -15,8 +15,7 @@ public class Venue: FirebaseBaseModel {
             return self.dict["name"] as? String
         }
         set {
-            self.dict["name"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "name", value: newValue)
         }
     }
 
@@ -25,8 +24,7 @@ public class Venue: FirebaseBaseModel {
             return self.dict["street"] as? String
         }
         set {
-            self.dict["street"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "street", value: newValue)
         }
     }
     
@@ -35,8 +33,7 @@ public class Venue: FirebaseBaseModel {
             return self.dict["city"] as? String
         }
         set {
-            self.dict["city"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "city", value: newValue)
         }
     }
     
@@ -45,8 +42,7 @@ public class Venue: FirebaseBaseModel {
             return self.dict["state"] as? String
         }
         set {
-            self.dict["state"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "state", value: newValue)
         }
     }
     
@@ -55,8 +51,7 @@ public class Venue: FirebaseBaseModel {
             return self.dict["lat"] as? Double
         }
         set {
-            self.dict["lat"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "lat", value: newValue)
         }
     }
     
@@ -65,8 +60,7 @@ public class Venue: FirebaseBaseModel {
             return self.dict["lon"] as? Double
         }
         set {
-            self.dict["lon"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "lon", value: newValue)
         }
     }
     

@@ -45,8 +45,7 @@ public class Organizer: FirebaseBaseModel {
             return self.dict?["paymentNeeded"] as? Bool ?? false
         }
         set {
-            self.dict["paymentNeeded"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "paymentNeeded", value: newValue)
         }
     }
 
@@ -55,8 +54,7 @@ public class Organizer: FirebaseBaseModel {
             return self.dict?["deadline"] as? Double
         }
         set {
-            self.dict["deadline"] = newValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "deadline", value: newValue)
         }
     }
     
@@ -68,8 +66,7 @@ public class Organizer: FirebaseBaseModel {
             return .none
         }
         set {
-            self.dict["status"] = newValue.rawValue
-            self.firebaseRef?.updateChildValues(self.dict)
+            update(key: "status", value: newValue)
         }
     }
 }
