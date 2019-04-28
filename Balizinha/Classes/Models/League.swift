@@ -68,13 +68,8 @@ public class League: FirebaseBaseModel {
         }
     }
     
-    public var owner: String? {
-        get {
-            if let val = self.dict["owner"] as? String {
-                return val
-            }
-            return nil
-        }
+    public var ownerId: String? {
+        return dict["ownerId"] as? String ?? dict["owner"] as? String
     }
     
     public var playerCount: Int {

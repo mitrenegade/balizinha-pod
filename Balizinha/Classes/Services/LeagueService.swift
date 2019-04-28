@@ -109,6 +109,13 @@ public class LeagueService: NSObject {
         }
     }
     
+    /**
+    Returns all currently cached leagues, in no particular order, in array format
+    */
+    public var allLeagues: [League] {
+        return Array(_leagues.values)
+    }
+    
     public func memberships(for league: League, completion: @escaping (([Membership]?)->Void)) {
         RenderAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
