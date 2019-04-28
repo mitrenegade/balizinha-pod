@@ -129,7 +129,7 @@ class LeagueEditViewController: UIViewController {
         // player count
         labelPlayerCount?.text = "\(league.playerCount)"
         
-        if let owner = league.owner {
+        if let owner = league.ownerId {
             PlayerService.shared.withId(id: owner) { [weak self] (player) in
                 DispatchQueue.main.async {
                     self?.labelOwnerName.text = player?.name ?? player?.email ?? player?.id
