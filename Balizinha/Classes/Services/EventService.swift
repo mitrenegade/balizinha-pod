@@ -403,7 +403,8 @@ public extension EventService {
     }
     
     func deleteEvent(_ event: Balizinha.Event, completion:((Error?) -> Void)?) {
-        apiService.cloudFunction(functionName: "deleteEvent", method: "POST", params: nil) { (results, error) in
+        let params = ["eventId": event.id]
+        apiService.cloudFunction(functionName: "deleteEvent", method: "POST", params: params) { (results, error) in
             if let error = error {
                 completion?(error)
             } else {

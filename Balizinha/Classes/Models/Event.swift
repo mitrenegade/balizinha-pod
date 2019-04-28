@@ -174,7 +174,7 @@ public class Event: FirebaseBaseModel {
     }
     
     public var organizer: String? {
-        return self.dict["organizer"] as? String ?? self.dict["owner"] as? String
+        return self.dict["organizerId"] as? String ?? self.dict["organizer"] as? String
     }
 
     public var shareLink: String? {

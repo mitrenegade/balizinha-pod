@@ -92,7 +92,25 @@ class EventsListViewController: ListViewController {
                 self?.load()
             }
         })
-
+    }
+    
+    private func doDeleteEvent(_ event: Balizinha.Event) {
+        let title = "Are you sure?"
+        let alert = UIAlertController(title: title, message: "Deleting event \(event.name ?? event.id) cannot be undone.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Confirm delete", style: .default, handler: { [weak self] (action) in
+            self?.service?.deleteEvent(event) { [weak self] (error) in
+                if let error = error as NSError? {
+                    print("Event \(event.id) delete with error \(error)")
+                    let title = "Could not delete event"
+                    self?.simpleAlert(title, defaultMessage: "There was an error with deletion.", error: error)
+                } else {
+                    self?.load()
+                }
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Never mind", style: .cancel) { (action) in
+        })
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -148,10 +166,12 @@ extension EventsListViewController {
             alert.addAction(UIAlertAction(title: cancelText, style: .default) { [weak self] (action) in
                 self?.doCancelEvent(event: event)
             })
+            alert.addAction(UIAlertAction(title: "Delete event", style: .default) { [weak self] (action) in
+                self?.doDeleteEvent(event)
+            })
             alert.addAction(UIAlertAction(title: "Never mind", style: .cancel) { (action) in
             })
             present(alert, animated: true, completion: nil)
         }
     }
 }
-
