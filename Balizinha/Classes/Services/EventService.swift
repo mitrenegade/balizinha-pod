@@ -402,7 +402,17 @@ public extension EventService {
         }
     }
     
-    func deleteEvent(_ event: Balizinha.Event) {
+    func deleteEvent(_ event: Balizinha.Event, completion:((Error?) -> Void)?) {
+        let params = ["eventId": event.id]
+        apiService.cloudFunction(functionName: "deleteEvent", method: "POST", params: params) { (results, error) in
+            if let error = error {
+                completion?(error)
+            } else {
+                completion?(nil)
+            }
+        }
+
+        /*
         //let userId = user.uid
         let eventId = event.id
         let eventRef = ref.child(path: "events").child(path: eventId)
@@ -416,6 +426,7 @@ public extension EventService {
                 userEventRef?.updateChildValues(params)
             }
         }
+        */
     }
     
 }
