@@ -131,7 +131,8 @@ public class Player: FirebaseBaseModel {
             return nil
         }
         set {
-            update(key: "lastLocationTimestamp", value: newValue)
+            let interval = newValue?.timeIntervalSince1970
+            update(key: "lastLocationTimestamp", value: interval)
         }
     }
     
