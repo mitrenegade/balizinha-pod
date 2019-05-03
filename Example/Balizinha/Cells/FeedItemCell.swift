@@ -46,5 +46,11 @@ class FeedItemCell: UITableViewCell {
                 }
             }
         }
+        
+        if !feedItem.visible {
+            self.contentView.alpha = 0.25
+        } else {
+            self.contentView.alpha = 1
+        }
     }
 }
