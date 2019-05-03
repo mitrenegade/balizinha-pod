@@ -26,10 +26,7 @@ class ActionListViewController: ListViewController {
     
     override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
         let action = Action(snapshot: snapshot)
-        if action.visible {
-            return action
-        }
-        return nil
+        return action
     }
 }
 
