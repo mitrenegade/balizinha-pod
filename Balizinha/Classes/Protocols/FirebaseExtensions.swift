@@ -20,11 +20,7 @@ extension DataSnapshot: Snapshot {
     }
 }
 
-extension DatabaseReference: Reference {
-    public func observeSingleValue(completion: @escaping (Snapshot) -> Void) {
-        observeSingleEvent(of: .value, with: completion)
-    }
-    
+extension DatabaseReference: Reference {    
     public func queryOrdered(by child: String) -> Query {
         return queryOrdered(byChild: child)
     }
@@ -39,7 +35,13 @@ extension DatabaseReference: Reference {
 }
 
 extension DatabaseQuery: Query {
-    public func queryEqual(to value: Any) -> Reference {
-        return queryEqual(toValue: value) as! Reference
+    public func observeSingleValue(completion: @escaping (Snapshot) -> Void) {
+        observe(.value) { (snapshot) in
+            completion(snapshot)
+        }
+    }
+    
+    public func queryEqual(to value: Any) -> Query {
+        return queryEqual(toValue: value)
     }
 }

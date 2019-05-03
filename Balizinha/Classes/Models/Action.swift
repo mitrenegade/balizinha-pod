@@ -102,7 +102,7 @@ public class Action: FirebaseBaseModel {
 
 public class ActionViewModel {
     var action: Action
-    var event: Event?
+    var event: Balizinha.Event?
 
     public init(action: Action) {
         self.action = action
