@@ -18,6 +18,8 @@ public class ActionService: NSObject {
         guard let eventId = action.eventId else { return }
         let queryRef = firRef.child("eventActions").child(eventId)
         queryRef.updateChildValues([actionId: false])
+        
+        action.visible = false
     }
     
     /*

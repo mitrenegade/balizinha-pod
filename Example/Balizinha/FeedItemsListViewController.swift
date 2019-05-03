@@ -102,10 +102,7 @@ class FeedItemsListViewController: ListViewController {
     
     override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
         let feedItem = FeedItem(snapshot: snapshot)
-        if feedItem.visible {
-            return feedItem
-        }
-        return nil
+        return feedItem
     }
 
 }

@@ -29,6 +29,12 @@ class ActionCell: UITableViewCell {
         self.refreshPhoto(userId: userId, currentActionId: actionId)
 
         labelDate.text = action.createdAt?.dateString()
+        
+        if !action.visible {
+            self.contentView.alpha = 0.25
+        } else {
+            self.contentView.alpha = 1
+        }
     }
     
     func refreshPhoto(userId: String, currentActionId: String) {

@@ -26,10 +26,7 @@ class ActionListViewController: ListViewController {
     
     override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
         let action = Action(snapshot: snapshot)
-        if action.visible {
-            return action
-        }
-        return nil
+        return action
     }
 }
 
@@ -55,3 +52,18 @@ extension ActionListViewController {
     }
 }
 
+extension ActionListViewController {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard indexPath.section == 0 else { return }
+        let row = indexPath.row
+        guard row < objects.count else { return }
+        if let action = objects[row] as? Action {
+            ActionService.delete(action: action)
+            tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
+        }
+    }
+}
