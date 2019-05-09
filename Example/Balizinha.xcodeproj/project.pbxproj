@@ -189,30 +189,24 @@
 		607FACD21AFB9204008FA782 /* Balizinha Admin */ = {
 			isa = PBXGroup;
 			children = (
-				8E97403C21132A5600242907 /* ActionListViewController.swift */,
-				8E97405321132A6900242907 /* AppDelegate.swift */,
-				8E97405E21132A7000242907 /* Assets.xcassets */,
-				8E97405721132A6E00242907 /* Cells */,
-				8E97403D21132A5700242907 /* Constants.swift */,
-				8E5AD7EF21612D9E00A78539 /* FeedItemsListViewController.swift */,
-				8E97403E21132A5900242907 /* LeagueEditViewController.swift */,
-				8E97404621132A5E00242907 /* LeagueListViewController.swift */,
-				8E97405421132A6A00242907 /* LeaguePlayersViewController.swift */,
 				8E97404521132A5D00242907 /* ListViewController.swift */,
 				8E97404821132A6100242907 /* MenuViewController.swift */,
-				8E97404721132A6000242907 /* OrganizerListViewController.swift */,
-				8E97405621132A6D00242907 /* PaymentsListViewController.swift */,
-				8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */,
-				8E97405021132A6500242907 /* PlayerListViewController.swift */,
-				C6502BD921252747004A3EED /* EventsListViewController.swift */,
-				C6BC1CDB2126FE1E00A500FD /* SearchablePlayersViewController.swift */,
-				C6993A912129EE560052B69D /* EventPlayersViewController.swift */,
-				8E87FEE4220BD3E100F83CC9 /* TeamsViewController.swift */,
-				8E8D62D72149CF7F0043C204 /* UtilsViewController.swift */,
-				8EA99E12215342C6001BC643 /* FeedbackListViewController.swift */,
-				C6E11AB721FCAD7C00EE3126 /* StripeMenuViewController.swift */,
+				8E8F314222844ED5009B052D /* Players */,
+				8E8F314422844EEC009B052D /* Events */,
+				8E8F314622844F19009B052D /* Actions */,
+				8E8F314722844FA2009B052D /* Payments */,
+				8E8F314522844EF2009B052D /* Leagues */,
+				8E8F314822844FC7009B052D /* Feed */,
+				8E8F314A22845001009B052D /* Admin */,
+				8E8F314922844FF6009B052D /* Feedback */,
 				8E97404B21132A6400242907 /* Storyboards */,
 				8E97404021132A5C00242907 /* Views */,
+				8E97405721132A6E00242907 /* Cells */,
+				8E97403D21132A5700242907 /* Constants.swift */,
+				8E97405321132A6900242907 /* AppDelegate.swift */,
+				8E97405E21132A7000242907 /* Assets.xcassets */,
+				8E97404721132A6000242907 /* OrganizerListViewController.swift */,
+				8E87FEE4220BD3E100F83CC9 /* TeamsViewController.swift */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Balizinha Admin";
@@ -266,6 +260,76 @@
 				96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8E8F314222844ED5009B052D /* Players */ = {
+			isa = PBXGroup;
+			children = (
+				8E97405021132A6500242907 /* PlayerListViewController.swift */,
+				C6BC1CDB2126FE1E00A500FD /* SearchablePlayersViewController.swift */,
+			);
+			path = Players;
+			sourceTree = "<group>";
+		};
+		8E8F314422844EEC009B052D /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				C6502BD921252747004A3EED /* EventsListViewController.swift */,
+				C6993A912129EE560052B69D /* EventPlayersViewController.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		8E8F314522844EF2009B052D /* Leagues */ = {
+			isa = PBXGroup;
+			children = (
+				8E97403E21132A5900242907 /* LeagueEditViewController.swift */,
+				8E97404621132A5E00242907 /* LeagueListViewController.swift */,
+				8E97405421132A6A00242907 /* LeaguePlayersViewController.swift */,
+			);
+			path = Leagues;
+			sourceTree = "<group>";
+		};
+		8E8F314622844F19009B052D /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				8E97403C21132A5600242907 /* ActionListViewController.swift */,
+			);
+			path = Actions;
+			sourceTree = "<group>";
+		};
+		8E8F314722844FA2009B052D /* Payments */ = {
+			isa = PBXGroup;
+			children = (
+				8E97405621132A6D00242907 /* PaymentsListViewController.swift */,
+				8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */,
+				C6E11AB721FCAD7C00EE3126 /* StripeMenuViewController.swift */,
+			);
+			path = Payments;
+			sourceTree = "<group>";
+		};
+		8E8F314822844FC7009B052D /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				8E5AD7EF21612D9E00A78539 /* FeedItemsListViewController.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		8E8F314922844FF6009B052D /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				8EA99E12215342C6001BC643 /* FeedbackListViewController.swift */,
+			);
+			path = Feedback;
+			sourceTree = "<group>";
+		};
+		8E8F314A22845001009B052D /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				8E8D62D72149CF7F0043C204 /* UtilsViewController.swift */,
+			);
+			path = Admin;
 			sourceTree = "<group>";
 		};
 		8E97404021132A5C00242907 /* Views */ = {
