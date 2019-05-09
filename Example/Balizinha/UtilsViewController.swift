@@ -18,6 +18,7 @@ enum UtilItem: String, CaseIterable {
     case cleanupAnonymousAuth
     case refreshAllPlayerTopics
     case migrateStripeCustomers
+    case makeActionsBackwardsCompatible
 
     var details: String {
         switch self {
@@ -33,6 +34,8 @@ enum UtilItem: String, CaseIterable {
             return "Enables notifications for leagues and events for a player"
         case .migrateStripeCustomers:
             return "Updates all stripe_customers to stripeCustomers"
+        case .makeActionsBackwardsCompatible: // only useful until Android 1.0.9 is out
+            return "Set event=eventId for all actions for backwards compatibility"
         }
     }
 }
@@ -113,6 +116,8 @@ extension UtilsViewController: UITableViewDelegate {
             cleanupAnonymousAuth()
         case .refreshAllPlayerTopics:
             refreshAllPlayerTopics()
+        case .makeActionsBackwardsCompatible:
+            makeActionsBackwardsCompatible()
         default:
             activityOverlay.show()
             RenderAPIService().cloudFunction(functionName: selection.rawValue, method: "POST", params: nil) { [weak self] (result, error) in
@@ -274,6 +279,36 @@ extension UtilsViewController {
             }
         }
     }
+    
+    func makeActionsBackwardsCompatible() {
+//        let _PARAM_FROM_ = "eventId"
+//        let _PARAM_TO_ = "event"
+        let _PARAM_FROM_ = "userId"
+        let _PARAM_TO_ = "user"
+        let ref = firRef.child("actions")
+        ref.observeSingleValue { (snapshot) in
+            guard snapshot.exists() else { return }
+            var actionsWithoutEvent: [Action] = []
+            if let allObjects = snapshot.allChildren as? [DataSnapshot] {
+                print("All actions: \(allObjects.count)")
+                for object in allObjects {
+                    let action = Action(snapshot: object)
+                    if action.dict[_PARAM_TO_] == nil, let value = action.dict[_PARAM_FROM_] {
+                        print("Action \(action.id) \(_PARAM_FROM_) \(value)")
+                        actionsWithoutEvent.append(action)
+                    }
+                }
+            }
+            print("Actions to be made backwards compatible (\(_PARAM_FROM_) -> \(_PARAM_TO_)): \(actionsWithoutEvent.count)")
+            ref.removeAllObservers()
+            for action in actionsWithoutEvent {
+                if let value = action.dict[_PARAM_FROM_] {
+                    action.dict[_PARAM_TO_] = value
+                    action.firebaseRef?.updateChildValues([_PARAM_TO_: value])
+                }
+            }
+        }
+    }
 }
 
 // refresh player topics
@@ -284,7 +319,7 @@ extension UtilsViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         let playerRef = firRef.child("players").queryOrdered(byChild: "createdAt")
         playerRef.observe(.value) {[weak self] (snapshot) in
             guard snapshot.exists() else { return }
-            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
+            if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
                 self?.players.removeAll()
                 for playerDict: DataSnapshot in allObjects {
                     let player = Player(snapshot: playerDict)
