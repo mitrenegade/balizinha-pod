@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WVj-tz-ZLn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WVj-tz-ZLn">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -127,6 +127,14 @@
             </objects>
             <point key="canvasLocation" x="826" y="366"/>
         </scene>
+        <!--Storyboard Reference-->
+        <scene sceneID="vSL-Xo-0ls">
+            <objects>
+                <viewControllerPlaceholder id="inf-4J-SaX" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PmM-FC-jtz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="791" y="470"/>
+        </scene>
         <!--FeedItems-->
         <scene sceneID="BFj-5t-YhL">
             <objects>
@@ -193,7 +201,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7cl-Yw-JX7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1008.8" y="795.6521739130435"/>
+            <point key="canvasLocation" x="506" y="1123"/>
         </scene>
         <!--Payments-->
         <scene sceneID="W2z-Kk-LlX">
@@ -421,6 +429,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="profile-img" width="512" height="512"/>
+        <image name="profile-img" width="256" height="256"/>
     </resources>
 </document>
