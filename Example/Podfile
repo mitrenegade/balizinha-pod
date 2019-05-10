@@ -7,6 +7,12 @@ target 'Balizinha_Example' do
   pod 'RenderCloud', :git => 'git@bitbucket.org:renderapps/RenderCloud.git', :tag=>'1.2.0'
   pod 'Stripe', '14.0.0'
 
+  # heatmaps
+  # https://stackoverflow.com/questions/42611599/cocoapods-target-has-transitive-dependencies-that-include-static-binaries
+  pod 'GooglePlaces'
+  pod 'GoogleMaps'
+  pod 'PopupDialog'
+
   target 'Balizinha_Tests' do
     inherit! :search_paths
 
