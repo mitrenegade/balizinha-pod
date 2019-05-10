@@ -92,6 +92,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		7F3517D46F3B5DE3D0C331AA /* Pods_Balizinha_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E0157B7228529FF0072921C /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		8E09572B21ABA1000037DA17 /* LoginStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStateTests.swift; sourceTree = "<group>"; };
 		8E09572F21ABA32A0037DA17 /* MockDefaultsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDefaultsProvider.swift; sourceTree = "<group>"; };
 		8E09573821ABAE630037DA17 /* MockAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthProvider.swift; sourceTree = "<group>"; };
@@ -222,6 +223,7 @@
 				8E97404721132A6000242907 /* OrganizerListViewController.swift */,
 				8E87FEE4220BD3E100F83CC9 /* TeamsViewController.swift */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
+				8E0157B7228529FF0072921C /* BridgingHeader.h */,
 			);
 			name = "Balizinha Admin";
 			path = Balizinha;
@@ -837,6 +839,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.balizinha.admin;
 				PRODUCT_NAME = Admin;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = Balizinha/BridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -859,6 +862,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.balizinha.admin;
 				PRODUCT_NAME = Admin;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = Balizinha/BridgingHeader.h;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
