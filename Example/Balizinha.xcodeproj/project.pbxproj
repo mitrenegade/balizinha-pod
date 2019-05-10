@@ -307,7 +307,7 @@
 				8E8F314522844EF2009B052D /* Leagues */,
 				8E8F314822844FC7009B052D /* Feed */,
 				8E8F314A22845001009B052D /* Admin */,
-				8EC168FF228526020066634B /* New Group */,
+				8EC168FF228526020066634B /* Maps */,
 				8E8F314922844FF6009B052D /* Feedback */,
 				8E97404B21132A6400242907 /* Storyboards */,
 				8E97404021132A5C00242907 /* Views */,
@@ -623,12 +623,12 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		8EC168FF228526020066634B /* New Group */ = {
+		8EC168FF228526020066634B /* Maps */ = {
 			isa = PBXGroup;
 			children = (
 				8EC16900228526320066634B /* HeatMapViewController.swift */,
 			);
-			path = "New Group";
+			path = Maps;
 			sourceTree = "<group>";
 		};
 		AF156FF2D40967F703C4016A /* Pods */ = {
