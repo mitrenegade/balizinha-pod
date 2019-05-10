@@ -8,13 +8,12 @@
 
 import UIKit
 import GoogleMaps
-import GooglePlaces
 import GoogleUtilities
 
 class HeatMapViewController: UIViewController {
 
     @IBOutlet weak var mapView: GMSMapView!
-    private var heatMapLayer: GMUHeatmapTileLayer!
+    private var heatmapLayer: GMUHeatmapTileLayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()

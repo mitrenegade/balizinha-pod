@@ -9,9 +9,7 @@ target 'Balizinha_Example' do
 
   # heatmaps
   # https://stackoverflow.com/questions/42611599/cocoapods-target-has-transitive-dependencies-that-include-static-binaries
-  pod 'GooglePlaces'
   pod 'GoogleMaps'
-  pod 'PopupDialog'
 
   target 'Balizinha_Tests' do
     inherit! :search_paths

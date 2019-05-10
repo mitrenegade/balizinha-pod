@@ -12,7 +12,6 @@ PODS:
     - RxCocoa
     - RxOptional
     - RxSwift
-  - DynamicBlurView (3.0.1)
   - Firebase (5.20.1):
     - Firebase/Core (= 5.20.1)
   - Firebase/Analytics (5.20.1):
@@ -98,8 +97,6 @@ PODS:
   - GoogleMaps/Base (3.1.0)
   - GoogleMaps/Maps (3.1.0):
     - GoogleMaps/Base
-  - GooglePlaces (3.1.0):
-    - GoogleMaps/Base (= 3.1.0)
   - GoogleUtilities/AppDelegateSwizzler (5.5.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -125,8 +122,6 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
-  - PopupDialog (1.1.0):
-    - DynamicBlurView (~> 3.0.1)
   - Protobuf (3.7.0)
   - RenderCloud (1.2.0)
   - RenderPay (0.1.3):
@@ -152,15 +147,12 @@ PODS:
 DEPENDENCIES:
   - Balizinha (from `../`)
   - GoogleMaps
-  - GooglePlaces
-  - PopupDialog
   - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `1.2.0`)"
   - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `0.1.3`)"
   - Stripe (= 14.0.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - DynamicBlurView
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -175,12 +167,10 @@ SPEC REPOS:
     - FirebaseStorage
     - GoogleAppMeasurement
     - GoogleMaps
-    - GooglePlaces
     - GoogleUtilities
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
-    - PopupDialog
     - Protobuf
     - RxCocoa
     - RxOptional
@@ -207,7 +197,6 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Balizinha: b375ad92c207357d60b5b2fa2f57d07ef938e993
-  DynamicBlurView: b1df5415f9bd31897549e5d7077e5ec120a4d636
   Firebase: 2f5235e62f141cb86181c3af0dfe4509706351ac
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: fd72a26bf8dac84cefba2f0864366f718555a5b0
@@ -222,12 +211,10 @@ SPEC CHECKSUMS:
   FirebaseStorage: 6162ef4322502b818d9de0ec552f5226d283de43
   GoogleAppMeasurement: 1624046ab1bcc5e170061a56ef5679000b079c8e
   GoogleMaps: 5c13302e6fe6bb6e686b267196586b91cd594225
-  GooglePlaces: e874db179f2675c4f3eeda0b686b540273a578b0
   GoogleUtilities: 6481e6318c5fcabaaa8513ef8120f329055d7c10
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  PopupDialog: 42fb7a0bc4fafdf89fef8b5b2b127a6023f3e1cc
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
   RenderCloud: a53f869bad56edc9476e5d92241e8ac112558686
   RenderPay: 375e2160c264bc4714cee92b008c8868fb255604
@@ -236,6 +223,6 @@ SPEC CHECKSUMS:
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: e8848d889d1bddd9dd789da1d8e50886f0726127
+PODFILE CHECKSUM: 2d1fda121c91ab5ecacaa63a98adfdf9d2301223
 
 COCOAPODS: 1.6.1
