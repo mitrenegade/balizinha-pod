@@ -57,6 +57,8 @@
 		8EC168F5228452AD0066634B /* Cities.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC168F4228452AD0066634B /* Cities.storyboard */; };
 		8EC168F7228516CF0066634B /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC168F6228516CE0066634B /* PlayerViewController.swift */; };
 		8EC168FB2285175B0066634B /* Players.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC168FA2285175B0066634B /* Players.storyboard */; };
+		8EC168FD2285259C0066634B /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC168FC2285259C0066634B /* Map.storyboard */; };
+		8EC16901228526320066634B /* HeatMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC16900228526320066634B /* HeatMapViewController.swift */; };
 		94C5CE9F5487058D85022A6C /* Pods_Balizinha_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */; };
 		C64E187D2129DB630042DB68 /* PlayersScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64E187C2129DB630042DB68 /* PlayersScrollView.swift */; };
 		C6502BD82125270B004A3EED /* Events.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6502BD72125270B004A3EED /* Events.storyboard */; };
@@ -138,6 +140,8 @@
 		8EC168F4228452AD0066634B /* Cities.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Cities.storyboard; sourceTree = "<group>"; };
 		8EC168F6228516CE0066634B /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		8EC168FA2285175B0066634B /* Players.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Players.storyboard; sourceTree = "<group>"; };
+		8EC168FC2285259C0066634B /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
+		8EC16900228526320066634B /* HeatMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapViewController.swift; sourceTree = "<group>"; };
 		96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C64E187C2129DB630042DB68 /* PlayersScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersScrollView.swift; sourceTree = "<group>"; };
 		C6502BD72125270B004A3EED /* Events.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Events.storyboard; sourceTree = "<group>"; };
@@ -207,6 +211,7 @@
 				8E8F314522844EF2009B052D /* Leagues */,
 				8E8F314822844FC7009B052D /* Feed */,
 				8E8F314A22845001009B052D /* Admin */,
+				8EC168FF228526020066634B /* New Group */,
 				8E8F314922844FF6009B052D /* Feedback */,
 				8E97404B21132A6400242907 /* Storyboards */,
 				8E97404021132A5C00242907 /* Views */,
@@ -370,6 +375,7 @@
 				C6E11AB521FCAD0300EE3126 /* Stripe.storyboard */,
 				8EC168F4228452AD0066634B /* Cities.storyboard */,
 				8EC168FA2285175B0066634B /* Players.storyboard */,
+				8EC168FC2285259C0066634B /* Map.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -389,6 +395,14 @@
 				8E5AD7F3216158FF00A78539 /* FeedItemCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		8EC168FF228526020066634B /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				8EC16900228526320066634B /* HeatMapViewController.swift */,
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		AF156FF2D40967F703C4016A /* Pods */ = {
@@ -502,6 +516,7 @@
 				8E97406721132A7100242907 /* PaymentHeaderView.xib in Resources */,
 				8E5AD7F22161580800A78539 /* FeedItems.storyboard in Resources */,
 				8E97408121132E6700242907 /* GoogleService-Info-dev.plist in Resources */,
+				8EC168FD2285259C0066634B /* Map.storyboard in Resources */,
 				8E97406F21132A7100242907 /* Main.storyboard in Resources */,
 				C6502BD82125270B004A3EED /* Events.storyboard in Resources */,
 				8EC168FB2285175B0066634B /* Players.storyboard in Resources */,
@@ -632,6 +647,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EC16901228526320066634B /* HeatMapViewController.swift in Sources */,
 				C64E187D2129DB630042DB68 /* PlayersScrollView.swift in Sources */,
 				8E995879211E8B5400101F50 /* PaymentSubmitViewController.swift in Sources */,
 				8E97406521132A7100242907 /* FirebaseModelIcon.swift in Sources */,

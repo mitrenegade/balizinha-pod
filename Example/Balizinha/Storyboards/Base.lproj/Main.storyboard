@@ -90,6 +90,7 @@
                         <segue destination="ncL-MI-Mj3" kind="show" identifier="stripe" id="V0a-0r-0a4"/>
                         <segue destination="inf-4J-SaX" kind="show" identifier="cities" id="4ZF-r6-Z3e"/>
                         <segue destination="gZK-Ld-Ag2" kind="show" identifier="players" id="AWH-Dv-uUV"/>
+                        <segue destination="Whj-dt-yYN" kind="show" identifier="map" id="hrY-UZ-fDa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -298,13 +299,6 @@
             </objects>
             <point key="canvasLocation" x="1697" y="116"/>
         </scene>
-        <!--Storyboard Reference-->
-        <scene sceneID="yW0-xp-H0p">
-            <objects>
-                <viewControllerPlaceholder id="YkQ-WW-scB" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xUC-xT-oeO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
         <!--Stripe-->
         <scene sceneID="nb1-qN-8H2">
             <objects>
@@ -320,6 +314,13 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hG7-LF-EGU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="844" y="-172"/>
+        </scene>
+        <!--Map-->
+        <scene sceneID="36H-sM-NBQ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Map" id="Whj-dt-yYN" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZfK-Ve-obj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>
