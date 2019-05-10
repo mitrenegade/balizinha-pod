@@ -1,5 +1,5 @@
 PODS:
-  - Balizinha (0.7.3):
+  - Balizinha (0.7.4):
     - Firebase
     - Firebase/Analytics
     - Firebase/Auth
@@ -92,6 +92,11 @@ PODS:
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
+  - GoogleMaps (3.1.0):
+    - GoogleMaps/Maps (= 3.1.0)
+  - GoogleMaps/Base (3.1.0)
+  - GoogleMaps/Maps (3.1.0):
+    - GoogleMaps/Base
   - GoogleUtilities/AppDelegateSwizzler (5.5.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -141,6 +146,7 @@ PODS:
 
 DEPENDENCIES:
   - Balizinha (from `../`)
+  - GoogleMaps
   - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `1.2.0`)"
   - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `0.1.3`)"
   - Stripe (= 14.0.0)
@@ -160,6 +166,7 @@ SPEC REPOS:
     - FirebaseRemoteConfig
     - FirebaseStorage
     - GoogleAppMeasurement
+    - GoogleMaps
     - GoogleUtilities
     - GTMSessionFetcher
     - leveldb-library
@@ -189,7 +196,7 @@ CHECKOUT OPTIONS:
     :tag: 0.1.3
 
 SPEC CHECKSUMS:
-  Balizinha: a343b4cbdec230293073ebc7dc6ff36a189c28b3
+  Balizinha: b375ad92c207357d60b5b2fa2f57d07ef938e993
   Firebase: 2f5235e62f141cb86181c3af0dfe4509706351ac
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: fd72a26bf8dac84cefba2f0864366f718555a5b0
@@ -203,6 +210,7 @@ SPEC CHECKSUMS:
   FirebaseRemoteConfig: 7e11c65f0769c09bff6947997c209515058c5318
   FirebaseStorage: 6162ef4322502b818d9de0ec552f5226d283de43
   GoogleAppMeasurement: 1624046ab1bcc5e170061a56ef5679000b079c8e
+  GoogleMaps: 5c13302e6fe6bb6e686b267196586b91cd594225
   GoogleUtilities: 6481e6318c5fcabaaa8513ef8120f329055d7c10
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
@@ -215,6 +223,6 @@ SPEC CHECKSUMS:
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: 692e91d97223ef301101df71a54f331121a400b9
+PODFILE CHECKSUM: 2d1fda121c91ab5ecacaa63a98adfdf9d2301223
 
 COCOAPODS: 1.6.1

@@ -11,6 +11,7 @@ import FirebaseCore
 import Balizinha
 import RenderCloud
 import Stripe
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -35,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         config.publishableKey = TESTING ? STRIPE_PUBLISHABLE_KEY_DEV : STRIPE_PUBLISHABLE_KEY_PROD
 
         AuthService.shared.startup()
+        
+        GMSServices.provideAPIKey(GOOGLE_API_KEY_PROD)
         
         return true
     }
