@@ -36,3 +36,5 @@ let STRIPE_PUBLISHABLE_KEY_PROD = "pk_live_IziZ9EDk1374oI3rXjEciLBG"
 
 let FIREBASE_URL_DEV = "https://us-central1-balizinha-dev.cloudfunctions.net"
 let FIREBASE_URL_PROD = "https://us-central1-balizinha-c9cd7.cloudfunctions.net"
+
+let GOOGLE_API_KEY_PROD = "AIzaSyCr6wG6UZ9yhjlJbId0ErgkLrIdcYt11iU"

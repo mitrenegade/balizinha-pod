@@ -16,6 +16,7 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var idLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var notesLabel: UILabel!
 
     var player: Player?
@@ -57,6 +58,14 @@ class PlayerViewController: UIViewController {
         
         idLabel.text = player.id
         emailLabel.text = player.email
+        if let lat = player.lat, let lon = player.lon {
+            var text = "Location: \(lat), \(lon)"
+            if let timestamp = player.lastLocationTimestamp {
+                let time = timestamp.dateString()
+                text = text + "\nActive: " + time
+            }
+            locationLabel.text = text
+        }
         
         if let notes = player.info {
             self.notesLabel.text = notes
