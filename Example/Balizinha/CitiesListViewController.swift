@@ -114,7 +114,10 @@ extension CitiesListViewController: UITableViewDataSource {
         }
         
         if indexPath.row < allPlayers.count {
-            cell.textLabel?.text = allPlayers[indexPath.row]
+            let playerId = allPlayers[indexPath.row]
+            PlayerService.shared.withId(id: playerId) { (player) in
+                cell.textLabel?.text = player?.name
+            }
         } else {
             cell.textLabel?.text = nil
         }
