@@ -50,8 +50,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About me" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfM-Kg-eUb">
-                                <rect key="frame" x="16" y="250" width="382" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Id" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfM-Kg-eUb">
+                                <rect key="frame" x="16" y="250" width="382" height="19"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -63,14 +63,32 @@
                                     <constraint firstAttribute="width" secondItem="OsD-kS-lqD" secondAttribute="height" multiplier="1:1" id="XgX-jq-wcK"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pzk-Eh-lcu">
+                                <rect key="frame" x="16" y="277" width="382" height="19"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="REy-J7-RG0">
+                                <rect key="frame" x="16" y="304" width="382" height="19"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="ncc-Xz-9yD" firstAttribute="trailing" secondItem="pzk-Eh-lcu" secondAttribute="trailing" constant="16" id="IIi-9v-6kZ"/>
                             <constraint firstAttribute="trailing" secondItem="gfM-Kg-eUb" secondAttribute="trailing" constant="16" id="JLi-T3-T7i"/>
+                            <constraint firstItem="REy-J7-RG0" firstAttribute="leading" secondItem="ncc-Xz-9yD" secondAttribute="leading" constant="16" id="KN1-hP-mbo"/>
                             <constraint firstItem="OsD-kS-lqD" firstAttribute="centerX" secondItem="9bJ-kX-Hs5" secondAttribute="centerX" id="LjT-6N-BZC"/>
                             <constraint firstItem="OsD-kS-lqD" firstAttribute="top" secondItem="DR9-Sg-HPs" secondAttribute="bottom" constant="8" id="N0O-Hf-h5g"/>
+                            <constraint firstItem="pzk-Eh-lcu" firstAttribute="top" secondItem="gfM-Kg-eUb" secondAttribute="bottom" constant="8" id="TQP-iD-a6F"/>
+                            <constraint firstItem="REy-J7-RG0" firstAttribute="top" secondItem="pzk-Eh-lcu" secondAttribute="bottom" constant="8" id="VdV-jG-C2p"/>
+                            <constraint firstItem="pzk-Eh-lcu" firstAttribute="leading" secondItem="ncc-Xz-9yD" secondAttribute="leading" constant="16" id="bPG-cx-CnY"/>
                             <constraint firstAttribute="trailing" secondItem="dT0-EQ-83Z" secondAttribute="trailing" constant="16" id="ekj-qP-lF7"/>
                             <constraint firstItem="gfM-Kg-eUb" firstAttribute="top" secondItem="dT0-EQ-83Z" secondAttribute="bottom" constant="8" id="g6D-gM-Gpt"/>
+                            <constraint firstItem="ncc-Xz-9yD" firstAttribute="trailing" secondItem="REy-J7-RG0" secondAttribute="trailing" constant="16" id="nGU-fW-5iO"/>
                             <constraint firstItem="dT0-EQ-83Z" firstAttribute="leading" secondItem="9bJ-kX-Hs5" secondAttribute="leading" constant="16" id="sen-hO-IYg"/>
                             <constraint firstItem="gfM-Kg-eUb" firstAttribute="leading" secondItem="9bJ-kX-Hs5" secondAttribute="leading" constant="16" id="szd-Zw-sYg"/>
                             <constraint firstAttribute="trailing" secondItem="OPg-GI-KIS" secondAttribute="trailing" constant="16" id="w8D-Ds-p9P"/>
@@ -82,8 +100,10 @@
                     </view>
                     <connections>
                         <outlet property="cityLabel" destination="dT0-EQ-83Z" id="GJW-2g-WhT"/>
+                        <outlet property="emailLabel" destination="pzk-Eh-lcu" id="zs5-rx-PIs"/>
+                        <outlet property="idLabel" destination="gfM-Kg-eUb" id="6RX-t3-Sb6"/>
                         <outlet property="nameLabel" destination="OPg-GI-KIS" id="AaH-Fz-N3B"/>
-                        <outlet property="notesLabel" destination="gfM-Kg-eUb" id="a1U-jv-XPw"/>
+                        <outlet property="notesLabel" destination="REy-J7-RG0" id="iPA-No-j7N"/>
                         <outlet property="photoView" destination="OsD-kS-lqD" id="r3Q-nn-UYa"/>
                     </connections>
                 </viewController>
