@@ -116,7 +116,7 @@ extension CitiesListViewController: UITableViewDataSource {
         if indexPath.row < allPlayers.count {
             let playerId = allPlayers[indexPath.row]
             PlayerService.shared.withId(id: playerId) { (player) in
-                cell.textLabel?.text = player?.name
+                cell.textLabel?.text = player?.name ?? player?.email ?? playerId
             }
         } else {
             cell.textLabel?.text = nil
@@ -137,6 +137,23 @@ extension CitiesListViewController: UITableViewDataSource {
 extension CitiesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let controller = UIStoryboard(name: "Players", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as? PlayerViewController else { return }
+        
+        guard indexPath.section < cities.count else {
+            return
+        }
+        let city = cities[indexPath.section]
+        let allPlayers = players[city] ?? []
+        if indexPath.row < allPlayers.count {
+            let playerId = allPlayers[indexPath.row]
+            PlayerService.shared.withId(id: playerId) { [weak self] (player) in
+                controller.player = player
+                DispatchQueue.main.async {
+                    self?.navigationController?.pushViewController(controller, animated: true)
+                }
+            }
+        }
     }
 }
 

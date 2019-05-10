@@ -55,6 +55,8 @@
 		8EBB4AF6211F561400B5B907 /* ActivityIndicatorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBB4AF5211F561400B5B907 /* ActivityIndicatorOverlay.swift */; };
 		8EC168F3228452660066634B /* CitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC168F2228452660066634B /* CitiesListViewController.swift */; };
 		8EC168F5228452AD0066634B /* Cities.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC168F4228452AD0066634B /* Cities.storyboard */; };
+		8EC168F7228516CF0066634B /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC168F6228516CE0066634B /* PlayerViewController.swift */; };
+		8EC168FB2285175B0066634B /* Players.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC168FA2285175B0066634B /* Players.storyboard */; };
 		94C5CE9F5487058D85022A6C /* Pods_Balizinha_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */; };
 		C64E187D2129DB630042DB68 /* PlayersScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64E187C2129DB630042DB68 /* PlayersScrollView.swift */; };
 		C6502BD82125270B004A3EED /* Events.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6502BD72125270B004A3EED /* Events.storyboard */; };
@@ -134,6 +136,8 @@
 		8EBB4AF5211F561400B5B907 /* ActivityIndicatorOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorOverlay.swift; sourceTree = "<group>"; };
 		8EC168F2228452660066634B /* CitiesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesListViewController.swift; sourceTree = "<group>"; };
 		8EC168F4228452AD0066634B /* Cities.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Cities.storyboard; sourceTree = "<group>"; };
+		8EC168F6228516CE0066634B /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		8EC168FA2285175B0066634B /* Players.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Players.storyboard; sourceTree = "<group>"; };
 		96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C64E187C2129DB630042DB68 /* PlayersScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersScrollView.swift; sourceTree = "<group>"; };
 		C6502BD72125270B004A3EED /* Events.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Events.storyboard; sourceTree = "<group>"; };
@@ -272,6 +276,7 @@
 			children = (
 				8E97405021132A6500242907 /* PlayerListViewController.swift */,
 				C6BC1CDB2126FE1E00A500FD /* SearchablePlayersViewController.swift */,
+				8EC168F6228516CE0066634B /* PlayerViewController.swift */,
 			);
 			path = Players;
 			sourceTree = "<group>";
@@ -364,6 +369,7 @@
 				8EA99E1021534299001BC643 /* Feedback.storyboard */,
 				C6E11AB521FCAD0300EE3126 /* Stripe.storyboard */,
 				8EC168F4228452AD0066634B /* Cities.storyboard */,
+				8EC168FA2285175B0066634B /* Players.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -497,6 +503,7 @@
 				8E97408121132E6700242907 /* GoogleService-Info-dev.plist in Resources */,
 				8E97406F21132A7100242907 /* Main.storyboard in Resources */,
 				C6502BD82125270B004A3EED /* Events.storyboard in Resources */,
+				8EC168FB2285175B0066634B /* Players.storyboard in Resources */,
 				C6E11AB621FCAD0300EE3126 /* Stripe.storyboard in Resources */,
 				8E97406D21132A7100242907 /* Organizers.storyboard in Resources */,
 				8E97406321132A7100242907 /* LaunchScreen.storyboard in Resources */,
@@ -603,6 +610,7 @@
 				8E97407C21132A7100242907 /* LeagueCell.swift in Sources */,
 				C6993A922129EE560052B69D /* EventPlayersViewController.swift in Sources */,
 				8E5AD7F021612D9E00A78539 /* FeedItemsListViewController.swift in Sources */,
+				8EC168F7228516CF0066634B /* PlayerViewController.swift in Sources */,
 				8E97407021132A7100242907 /* PlayerListViewController.swift in Sources */,
 				8EC168F3228452660066634B /* CitiesListViewController.swift in Sources */,
 				8E97407A21132A7100242907 /* OrganizerCell.swift in Sources */,
