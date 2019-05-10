@@ -89,6 +89,7 @@
                         <segue destination="cw7-ZE-qAm" kind="show" identifier="feedback" id="1lY-Dj-DNS"/>
                         <segue destination="Eqd-6O-tYQ" kind="show" identifier="feed" id="zKt-um-6vp"/>
                         <segue destination="ncL-MI-Mj3" kind="show" identifier="stripe" id="V0a-0r-0a4"/>
+                        <segue destination="inf-4J-SaX" kind="show" identifier="cities" id="4ZF-r6-Z3e"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -127,13 +128,13 @@
             </objects>
             <point key="canvasLocation" x="826" y="366"/>
         </scene>
-        <!--Storyboard Reference-->
+        <!--Cities-->
         <scene sceneID="vSL-Xo-0ls">
             <objects>
-                <viewControllerPlaceholder id="inf-4J-SaX" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Cities" id="inf-4J-SaX" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PmM-FC-jtz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="791" y="470"/>
+            <point key="canvasLocation" x="434" y="-382"/>
         </scene>
         <!--FeedItems-->
         <scene sceneID="BFj-5t-YhL">
