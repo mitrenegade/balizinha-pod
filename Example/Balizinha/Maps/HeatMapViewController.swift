@@ -9,11 +9,14 @@
 import UIKit
 import GoogleMaps
 import GoogleUtilities
+import Balizinha
+import RenderCloud
 
 class HeatMapViewController: UIViewController {
 
     @IBOutlet weak var mapView: GMSMapView!
     private var heatmapLayer: GMUHeatmapTileLayer!
+    var locations = [CLLocationCoordinate2D]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,28 +24,32 @@ class HeatMapViewController: UIViewController {
         // Do any additional setup after loading the view.
         heatmapLayer = GMUHeatmapTileLayer()
         heatmapLayer.map = mapView
+        
+        load()
     }
     
-    func addHeatmap()  {
-        var list = [GMUWeightedLatLng]()
-        do {
-            // Get the data: latitude/longitude positions of police stations.
-            if let path = Bundle.main.url(forResource: "police_stations", withExtension: "json") {
-                let data = try Data(contentsOf: path)
-                let json = try JSONSerialization.jsonObject(with: data, options: [])
-                if let object = json as? [[String: Any]] {
-                    for item in object {
-                        let lat = item["lat"]
-                        let lng = item["lng"]
-                        let coords = GMUWeightedLatLng(coordinate: CLLocationCoordinate2DMake(lat as! CLLocationDegrees, lng as! CLLocationDegrees), intensity: 1.0)
-                        list.append(coords)
+    func load() {
+        locations = []
+        let playerRef = firRef.child("players")
+        playerRef.observe(.value) {[weak self] (snapshot) in
+            guard snapshot.exists() else { return }
+            if let allObjects =  snapshot.allChildren {
+                for playerDict in allObjects {
+                    let player = Player(snapshot: playerDict)
+                    if let lat = player.lat, let lon = player.lon {
+                        self?.locations.append(CLLocationCoordinate2D(latitude: lat, longitude: lon))
                     }
-                } else {
-                    print("Could not read the JSON.")
                 }
             }
-        } catch {
-            print(error.localizedDescription)
+            self?.addHeatmap()
+        }
+    }
+
+    func addHeatmap()  {
+        var list = [GMUWeightedLatLng]()
+        for location in locations {
+            let coords = GMUWeightedLatLng(coordinate: location, intensity: 1.0)
+            list.append(coords)
         }
         // Add the latlngs to the heatmap layer.
         heatmapLayer.weightedData = list
