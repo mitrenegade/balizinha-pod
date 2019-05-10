@@ -64,7 +64,7 @@ class HeatMapViewController: UIViewController {
     func addHeatmap()  {
         var list = [GMUWeightedLatLng]()
         for location in locations {
-            let coords = GMUWeightedLatLng(coordinate: location, intensity: 1.0)
+            let coords = GMUWeightedLatLng(coordinate: location, intensity: 5.0)
             list.append(coords)
         }
         // Add the latlngs to the heatmap layer.
