@@ -32,22 +32,30 @@ class CitiesListViewController: UIViewController {
             guard snapshot.exists() else { return }
             guard let self = self else { return }
             if let allObjects = snapshot.allChildren {
+                var notCities: [String] = []
                 for object in allObjects {
                     print("Snapshot key \(object.key) value \(String(describing: object.value))")
-                    let playerStatus = object.value as? [String: Bool] ?? [:]
-                    let allPlayers = playerStatus.compactMap({ (key, val) -> String? in
-                        if val {
-                            return key
+                    if let playerStatus = object.value as? [String: Bool] {
+                        let allPlayers = playerStatus.compactMap({ (key, val) -> String? in
+                            if val {
+                                return key
+                            }
+                            return nil
+                        })
+                        if !allPlayers.isEmpty {
+                            self.cities.append(object.key)
+                            self.players[object.key] = allPlayers
                         }
-                        return nil
-                    })
-                    if !allPlayers.isEmpty {
-                        self.cities.append(object.key)
-                        self.players[object.key] = allPlayers
+                    } else if let playerActive = object.value as? Bool {
+                        if playerActive {
+                            notCities.append(object.key)
+                            self.players[object.key] = [object.key]
+                        }
                     }
                 }
                 
                 self.cities = self.cities.sorted()
+                self.cities.append(contentsOf: notCities.sorted())
                 self.reloadTable()
             }
         }
