@@ -19,6 +19,7 @@ enum UtilItem: String, CaseIterable {
     case refreshAllPlayerTopics
     case migrateStripeCustomers
     case makeActionsBackwardsCompatible
+    case convertUserCities
 
     var details: String {
         switch self {
@@ -36,6 +37,8 @@ enum UtilItem: String, CaseIterable {
             return "Updates all stripe_customers to stripeCustomers"
         case .makeActionsBackwardsCompatible: // only useful until Android 1.0.9 is out
             return "Set event=eventId for all actions for backwards compatibility"
+        case .convertUserCities:
+            return "Convert user entered cities into City objects"
         }
     }
 }
@@ -118,6 +121,8 @@ extension UtilsViewController: UITableViewDelegate {
             refreshAllPlayerTopics()
         case .makeActionsBackwardsCompatible:
             makeActionsBackwardsCompatible()
+        case .convertUserCities:
+            convertUserCities()
         default:
             activityOverlay.show()
             RenderAPIService().cloudFunction(functionName: selection.rawValue, method: "POST", params: nil) { [weak self] (result, error) in
@@ -308,6 +313,10 @@ extension UtilsViewController {
                 }
             }
         }
+    }
+    
+    func convertUserCities() {
+        
     }
 }
 

@@ -25,39 +25,10 @@ class CitiesListViewController: UIViewController {
     }
     
     func load() {
-        let ref: Query
-        let refName = "cityPlayers"
-        ref = firRef.child(refName).queryOrdered(byChild: "createdAt")
-        ref.observeSingleValue() { [weak self] (snapshot) in
-            guard snapshot.exists() else { return }
-            guard let self = self else { return }
-            if let allObjects = snapshot.allChildren {
-                var notCities: [String] = []
-                for object in allObjects {
-                    print("Snapshot key \(object.key) value \(String(describing: object.value))")
-                    if let playerStatus = object.value as? [String: Bool] {
-                        let allPlayers = playerStatus.compactMap({ (key, val) -> String? in
-                            if val {
-                                return key
-                            }
-                            return nil
-                        })
-                        if !allPlayers.isEmpty {
-                            self.cities.append(object.key)
-                            self.players[object.key] = allPlayers
-                        }
-                    } else if let playerActive = object.value as? Bool {
-                        if playerActive {
-                            notCities.append(object.key)
-                            self.players[object.key] = [object.key]
-                        }
-                    }
-                }
-                
-                self.cities = self.cities.sorted()
-                self.cities.append(contentsOf: notCities.sorted())
-                self.reloadTable()
-            }
+        VenueService.shared.loadPlayerCityStrings { [weak self] (cities, playersForCity) in
+            self?.cities = cities
+            self?.players = playersForCity
+            self?.reloadTable()
         }
     }
     

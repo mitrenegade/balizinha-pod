@@ -40,4 +40,46 @@ public class VenueService: NSObject {
             }
         }
     }
+    
+    // For Admin only
+    public func loadPlayerCityStrings(completion: @escaping ([String], [String: [String]])->Void) {
+        let ref: Query
+        let refName = "cityPlayers"
+        ref = firRef.child(refName).queryOrdered(byChild: "createdAt")
+        ref.observeSingleValue() { (snapshot) in
+            guard snapshot.exists() else {
+                completion([], [:])
+                return
+            }
+            if let allObjects = snapshot.allChildren {
+                var cities: [String] = []
+                var playersForCity: [String: [String]] = [:]
+                var notCities: [String] = []
+                for object in allObjects {
+                    print("Snapshot key \(object.key) value \(String(describing: object.value))")
+                    if let playerStatus = object.value as? [String: Bool] {
+                        let allPlayers = playerStatus.compactMap({ (key, val) -> String? in
+                            if val {
+                                return key
+                            }
+                            return nil
+                        })
+                        if !allPlayers.isEmpty {
+                            cities.append(object.key)
+                            playersForCity[object.key] = allPlayers
+                        }
+                    } else if let playerActive = object.value as? Bool {
+                        if playerActive {
+                            notCities.append(object.key)
+                            playersForCity[object.key] = [object.key]
+                        }
+                    }
+                }
+                
+                cities = cities.sorted()
+                cities.append(contentsOf: notCities.sorted())
+                completion(cities, playersForCity)
+            }
+        }
+    }
 }

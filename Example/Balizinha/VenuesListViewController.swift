@@ -54,7 +54,7 @@ extension VenuesListViewController {
         if section == 0 {
             return venues.count
         }
-        return cities.count
+        return cities.count + 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -73,6 +73,9 @@ extension VenuesListViewController {
                 let city = array[indexPath.row]
                 cell.textLabel?.text = city.name ?? ""
                 cell.detailTextLabel?.text = "\(city.lat ?? 0), \(city.lon ?? 0)"
+            } else {
+                cell.textLabel?.text = "Add city"
+                cell.detailTextLabel?.text = nil
             }
         }
         return cell
