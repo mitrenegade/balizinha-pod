@@ -41,6 +41,46 @@ public class VenueService: NSObject {
         }
     }
     
+    public func createCity(_ name: String, state: String?, lat: Double?, lon: Double?, completion:@escaping (City?, NSError?) -> Void) {
+        
+        var params: [String: Any] = ["name": name]
+        if let state = state {
+            params["state"] = state
+        }
+        if let lat = lat, let lon = lon {
+            params["lat"] = lat
+            params["lon"] = lon
+        }
+        apiService.cloudFunction(functionName: "createCity", method: "POST", params: params) { (result, error) in
+            if let error = error as NSError? {
+                completion(nil, error)
+            } else {
+                print("CreateCity success with result \(String(describing: result))")
+                if let dict = result as? [String: Any], let cityId = dict["cityId"] as? String {
+                    self.withId(id: cityId, completion: { (city) in
+                        completion(city, nil)
+                    })
+                } else {
+                    completion(nil, nil)
+                }
+            }
+        }
+    }
+    
+    func withId(id: String, completion: @escaping ((City?)->Void)) {
+        let reference = ref.child(path: "cities").child(path: id)
+        reference.observeValue { [weak self] (snapshot) in
+            guard snapshot.exists() else {
+                completion(nil)
+                return
+            }
+            let object = City(snapshot: snapshot)
+            completion(object)
+            
+            reference.removeAllObservers()
+        }
+    }
+
     // For Admin only
     public func loadPlayerCityStrings(completion: @escaping ([String], [String: [String]])->Void) {
         let ref: Query

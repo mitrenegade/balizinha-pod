@@ -316,7 +316,19 @@ extension UtilsViewController {
     }
     
     func convertUserCities() {
-        
+        showLoadingIndicator()
+        VenueService.shared.getCities { (cities) in
+            print("Cities \(cities)")
+            VenueService.shared.loadPlayerCityStrings { (cityStrings, _) in
+                print("cityStrings \(cityStrings)")
+                
+                for string in cityStrings {
+                    VenueService.shared.createCity(string, state: nil, lat: 0, lon: 0, completion: { (city, error) in
+                        print("Creating string \(string): result \(city) error \(error)")
+                    })
+                }
+            }
+        }
     }
 }
 
