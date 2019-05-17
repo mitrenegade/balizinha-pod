@@ -94,6 +94,7 @@
                         <segue destination="inf-4J-SaX" kind="show" identifier="cities" id="4ZF-r6-Z3e"/>
                         <segue destination="gZK-Ld-Ag2" kind="show" identifier="players" id="AWH-Dv-uUV"/>
                         <segue destination="Whj-dt-yYN" kind="show" identifier="map" id="hrY-UZ-fDa"/>
+                        <segue destination="jzM-4w-fbA" kind="show" identifier="venues" id="GCE-LQ-wSx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -309,6 +310,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NMN-BD-83b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="838" y="75"/>
+        </scene>
+        <!--Venues-->
+        <scene sceneID="vMB-ff-4qW">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Venues" id="jzM-4w-fbA" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7Xb-HZ-H1r" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="746" y="-259"/>
         </scene>
         <!--Players-->
         <scene sceneID="Wnp-nx-0NW">
