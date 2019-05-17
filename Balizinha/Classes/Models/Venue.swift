@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Balizinha
 
 public class Venue: FirebaseBaseModel {
     public var name: String? {
