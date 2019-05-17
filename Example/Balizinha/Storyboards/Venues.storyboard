@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="13Y-Fs-FAc">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -13,7 +13,7 @@
         <!--Venues List View Controller-->
         <scene sceneID="z19-jc-0vE">
             <objects>
-                <viewController id="13Y-Fs-FAc" customClass="VenuesListViewController" sceneMemberID="viewController">
+                <viewController id="13Y-Fs-FAc" customClass="VenuesListViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EgK-BI-cgS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -64,7 +64,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="AwK-KL-2pQ"/>
                     <connections>
-                        <outlet property="tableView" destination="7gw-xU-glG" id="HRy-Xf-u1d"/>
+                        <outlet property="tableView" destination="7gw-xU-glG" id="0HN-qV-hu4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J7Y-cE-FEy" sceneMemberID="firstResponder"/>

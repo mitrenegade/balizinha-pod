@@ -16,6 +16,7 @@ class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
     internal var refName: String {
+        assertionFailure("Must be implemented")
         return ""
     }
     internal var baseRef: Reference {

@@ -29,20 +29,18 @@ class VenuesListViewController: ListViewController {
         self.tableView.estimatedRowHeight = 44
     }
 
+    override var refName: String {
+        return "cities"
+    }
+
     override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
         return City(snapshot: snapshot)
     }
-
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "toPlayers", let controller = segue.destination as? EventPlayersViewController {
-//            controller.event = sender as? Balizinha.Event
-//        }
-//    }
 }
 
 extension VenuesListViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
