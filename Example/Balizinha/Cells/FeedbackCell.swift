@@ -9,11 +9,6 @@
 import UIKit
 import Balizinha
 
-enum FeedbackStatus: String {
-    case new
-    case read
-}
-
 class FeedbackCell: UITableViewCell {
     
     @IBOutlet weak var labelSubject: UILabel!
@@ -35,13 +30,9 @@ class FeedbackCell: UITableViewCell {
         constraintLabelHeight.constant = max(20, labelDetails.frame.size.height)
         
         labelDate.text = feedback.createdAt?.dateString()
-        
-        let status = dict["status"] as? String ?? "new"
-        refreshStatus(status)
-    }
-    
-    func refreshStatus(_ status: String) {
-        let feedbackStatus: FeedbackStatus = FeedbackStatus(rawValue: status) ?? .unread
+
+        let model = FeedbackViewModel(feedbackObject: feedback)
+        let feedbackStatus: FeedbackStatus = model.status
         switch feedbackStatus {
         case .new:
             labelNew.isHidden = false

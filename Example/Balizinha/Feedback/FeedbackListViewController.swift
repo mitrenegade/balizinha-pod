@@ -48,17 +48,14 @@ extension FeedbackListViewController {
     }
     
     func promptForToggle(_ feedback: FirebaseBaseModel) {
-        let status = feedback.dict?["status"] as? String ?? "new"
-        let newStatus: String
-        if status == "new" {
-            newStatus = "read"
-        } else {
-            newStatus = "new"
-        }
+        let model = FeedbackViewModel(feedbackObject: feedback)
+        let feedbackStatus: FeedbackStatus = model.status
+        let newStatus: FeedbackStatus = feedbackStatus == .new ? .read : .new
         let title = "Update status?"
-        let alert = UIAlertController(title: title, message: "Change feedback status to \(newStatus)?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [weak self] (action) in
-            // TODO
+        let alert = UIAlertController(title: title, message: "Change feedback status to \(newStatus.rawValue)?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+            feedback.dict["status"] = newStatus.rawValue
+            feedback.firebaseRef?.updateChildValues(feedback.dict)
         }))
         alert.addAction(UIAlertAction(title: "Never mind", style: .cancel) { (action) in
         })
