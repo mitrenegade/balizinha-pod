@@ -10,11 +10,16 @@ import UIKit
 import FirebaseCore
 import Balizinha
 import FirebaseDatabase
+import RenderCloud
 
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
+
     internal var refName: String {
         return ""
+    }
+    internal var baseRef: Reference {
+        return firRef
     }
     var objects: [FirebaseBaseModel] = []
 
@@ -28,13 +33,13 @@ class ListViewController: UIViewController {
     }
 
     func load() {
-        let ref: DatabaseQuery
-        ref = firRef.child(refName).queryOrdered(byChild: "createdAt")
-        ref.observe(.value) {[weak self] (snapshot) in
+        let ref: Query
+        ref = baseRef.child(path: refName).queryOrdered(by: "createdAt")
+        ref.observeSingleValue() {[weak self] (snapshot) in
             guard snapshot.exists() else { return }
-            if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
+            if let allObjects = snapshot.allChildren {
                 self?.objects.removeAll()
-                for dict: DataSnapshot in allObjects {
+                for dict: Snapshot in allObjects {
                     if let object = self?.createObject(from: dict) {
                         self?.objects.append(object)
                     }
@@ -54,7 +59,7 @@ class ListViewController: UIViewController {
         tableView.reloadData()
     }
     
-    func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
+    func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
         return FirebaseBaseModel(snapshot: snapshot)
     }
 }

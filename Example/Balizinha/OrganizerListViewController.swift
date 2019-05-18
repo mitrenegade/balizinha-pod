@@ -10,6 +10,7 @@ import UIKit
 import FirebaseCore
 import Balizinha
 import FirebaseDatabase
+import RenderCloud
 
 class OrganizerListViewController: ListViewController {
 
@@ -24,7 +25,7 @@ class OrganizerListViewController: ListViewController {
         navigationItem.title = "Organizers"
     }
     
-    override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
         return Organizer(snapshot: snapshot)
     }
     
