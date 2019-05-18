@@ -12,8 +12,6 @@ import Balizinha
 import RenderCloud
 
 class VenuesListViewController: ListViewController {
-    var cities: [City] = []
-    var venues: [Venue] = [] // not used
     var service: VenueService?
     var reference: Reference?
     
@@ -36,6 +34,11 @@ class VenuesListViewController: ListViewController {
     override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
         return City(snapshot: snapshot)
     }
+    
+    override func load() {
+        super.load()
+        reloadTable()
+    }
 }
 
 extension VenuesListViewController {
@@ -52,27 +55,28 @@ extension VenuesListViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return venues.count
+            return 0
         }
-        return cities.count + 1
+        return objects.count + 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath)
         
         if indexPath.section == 0 {
-            let array = venues
-            if indexPath.row < array.count {
-                let venue = array[indexPath.row]
-                cell.textLabel?.text = venue.name ?? ""
-                cell.detailTextLabel?.text = venue.city ?? ""
-            }
+//            let array = venues
+//            if indexPath.row < array.count {
+//                let venue = array[indexPath.row]
+//                cell.textLabel?.text = venue.name ?? ""
+//                cell.detailTextLabel?.text = venue.city ?? ""
+//            }
         } else {
-            let array = venues
+            let array = objects
             if indexPath.row < array.count {
-                let city = array[indexPath.row]
-                cell.textLabel?.text = city.name ?? ""
-                cell.detailTextLabel?.text = "\(city.lat ?? 0), \(city.lon ?? 0)"
+                if let city = array[indexPath.row] as? City {
+                    cell.textLabel?.text = city.name ?? ""
+                    cell.detailTextLabel?.text = "\(city.lat ?? 0), \(city.lon ?? 0)"
+                }
             } else {
                 cell.textLabel?.text = "Add city"
                 cell.detailTextLabel?.text = nil
