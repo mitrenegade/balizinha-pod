@@ -21,19 +21,17 @@ class FeedbackCell: UITableViewCell {
     @IBOutlet weak var constraintLabelHeight: NSLayoutConstraint!
     func configure(feedback: FirebaseBaseModel) {
         guard let dict = feedback.dict else { return }
-        labelSubject.text = dict["subject"] as? String
-        labelUser.text = dict["userId"] as? String
-        labelEmail.text = dict["email"] as? String
-        labelDetails.text = dict["details"] as? String
-
-        labelDetails.sizeToFit()
-        constraintLabelHeight.constant = max(20, labelDetails.frame.size.height)
-        
-        labelDate.text = feedback.createdAt?.dateString()
-
         let model = FeedbackViewModel(feedbackObject: feedback)
-        let feedbackStatus: FeedbackStatus = model.status
-        switch feedbackStatus {
+        labelSubject.text = model.subject
+        labelUser.text = model.userId
+        labelEmail.text = model.email
+        labelDetails.text = model.details
+
+//        labelDetails.sizeToFit()
+//        constraintLabelHeight.constant = max(20, labelDetails.frame.size.height)
+        labelDate.text = model.createdAt
+
+        switch model.status {
         case .new:
             labelNew.isHidden = false
             labelNew.text = "NEW"

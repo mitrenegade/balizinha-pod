@@ -66,6 +66,7 @@ class MenuViewController: UIViewController {
         guard !AIRPLANE_MODE else {
             menuItems = loggedInMenu
             reloadTable()
+            loadNotifications()
             return
         }
 
