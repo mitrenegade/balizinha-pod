@@ -54,6 +54,9 @@ class MenuViewController: UIViewController {
     
     fileprivate var menuItems: [MenuItem] = loggedOutMenu
     
+    // notifications
+    var hasNewFeedback: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -75,6 +78,8 @@ class MenuViewController: UIViewController {
             } else {
                 self?.menuItems = loggedInMenu
                 self?.reloadTable()
+                
+                self?.loadNotifications()
             }
         }).disposed(by: disposeBag)
     }
@@ -150,6 +155,10 @@ extension MenuViewController: UITableViewDataSource {
                 let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
                 let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
                 cell.textLabel?.text = "Version: \(version ?? "unknown") (\(build ?? "unknown"))\(TESTING ? "t" : "")"
+            case .feedback:
+                if hasNewFeedback {
+                    cell.textLabel?.text = MenuItem.feedback.description + " * UNREAD *"
+                }
             default:
                 break
             }
@@ -175,6 +184,18 @@ extension MenuViewController: UITableViewDelegate {
             reloadTable()
         default:
             performSegue(withIdentifier: selection.rawValue, sender: nil)
+        }
+    }
+}
+
+extension MenuViewController {
+    // does some preloading to see if there are menu rows that should show a notification
+    func loadNotifications() {
+        FeedbackViewModel.checkForFeedback() { [weak self] hasNew in
+            if hasNew != self?.hasNewFeedback {
+                self?.hasNewFeedback = hasNew
+                self?.reloadTable()
+            }
         }
     }
 }

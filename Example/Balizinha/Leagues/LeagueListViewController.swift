@@ -10,6 +10,7 @@ import UIKit
 import FirebaseCore
 import Balizinha
 import FirebaseDatabase
+import RenderCloud
 
 class LeagueListViewController: ListViewController {
     override var refName: String {
@@ -28,7 +29,7 @@ class LeagueListViewController: ListViewController {
         self.tableView.estimatedRowHeight = 44
     }
     
-    override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
         return League(snapshot: snapshot)
     }
     

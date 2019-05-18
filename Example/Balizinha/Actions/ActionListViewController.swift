@@ -10,6 +10,7 @@ import UIKit
 import Balizinha
 import FirebaseCore
 import FirebaseDatabase
+import RenderCloud
 
 class ActionListViewController: ListViewController {
 
@@ -24,7 +25,7 @@ class ActionListViewController: ListViewController {
         navigationItem.title = "Actions"
     }
     
-    override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
         let action = Action(snapshot: snapshot)
         return action
     }

@@ -9,6 +9,7 @@
 import UIKit
 import Balizinha
 import Firebase
+import RenderCloud
 
 class FeedItemsListViewController: ListViewController {
     @IBOutlet weak var constraintBottomOffset: NSLayoutConstraint!
@@ -100,7 +101,7 @@ class FeedItemsListViewController: ListViewController {
         }
     }
     
-    override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
         let feedItem = FeedItem(snapshot: snapshot)
         return feedItem
     }
