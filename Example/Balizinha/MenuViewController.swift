@@ -158,7 +158,13 @@ extension MenuViewController: UITableViewDataSource {
                 cell.textLabel?.text = "Version: \(version ?? "unknown") (\(build ?? "unknown"))\(TESTING ? "t" : "")"
             case .feedback:
                 if hasNewFeedback {
-                    cell.textLabel?.text = MenuItem.feedback.description + " * UNREAD *"
+                    let notificationView: UIImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+                    let image = UIImage(named: "exclaimation")?.withRenderingMode(.alwaysTemplate)
+                    notificationView.tintColor = .red
+                    notificationView.image = image
+                    cell.accessoryView = notificationView
+                } else {
+                    cell.accessoryView = nil
                 }
             default:
                 break

@@ -74,7 +74,7 @@ extension FeedbackViewModel {
     
     private class var mockFeedbackSnapshot: Snapshot {
         var feedbackDict: [String: Any] = ["createdAt": Date().timeIntervalSince1970 - 3600, "userId": "abc", "subject": "test", "email": "test@gmail.com", "details": "long test message test message long test message test message long test message test message long test message test message"]
-        // TO TEST READ/UNREAD messages:
+        // TO TEST UNREAD messages:
         feedbackDict["status"] = "new"
         return MockDataSnapshot(exists: true, key: "feedback123", value: feedbackDict, ref: nil)
     }
