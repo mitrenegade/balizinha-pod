@@ -19,13 +19,14 @@ public class MockVenueService: VenueService {
     }
     
     override public func getCities(completion: (([City]) -> Void)?) {
-        var results: [City] = cities
-        for (key, val) in objectsDict {
+        var results: [City] = []
+        for (key, val) in cities {
             if let dict = val as? [String: Any] {
                 let object = Balizinha.City(key: key, dict: dict)
                 results.append(object)
             }
         }
+        completion?(results)
     }
     
     override public func createCity(_ name: String, state: String?, lat: Double?, lon: Double?, completion: @escaping (City?, NSError?) -> Void) {
