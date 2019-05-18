@@ -30,8 +30,12 @@ class VenuesListViewController: ListViewController {
     override var refName: String {
         return "cities"
     }
+    
+    override var baseRef: Reference {
+        return AIRPLANE_MODE ? MockDatabaseReference(snapshot: mockSnapshot) : firRef
+    }
 
-    override func createObject(from snapshot: DataSnapshot) -> FirebaseBaseModel? {
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
         return City(snapshot: snapshot)
     }
     
@@ -86,5 +90,12 @@ extension VenuesListViewController {
                 return cell
             }
         }
+    }
+}
+
+extension VenuesListViewController {
+    private var mockSnapshot: Snapshot {
+        let dict: [String: Any] = ["createdAt": Date().timeIntervalSince1970 - 3600, "name": "skyville", "state": "Cloud", "lat": 39, "lon": -122]
+        return MockDataSnapshot(exists: true, key: "abc", value: dict, ref: nil)
     }
 }
