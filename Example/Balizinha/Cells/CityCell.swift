@@ -17,18 +17,20 @@ class CityCell: UITableViewCell {
     @IBOutlet weak var buttonName: UIButton!
     @IBOutlet weak var buttonState: UIButton!
     @IBOutlet weak var buttonLatLon: UIButton!
+    var buttonLon = UIButton() // not displayed
     
     var city: City!
     weak var presenter: UIViewController?
     
-    func configure(with city: City) {
+    func configure(with city: City?) {
+        guard let city = city else { return }
         nameLabel.text = city.name
         stateLabel.text = city.state
         latlonLabel.text = "\(city.lat ?? 0), \(city.lon ?? 0)"
         self.city = city
     }
     
-    @IBAction func didTapLabel(_ sender: UIButton) {
+    @IBAction func didTapLabel(_ sender: UIButton?) {
         let title: String
         let value: String?
         let handler: ((String)->Void)
@@ -36,20 +38,39 @@ class CityCell: UITableViewCell {
         case buttonName:
             title = "Update city name"
             value = city.name
-            handler = { value in
+            handler = { [weak self] value in
                 print("Updated city \(value)")
+                self?.city.name = value
+                self?.configure(with: self?.city)
             }
         case buttonState:
             title = "Update state"
             value = city.state
-            handler = { value in
+            handler = { [weak self] value in
                 print("Updated state \(value)")
+                self?.city.state = value
+                self?.configure(with: self?.city)
             }
         case buttonLatLon:
-            title = "Update lat/lon"
-            value = "\(city.lat ?? 0), \(city.lon ?? 0)"
-            handler = { value in
-                print("Updated lat \(value)")
+            title = "Update lat"
+            value = "\(city.lat ?? 0)"
+            handler = { [weak self] value in
+                print("Updated latitude \(value)")
+                if let lat = Double(value) {
+                    self?.city.lat = lat
+                    self?.didTapLabel(self?.buttonLon)
+                    self?.configure(with: self?.city)
+                }
+            }
+        case buttonLon:
+            title = "Update longitude"
+            value = "\(city.lon ?? 0)"
+            handler = { [weak self] value in
+                print("Updated lon \(value)")
+                if let lon = Double(value) {
+                    self?.city.lon = lon
+                    self?.configure(with: self?.city)
+                }
             }
         default:
             return
