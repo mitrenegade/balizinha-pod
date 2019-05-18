@@ -327,6 +327,7 @@ extension UtilsViewController {
                         print("Creating string \(string): result \(city) error \(error)")
                     })
                 }
+                self.hideLoadingIndicator()
             }
         }
     }

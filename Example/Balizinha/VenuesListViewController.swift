@@ -61,8 +61,6 @@ extension VenuesListViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath)
-        
         if indexPath.section == 0 {
 //            let array = venues
 //            if indexPath.row < array.count {
@@ -70,18 +68,23 @@ extension VenuesListViewController {
 //                cell.textLabel?.text = venue.name ?? ""
 //                cell.detailTextLabel?.text = venue.city ?? ""
 //            }
+            return UITableViewCell()
         } else {
             let array = objects
             if indexPath.row < array.count {
                 if let city = array[indexPath.row] as? City {
-                    cell.textLabel?.text = city.name ?? ""
-                    cell.detailTextLabel?.text = "\(city.lat ?? 0), \(city.lon ?? 0)"
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! CityCell
+                    cell.presenter = self
+                    cell.configure(with: city)
+                    return cell
+                } else {
+                    return UITableViewCell()
                 }
             } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddCityCell", for: indexPath)
                 cell.textLabel?.text = "Add city"
-                cell.detailTextLabel?.text = nil
+                return cell
             }
         }
-        return cell
     }
 }
