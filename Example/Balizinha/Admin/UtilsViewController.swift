@@ -319,7 +319,7 @@ extension UtilsViewController {
         showLoadingIndicator()
         VenueService.shared.getCities { (cities) in
             print("Cities \(cities)")
-            VenueService.shared.loadPlayerCityStrings { (cityStrings, _) in
+            VenueService.shared.loadPlayerCityStrings(includeInvalidCities: false) { (cityStrings, _) in
                 print("cityStrings \(cityStrings)")
                 
                 for string in cityStrings {

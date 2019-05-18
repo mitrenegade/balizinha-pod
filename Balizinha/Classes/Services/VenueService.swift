@@ -82,7 +82,7 @@ public class VenueService: NSObject {
     }
 
     // For Admin only
-    public func loadPlayerCityStrings(completion: @escaping ([String], [String: [String]])->Void) {
+    public func loadPlayerCityStrings(includeInvalidCities: Bool = true, completion: @escaping ([String], [String: [String]])->Void) {
         let ref: Query
         let refName = "cityPlayers"
         ref = firRef.child(refName).queryOrdered(byChild: "createdAt")
@@ -117,7 +117,9 @@ public class VenueService: NSObject {
                 }
                 
                 cities = cities.sorted()
-                cities.append(contentsOf: notCities.sorted())
+                if includeInvalidCities {
+                    cities.append(contentsOf: notCities.sorted())
+                }
                 completion(cities, playersForCity)
             }
         }
