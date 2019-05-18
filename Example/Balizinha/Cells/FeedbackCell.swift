@@ -9,6 +9,11 @@
 import UIKit
 import Balizinha
 
+enum FeedbackStatus: String {
+    case new
+    case read
+}
+
 class FeedbackCell: UITableViewCell {
     
     @IBOutlet weak var labelSubject: UILabel!
@@ -16,6 +21,8 @@ class FeedbackCell: UITableViewCell {
     @IBOutlet weak var labelEmail: UILabel!
     @IBOutlet weak var labelDetails: UILabel!
     @IBOutlet weak var labelDate: UILabel!
+    @IBOutlet weak var labelNew: UILabel!
+    
     @IBOutlet weak var constraintLabelHeight: NSLayoutConstraint!
     func configure(feedback: FirebaseBaseModel) {
         guard let dict = feedback.dict else { return }
@@ -28,5 +35,19 @@ class FeedbackCell: UITableViewCell {
         constraintLabelHeight.constant = max(20, labelDetails.frame.size.height)
         
         labelDate.text = feedback.createdAt?.dateString()
+        
+        let status = dict["status"] as? String ?? "new"
+        refreshStatus(status)
+    }
+    
+    func refreshStatus(_ status: String) {
+        let feedbackStatus: FeedbackStatus = FeedbackStatus(rawValue: status) ?? .unread
+        switch feedbackStatus {
+        case .new:
+            labelNew.isHidden = false
+            labelNew.text = "NEW"
+        default:
+            labelNew.isHidden = true
+        }
     }
 }
