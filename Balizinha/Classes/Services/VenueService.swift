@@ -25,6 +25,7 @@ public class VenueService: NSObject {
     
     public func getCities(completion: (([City])->Void)?) {
         apiService.cloudFunction(functionName: "getCities", method: "POST", params: nil) { [weak self] (results, error) in
+            print("getCities results \(results) error \(error)")
             if error != nil {
                 print("Error: \(error as NSError?)")
                 completion?([])

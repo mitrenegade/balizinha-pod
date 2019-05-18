@@ -11,42 +11,50 @@ import Firebase
 import Balizinha
 import RenderCloud
 
-class VenuesListViewController: ListViewController {
+class VenuesListViewController: UIViewController {
+    var venues: [Venue] = []
+    var cities: [City] = []
     var service: VenueService?
     var reference: Reference?
+    
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         // Do any additional setup after loading the view.
         navigationItem.title = "Venues"
-        service = VenueService.shared
+        if AIRPLANE_MODE {
+            service = MockVenueService.shared
+        } else {
+            service = VenueService.shared
+        }
         reference = firRef
 
         super.viewDidLoad()
 
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight = 44
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 44
+        
+        load()
     }
 
-    override var refName: String {
-        return "cities"
+    func load() {
+        showLoadingIndicator()
+        service?.getCities(completion: { [weak self] (cities) in
+            self?.cities = cities ?? []
+            DispatchQueue.main.async {
+                self?.hideLoadingIndicator()
+                self?.reloadTable()
+            }
+        })
     }
     
-    override var baseRef: Reference {
-        return AIRPLANE_MODE ? MockDatabaseReference(snapshot: mockSnapshot) : firRef
-    }
-
-    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
-        return City(snapshot: snapshot)
-    }
-    
-    override func load() {
-        super.load()
-        reloadTable()
+    func reloadTable() {
+        tableView.reloadData()
     }
 }
 
-extension VenuesListViewController {
-    override func numberOfSections(in tableView: UITableView) -> Int {
+extension VenuesListViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
@@ -57,14 +65,14 @@ extension VenuesListViewController {
         return "Cities"
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 0
         }
-        return objects.count + 1
+        return cities.count + 1
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
 //            let array = venues
 //            if indexPath.row < array.count {
@@ -74,28 +82,18 @@ extension VenuesListViewController {
 //            }
             return UITableViewCell()
         } else {
-            let array = objects
+            let array = cities
             if indexPath.row < array.count {
-                if let city = array[indexPath.row] as? City {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! CityCell
-                    cell.presenter = self
-                    cell.configure(with: city)
-                    return cell
-                } else {
-                    return UITableViewCell()
-                }
+                let city = array[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! CityCell
+                cell.presenter = self
+                cell.configure(with: city)
+                return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddCityCell", for: indexPath)
                 cell.textLabel?.text = "Add city"
                 return cell
             }
         }
-    }
-}
-
-extension VenuesListViewController {
-    private var mockSnapshot: Snapshot {
-        let dict: [String: Any] = ["createdAt": Date().timeIntervalSince1970 - 3600, "name": "skyville", "state": "Cloud", "lat": 39, "lon": -122]
-        return MockDataSnapshot(exists: true, key: "abc", value: dict, ref: nil)
     }
 }

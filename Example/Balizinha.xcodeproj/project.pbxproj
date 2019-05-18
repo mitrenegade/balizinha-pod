@@ -87,8 +87,9 @@
 		8EC168FB2285175B0066634B /* Players.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC168FA2285175B0066634B /* Players.storyboard */; };
 		8EC168FD2285259C0066634B /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC168FC2285259C0066634B /* Map.storyboard */; };
 		8EC16901228526320066634B /* HeatMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC16900228526320066634B /* HeatMapViewController.swift */; };
-		8EF1934C2290660F00BF7691 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1934B2290660F00BF7691 /* FeedbackViewModel.swift */; };
 		8EF1934A228FA0EE00BF7691 /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF19349228FA0EE00BF7691 /* CityCell.swift */; };
+		8EF1934C2290660F00BF7691 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1934B2290660F00BF7691 /* FeedbackViewModel.swift */; };
+		8EF97DCC229079010097EAD6 /* MockVenueService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF97DCB229079010097EAD6 /* MockVenueService.swift */; };
 		94C5CE9F5487058D85022A6C /* Pods_Balizinha_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */; };
 		C64E187D2129DB630042DB68 /* PlayersScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64E187C2129DB630042DB68 /* PlayersScrollView.swift */; };
 		C6502BD82125270B004A3EED /* Events.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6502BD72125270B004A3EED /* Events.storyboard */; };
@@ -242,8 +243,9 @@
 		8EC168FA2285175B0066634B /* Players.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Players.storyboard; sourceTree = "<group>"; };
 		8EC168FC2285259C0066634B /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		8EC16900228526320066634B /* HeatMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapViewController.swift; sourceTree = "<group>"; };
-		8EF1934B2290660F00BF7691 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		8EF19349228FA0EE00BF7691 /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
+		8EF1934B2290660F00BF7691 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
+		8EF97DCB229079010097EAD6 /* MockVenueService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVenueService.swift; sourceTree = "<group>"; };
 		96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C64E187C2129DB630042DB68 /* PlayersScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersScrollView.swift; sourceTree = "<group>"; };
 		C6502BD72125270B004A3EED /* Events.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Events.storyboard; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				8E09572F21ABA32A0037DA17 /* MockDefaultsProvider.swift */,
 				8E09573821ABAE630037DA17 /* MockAuthProvider.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
+				8EF97DCB229079010097EAD6 /* MockVenueService.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -904,6 +907,7 @@
 				8E97407321132A7100242907 /* AppDelegate.swift in Sources */,
 				8E01581922852DBC0072921C /* GMUStaticCluster.m in Sources */,
 				8E97406B21132A7100242907 /* MenuViewController.swift in Sources */,
+				8EF97DCC229079010097EAD6 /* MockVenueService.swift in Sources */,
 				C6502BDA21252747004A3EED /* EventsListViewController.swift in Sources */,
 				8E97407821132A7100242907 /* PaymentCell.swift in Sources */,
 				8EA99E13215342C6001BC643 /* FeedbackListViewController.swift in Sources */,
