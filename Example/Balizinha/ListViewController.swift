@@ -14,8 +14,12 @@ import RenderCloud
 
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
+
     internal var refName: String {
         return ""
+    }
+    internal var baseRef: Reference {
+        return firRef
     }
     var objects: [FirebaseBaseModel] = []
 
@@ -30,7 +34,7 @@ class ListViewController: UIViewController {
 
     func load() {
         let ref: Query
-        ref = firRef.child(refName).queryOrdered(byChild: "createdAt")
+        ref = baseRef.child(path: refName).queryOrdered(by: "createdAt")
         ref.observeSingleValue() {[weak self] (snapshot) in
             guard snapshot.exists() else { return }
             if let allObjects = snapshot.allChildren {

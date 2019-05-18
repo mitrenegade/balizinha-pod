@@ -50,9 +50,12 @@ class FeedbackViewModel: NSObject {
 
 // helpers
 extension FeedbackViewModel {
+    class var baseRef: Reference {
+        return AIRPLANE_MODE ? MockDatabaseReference(snapshot: FeedbackViewModel.mockFeedbackSnapshot) : firRef
+    }
+
     class func checkForFeedback(completion: @escaping ((Bool) -> Void)) {
         let ref: Query
-        let baseRef: Reference = AIRPLANE_MODE ? MockDatabaseReference(snapshot: FeedbackViewModel.mockFeedbackSnapshot) : firRef
         ref = baseRef.child(path: "feedback").queryOrdered(by: "createdAt")
         ref.observeSingleValue() {(snapshot) in
             guard snapshot.exists() else { completion(false); return }
@@ -70,7 +73,7 @@ extension FeedbackViewModel {
     }
     
     private class var mockFeedbackSnapshot: Snapshot {
-        var feedbackDict: [String: Any] = ["userId": "abc", "subject": "test", "email": "test@gmail.com", "details": "long test message test message long test message test message long test message test message long test message test message"]
+        var feedbackDict: [String: Any] = ["createdAt": Date().timeIntervalSince1970 - 3600, "userId": "abc", "subject": "test", "email": "test@gmail.com", "details": "long test message test message long test message test message long test message test message long test message test message"]
         // TO TEST READ/UNREAD messages:
         feedbackDict["status"] = "new"
         return MockDataSnapshot(exists: true, key: "feedback123", value: feedbackDict, ref: nil)

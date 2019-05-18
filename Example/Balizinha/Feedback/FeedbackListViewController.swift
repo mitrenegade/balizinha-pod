@@ -10,6 +10,7 @@ import UIKit
 import Balizinha
 import FirebaseCore
 import FirebaseDatabase
+import RenderCloud
 
 class FeedbackListViewController: ListViewController {
     override var refName: String {
@@ -24,6 +25,10 @@ class FeedbackListViewController: ListViewController {
 
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 44
+    }
+    
+    override var baseRef: Reference {
+        return FeedbackViewModel.baseRef
     }
 }
 

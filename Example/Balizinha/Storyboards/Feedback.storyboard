@@ -35,19 +35,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F65-st-voO">
-                                                    <rect key="frame" x="8" y="25" width="52" height="18"/>
+                                                    <rect key="frame" x="8" y="25" width="272" height="18"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ng7-L6-evQ">
-                                                    <rect key="frame" x="8" y="43.5" width="52" height="14"/>
+                                                    <rect key="frame" x="8" y="43.5" width="272" height="14"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6bg-c6-A0S">
-                                                    <rect key="frame" x="8" y="61" width="52" height="14"/>
+                                                    <rect key="frame" x="8" y="61" width="272" height="14"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -63,9 +63,6 @@
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Details" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zEO-d5-EUz">
                                                     <rect key="frame" x="8" y="83" width="359" height="16"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="16" id="YOa-a0-onY"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -99,14 +96,15 @@
                                                 <constraint firstItem="6bg-c6-A0S" firstAttribute="leading" secondItem="F65-st-voO" secondAttribute="leading" id="mkY-or-FSW"/>
                                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="zEO-d5-EUz" secondAttribute="bottom" constant="8" id="qnb-sg-8v6"/>
                                                 <constraint firstItem="ng7-L6-evQ" firstAttribute="top" secondItem="F65-st-voO" secondAttribute="bottom" constant="0.5" id="twc-xa-T2s"/>
+                                                <constraint firstItem="GxK-fP-lDc" firstAttribute="leading" secondItem="F65-st-voO" secondAttribute="trailing" constant="8" id="xyV-ug-4te"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <outlet property="constraintLabelHeight" destination="YOa-a0-onY" id="1TA-Bq-v5r"/>
                                             <outlet property="labelDate" destination="GxK-fP-lDc" id="TGz-EB-6os"/>
                                             <outlet property="labelDetails" destination="zEO-d5-EUz" id="bsa-D0-uJ4"/>
                                             <outlet property="labelEmail" destination="6bg-c6-A0S" id="tHK-xs-A6Y"/>
+                                            <outlet property="labelNew" destination="feb-Uy-0T0" id="CM7-IG-OWa"/>
                                             <outlet property="labelSubject" destination="F65-st-voO" id="an7-td-Je7"/>
                                             <outlet property="labelUser" destination="ng7-L6-evQ" id="hNC-yM-xiv"/>
                                         </connections>
