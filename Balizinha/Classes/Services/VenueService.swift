@@ -68,10 +68,11 @@ public class VenueService: NSObject {
         }
     }
     
-    public func deleteCity(_ city: City) {
+    public func deleteCity(_ city: City, completion: @escaping (()->Void)) {
         let params: [String: Any] = ["cityId": city.id]
         apiService.cloudFunction(functionName: "deleteCity", method: "POST", params: params) { (result, error) in
             print("DeleteCity result \(result) error \(error)")
+            completion()
         }
     }
     

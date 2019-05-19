@@ -12,6 +12,11 @@ import Balizinha
 import RenderCloud
 
 class VenuesListViewController: UIViewController {
+    enum MenuItem: String {
+        case city
+        case venue
+    }
+
     var venues: [Venue] = []
     var cities: [City] = []
     var service: VenueService?
@@ -104,6 +109,14 @@ extension VenuesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
+        showLoadingIndicator()
+        if indexPath.section == 1, indexPath.row < cities.count {
+            let city = cities[indexPath.row]
+            service?.deleteCity(city) { [weak self] in
+                DispatchQueue.main.async {
+                    self?.hideLoadingIndicator()
+                }
+            }
+        }
     }
 }
