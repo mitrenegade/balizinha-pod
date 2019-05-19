@@ -65,6 +65,13 @@
                                                         <action selector="didTapLabel:" destination="PrI-GO-E1B" eventType="touchUpInside" id="OLj-PE-Gbu"/>
                                                     </connections>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VERIFIEd" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dmc-ib-Ik3">
+                                                    <rect key="frame" x="325" y="44.5" width="69" height="21"/>
+                                                    <color key="backgroundColor" red="0.98524647949999999" green="0.99966174360000004" blue="0.23009261489999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="6nn-h0-r58" firstAttribute="top" secondItem="ol9-yi-Urg" secondAttribute="top" id="9E3-Rt-fyj"/>
@@ -75,9 +82,11 @@
                                                 <constraint firstAttribute="bottomMargin" secondItem="ol9-yi-Urg" secondAttribute="bottom" constant="8" id="JYO-a7-0bF"/>
                                                 <constraint firstItem="LFi-Pq-2qN" firstAttribute="top" secondItem="oVw-Bm-0ow" secondAttribute="bottom" constant="8" id="Thd-9U-69f"/>
                                                 <constraint firstItem="ol9-yi-Urg" firstAttribute="leading" secondItem="HLx-kC-kKS" secondAttribute="leadingMargin" id="XIt-WW-hGV"/>
+                                                <constraint firstItem="Dmc-ib-Ik3" firstAttribute="centerY" secondItem="HLx-kC-kKS" secondAttribute="centerY" id="XQl-VD-Yil"/>
                                                 <constraint firstItem="oVw-Bm-0ow" firstAttribute="top" secondItem="HLx-kC-kKS" secondAttribute="topMargin" id="bKy-ex-yxx"/>
                                                 <constraint firstItem="ol9-yi-Urg" firstAttribute="top" secondItem="LFi-Pq-2qN" secondAttribute="bottom" constant="8" id="hMN-ip-16c"/>
                                                 <constraint firstItem="oVw-Bm-0ow" firstAttribute="top" secondItem="Wt2-69-30c" secondAttribute="top" id="jsi-jf-43b"/>
+                                                <constraint firstItem="Dmc-ib-Ik3" firstAttribute="trailing" secondItem="HLx-kC-kKS" secondAttribute="trailingMargin" id="k7L-B2-CZV"/>
                                                 <constraint firstItem="zLy-lo-nGY" firstAttribute="leading" secondItem="LFi-Pq-2qN" secondAttribute="leading" id="kCV-B2-cgb"/>
                                                 <constraint firstItem="oVw-Bm-0ow" firstAttribute="trailing" secondItem="Wt2-69-30c" secondAttribute="trailing" id="kLs-xd-5Nt"/>
                                                 <constraint firstItem="oVw-Bm-0ow" firstAttribute="bottom" secondItem="Wt2-69-30c" secondAttribute="bottom" id="mpf-5W-YbP"/>
@@ -95,6 +104,7 @@
                                             <outlet property="latlonLabel" destination="ol9-yi-Urg" id="Fty-en-eXh"/>
                                             <outlet property="nameLabel" destination="oVw-Bm-0ow" id="HzD-aG-wwa"/>
                                             <outlet property="stateLabel" destination="LFi-Pq-2qN" id="tKI-sA-CgV"/>
+                                            <outlet property="verificationLabel" destination="Dmc-ib-Ik3" id="f9e-pZ-WNm"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AddCityCell" textLabel="5Qb-gh-GLI" style="IBUITableViewCellStyleDefault" id="8Q5-oC-ffS">
