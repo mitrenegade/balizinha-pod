@@ -131,12 +131,19 @@ extension VenuesListViewController: UITableViewDelegate {
     }
     
     private func promptForVerification(_ city: City) {
-        guard !city.verified else { return }
-        let title = "Verify city?"
-        let message = "Is this city correct: \(city.shortString ?? "invalid name") (\(city.latLonString ?? "no location"))"
+        let title: String
+        let message: String
+        if !city.verified {
+            title = "Verify city?"
+            message = "Is this city correct: \(city.shortString ?? "invalid name") (\(city.latLonString ?? "no location"))"
+        } else {
+            title = "Remove verification?"
+            message = "Do you want to change: \(city.shortString ?? "invalid name") (\(city.latLonString ?? "no location")) to unverified?"
+        }
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
-            city.verified = true
+            city.verified = !city.verified
+            self.tableView.reloadData()
         }))
         alert.addAction(UIAlertAction(title: "No", style: .cancel) { (action) in
         })

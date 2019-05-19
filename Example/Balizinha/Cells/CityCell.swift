@@ -17,6 +17,8 @@ class CityCell: UITableViewCell {
     @IBOutlet weak var buttonName: UIButton!
     @IBOutlet weak var buttonState: UIButton!
     @IBOutlet weak var buttonLatLon: UIButton!
+    
+    @IBOutlet weak var verificationLabel: UILabel!
     var buttonLon = UIButton() // not displayed
     
     var city: City!
@@ -26,8 +28,18 @@ class CityCell: UITableViewCell {
         guard let city = city else { return }
         nameLabel.text = city.name
         stateLabel.text = city.state
-        latlonLabel.text = "\(city.lat ?? 0), \(city.lon ?? 0)"
+        latlonLabel.text = city.latLonString ?? "no lat/lon"
         self.city = city
+        
+        if city.verified {
+            verificationLabel.text = "✓"
+            verificationLabel.backgroundColor = .clear
+            verificationLabel.textColor = .darkGreen
+        } else {
+            verificationLabel.text = "UNVERIFIED"
+            verificationLabel.backgroundColor = .yellow
+            verificationLabel.textColor = .red
+        }
     }
     
     @IBAction func didTapLabel(_ sender: UIButton?) {
