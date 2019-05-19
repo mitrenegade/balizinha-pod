@@ -37,6 +37,11 @@ public class VenueService: NSObject {
                         results.append(object)
                     }
                 }
+                results = results.sorted(by: { (c1, c2) -> Bool in
+                    guard let n1 = c1.name else { return false }
+                    guard let n2 = c2.name else { return true }
+                    return n1 < n2
+                })
                 completion?(results)
             }
         }

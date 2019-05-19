@@ -113,8 +113,10 @@ extension VenuesListViewController: UITableViewDelegate {
         if indexPath.section == 1, indexPath.row < cities.count {
             let city = cities[indexPath.row]
             service?.deleteCity(city) { [weak self] in
+                self?.cities.remove(at: indexPath.row)
                 DispatchQueue.main.async {
                     self?.hideLoadingIndicator()
+                    self?.reloadTable()
                 }
             }
         }
