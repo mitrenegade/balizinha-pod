@@ -121,4 +121,25 @@ extension VenuesListViewController: UITableViewDelegate {
             }
         }
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == 1,indexPath.row < cities.count {
+            let city = cities[indexPath.row]
+            promptForVerification(city)
+        }
+    }
+    
+    private func promptForVerification(_ city: City) {
+        guard !city.verified else { return }
+        let title = "Verify city?"
+        let message = "Is this city correct: \(city.shortString ?? "invalid name") (\(city.latLonString ?? "no location"))"
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+            city.verified = true
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel) { (action) in
+        })
+        present(alert, animated: true, completion: nil)
+    }
 }

@@ -50,4 +50,33 @@ public class City: FirebaseBaseModel {
             update(key: "lon", value: newValue)
         }
     }
+    
+    public var verified: Bool {
+        get {
+            return self.dict["verified"] as? Bool ?? false
+        }
+        set {
+            update(key: "verified", value: newValue)
+        }
+    }
+}
+
+extension City {
+    public var latLonString: String? {
+        if let lat = lat, let lon = lon {
+            return "\(lat), \(lon)"
+        }
+        return nil
+    }
+    
+    public var shortString: String? {
+        if let name = name {
+            if let state = state {
+                return "\(name), \(state)"
+            } else {
+                return name
+            }
+        }
+        return nil
+    }
 }
