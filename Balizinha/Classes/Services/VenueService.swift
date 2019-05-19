@@ -68,7 +68,14 @@ public class VenueService: NSObject {
         }
     }
     
-    func withId(id: String, completion: @escaping ((City?)->Void)) {
+    public func deleteCity(_ city: City) {
+        let params: [String: Any] = ["cityId": city.id]
+        apiService.cloudFunction(functionName: "deleteCity", method: "POST", params: params) { (result, error) in
+            print("DeleteCity result \(result) error \(error)")
+        }
+    }
+    
+    public func withId(id: String, completion: @escaping ((City?)->Void)) {
         let reference = ref.child(path: "cities").child(path: id)
         reference.observeValue { [weak self] (snapshot) in
             guard snapshot.exists() else {

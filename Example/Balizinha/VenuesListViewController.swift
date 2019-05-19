@@ -40,7 +40,7 @@ class VenuesListViewController: UIViewController {
     func load() {
         showLoadingIndicator()
         service?.getCities(completion: { [weak self] (cities) in
-            self?.cities = cities ?? []
+            self?.cities = cities
             DispatchQueue.main.async {
                 self?.hideLoadingIndicator()
                 self?.reloadTable()
@@ -95,5 +95,15 @@ extension VenuesListViewController: UITableViewDataSource {
                 return cell
             }
         }
+    }
+}
+
+extension VenuesListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
     }
 }
