@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Balizinha
 
 public class Venue: FirebaseBaseModel {
     public var name: String? {
@@ -64,9 +63,9 @@ public class Venue: FirebaseBaseModel {
         }
     }
     
-    // creating a venue locally
-    public init(_ name: String?, _ street: String?, _ city: String?, _ state: String?, _ lat: Double?, _ lon: Double?) {
-        let dict: [String: Any] = ["name": name, "street": street, "city": city, "state": state, "lat": lat, "lon": lon]
-        super.init(key: "temp", dict: dict)
-    }
+//    // creating a venue locally
+//    public init?(_ name: String?, _ street: String? = nil, _ city: String? = nil, _ state: String? = nil, _ lat: Double? = nil, _ lon: Double? = nil) {
+//        let dict: [String: Any] = ["name": name, "street": street, "city": city, "state": state, "lat": lat, "lon": lon]
+//        super.init(key: "temp", dict: dict)
+//    }
 }

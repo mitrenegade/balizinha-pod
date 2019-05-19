@@ -19,6 +19,7 @@ enum UtilItem: String, CaseIterable {
     case refreshAllPlayerTopics
     case migrateStripeCustomers
     case makeActionsBackwardsCompatible
+    case convertUserCities
 
     var details: String {
         switch self {
@@ -36,6 +37,8 @@ enum UtilItem: String, CaseIterable {
             return "Updates all stripe_customers to stripeCustomers"
         case .makeActionsBackwardsCompatible: // only useful until Android 1.0.9 is out
             return "Set event=eventId for all actions for backwards compatibility"
+        case .convertUserCities:
+            return "Convert user entered cities into City objects"
         }
     }
 }
@@ -118,6 +121,8 @@ extension UtilsViewController: UITableViewDelegate {
             refreshAllPlayerTopics()
         case .makeActionsBackwardsCompatible:
             makeActionsBackwardsCompatible()
+        case .convertUserCities:
+            convertUserCities()
         default:
             activityOverlay.show()
             RenderAPIService().cloudFunction(functionName: selection.rawValue, method: "POST", params: nil) { [weak self] (result, error) in
@@ -306,6 +311,23 @@ extension UtilsViewController {
                     action.dict[_PARAM_TO_] = value
                     action.firebaseRef?.updateChildValues([_PARAM_TO_: value])
                 }
+            }
+        }
+    }
+    
+    func convertUserCities() {
+        showLoadingIndicator()
+        VenueService.shared.getCities { (cities) in
+            print("Cities \(cities)")
+            VenueService.shared.loadPlayerCityStrings(includeInvalidCities: false) { (cityStrings, _) in
+                print("cityStrings \(cityStrings)")
+                
+                for string in cityStrings {
+                    VenueService.shared.createCity(string, state: nil, lat: 0, lon: 0, completion: { (city, error) in
+                        print("Creating string \(string): result \(city) error \(error)")
+                    })
+                }
+                self.hideLoadingIndicator()
             }
         }
     }
