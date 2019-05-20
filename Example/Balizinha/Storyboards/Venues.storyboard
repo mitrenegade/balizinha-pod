@@ -49,6 +49,9 @@
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wt2-69-30c" userLabel="ButtonName">
                                                     <rect key="frame" x="20" y="11" width="40" height="22"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" red="0.0" green="0.56284224989999998" blue="0.31900000000000001" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
                                                     <connections>
                                                         <action selector="didTapLabel:" destination="PrI-GO-E1B" eventType="touchUpInside" id="4fd-sL-A9c"/>
                                                     </connections>

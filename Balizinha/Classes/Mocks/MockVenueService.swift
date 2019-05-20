@@ -10,26 +10,17 @@ import RenderCloud
 
 // this service retains memory
 public class MockVenueService: VenueService {
-    var cities: [String: Any]
     init() {
-        cities =
-            ["123":
-                ["createdAt": Date().timeIntervalSince1970 - 3600, "name": "skyville", "state": "Cloud", "lat": 39, "lon": -122]
-            ]
+        super.init()
+        cities = [City(key: "123", dict: ["createdAt": Date().timeIntervalSince1970 - 3600, "name": "skyville", "state": "Cloud", "lat": 39, "lon": -122])]
     }
     
     override public func getCities(completion: (([City]) -> Void)?) {
-        var results: [City] = []
-        for (key, val) in cities {
-            if let dict = val as? [String: Any] {
-                let object = Balizinha.City(key: key, dict: dict)
-                results.append(object)
-            }
-        }
-        completion?(results)
+        completion?(cities)
     }
     
     override public func createCity(_ name: String, state: String?, lat: Double?, lon: Double?, completion: @escaping (City?, NSError?) -> Void) {
         completion(nil, nil)
     }
 }
+
