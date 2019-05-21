@@ -52,6 +52,7 @@ public class EventService: NSObject {
         shared.eventIdQueue.async(flags: .barrier) {
             shared._userEvents = nil
         }
+        shared.featuredEventId = nil
     }
     
     public var featuredEventId: String? {
