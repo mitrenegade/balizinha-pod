@@ -18,7 +18,8 @@ fileprivate var _playerLeagues: [String] = []
 public class LeagueService: NSObject {
     public static let shared: LeagueService = LeagueService()
     fileprivate var disposeBag: DisposeBag
-    
+    public var featuredLeagueId: String?
+
     public override init() {
         disposeBag = DisposeBag()
         super.init()

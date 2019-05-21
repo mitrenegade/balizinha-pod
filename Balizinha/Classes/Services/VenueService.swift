@@ -20,6 +20,9 @@ public class VenueService: NSObject {
         super.init()
     }
     
+    // TODO: readwritequeue
+    public var cities: [City] = []
+    
     // MARK: - Singleton
     public static var shared: VenueService = VenueService()
     
@@ -42,6 +45,8 @@ public class VenueService: NSObject {
                     guard let n2 = c2.name else { return true }
                     return n1 < n2
                 })
+                
+                self?.cities = results
                 completion?(results)
             }
         }
