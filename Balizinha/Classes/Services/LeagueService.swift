@@ -50,6 +50,7 @@ public class LeagueService: NSObject {
     public class func resetOnLogout() {
         shared.disposeBag = DisposeBag()
         _playerLeagues = []
+        shared.featuredLeagueId = nil
     }
     
     public func create(name: String, city: String, info: String, completion: @escaping ((_ result: Any?, _ error: Error?)->Void)) {

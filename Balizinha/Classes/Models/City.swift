@@ -14,7 +14,7 @@ public class City: FirebaseBaseModel {
         self.firebaseRef = firRef.child("cities").child(key)
         self.dict = dict ?? [:]
     }
-
+    
     public var name: String? {
         get {
             return self.dict["name"] as? String
@@ -23,7 +23,7 @@ public class City: FirebaseBaseModel {
             update(key: "name", value: newValue)
         }
     }
-
+    
     public var state: String? {
         get {
             return self.dict["state"] as? String

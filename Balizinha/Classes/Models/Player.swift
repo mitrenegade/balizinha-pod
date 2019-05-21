@@ -54,6 +54,15 @@ public class Player: FirebaseBaseModel {
         }
     }
     
+    public var cityId: String? {
+        get {
+            return dict?["cityId"] as? String
+        }
+        set {
+            update(key: "cityId", value: newValue)
+        }
+    }
+    
     public var photoUrl: String? {
         get {
             guard let dict = self.dict else { return nil }
