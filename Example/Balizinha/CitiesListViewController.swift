@@ -10,9 +10,18 @@ import UIKit
 import RenderCloud
 import Balizinha
 
-class CitiesListViewController: UIViewController {    
+class CitiesListViewController: UIViewController {
+    enum Mode: String {
+        case cityNames
+        case selectedCities
+    }
+    @IBOutlet weak var selectorMode: UISegmentedControl!
+    var mode: Mode = .selectedCities
+
     @IBOutlet weak var tableView: UITableView!
-    var cities: [String] = []
+    var cities: [City] = []
+
+    var cityNames: [String] = []
     var players: [String: [String]] = [:]
     var expanded: [String: Bool] = [:]
 
@@ -24,9 +33,12 @@ class CitiesListViewController: UIViewController {
         load()
     }
     
+    @IBAction func toggleSelector(_ sender: UIControl) {
+    }
+
     func load() {
         VenueService.shared.loadPlayerCityStrings { [weak self] (cities, playersForCity) in
-            self?.cities = cities
+            self?.cityNames = cities
             self?.players = playersForCity
             self?.reloadTable()
         }
@@ -43,8 +55,8 @@ extension CitiesListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard section < cities.count else { return 0 }
-        let city = cities[section]
+        guard section < cityNames.count else { return 0 }
+        let city = cityNames[section]
         let isExpanded: Bool = expanded[city] ?? false
         if isExpanded {
             return players[city]?.count ?? 0
@@ -57,8 +69,8 @@ extension CitiesListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard section < cities.count else { return nil }
-        let city = cities[section]
+        guard section < cityNames.count else { return nil }
+        let city = cityNames[section]
         
         let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 40))
         view.backgroundColor = UIColor.lightGray
@@ -82,10 +94,10 @@ extension CitiesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath)
-        guard indexPath.section < cities.count else {
+        guard indexPath.section < cityNames.count else {
             return cell
         }
-        let city = cities[indexPath.section]
+        let city = cityNames[indexPath.section]
         let allPlayers = players[city] ?? []
         let isExpanded: Bool = expanded[city] ?? false
         if !isExpanded {
@@ -105,8 +117,8 @@ extension CitiesListViewController: UITableViewDataSource {
     
     @objc func didClickHeader(_ sender: UIButton) {
         let section = sender.tag
-        guard section < cities.count else { return }
-        let city = cities[section]
+        guard section < cityNames.count else { return }
+        let city = cityNames[section]
         expanded[city] = !(expanded[city] ?? false)
         
         self.reloadTable()
@@ -119,10 +131,10 @@ extension CitiesListViewController: UITableViewDelegate {
         
         guard let controller = UIStoryboard(name: "Players", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as? PlayerViewController else { return }
         
-        guard indexPath.section < cities.count else {
+        guard indexPath.section < cityNames.count else {
             return
         }
-        let city = cities[indexPath.section]
+        let city = cityNames[indexPath.section]
         let allPlayers = players[city] ?? []
         if indexPath.row < allPlayers.count {
             let playerId = allPlayers[indexPath.row]
