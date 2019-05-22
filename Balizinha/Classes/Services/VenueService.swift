@@ -12,10 +12,10 @@ import FirebaseAuth
 import RenderCloud
 
 public class VenueService: NSObject {
-    fileprivate let ref: Reference
+    fileprivate let baseRef: Reference
     fileprivate let apiService: CloudAPIService
     public init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService()) {
-        ref = reference
+        baseRef = reference
         self.apiService = apiService
         super.init()
     }
@@ -87,7 +87,7 @@ public class VenueService: NSObject {
     }
     
     public func withId(id: String, completion: @escaping ((City?)->Void)) {
-        let reference = ref.child(path: "cities").child(path: id)
+        let reference = baseRef.child(path: "cities").child(path: id)
         reference.observeValue { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
@@ -143,4 +143,26 @@ public class VenueService: NSObject {
             }
         }
     }
+}
+
+// notifications
+extension VenueService {
+    public func checkForUnverifiedCity(completion: @escaping ((Bool) -> Void)) {
+        let ref: Reference
+        ref = baseRef.child(path: "cities")
+        ref.observeSingleValue() {(snapshot) in
+            guard snapshot.exists() else { completion(false); return }
+            if let allObjects = snapshot.allChildren {
+                for dict: Snapshot in allObjects {
+                    let city = City(snapshot: dict)
+                    if !city.verified {
+                        completion(true)
+                        return
+                    }
+                }
+            }
+            completion(false)
+        }
+    }
+
 }
