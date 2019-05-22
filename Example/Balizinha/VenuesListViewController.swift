@@ -11,142 +11,40 @@ import Firebase
 import Balizinha
 import RenderCloud
 
-class VenuesListViewController: UIViewController {
-    enum MenuItem: String {
-        case city
-        case venue
-    }
-
-    var venues: [Venue] = []
-    var cities: [City] = []
-    var service: VenueService?
+class VenuesListViewController: ListViewController {
     var reference: Reference?
     
-    @IBOutlet weak var tableView: UITableView!
+    override var refName: String {
+        return "venues"
+    }
     
     override func viewDidLoad() {
         // Do any additional setup after loading the view.
         navigationItem.title = "Venues"
         if AIRPLANE_MODE {
-            service = MockVenueService.shared
+            reference = MockDatabaseReference(snapshot: MockDataSnapshot(exists: true, value: ["name": "abc"]))
         } else {
-            service = VenueService.shared
+            reference = firRef
         }
-        reference = firRef
 
         super.viewDidLoad()
-
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 44
-        
-        load()
-    }
-
-    func load() {
-        showLoadingIndicator()
-        service?.getCities(completion: { [weak self] (cities) in
-            self?.cities = cities
-            DispatchQueue.main.async {
-                self?.hideLoadingIndicator()
-                self?.reloadTable()
-            }
-        })
-    }
-    
-    func reloadTable() {
-        tableView.reloadData()
     }
 }
 
-extension VenuesListViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Venues"
+extension VenuesListViewController {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CityNameCell", for: indexPath) as! UITableViewCell
+        if indexPath.row < objects.count {
+            let venue = objects[indexPath.row] as? Venue
+            cell.textLabel?.text = venue?.name ?? ""
+            cell.detailTextLabel?.text = venue?.city ?? ""
         }
-        return "Cities"
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 0
-        }
-        return cities.count + 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-//            let array = venues
-//            if indexPath.row < array.count {
-//                let venue = array[indexPath.row]
-//                cell.textLabel?.text = venue.name ?? ""
-//                cell.detailTextLabel?.text = venue.city ?? ""
-//            }
-            return UITableViewCell()
-        } else {
-            let array = cities
-            if indexPath.row < array.count {
-                let city = array[indexPath.row]
-                let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! CityCell
-                cell.presenter = self
-                cell.configure(with: city)
-                return cell
-            } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "AddCityCell", for: indexPath)
-                cell.textLabel?.text = "Add city"
-                return cell
-            }
-        }
+        return cell
     }
 }
 
-extension VenuesListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        showLoadingIndicator()
-        if indexPath.section == 1, indexPath.row < cities.count {
-            let city = cities[indexPath.row]
-            service?.deleteCity(city) { [weak self] in
-                self?.cities.remove(at: indexPath.row)
-                DispatchQueue.main.async {
-                    self?.hideLoadingIndicator()
-                    self?.reloadTable()
-                }
-            }
-        }
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension VenuesListViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.section == 1,indexPath.row < cities.count {
-            let city = cities[indexPath.row]
-            promptForVerification(city)
-        }
-    }
-    
-    private func promptForVerification(_ city: City) {
-        let title: String
-        let message: String
-        if !city.verified {
-            title = "Verify city?"
-            message = "Is this city correct: \(city.shortString ?? "invalid name") (\(city.latLonString ?? "no location"))"
-        } else {
-            title = "Remove verification?"
-            message = "Do you want to change: \(city.shortString ?? "invalid name") (\(city.latLonString ?? "no location")) to unverified?"
-        }
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
-            city.verified = !city.verified
-            self.tableView.reloadData()
-        }))
-        alert.addAction(UIAlertAction(title: "No", style: .cancel) { (action) in
-        })
-        present(alert, animated: true, completion: nil)
     }
 }

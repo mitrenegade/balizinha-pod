@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="80" width="414" height="816"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CityStringCell" textLabel="hxa-X7-1qS" style="IBUITableViewCellStyleDefault" id="jHD-V0-ZYu">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CityNameCell" textLabel="hxa-X7-1qS" style="IBUITableViewCellStyleDefault" id="jHD-V0-ZYu">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jHD-V0-ZYu" id="WtH-fX-OiR">
@@ -157,7 +157,7 @@
                                     <segment title="City Strings"/>
                                 </segments>
                                 <connections>
-                                    <action selector="toggleSelector:" destination="CgH-ts-yW6" eventType="touchUpInside" id="qH1-Mo-ebn"/>
+                                    <action selector="toggleSelector:" destination="CgH-ts-yW6" eventType="valueChanged" id="Ji3-Fk-dmv"/>
                                 </connections>
                             </segmentedControl>
                         </subviews>
