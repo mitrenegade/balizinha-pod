@@ -58,6 +58,7 @@ class MenuViewController: UIViewController {
     
     // notifications
     var hasNewFeedback: Bool = false
+    var hasUnverifiedCity: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -168,6 +169,16 @@ extension MenuViewController: UITableViewDataSource {
                 } else {
                     cell.accessoryView = nil
                 }
+            case .cities:
+                if hasUnverifiedCity {
+                    let notificationView: UIImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+                    let image = UIImage(named: "exclaimation")?.withRenderingMode(.alwaysTemplate)
+                    notificationView.tintColor = .red
+                    notificationView.image = image
+                    cell.accessoryView = notificationView
+                } else {
+                    cell.accessoryView = nil
+                }
             default:
                 break
             }
@@ -203,6 +214,13 @@ extension MenuViewController {
         FeedbackViewModel.checkForFeedback() { [weak self] hasNew in
             if hasNew != self?.hasNewFeedback {
                 self?.hasNewFeedback = hasNew
+                self?.reloadTable()
+            }
+        }
+        
+        VenueService.shared.checkForUnverifiedCity { [weak self] hasUnverified in
+            if hasUnverified != self?.hasUnverifiedCity {
+                self?.hasUnverifiedCity = hasUnverified
                 self?.reloadTable()
             }
         }
