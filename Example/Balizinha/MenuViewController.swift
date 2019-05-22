@@ -195,6 +195,26 @@ extension MenuViewController: UITableViewDelegate {
         guard indexPath.row < menuItems.count else { return }
         let selection = menuItems[indexPath.row]
         switch selection {
+        case .cities:
+            if hasUnverifiedCity {
+                let title = "Unverified cities"
+                let message = "There are new cities that need to be verified. Click on the city to confirm details."
+                simpleAlert(title, message: message) {
+                    self.performSegue(withIdentifier: selection.rawValue, sender: nil)
+                }
+            } else {
+                performSegue(withIdentifier: selection.rawValue, sender: nil)
+            }
+        case .feedback:
+            if hasNewFeedback {
+                let title = "New feedback"
+                let message = "There is new feedback from users. Click on the feedback to mark it as read."
+                simpleAlert(title, message: message) {
+                    self.performSegue(withIdentifier: selection.rawValue, sender: nil)
+                }
+            } else {
+                performSegue(withIdentifier: selection.rawValue, sender: nil)
+            }
         case .login:
             promptForLogin()
         case .version:
