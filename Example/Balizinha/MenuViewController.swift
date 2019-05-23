@@ -34,8 +34,8 @@ fileprivate enum MenuItem: String {
         case .actions: return "Actions"
         case .payments: return "Payments"
         case .leagues: return "Leagues"
-        case .cities: return "Cities (user entry)"
-        case .venues: return "Venues and Cities"
+        case .cities: return "Cities"
+        case .venues: return "Venues"
         case .feed: return "Feed"
         case .stripe: return "Stripe Connect"
         case .feedback: return "Feedback/Inquiries"
@@ -58,6 +58,7 @@ class MenuViewController: UIViewController {
     
     // notifications
     var hasNewFeedback: Bool = false
+    var hasUnverifiedCity: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -168,6 +169,16 @@ extension MenuViewController: UITableViewDataSource {
                 } else {
                     cell.accessoryView = nil
                 }
+            case .cities:
+                if hasUnverifiedCity {
+                    let notificationView: UIImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+                    let image = UIImage(named: "exclaimation")?.withRenderingMode(.alwaysTemplate)
+                    notificationView.tintColor = .red
+                    notificationView.image = image
+                    cell.accessoryView = notificationView
+                } else {
+                    cell.accessoryView = nil
+                }
             default:
                 break
             }
@@ -184,6 +195,26 @@ extension MenuViewController: UITableViewDelegate {
         guard indexPath.row < menuItems.count else { return }
         let selection = menuItems[indexPath.row]
         switch selection {
+        case .cities:
+            if hasUnverifiedCity {
+                let title = "Unverified cities"
+                let message = "There are new cities that need to be verified. Click on the city to confirm details."
+                simpleAlert(title, message: message) {
+                    self.performSegue(withIdentifier: selection.rawValue, sender: nil)
+                }
+            } else {
+                performSegue(withIdentifier: selection.rawValue, sender: nil)
+            }
+        case .feedback:
+            if hasNewFeedback {
+                let title = "New feedback"
+                let message = "There is new feedback from users. Click on the feedback to mark it as read."
+                simpleAlert(title, message: message) {
+                    self.performSegue(withIdentifier: selection.rawValue, sender: nil)
+                }
+            } else {
+                performSegue(withIdentifier: selection.rawValue, sender: nil)
+            }
         case .login:
             promptForLogin()
         case .version:
@@ -203,6 +234,13 @@ extension MenuViewController {
         FeedbackViewModel.checkForFeedback() { [weak self] hasNew in
             if hasNew != self?.hasNewFeedback {
                 self?.hasNewFeedback = hasNew
+                self?.reloadTable()
+            }
+        }
+        
+        VenueService.shared.checkForUnverifiedCity { [weak self] hasUnverified in
+            if hasUnverified != self?.hasUnverifiedCity {
+                self?.hasUnverifiedCity = hasUnverified
                 self?.reloadTable()
             }
         }
