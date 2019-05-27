@@ -68,9 +68,16 @@ public class VenueService: NSObject {
             } else {
                 print("CreateCity success with result \(String(describing: result))")
                 if let dict = result as? [String: Any], let cityId = dict["cityId"] as? String {
-                    self.withId(id: cityId, completion: { (city) in
+                    if let cityDict = dict["city"] as? [String: Any] {
+                        let city = City(key: cityId, dict: cityDict)
                         completion(city, nil)
-                    })
+                        return
+                    } else {
+                        self.withId(id: cityId, completion: { (city) in
+                            completion(city, nil)
+                        })
+                        return
+                    }
                 } else {
                     completion(nil, nil)
                 }
