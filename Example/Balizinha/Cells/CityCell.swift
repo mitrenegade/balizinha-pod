@@ -46,6 +46,7 @@ class CityCell: UITableViewCell {
         let title: String
         let value: String?
         let handler: ((String)->Void)
+        var isNumberInput: Bool = false
         switch sender {
         case buttonName:
             title = "Update city name"
@@ -66,6 +67,7 @@ class CityCell: UITableViewCell {
         case buttonLatLon:
             title = "Update lat"
             value = "\(city.lat ?? 0)"
+            isNumberInput = true
             handler = { [weak self] value in
                 print("Updated latitude \(value)")
                 if let lat = Double(value) {
@@ -77,6 +79,7 @@ class CityCell: UITableViewCell {
         case buttonLon:
             title = "Update longitude"
             value = "\(city.lon ?? 0)"
+            isNumberInput = true
             handler = { [weak self] value in
                 print("Updated lon \(value)")
                 if let lon = Double(value) {
@@ -91,6 +94,9 @@ class CityCell: UITableViewCell {
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.text = value
             textField.placeholder = title
+            if isNumberInput {
+                textField.keyboardType = UIKeyboardType.decimalPad
+            }
         }
         alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let newValue = textField.text, !newValue.isEmpty {
