@@ -184,6 +184,8 @@ public class EventService: NSObject {
                 self?.eventIdQueue.sync {
                     if let _events = self?._userEvents {
                         events = Array(_events)
+                    } else {
+                        events = []
                     }
                 }
                 self?.userEvents.accept(events)
