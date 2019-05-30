@@ -16,10 +16,6 @@ public enum ActionType: String {
     case addedToEvent
     case removedFromEvent
     
-    // league
-    case joinLeague
-    case leaveLeague
-    
     // payment
     case holdPaymentForEvent
     case payForEvent
@@ -149,10 +145,6 @@ public class ActionViewModel {
         case .removedFromEvent:
             let article = userPerformedAction ? "were" : "was"
             return userString + " \(article) removed from \(eventName)"
-        case .joinLeague: // TODO: separate event actions and league actions
-            return userString + " joined the league"
-        case .leaveLeague:
-            return userString + " left the league"
         case .holdPaymentForEvent:
             return userString + " reserved a spot"
         case .payForEvent, .stripeConnectChargeForEvent:
