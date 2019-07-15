@@ -88,7 +88,7 @@ extension SearchableListViewController {
     }
     
     // to be implemented by subclasses
-    func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
+    @objc func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
         return objects
     }
 }
