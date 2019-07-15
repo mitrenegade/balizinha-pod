@@ -38,10 +38,11 @@ public class Event: FirebaseBaseModel {
 
     public var league: String? {
         get {
-            return self.dict["league"] as? String
+            return dict["leagueId"] as? String ?? dict["league"] as? String
         }
         set {
             update(key: "league", value: newValue)
+            update(key: "leagueId", value: newValue)
         }
     }
     
