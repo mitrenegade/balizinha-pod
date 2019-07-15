@@ -15,7 +15,7 @@ protocol RosterUpdateDelegate: class {
     func didUpdateRoster()
 }
 
-class LeaguePlayersViewController: SearchablePlayersViewController {
+class LeaguePlayersViewController: SearchableListViewController {
     var league: League?
     var isEditOrganizerMode: Bool = false
     
