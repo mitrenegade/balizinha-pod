@@ -44,7 +44,7 @@ class EventsListViewController: ListViewController {
         }
     }
     
-    override func load() {
+    override func load(completion: (()->Void)?) {
         // don't use EventService.getAvailableEvents because admin app doesn't filter by user
         reference?.child(path: "events").observeValue { [weak self] (snapshot) in
             guard snapshot.exists() else { return }
@@ -89,7 +89,7 @@ class EventsListViewController: ListViewController {
                 let title = "Could not " + (isCancelled ? "cancel" : "reinstate") + " event"
                 self?.simpleAlert(title, defaultMessage: "There was an error updating the event's cancellation status. ", error: error)
             } else {
-                self?.load()
+                self?.load() {}
             }
         })
     }
@@ -104,7 +104,7 @@ class EventsListViewController: ListViewController {
                     let title = "Could not delete event"
                     self?.simpleAlert(title, defaultMessage: "There was an error with deletion.", error: error)
                 } else {
-                    self?.load()
+                    self?.load() {}
                 }
             }
         }))
