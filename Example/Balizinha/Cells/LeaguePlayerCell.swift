@@ -16,7 +16,6 @@ class LeaguePlayerCell: UITableViewCell {
     @IBOutlet weak var labelCreated: UILabel?
     @IBOutlet weak var labelInitials: UILabel!
     @IBOutlet weak var labelId: UILabel?
-    
     @IBOutlet weak var labelStatus: UILabel?
     
     override func awakeFromNib() {
@@ -27,18 +26,19 @@ class LeaguePlayerCell: UITableViewCell {
         labelInitials.textAlignment = .center
     }
     
-    func configure(player: Player, status: Membership.Status) {
+    func configure(player: Player, status: Membership.Status?) {
         labelName.text = player.name ?? "Anon"
         labelEmail?.text = player.email
         labelCreated?.text = player.createdAt?.dateString()
         labelId?.text = player.id
-        
-        labelStatus?.text = status.rawValue
+        if let status = status {
+            labelStatus?.text = status.rawValue
+        }
         
         imagePhoto.image = nil
         imagePhoto.layer.cornerRadius = imagePhoto.frame.size.height / 2
         labelInitials.layer.cornerRadius = labelInitials.frame.size.height / 2
-        labelInitials.font = UIFont.systemFont(ofSize: imagePhoto.frame.size.width / 2)
+        labelInitials.font = UIFont.montserratSemiBold(size: imagePhoto.frame.size.width / 2)
         FirebaseImageService().profileUrl(with: player.id) {[weak self] (url) in
             DispatchQueue.main.async {
                 if let url = url {
