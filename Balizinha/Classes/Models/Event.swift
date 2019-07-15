@@ -36,7 +36,7 @@ public class Event: FirebaseBaseModel {
         self.dict = dict ?? [:]
     }
 
-    public var league: String? {
+    public var leagueId: String? {
         get {
             return dict["leagueId"] as? String ?? dict["league"] as? String
         }

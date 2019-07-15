@@ -51,7 +51,7 @@ class EventCell: UITableViewCell {
             DispatchQueue.main.async {
                 if let urlString = url?.absoluteString {
                     self?.eventLogo.imageUrl = urlString
-                } else if let leagueId = event.league {
+                } else if let leagueId = event.leagueId {
                     FirebaseImageService().leaguePhotoUrl(with: leagueId) { [weak self] (url) in
                         DispatchQueue.main.async {
                             if let urlString = url?.absoluteString {
