@@ -69,11 +69,13 @@ class FeedItemsListViewController: ListViewController {
     @objc func selectLeague() {
         leagueId = selectingLeagueId
         inputSearch.text = selectingLeagueName
-        load()
+        load() {
+            
+        }
         cancelInput()
     }
     
-    override func load() {
+    override func load(completion: (()->Void)?) {
         var ref: DatabaseQuery = firRef.child(refName)
         if let leagueId = leagueId {
             ref = ref.queryOrdered(byChild: "leagueId").queryEqual(toValue: leagueId)

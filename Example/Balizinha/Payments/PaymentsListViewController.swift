@@ -17,7 +17,6 @@ import RenderCloud
 class PaymentsListViewController: ListViewController {
     
     @IBOutlet fileprivate weak var selectorType: UISegmentedControl!
-    fileprivate let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
     let paymentService: StripePaymentService = StripePaymentService(apiService: RenderAPIService())
 
     var data: [String: [Payment]] = [:]
@@ -73,10 +72,10 @@ class PaymentsListViewController: ListViewController {
     
     @IBAction func toggleSelector(_ sender: UIControl) {
         data.removeAll()
-        load()
+        load() {}
     }
     
-    override func load() {
+    override func load(completion: (()->Void)?) {
         let ref = firRef.child(refName)
         ref.observe(.value) {[weak self] (snapshot) in
             guard snapshot.exists() else { return }

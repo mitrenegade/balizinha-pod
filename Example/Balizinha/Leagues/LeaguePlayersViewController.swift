@@ -15,8 +15,7 @@ protocol RosterUpdateDelegate: class {
     func didUpdateRoster()
 }
 
-class LeaguePlayersViewController: SearchablePlayersViewController {
-    var league: League?
+class LeaguePlayersViewController: SearchableListViewController {
     var isEditOrganizerMode: Bool = false
     
     weak var delegate: RosterUpdateDelegate?
@@ -30,6 +29,7 @@ class LeaguePlayersViewController: SearchablePlayersViewController {
     fileprivate var organizers: [Player] = []
     fileprivate var players: [Player] = [] // non-members
     
+    fileprivate var memberships: [String: Membership.Status] = [:]
     var roster: [Membership]? {
         didSet {
             if let roster = roster {
@@ -53,9 +53,9 @@ class LeaguePlayersViewController: SearchablePlayersViewController {
             navigationItem.title = "Players"
         }
         
-        loadFromRef {
+        load() {
             self.search(for: nil)
-            self.reloadTableData()
+            self.reloadTable()
         }
     }
 }
@@ -83,7 +83,7 @@ extension LeaguePlayersViewController { // UITableViewDataSource
             return cell
         }
         cell.reset()
-        let array = section.players
+        let array = section.objects
         if indexPath.row < array.count {
             let playerId = array[indexPath.row].id
             PlayerService.shared.withId(id: playerId) { (player) in
@@ -99,16 +99,16 @@ extension LeaguePlayersViewController { // UITableViewDataSource
     }
 }
 
-extension LeaguePlayersViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension LeaguePlayersViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
         guard let league = league else { return }
         let newStatus: Membership.Status
 
         let section = sections[indexPath.section]
-        guard indexPath.row < section.players.count else { return }
-        let playerId: String = section.players[indexPath.row].id
+        guard indexPath.row < section.objects.count else { return }
+        let playerId: String = section.objects[indexPath.row].id
         switch section.name {
         case "Organizers" :
             newStatus = .member
@@ -149,7 +149,7 @@ extension LeaguePlayersViewController: UITableViewDelegate {
 
 // MARK: - Search
 extension LeaguePlayersViewController {
-    @objc override func updateSections(_ players: [Player]) {
+    override func updateSections(_ newObjects: [FirebaseBaseModel]) {
         // filter for membership
         organizers = players.filter() { return memberships[$0.id] == Membership.Status.organizer }
         members = players.filter() { return memberships[$0.id] == Membership.Status.member }
