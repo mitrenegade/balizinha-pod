@@ -10,7 +10,7 @@ import UIKit
 import Balizinha
 
 let TESTING = false
-let AIRPLANE_MODE = false
+let AIRPLANE_MODE = true
 
 extension UIColor {
     static let darkGreen = UIColor(red: 88/255.0, green: 122/255.0, blue: 103/255.0, alpha: 1)
