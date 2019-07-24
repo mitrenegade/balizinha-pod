@@ -1,107 +1,89 @@
 //
-//  ListViewController.swift
+//  PlayersListViewController.swift
 //  Panna
 //
-//  Created by Bobby Ren on 6/17/19.
+//  Created by Bobby Ren on 7/21/19.
 //  Copyright © 2019 Bobby Ren. All rights reserved.
 //
-
 import UIKit
 import Balizinha
 import Firebase
+import RenderCloud
 
-class PlayerListViewController: SearchableListViewController {
+protocol PlayersListDelegate: class {
+    func didSelectPlayer(_ player: Player)
+}
+
+class PlayersListViewController: SearchableListViewController {
     var roster: [String:Membership] = [:]
-    var leagueOrganizers: [Player] = []
-    var leagueMembers: [Player] = []
+    weak var delegate: PlayersListDelegate?
+    var players: [Player] = []
+    
     override var sections: [Section] {
-        return [("Organizers", leagueOrganizers), ("Members", leagueMembers)]
+        return [("Players", players)]
+    }
+    
+    override var refName: String {
+        return "players"
+    }
+    
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
+        return Player(snapshot: snapshot)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        navigationItem.title = "Players"
+        navigationItem.title = "Other Players"
         
         activityOverlay.show()
         load() { [weak self] in
+            // filter out players already in the league
+            self?.objects = (self?.objects ?? []).filter{
+                let active = self?.roster[$0.id]?.isActive ?? false
+                return !active
+            }
             self?.search(for: nil)
             self?.activityOverlay.hide()
-        }
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
-    }
-    
-    override func load(completion:(()->Void)? = nil) {
-        activityOverlay.show()
-        
-        guard let league = league else { return }
-        objects.removeAll()
-        roster.removeAll()
-        LeagueService.shared.memberships(for: league) { [weak self] (results) in
-            let dispatchGroup = DispatchGroup()
-            for membership in results ?? [] {
-                let playerId = membership.playerId
-                guard membership.isActive else { continue }
-                self?.roster[playerId] = membership
-                
-                dispatchGroup.enter()
-                PlayerService.shared.withId(id: playerId, completion: {[weak self] (player) in
-                    if let player = player {
-                        self?.objects.append(player)
-                    }
-                    dispatchGroup.leave()
-                })
-            }
-            dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
-                completion?()
-            }
         }
     }
 }
 
-extension PlayerListViewController {
+extension PlayersListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayerCell", for: indexPath) as! LeaguePlayerCell
         cell.reset()
         let section = sections[indexPath.section]
         let array = section.objects
-        if indexPath.row < array.count {
-            if let player = array[indexPath.row] as? Player {
-                let status = roster[player.id]?.status ?? .none
-                cell.configure(player: player, status: status)
-            }
+        if indexPath.row < array.count, let player = array[indexPath.row] as? Player {
+            cell.configure(player: player, status: .none)
         }
         return cell
     }
-}
-
-extension PlayerListViewController {
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
-        let section = sections[indexPath.section]
-        guard indexPath.row < section.objects.count else { return }
-        if let player: Player? = section.objects[indexPath.row] as? Player {
-            let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
-            controller.player = player
-            navigationController?.pushViewController(controller, animated: true)
+        
+        if indexPath.row < players.count {
+            let player = players[indexPath.row]
+            // TODO: prompt
+            delegate?.didSelectPlayer(player)
+            players.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
 }
 
 // search and filtering
-extension PlayerListViewController {
+extension PlayersListViewController {
     @objc override func updateSections(_ newObjects: [FirebaseBaseModel]) {
-        var players = newObjects.compactMap { $0 as? Player }
+        players = newObjects.compactMap { $0 as? Player }
         players.sort(by: { (p1, p2) -> Bool in
             guard let t1 = p1.createdAt else { return false }
             guard let t2 = p2.createdAt else { return true}
             return t1 > t2
         })
-        
-        leagueOrganizers = players.filter { return roster[$0.id]?.status == Membership.Status.organizer }
-        leagueMembers = players.filter { return roster[$0.id]?.status == Membership.Status.member }
     }
     
     override func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
