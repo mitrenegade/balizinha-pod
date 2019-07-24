@@ -13,9 +13,17 @@ import FirebaseDatabase
 import RenderCloud
 
 typealias Section = (name: String, objects: [FirebaseBaseModel])
+
+protocol LeagueList: class {
+    var league: League? { get set }
+}
+
+protocol LeagueListDelegate: class {
+    func didUpdateRoster()
+}
+
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    var league: League?
     
     internal var refName: String {
         assertionFailure("refName ust be implemented by subclass")
@@ -36,6 +44,17 @@ class ListViewController: UIViewController {
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
+        
+        view.addSubview(activityOverlay)
+        
+        if let nav = self.navigationController, nav.viewControllers[0] == self {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(didClickCancel(_:)))
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        activityOverlay.setup(frame: view.frame)
     }
     
     @objc var cellIdentifier: String {
