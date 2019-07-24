@@ -175,6 +175,8 @@ class LeagueEditViewController: UIViewController {
             for player in players {
                 playersScrollView.addPlayer(player: player)
             }
+            // player count
+            labelPlayerCount?.text = "\(players.count)"
             playersScrollView.refresh()
             return
         }
@@ -199,6 +201,8 @@ class LeagueEditViewController: UIViewController {
                 self?.playersScrollView.addPlayer(player: player)
             }
             
+            // player count
+            self?.labelPlayerCount?.text = "\(players.count)"
             self?.playersScrollView.refresh()
         }
     }
