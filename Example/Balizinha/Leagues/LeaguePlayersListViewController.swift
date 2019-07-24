@@ -1,5 +1,5 @@
 //
-//  LeaguePlayersViewController.swift
+//  LeaguePlayersListViewController.swift
 //  Panna
 //
 //  Created by Bobby Ren on 6/17/19.
@@ -10,7 +10,7 @@ import UIKit
 import Balizinha
 import Firebase
 
-class LeaguePlayersViewController: SearchableListViewController, LeagueList {
+class LeaguePlayersListViewController: SearchableListViewController, LeagueList {
     var roster: [String:Membership] = [:]
     var league: League?
     var leagueOrganizers: [Player] = []
@@ -86,7 +86,7 @@ class LeaguePlayersViewController: SearchableListViewController, LeagueList {
     }
 }
 
-extension LeaguePlayersViewController {
+extension LeaguePlayersListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LeaguePlayerCell", for: indexPath) as! LeaguePlayerCell
         cell.reset()
@@ -175,7 +175,7 @@ extension LeaguePlayersViewController {
 }
 
 // search and filtering
-extension LeaguePlayersViewController {
+extension LeaguePlayersListViewController {
     @objc override func updateSections(_ newObjects: [FirebaseBaseModel]) {
         var players = newObjects.compactMap { $0 as? Player }
         players.sort(by: { (p1, p2) -> Bool in
@@ -199,7 +199,7 @@ extension LeaguePlayersViewController {
     }
 }
 
-extension LeaguePlayersViewController: PlayersListDelegate {
+extension LeaguePlayersListViewController: PlayersListDelegate {
     func didSelectPlayer(_ player: Player) {
         // TODO: log
         changeMemberStatus(playerId: player.id, newStatus: .member)

@@ -320,7 +320,7 @@ class LeagueEditViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toPlayers", let controller = segue.destination as? LeaguePlayersViewController {
+        if segue.identifier == "toPlayers", let controller = segue.destination as? LeaguePlayersListViewController {
             controller.roster = roster
             controller.league = league
             controller.delegate = self

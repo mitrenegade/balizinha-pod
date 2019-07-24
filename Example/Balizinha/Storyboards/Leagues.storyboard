@@ -546,10 +546,10 @@
             </objects>
             <point key="canvasLocation" x="2480.8000000000002" y="115.14242878560721"/>
         </scene>
-        <!--League Players View Controller-->
+        <!--League Players List View Controller-->
         <scene sceneID="Wpy-vo-FqJ">
             <objects>
-                <viewController id="1sG-Rz-hHe" customClass="LeaguePlayersViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="1sG-Rz-hHe" customClass="LeaguePlayersListViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aBa-aH-gu3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
