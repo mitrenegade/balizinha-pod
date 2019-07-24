@@ -695,11 +695,20 @@
                         <outlet property="containerSearch" destination="Xn4-kc-tGy" id="H8A-4K-BNg"/>
                         <outlet property="inputSearch" destination="FJ6-fW-niV" id="k4n-Xk-Y97"/>
                         <outlet property="tableView" destination="Rxh-Mg-QqO" id="4R8-WQ-hSf"/>
+                        <segue destination="vgs-Uk-Pty" kind="show" identifier="toAddPlayer" id="Nul-Er-ojx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8qY-Xw-Lb6" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3200.8000000000002" y="115.59220389805098"/>
+            <point key="canvasLocation" x="3391" y="88"/>
+        </scene>
+        <!--Players-->
+        <scene sceneID="0TQ-44-B5r">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="PlayersListViewController" storyboardName="Players" id="vgs-Uk-Pty" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A5O-IO-Ref" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4019" y="-3"/>
         </scene>
     </scenes>
     <resources>

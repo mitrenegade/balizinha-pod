@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -55,7 +56,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="OsD-kS-lqD" customClass="RAImageView" customModule="Panna" customModuleProvider="target">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-img" translatesAutoresizingMaskIntoConstraints="NO" id="OsD-kS-lqD" customClass="RAImageView" customModule="Admin" customModuleProvider="target">
                                 <rect key="frame" x="146" y="52" width="122" height="122"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="122" id="8sK-8N-XXp"/>
@@ -120,10 +121,10 @@
             </objects>
             <point key="canvasLocation" x="2118" y="-505"/>
         </scene>
-        <!--Player List View Controller-->
+        <!--Players List View Controller-->
         <scene sceneID="tz9-kg-p4L">
             <objects>
-                <viewController id="nU9-pq-lY5" customClass="PlayerListViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlayersListViewController" id="nU9-pq-lY5" customClass="PlayersListViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DVE-o7-7SD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
