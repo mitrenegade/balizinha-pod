@@ -27,6 +27,21 @@ class LeagueListViewController: ListViewController {
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
+        
+        load {
+            // do nothing
+        }
+    }
+    
+    override func load(completion: (() -> Void)? = nil) {
+        guard !AIRPLANE_MODE else {
+            let league = MockService.mockLeague()
+            objects = [league]
+            reloadTable()
+            return
+        }
+
+        super.load()
     }
     
     override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {

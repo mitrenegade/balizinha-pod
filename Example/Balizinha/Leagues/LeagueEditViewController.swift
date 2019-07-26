@@ -52,7 +52,7 @@ class LeagueEditViewController: UIViewController {
 
     var league: League?
     var delegate: LeagueViewDelegate?
-    var roster: [Membership]?
+    var roster: [String: Membership] = [:]
     fileprivate var players: [Player] = []
     
     let disposeBag: DisposeBag = DisposeBag()
@@ -77,10 +77,19 @@ class LeagueEditViewController: UIViewController {
     }
     
     func loadRoster() {
+        guard !AIRPLANE_MODE else {
+            roster = ["1": Membership(id: "1", status: "organizer")]
+            observePlayers()
+            return
+        }
+        roster.removeAll()
+        
         guard let league = league else { return }
         LeagueService.shared.memberships(for: league) { [weak self] (results) in
-            self?.roster = results
-            
+            self?.roster.removeAll()
+            for membership in results ?? [] {
+                self?.roster[membership.playerId] = membership
+            }
             self?.playersScrollView.delegate = self
             self?.observePlayers()
         }
@@ -159,11 +168,21 @@ class LeagueEditViewController: UIViewController {
     }
     
     func observePlayers() {
-        guard let roster = roster else { return }
+        guard !AIRPLANE_MODE else {
+            let players = [MockService.mockPlayerOrganizer()]
+            self.players = players
+            playersScrollView.reset()
+            for player in players {
+                playersScrollView.addPlayer(player: player)
+            }
+            // player count
+            labelPlayerCount?.text = "\(players.count)"
+            playersScrollView.refresh()
+            return
+        }
         players.removeAll()
         let dispatchGroup = DispatchGroup()
-        for membership in roster {
-            let playerId = membership.playerId
+        for (playerId, membership) in roster {
             guard membership.isActive else { continue }
             dispatchGroup.enter()
             print("Loading player id \(playerId)")
@@ -182,6 +201,8 @@ class LeagueEditViewController: UIViewController {
                 self?.playersScrollView.addPlayer(player: player)
             }
             
+            // player count
+            self?.labelPlayerCount?.text = "\(players.count)"
             self?.playersScrollView.refresh()
         }
     }
@@ -299,7 +320,7 @@ class LeagueEditViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toPlayers", let controller = segue.destination as? LeaguePlayersViewController {
+        if segue.identifier == "toPlayers", let controller = segue.destination as? LeaguePlayersListViewController {
             controller.roster = roster
             controller.league = league
             controller.delegate = self
@@ -400,7 +421,7 @@ extension LeagueEditViewController: PlayersScrollViewDelegate {
     }
 }
 
-extension LeagueEditViewController: RosterUpdateDelegate {
+extension LeagueEditViewController: LeagueListDelegate {
     func didUpdateRoster() {
         loadRoster()
     }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ab5-rn-vVC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ab5-rn-vVC">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -546,10 +546,10 @@
             </objects>
             <point key="canvasLocation" x="2480.8000000000002" y="115.14242878560721"/>
         </scene>
-        <!--League Players View Controller-->
+        <!--League Players List View Controller-->
         <scene sceneID="Wpy-vo-FqJ">
             <objects>
-                <viewController id="1sG-Rz-hHe" customClass="LeaguePlayersViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="1sG-Rz-hHe" customClass="LeaguePlayersListViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aBa-aH-gu3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -558,7 +558,7 @@
                                 <rect key="frame" x="0.0" y="70" width="375" height="597"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlayerCell" rowHeight="99" id="XE4-Ki-FWu" customClass="LeaguePlayerCell" customModule="Admin" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeaguePlayerCell" rowHeight="99" id="XE4-Ki-FWu" customClass="LeaguePlayerCell" customModule="Admin" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="99"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XE4-Ki-FWu" id="PS5-PY-MAM">
@@ -630,6 +630,7 @@
                                         <connections>
                                             <outlet property="imagePhoto" destination="AXi-pv-gdx" id="kWl-zO-nU0"/>
                                             <outlet property="labelCreated" destination="i0e-n8-np8" id="F3e-kz-q6C"/>
+                                            <outlet property="labelId" destination="G1Q-tV-ETa" id="TZB-Ae-KRE"/>
                                             <outlet property="labelInitials" destination="c9d-pJ-lYq" id="7QB-ZO-u86"/>
                                             <outlet property="labelName" destination="ETk-Gb-Iba" id="wdc-3a-zDm"/>
                                             <outlet property="labelStatus" destination="dXk-tG-XXU" id="4io-B3-Vcm"/>
@@ -694,17 +695,26 @@
                         <outlet property="containerSearch" destination="Xn4-kc-tGy" id="H8A-4K-BNg"/>
                         <outlet property="inputSearch" destination="FJ6-fW-niV" id="k4n-Xk-Y97"/>
                         <outlet property="tableView" destination="Rxh-Mg-QqO" id="4R8-WQ-hSf"/>
+                        <segue destination="vgs-Uk-Pty" kind="show" identifier="toAddPlayer" id="Nul-Er-ojx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8qY-Xw-Lb6" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3200.8000000000002" y="115.59220389805098"/>
+            <point key="canvasLocation" x="3391" y="88"/>
+        </scene>
+        <!--Players-->
+        <scene sceneID="0TQ-44-B5r">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="PlayersListViewController" storyboardName="Players" id="vgs-Uk-Pty" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A5O-IO-Ref" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4019" y="-3"/>
         </scene>
     </scenes>
     <resources>
         <image name="calendar30" width="30" height="29.666666030883789"/>
-        <image name="iconStar30" width="90" height="90"/>
-        <image name="iconTrophy30" width="90" height="90"/>
-        <image name="profile-img" width="512" height="512"/>
+        <image name="iconStar30" width="30" height="30"/>
+        <image name="iconTrophy30" width="30" height="30"/>
+        <image name="profile-img" width="256" height="256"/>
     </resources>
 </document>
