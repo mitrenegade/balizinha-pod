@@ -93,6 +93,11 @@ public class League: FirebaseBaseModel {
             return self.dict["shareLink"] as? String
         }
     }
+    
+    public var isActive: Bool {
+        guard let active = dict["active"] as? Bool else { return true } // active by default
+        return active
+    }
 }
 
 // MARK: - Tags
