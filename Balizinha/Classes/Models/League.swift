@@ -134,18 +134,3 @@ extension League {
         return 4.5
     }
 }
-
-extension League {
-    //***************** hack: for test purposes only
-    public class func random() -> League {
-        let league = League()
-        league.dict = ["name": "My Awesome League", "city": league.randomPlace(), "tags": "fake, league", "info": "this is my airplane league"]
-        return league
-    }
-    
-    fileprivate func randomPlace() -> String {
-        let places = ["Boston", "New York", "Philadelphia", "Florida"]
-        let random = Int(arc4random_uniform(UInt32(places.count)))
-        return places[random]
-    }
-}
