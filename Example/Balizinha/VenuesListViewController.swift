@@ -33,7 +33,7 @@ class VenuesListViewController: ListViewController {
 
 extension VenuesListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CityNameCell", for: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CityNameCell", for: indexPath) 
         if indexPath.row < objects.count {
             let venue = objects[indexPath.row] as? Venue
             cell.textLabel?.text = venue?.name ?? ""

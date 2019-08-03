@@ -28,7 +28,7 @@ open class FirebaseBaseModel: NSObject {
     
     public init(snapshot: Snapshot?) {
         if let snapshot = snapshot, snapshot.exists() {
-            self.firebaseKey = snapshot.key as! String
+            self.firebaseKey = snapshot.key 
             self.firebaseRef = snapshot.reference
             self.dict = snapshot.value as? [String: AnyObject]
             

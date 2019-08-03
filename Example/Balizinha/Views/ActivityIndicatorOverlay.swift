@@ -14,7 +14,7 @@ class ActivityIndicatorOverlay: UIView {
         self.frame = frame
         
         if activityIndicator == nil {
-            let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+            let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
             activityIndicator.hidesWhenStopped = false
             activityIndicator.startAnimating()
             activityIndicator.color = UIColor.red

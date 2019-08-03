@@ -73,9 +73,9 @@ class UtilsViewController: UIViewController {
         keyboardNextButtonView.barStyle = UIBarStyle.black
         keyboardNextButtonView.isTranslucent = true
         keyboardNextButtonView.tintColor = UIColor.white
-        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.done, target: self, action: #selector(cancelInput))
-        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let next: UIBarButtonItem = UIBarButtonItem(title: "Go", style: UIBarButtonItemStyle.done, target: self, action: #selector(selectPlayer))
+        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItem.Style.done, target: self, action: #selector(cancelInput))
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let next: UIBarButtonItem = UIBarButtonItem(title: "Go", style: UIBarButtonItem.Style.done, target: self, action: #selector(selectPlayer))
         keyboardNextButtonView.setItems([flex, cancel, next], animated: true)
         
         inputPlayerSelector.inputAccessoryView = keyboardNextButtonView
