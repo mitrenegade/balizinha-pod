@@ -96,14 +96,15 @@ public class PlayerService: NSObject {
             params["photoUrl"] = photoUrl
         }
         
-        newPlayerRef.setValue(params) { (error, ref) in
+        newPlayerRef.setValue(params) { [weak self] (error, ref) in
+            guard let self = self else { return }
             if let error = error as NSError? {
                 print(error)
                 completion(nil, error)
             } else {
                 PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { player in
                     completion(player, nil)
-                })
+                }).disposed(by: self.disposeBag)
             }
         }
     }
