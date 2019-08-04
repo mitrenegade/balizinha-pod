@@ -95,7 +95,7 @@ public class VenueService: NSObject {
     
     public func withId(id: String, completion: @escaping ((City?)->Void)) {
         let reference = baseRef.child(path: "cities").child(path: id)
-        reference.observeValue { [weak self] (snapshot) in
+        reference.observeValue { (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
