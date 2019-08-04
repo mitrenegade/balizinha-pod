@@ -21,7 +21,7 @@ public class MockVenueService: VenueService {
     
     override public func createCity(_ name: String, state: String?, lat: Double?, lon: Double?, completion: @escaping (City?, NSError?) -> Void) {
         let id = RenderAPIService().uniqueId()
-        let city = City(key: id, dict: ["createdAt": Date().timeIntervalSince1970 - 3600, "name": name, "state": state, "lat": lat ?? 0, "lon": lon ?? 0])
+        let city = City(key: id, dict: ["createdAt": Date().timeIntervalSince1970 - 3600, "name": name, "state": state ?? "NA", "lat": lat ?? 0, "lon": lon ?? 0])
         cities.append(city)
         completion(city, nil)
     }
