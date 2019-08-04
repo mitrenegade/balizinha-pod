@@ -25,7 +25,6 @@ class EventPlayersViewController: SearchableListViewController {
         
         activityOverlay.show()
         load() { [weak self] in
-            print("all players: \(self?.objects.count)")
             self?.loadEventPlayers() { [weak self] in
                 self?.activityOverlay.hide()
                 self?.search(for: nil)

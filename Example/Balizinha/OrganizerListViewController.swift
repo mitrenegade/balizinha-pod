@@ -59,6 +59,7 @@ extension OrganizerListViewController {
         guard indexPath.row < objects.count else { return }
         
         let organizer = objects[indexPath.row] as? Organizer
+        print("Organizer \(organizer?.id ?? "")")
     }
 }
 

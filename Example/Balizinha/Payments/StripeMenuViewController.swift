@@ -50,7 +50,7 @@ class StripeMenuViewController: UIViewController {
         guard let player = PlayerService.shared.current.value else { return }
         let userId = player.id
         guard let urlString = connectService.getOAuthUrl(userId), let url = URL(string: urlString) else { return }
-        UIApplication.shared.openURL(url)
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }
 

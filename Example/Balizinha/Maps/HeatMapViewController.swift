@@ -22,7 +22,7 @@ class HeatMapViewController: UIViewController {
     var currentLocation: CLLocation?
     var zoomLevel: Float = 15.0
     private var gradientColors = [UIColor.green, UIColor.red]
-    private var gradientStartPoints = [0.2, 1.0] as? [NSNumber]
+    private var gradientStartPoints: [NSNumber] = [0.2, 1.0]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,7 @@ class HeatMapViewController: UIViewController {
         heatmapLayer.radius = 40
         // Create the gradient.
         heatmapLayer.gradient = GMUGradient(colors: gradientColors,
-                                            startPoints: gradientStartPoints!,
+                                            startPoints: gradientStartPoints,
                                             colorMapSize: 256)
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -106,6 +106,8 @@ extension HeatMapViewController: CLLocationManagerDelegate {
         case .authorizedAlways: fallthrough
         case .authorizedWhenInUse:
             print("Location status is OK.")
+        @unknown default:
+            return
         }
     }
     

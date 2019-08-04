@@ -133,7 +133,7 @@ extension UtilsViewController: UITableViewDelegate {
                         self?.simpleAlert("Error with \(selection.rawValue)", defaultMessage: "Error", error: error)
                     } else {
                         print("Result: \(String(describing: result)))")
-                        self?.simpleAlert("Success with \(selection.rawValue)", message: "Results: \(result)")
+                        self?.simpleAlert("Success with \(selection.rawValue)", message: "Results: \(String(describing: result))")
                     }
                 }
             }
@@ -167,7 +167,7 @@ extension UtilsViewController {
     func migrateEventImages() {
         // handles event urls locally because firebase image functions exist
         let eventRef = firRef.child("events")
-        eventRef.observeSingleEvent(of: .value) {[weak self] (snapshot) in
+        eventRef.observeSingleEvent(of: .value) { (snapshot) in
             guard snapshot.exists() else { return }
             guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
             var photoUrlCount: Int = 0
@@ -203,7 +203,7 @@ extension UtilsViewController {
                                 if let urlString = url?.absoluteString {
                                     // DONE: download the image and store it
                                     let manager = RAImageManager(imageView: nil)
-                                    manager.load(imageUrl: urlString, completion: { [weak self] (image) in
+                                    manager.load(imageUrl: urlString, completion: { (image) in
                                         if let image = image {
                                             DispatchQueue.main.async {
                                                 FirebaseImageService.uploadImage(image: image, type: .event, uid: event.id, completion: { (url) in
@@ -245,7 +245,7 @@ extension UtilsViewController {
                         } else {
                             // DONE: download the image and store it
                             let manager = RAImageManager(imageView: nil)
-                            manager.load(imageUrl: photoUrl, completion: { [weak self] (image) in
+                            manager.load(imageUrl: photoUrl, completion: { (image) in
                                 if let image = image {
                                     DispatchQueue.main.async {
                                         FirebaseImageService.uploadImage(image: image, type: .event, uid: event.id, completion: { (url) in
@@ -279,7 +279,7 @@ extension UtilsViewController {
                     })
                 }
             }
-            dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            dispatchGroup.notify(queue: DispatchQueue.main) {
                 print("migrateEventUrls: photoUrl \(photoUrlCount) photoUrlFailed \(photoUrlFailed) photoId \(photoIdCount) photoIdFailed \(photoIdFailed) alreadyConverted \(alreadyConvertedCount) noPhotoUrl \(noPhotoUrlCount)")
             }
         }
@@ -324,7 +324,7 @@ extension UtilsViewController {
                 
                 for string in cityStrings {
                     VenueService.shared.createCity(string, state: nil, lat: 0, lon: 0, completion: { (city, error) in
-                        print("Creating string \(string): result \(city) error \(error)")
+                        print("Creating string \(string): result \(String(describing: city)) error \(String(describing: error))")
                     })
                 }
                 self.hideLoadingIndicator()

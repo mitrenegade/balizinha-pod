@@ -357,13 +357,16 @@ class LeagueEditViewController: UIViewController {
 
 // MARK: Camera
 extension LeagueEditViewController {
+    override var prefersStatusBarHidden: Bool {
+        return false
+    }
+
     func selectPhoto(camera: Bool) {
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.allowsEditing = true
         
         picker.view.backgroundColor = .blue
-        UIApplication.shared.isStatusBarHidden = false
         
         if camera, UIImagePickerController.isSourceTypeAvailable(.camera) {
             picker.sourceType = .camera
