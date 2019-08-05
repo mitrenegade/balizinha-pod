@@ -65,7 +65,8 @@ public class Venue: FirebaseBaseModel {
     
     // creating a venue locally
     public convenience init?(_ name: String?, _ street: String? = nil, _ city: String? = nil, _ state: String? = nil, _ lat: Double? = nil, _ lon: Double? = nil) {
-        let dict: [String: Any] = ["name": name, "street": street, "city": city, "state": state, "lat": lat, "lon": lon]
+        // todo: if this is a codable, handle optionals
+        let dict: [String: Any] = ["name": name ?? "", "street": street ?? "", "city": city ?? "", "state": state ?? "", "lat": lat ?? 0, "lon": lon ?? 0]
         self.init(key: "temp", dict: dict)
     }
 }

@@ -25,7 +25,7 @@ class LeagueListViewController: ListViewController {
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createLeague))
         
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 44
         
         load {
@@ -81,7 +81,7 @@ extension LeagueListViewController {
         performSegue(withIdentifier: "toLeague", sender: league)
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard indexPath.row < objects.count else {
             return
         }

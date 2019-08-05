@@ -77,7 +77,7 @@ public class AuthService: NSObject {
             return
         }
         
-        firAuth.signIn(withEmail: email, password: password, completion: { [weak self] (user, error) in
+        firAuth.signIn(withEmail: email, password: password, completion: { (user, error) in
             if let error: NSError = error as NSError? {
                 print("Error: \(error)")
                 // let observer handle things

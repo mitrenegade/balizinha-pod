@@ -33,7 +33,6 @@ public class LeagueService: NSObject {
         // loads current player's leagues
         guard let player = PlayerService.shared.current.value else { return }
         leagueMemberships(for: player, completion: { (results) in
-            print("Player leagues: \(results)")
             if let roster = results {
                 _playerLeagues = roster.compactMap({ (key, status) -> String? in
                     if status != .none {
@@ -58,11 +57,9 @@ public class LeagueService: NSObject {
         let params = ["name": name, "city": city, "info": info, "userId": user.uid]
         RenderAPIService().cloudFunction(functionName: "createLeague", method: "POST", params: params, completion: { (result, error) in
             guard error == nil else {
-                print("League creation error \(error)")
                 completion(nil, error)
                 return
             }
-            print("League creation result \(result)")
             completion(result, nil)
         })
     }
@@ -71,11 +68,9 @@ public class LeagueService: NSObject {
         guard let user = AuthService.currentUser else { return }
         RenderAPIService().cloudFunction(functionName: "joinLeaveLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": true]) { (result, error) in
             guard error == nil else {
-                print("League join error \(error)")
                 completion(nil, error)
                 return
             }
-            print("League join result \(result)")
             completion(result, nil)
         }
     }
@@ -84,11 +79,9 @@ public class LeagueService: NSObject {
         guard let user = AuthService.currentUser else { return }
         RenderAPIService().cloudFunction(functionName: "joinLeaveLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": false]) { (result, error) in
             guard error == nil else {
-                print("League leave error \(error)")
                 completion(nil, error)
                 return
             }
-            print("League leave result \(result)")
             completion(result, nil)
         }
     }
@@ -169,7 +162,6 @@ public class LeagueService: NSObject {
     public func events(for league: League, completion: @escaping (([Event]?)->Void)) {
         RenderAPIService().cloudFunction(functionName: "getEventsForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
-                print("Events for league error \(error)")
                 completion(nil)
                 return
             }
@@ -195,7 +187,6 @@ public class LeagueService: NSObject {
                 completion(nil)
                 return
             }
-            print("Leagues for player \(player.id) results \(result)")
             if let dict = (result as? [String: Any])?["result"] as? [String: Any] {
                 var result = [String:Membership.Status]()
                 for (leagueId, statusString) in dict {
@@ -222,11 +213,9 @@ public class LeagueService: NSObject {
     public func changeLeaguePlayerStatus(playerId: String, league: League, status: String, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
         RenderAPIService().cloudFunction(functionName: "changeLeaguePlayerStatus", method: "POST", params: ["userId": playerId, "leagueId": league.id, "status": status]) { (result, error) in
             guard error == nil else {
-                print("Player status change error \(error)")
                 completion(nil, error)
                 return
             }
-            print("Player status change result \(result)")
             completion(result, nil)
         }
     }

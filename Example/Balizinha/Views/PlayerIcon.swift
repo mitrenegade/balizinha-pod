@@ -13,7 +13,7 @@ class PlayerIcon: FirebaseModelIcon {
     
     override func photoUrl(id: String?, completion: @escaping ((URL?) -> Void)) {
         FirebaseImageService().profileUrl(with: id) { (url) in
-            print("PlayerIcon photoUrl: \(url)")
+            print("PlayerIcon photoUrl: \(String(describing: url))")
             DispatchQueue.main.async {
                 completion(url)
             }

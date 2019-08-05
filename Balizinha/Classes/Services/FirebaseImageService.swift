@@ -28,7 +28,7 @@ public class FirebaseImageService: NSObject {
     }
     
     public class func uploadImage(image: UIImage, type: ImageType, uid: String, progressHandler: ((_ percent: Double)->Void)? = nil, completion: @escaping ((_ imageUrl: String?)->Void)) {
-        guard let data = UIImageJPEGRepresentation(image, 0.9) else {
+        guard let data = image.jpegData(compressionQuality: 0.9) else {
             completion(nil)
             return
         }

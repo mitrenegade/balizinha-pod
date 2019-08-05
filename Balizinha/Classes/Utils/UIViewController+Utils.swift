@@ -12,7 +12,7 @@ import UIKit
 fileprivate let LOADING_VIEW_TAG = 25341
 fileprivate let LOADING_INDICATOR_TAG = 25342
 public extension UIViewController {
-    public func showLoadingIndicator() {
+    func showLoadingIndicator() {
         var frame = self.view.frame
         frame.origin.y = 0
         let view = UIView(frame: frame)
@@ -22,14 +22,14 @@ public extension UIViewController {
         
         self.view.addSubview(view)
         
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
         activityIndicator.center = view.center
         activityIndicator.startAnimating()
         activityIndicator.tag = LOADING_INDICATOR_TAG
         self.view.addSubview(activityIndicator)
     }
     
-    public func hideLoadingIndicator() {
+    func hideLoadingIndicator() {
         for view in self.view.subviews {
             if view.tag == LOADING_VIEW_TAG || view.tag == LOADING_INDICATOR_TAG {
                 view.removeFromSuperview()
@@ -40,7 +40,7 @@ public extension UIViewController {
 
 public extension UIViewController {
     
-    public func simpleAlert(_ title: String, defaultMessage: String?, error: NSError?) {
+    func simpleAlert(_ title: String, defaultMessage: String?, error: NSError?) {
         if let error = error {
             if let msg = error.userInfo["error"] as? String {
                 self.simpleAlert(title, message: msg)
@@ -50,21 +50,21 @@ public extension UIViewController {
         self.simpleAlert(title, message: defaultMessage ?? error?.localizedDescription)
     }
     
-    public func simpleAlert(_ title: String, message: String?) {
+    func simpleAlert(_ title: String, message: String?) {
         self.simpleAlert(title, message: message, completion: nil)
     }
     
-    public func simpleAlert(_ title: String, message: String?, completion: (() -> Void)?) {
+    func simpleAlert(_ title: String, message: String?, completion: (() -> Void)?) {
         let alert: UIAlertController = UIAlertController.simpleAlert(title, message: message, completion: completion)
         self.present(alert, animated: true, completion: nil)
     }
 }
 
 public extension UIAlertController {
-    public class func simpleAlert(_ title: String, message: String?, completion: (() -> Void)?) -> UIAlertController {
-        let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+    class func simpleAlert(_ title: String, message: String?, completion: (() -> Void)?) -> UIAlertController {
+        let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         alert.view.tintColor = UIColor.black
-        alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+        alert.addAction(UIAlertAction(title: "Close", style: UIAlertAction.Style.default, handler: { (action) -> Void in
             print("cancel")
             if completion != nil {
                 completion!()
@@ -72,5 +72,4 @@ public extension UIAlertController {
         }))
         return alert
     }
-    
 }

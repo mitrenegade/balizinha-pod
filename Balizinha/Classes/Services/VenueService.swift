@@ -28,9 +28,7 @@ public class VenueService: NSObject {
     
     public func getCities(completion: (([City])->Void)?) {
         apiService.cloudFunction(functionName: "getCities", method: "POST", params: nil) { [weak self] (results, error) in
-            print("getCities results \(results) error \(error)")
             if error != nil {
-                print("Error: \(error as NSError?)")
                 completion?([])
             } else if let dict = results as? [String: Any], let objectsDict = dict["results"] as? [String: Any] {
                 var results: [City] = []
@@ -88,14 +86,13 @@ public class VenueService: NSObject {
     public func deleteCity(_ city: City, completion: @escaping (()->Void)) {
         let params: [String: Any] = ["cityId": city.id]
         apiService.cloudFunction(functionName: "deleteCity", method: "POST", params: params) { (result, error) in
-            print("DeleteCity result \(result) error \(error)")
             completion()
         }
     }
     
     public func withId(id: String, completion: @escaping ((City?)->Void)) {
         let reference = baseRef.child(path: "cities").child(path: id)
-        reference.observeValue { [weak self] (snapshot) in
+        reference.observeValue { (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return

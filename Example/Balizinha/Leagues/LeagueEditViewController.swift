@@ -63,8 +63,8 @@ class LeagueEditViewController: UIViewController {
         // Do any additional setup after loading the view.
         refresh()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didClickSave(_:)))
         
@@ -334,7 +334,7 @@ class LeagueEditViewController: UIViewController {
     @IBAction func didClickShareLink(_ sender: Any?) {
         guard let id = league?.id else { return }
         if let shareLink = league?.shareLink, let url = URL(string: shareLink) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
         } else {
             showLoadingIndicator()
             let name = league?.name ?? "Panna Social Leagues"
@@ -357,13 +357,16 @@ class LeagueEditViewController: UIViewController {
 
 // MARK: Camera
 extension LeagueEditViewController {
+    override var prefersStatusBarHidden: Bool {
+        return false
+    }
+
     func selectPhoto(camera: Bool) {
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.allowsEditing = true
         
         picker.view.backgroundColor = .blue
-        UIApplication.shared.isStatusBarHidden = false
         
         if camera, UIImagePickerController.isSourceTypeAvailable(.camera) {
             picker.sourceType = .camera
@@ -404,8 +407,11 @@ extension LeagueEditViewController {
 }
 
 extension LeagueEditViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let img = info[UIImagePickerControllerEditedImage] ?? info[UIImagePickerControllerOriginalImage]
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
+        let img = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] ?? info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)]
         guard let photo = img as? UIImage else { return }
         didTakePhoto(image: photo)
     }
@@ -430,7 +436,7 @@ extension LeagueEditViewController: LeagueListDelegate {
 extension LeagueEditViewController: UITextFieldDelegate {
     @objc func keyboardWillShow(_ notification: Notification) {
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
-        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         keyboardHeight = keyboardRectangle.height
         
@@ -471,4 +477,19 @@ extension LeagueEditViewController: UITextFieldDelegate {
         }
         return true
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

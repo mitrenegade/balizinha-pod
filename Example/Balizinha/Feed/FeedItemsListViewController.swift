@@ -46,9 +46,9 @@ class FeedItemsListViewController: ListViewController {
         keyboardNextButtonView.barStyle = UIBarStyle.black
         keyboardNextButtonView.isTranslucent = true
         keyboardNextButtonView.tintColor = UIColor.white
-        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.done, target: self, action: #selector(cancelInput))
-        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let next: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(selectLeague))
+        let cancel: UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItem.Style.done, target: self, action: #selector(cancelInput))
+        let flex: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let next: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(selectLeague))
         keyboardNextButtonView.setItems([flex, cancel, next], animated: true)
         
         inputSearch.inputAccessoryView = keyboardNextButtonView
@@ -119,7 +119,7 @@ extension FeedItemsListViewController {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard indexPath.row < objects.count, let feedItem = objects[indexPath.row] as? FeedItem else { return }
         FeedService.shared.delete(feedItemId: feedItem.id)
     }

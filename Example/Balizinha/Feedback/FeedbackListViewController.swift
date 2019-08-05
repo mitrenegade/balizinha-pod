@@ -23,7 +23,7 @@ class FeedbackListViewController: ListViewController {
         // Do any additional setup after loading the view.
         navigationItem.title = "Feedback"
 
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
     }
     

@@ -96,21 +96,22 @@ public class PlayerService: NSObject {
             params["photoUrl"] = photoUrl
         }
         
-        newPlayerRef.setValue(params) { (error, ref) in
+        newPlayerRef.setValue(params) { [weak self] (error, ref) in
+            guard let self = self else { return }
             if let error = error as NSError? {
                 print(error)
                 completion(nil, error)
             } else {
                 PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { player in
                     completion(player, nil)
-                })
+                }).disposed(by: self.disposeBag)
             }
         }
     }
     
     public func withId(id: String, completion: @escaping ((Player?)->Void)) {
         let ref = playersRef.child(id)
-        ref.observe(.value) { [weak self] (snapshot) in
+        ref.observe(.value) { (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
@@ -128,9 +129,7 @@ extension PlayerService {
     open func storeUserInfo() {
         guard let user = AuthService.currentUser else { return }
         
-        print("signIn results: \(user.uid) profile \(String(describing: user.photoURL)) \(String(describing: user.displayName))")
-        createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { [weak self] (player, error) in
-            print("PlayerService storeUserInfo complete")
+        createPlayer(name: user.displayName, email: user.email, city: nil, info: nil, photoUrl: user.photoURL?.absoluteString, completion: { (player, error) in
         })
     }
 }

@@ -63,7 +63,7 @@ class PlayerCell: UITableViewCell {
         }
         if let details = labelDetails {
             details.text = detailText
-            let bounds = (detailText as NSString).size(withAttributes: [NSAttributedStringKey.font: details.font])
+            let bounds = (detailText as NSString).size(withAttributes: [NSAttributedString.Key.font: details.font ?? UIFont.systemFont(ofSize: 10)])
             if expanded {
                 constraintDetailHeight?.constant = bounds.height + 50
             } else {

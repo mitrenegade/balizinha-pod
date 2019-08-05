@@ -35,7 +35,7 @@ class CitiesListViewController: UIViewController {
             service = VenueService.shared
         }
 
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 44
         load()
     }
@@ -209,7 +209,7 @@ extension CitiesListViewController: UITableViewDelegate {
         return mode == .selectedCities
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard mode == .selectedCities else { return }
         showLoadingIndicator()
         if indexPath.row < cities.count {
