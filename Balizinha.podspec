@@ -1,3 +1,4 @@
+
 #
 # Be sure to run `pod lib lint balizinha.podspec' to ensure this is a
 # valid spec before submitting.
@@ -8,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Balizinha'
-  s.version          = '0.8.6'
+  s.version          = '0.9.0'
   s.summary          = 'Services and models for the Balizinha backend'
 
 # This description is used to generate tags and improve search results.
