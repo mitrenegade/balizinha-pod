@@ -22,7 +22,7 @@ public extension UIViewController {
         
         self.view.addSubview(view)
         
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
         activityIndicator.center = view.center
         activityIndicator.startAnimating()
         activityIndicator.tag = LOADING_INDICATOR_TAG
