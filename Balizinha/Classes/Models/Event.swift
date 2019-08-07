@@ -271,11 +271,10 @@ extension Event {
         return users.contains(player.id)
     }
 
-    public var userIsOrganizer: Bool {
+    public func userIsOrganizer(_ userId: String) -> Bool {
         guard let organizerId = organizer else { return false }
-        guard let user = AuthService.currentUser else { return false }
         
-        return user.uid == organizerId
+        return userId == organizerId
     }
 }
 
