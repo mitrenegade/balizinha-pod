@@ -29,13 +29,6 @@ public class Event: FirebaseBaseModel {
         case unknown
     }
 
-    public override convenience init(key: String, dict: [String: Any]?) {
-        self.init()
-        self.firebaseKey = key
-        self.firebaseRef = firRef.child("events").child(key)
-        self.dict = dict ?? [:]
-    }
-
     public var leagueId: String? {
         get {
             return dict["leagueId"] as? String ?? dict["league"] as? String
@@ -271,9 +264,9 @@ extension Event {
         return users.contains(player.id)
     }
 
-    public func userIsOrganizer(_ userId: String) -> Bool {
+    public func userIsOrganizer(_ userId: String? = PlayerService.shared.current.value?.id) -> Bool {
         guard let organizerId = organizer else { return false }
-        
+        guard let userId = userId else { return false }
         return userId == organizerId
     }
 }

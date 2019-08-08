@@ -8,13 +8,6 @@
 import Foundation
 
 public class City: FirebaseBaseModel {
-    public override convenience init(key: String, dict: [String: Any]?) {
-        self.init()
-        self.firebaseKey = key
-        self.firebaseRef = firRef.child("cities").child(key)
-        self.dict = dict ?? [:]
-    }
-    
     public var name: String? {
         get {
             return self.dict["name"] as? String
