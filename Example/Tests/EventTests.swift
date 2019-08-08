@@ -27,6 +27,5 @@ class EventTests: XCTestCase {
         XCTAssertTrue(event.userIsOrganizer("456"))
         XCTAssertFalse(event.userIsOrganizer("789"))
         XCTAssertFalse(event.userIsOrganizer(nil))
-        XCTAssertFalse(event.userIsOrganizer()) // uses PlayerService.shared.current
     }
 }
