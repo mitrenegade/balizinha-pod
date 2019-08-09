@@ -84,7 +84,7 @@ class EventCell: UITableViewCell {
             if !event.isActive {
                 labelFull.text = "Event cancelled"
                 return
-            } else if self.event!.userIsOrganizer {
+            } else if let userId = PlayerService.shared.current.value?.id, event.userIsOrganizer(userId) {
                 self.labelFull.text = "This is your event."
             }
             else if containsUser {

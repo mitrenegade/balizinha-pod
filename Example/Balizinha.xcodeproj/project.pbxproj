@@ -75,6 +75,7 @@
 		8E974085211478CB00242907 /* RAImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E974084211478CA00242907 /* RAImageView.swift */; };
 		8E995877211E887800101F50 /* Payments.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E995876211E887800101F50 /* Payments.storyboard */; };
 		8E995879211E8B5400101F50 /* PaymentSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */; };
+		8EA7EB9522FB9AF1006F1A3B /* EventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA7EB9422FB9AF1006F1A3B /* EventTests.swift */; };
 		8EA970C9228E4BE10038E313 /* Venues.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA970C8228E4BE10038E313 /* Venues.storyboard */; };
 		8EA970CB228E4C910038E313 /* VenuesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA970CA228E4C910038E313 /* VenuesListViewController.swift */; };
 		8EA99E1121534299001BC643 /* Feedback.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA99E1021534299001BC643 /* Feedback.storyboard */; };
@@ -230,6 +231,7 @@
 		8E974084211478CA00242907 /* RAImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAImageView.swift; sourceTree = "<group>"; };
 		8E995876211E887800101F50 /* Payments.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Payments.storyboard; sourceTree = "<group>"; };
 		8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSubmitViewController.swift; sourceTree = "<group>"; };
+		8EA7EB9422FB9AF1006F1A3B /* EventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTests.swift; sourceTree = "<group>"; };
 		8EA970C8228E4BE10038E313 /* Venues.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Venues.storyboard; sourceTree = "<group>"; };
 		8EA970CA228E4C910038E313 /* VenuesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenuesListViewController.swift; sourceTree = "<group>"; };
 		8EA99E1021534299001BC643 /* Feedback.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Feedback.storyboard; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				8E09572B21ABA1000037DA17 /* LoginStateTests.swift */,
 				8E09572F21ABA32A0037DA17 /* MockDefaultsProvider.swift */,
 				8E09573821ABAE630037DA17 /* MockAuthProvider.swift */,
+				8EA7EB9422FB9AF1006F1A3B /* EventTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -952,6 +955,7 @@
 			files = (
 				8E09573A21ABB0800037DA17 /* MockAuthProvider.swift in Sources */,
 				8E09573221ABA4950037DA17 /* MockDefaultsProvider.swift in Sources */,
+				8EA7EB9522FB9AF1006F1A3B /* EventTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 				8E09572C21ABA1000037DA17 /* LoginStateTests.swift in Sources */,
 			);
