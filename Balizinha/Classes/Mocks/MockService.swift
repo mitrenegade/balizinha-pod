@@ -9,6 +9,19 @@
 import RenderCloud
 
 public class MockService: NSObject {
+    //***************** hack: for test purposes only
+    public class func randomLeague() -> League {
+        let league = League()
+        league.dict = ["name": "My Awesome League", "city": MockService.randomPlace(), "tags": "fake, league", "info": "this is my airplane league"]
+        return league
+    }
+    
+    fileprivate class func randomPlace() -> String {
+        let places = ["Boston", "New York", "Philadelphia", "Florida"]
+        let random = Int(arc4random_uniform(UInt32(places.count)))
+        return places[random]
+    }
+    
     public static func mockLeague() -> League {
         return League(key: "abc", dict: ["name": "My league", "city": "Philadelphia", "info": "Airplane mode league", "ownerId": "1"])
     }

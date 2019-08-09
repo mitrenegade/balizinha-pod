@@ -135,27 +135,23 @@ public class LeagueService: NSObject {
         }
     }
     
-    public func players(for league: League, completion: @escaping (([String]?)->Void)) {
+    public func players(for league: League, completion: @escaping (([String:Membership.Status])->Void)) {
         RenderAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
                 //print("Players for league error \(error)")
-                completion(nil)
+                completion([:])
                 return
             }
-            //print("Players for league results \(result)")
-            if let dict = (result as? [String: Any])?["result"] as? [String: Any] {
-                let userIds = dict.compactMap({ (arg) -> String? in
-                    let (key, val) = arg
-                    if let status = val as? String, (status == "member" || status == "owner" || status == "organizer") {
-                        return key
-                    } else {
-                        return nil
+            var memberships: [String: Membership.Status] = [:]
+            if let dict = (result as? [String: Any])?["result"] as? [String: String] {
+                for (key, val) in dict {
+                    let membership = Membership(id: key, status: val)
+                    if membership.isActive {
+                        memberships[key] = membership.status
                     }
-                })
-                completion(userIds)
-            } else {
-                completion([])
+                }
             }
+            completion(memberships)
         }
     }
     
