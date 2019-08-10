@@ -269,6 +269,10 @@ public class LeagueService: NSObject {
         return status != Membership.Status.none
     }
     
+    public func playerIsOrganizerForAnyLeague() -> Bool {
+        return _playerLeagues.filter{ $0.value == Membership.Status.organizer }.isEmpty == false
+    }
+    
     public var ownerLeagues: [League] {
         guard let ownerId = PlayerService.shared.current.value?.id else { return [] }
         var leagues: [League] = []
