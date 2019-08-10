@@ -38,7 +38,7 @@ class VenuesListViewController: SearchableListViewController {
     }
     
     @objc func createVenue() {
-        // TODO
+        performSegue(withIdentifier: "toLocationSearch", sender: nil)
     }
 }
 
