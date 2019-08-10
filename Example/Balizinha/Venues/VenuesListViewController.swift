@@ -40,8 +40,20 @@ class VenuesListViewController: SearchableListViewController {
     @objc func createVenue() {
         performSegue(withIdentifier: "toLocationSearch", sender: nil)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toLocationSearch", let controller = segue.destination as? PlaceSearchViewController {
+            controller.delegate = self
+//            if let eventToEdit = eventToEdit {
+//                // TODO: replace with event.venue
+//                let venue = Venue(eventToEdit.place, nil, eventToEdit.city, eventToEdit.state, eventToEdit.lat, eventToEdit.lon)
+//                controller.currentVenue = venue
+//            }
+        }
+    }
 }
 
+// MARK: - TableView Datasource and Delegate
 extension VenuesListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CityNameCell", for: indexPath) 
@@ -52,9 +64,7 @@ extension VenuesListViewController {
         }
         return cell
     }
-}
 
-extension VenuesListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -79,5 +89,20 @@ extension VenuesListViewController {
             let idMatch = venue.id.lowercased().contains(currentSearch)
             return nameMatch || idMatch
         }
+    }
+}
+
+// MARK: PlaceSearchDelegate
+extension VenuesListViewController: PlaceSelectDelegate {
+    func didSelect(venue: Venue?) {
+        if let location = venue?.name {
+            print("Venue name \(location)")
+        }
+        else if let street = venue?.street {
+            print("Venue street \(street)")
+        }
+
+        // TODO: create venue
+        navigationController?.popToViewController(self, animated: true)
     }
 }
