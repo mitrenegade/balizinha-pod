@@ -150,6 +150,7 @@ public class LeagueService: NSObject {
                         result[leagueId] = membershipStatus
                     }
                 }
+                _playerLeagues = result
                 completion(result)
             } else {
                 completion([:])
