@@ -21,9 +21,37 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7gw-xU-glG">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="NPd-wf-K9Z">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name, email, or id" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ckp-zs-ona">
+                                            <rect key="frame" x="13" y="10" width="327" height="30"/>
+                                            <nil key="textColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                                        </textField>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eBo-RE-5Iv">
+                                            <rect key="frame" x="348" y="7" width="50" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="50" id="YAw-TW-eFb"/>
+                                            </constraints>
+                                            <state key="normal" title="Search"/>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="50" id="CWK-Pt-soY"/>
+                                        <constraint firstItem="ckp-zs-ona" firstAttribute="leading" secondItem="NPd-wf-K9Z" secondAttribute="leading" constant="13" id="DTP-xd-WX2"/>
+                                        <constraint firstItem="ckp-zs-ona" firstAttribute="centerY" secondItem="NPd-wf-K9Z" secondAttribute="centerY" id="SmD-Pe-aSA"/>
+                                        <constraint firstItem="eBo-RE-5Iv" firstAttribute="top" secondItem="NPd-wf-K9Z" secondAttribute="top" constant="7" id="glj-P0-KKg"/>
+                                        <constraint firstItem="eBo-RE-5Iv" firstAttribute="leading" secondItem="ckp-zs-ona" secondAttribute="trailing" constant="8" symbolic="YES" id="h3q-vG-73B"/>
+                                        <constraint firstAttribute="trailing" secondItem="eBo-RE-5Iv" secondAttribute="trailing" constant="16" id="i0z-IR-Cqp"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="CityCell" rowHeight="110" id="PrI-GO-E1B" customClass="CityCell" customModule="Admin" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="110"/>
+                                        <rect key="frame" x="0.0" y="78" width="414" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PrI-GO-E1B" id="HLx-kC-kKS">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="109.5"/>
@@ -111,7 +139,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AddCityCell" textLabel="5Qb-gh-GLI" style="IBUITableViewCellStyleDefault" id="8Q5-oC-ffS">
-                                        <rect key="frame" x="0.0" y="138" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="188" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8Q5-oC-ffS" id="AUt-2u-b0b">
                                             <rect key="frame" x="0.0" y="0.0" width="376" height="43.5"/>
@@ -145,6 +173,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="AwK-KL-2pQ"/>
                     <connections>
+                        <outlet property="constraintBottomOffset" destination="9bD-kU-Vq6" id="8xf-oD-Zgd"/>
+                        <outlet property="containerSearch" destination="NPd-wf-K9Z" id="R68-Z1-3Da"/>
                         <outlet property="tableView" destination="7gw-xU-glG" id="0HN-qV-hu4"/>
                     </connections>
                 </viewController>
