@@ -13,7 +13,7 @@ import FirebaseDatabase
 import RenderCloud
 
 fileprivate var _leagues: [String: League] = [:]
-fileprivate var _playerLeagues: [String] = []
+fileprivate var _playerLeagues: [String: Membership.Status] = [:]
 
 public class LeagueService: NSObject {
     public static let shared: LeagueService = LeagueService()
@@ -25,13 +25,16 @@ public class LeagueService: NSObject {
         super.init()
         
         PlayerService.shared.current.asObservable().distinctUntilChanged().subscribe(onNext: { [weak self] player in
-            self?.refreshPlayerLeagues(completion: nil)
+            guard let player = player else { return }
+            self?.leagueMemberships(for: player, completion: {_ in
+                // no op
+            })
         }).disposed(by: disposeBag)
     }
 
     public class func resetOnLogout() {
         shared.disposeBag = DisposeBag()
-        _playerLeagues = []
+        _playerLeagues = [:]
         shared.featuredLeagueId = nil
     }
 
@@ -129,38 +132,9 @@ public class LeagueService: NSObject {
     }
 
     // MARK: Leagues for player
-    public func refreshPlayerLeagues(completion: (([String]?)->Void)?) {
-        // loads current player's leagues
-        guard let player = PlayerService.shared.current.value else { return }
-        leagueMemberships(for: player, completion: { (results) in
-            if let roster = results {
-                _playerLeagues = roster.compactMap({ (key, status) -> String? in
-                    if status != .none {
-                        return key
-                    } else {
-                        return nil
-                    }
-                })
-            }
-            completion?(_playerLeagues)
-        })
-    }
-
-    public func changeLeaguePlayerStatus(playerId: String, league: League, status: String, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
-        RenderAPIService().cloudFunction(functionName: "changeLeaguePlayerStatus", method: "POST", params: ["userId": playerId, "leagueId": league.id, "status": status]) { (result, error) in
-            guard error == nil else {
-                completion(nil, error)
-                return
-            }
-            completion(result, nil)
-        }
-    }
-    
-    // TODO: is this the same?
     public func leagueMemberships(for player: Player, completion: @escaping (([String: Membership.Status]?)->Void)) {
         RenderAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { (result, error) in
             guard error == nil else {
-                //print("Leagues for player error \(error)")
                 completion(nil)
                 return
             }
@@ -183,6 +157,16 @@ public class LeagueService: NSObject {
         }
     }
 
+    public func changeLeaguePlayerStatus(playerId: String, league: League, status: String, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
+        RenderAPIService().cloudFunction(functionName: "changeLeaguePlayerStatus", method: "POST", params: ["userId": playerId, "leagueId": league.id, "status": status]) { (result, error) in
+            guard error == nil else {
+                completion(nil, error)
+                return
+            }
+            completion(result, nil)
+        }
+    }
+    
     // MARK: Players for league
     public func memberships(for league: League, completion: @escaping (([Membership]?)->Void)) {
         RenderAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
@@ -281,7 +265,8 @@ public class LeagueService: NSObject {
     // MARK: - Cached info
     // League/Player info using cached data
     public func playerIsIn(league: League) -> Bool {
-        return _playerLeagues.contains(league.id)
+        guard let status = _playerLeagues[league.id] else { return false }
+        return status != Membership.Status.none
     }
     
     public var ownerLeagues: [League] {
