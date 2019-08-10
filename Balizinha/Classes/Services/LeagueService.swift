@@ -252,7 +252,7 @@ public class LeagueService: NSObject {
     }
 
     // MARK: - Subscriptions
-    func getOwnerLeaguesAndSubscriptions(completion: ((Any?, Error?)->Void)?) {
+    public func getOwnerLeaguesAndSubscriptions(completion: ((Any?, Error?)->Void)?) {
         guard let user = AuthService.currentUser else { return }
         let params = ["userId": user.uid]
         RenderAPIService().cloudFunction(functionName: "getOwnerLeaguesAndSubscriptions", method: "POST", params: params, completion: { (result, error) in
@@ -284,7 +284,7 @@ public class LeagueService: NSObject {
         return _playerLeagues.contains(league.id)
     }
     
-    var ownerLeagues: [League] {
+    public var ownerLeagues: [League] {
         guard let ownerId = PlayerService.shared.current.value?.id else { return [] }
         var leagues: [League] = []
         for league in allLeagues {
