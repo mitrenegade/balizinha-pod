@@ -21,7 +21,8 @@ class CityCell: UITableViewCell {
     @IBOutlet weak var verificationLabel: UILabel!
     var buttonLon = UIButton() // not displayed
     
-    var city: City!
+    var city: City?
+    var venue: Venue?
     weak var presenter: UIViewController?
     
     func configure(with city: City?) {
@@ -42,18 +43,37 @@ class CityCell: UITableViewCell {
         }
     }
     
+    func configureVenue(with venue: Venue?) {
+        guard let venue2 = venue else { return }
+        nameLabel.text = venue2.name
+        stateLabel.text = venue2.shortString ?? ""
+        latlonLabel.text = venue2.latLonString ?? "no lat/lon"
+        self.venue = venue2
+        
+//        if venue.verified {
+//            verificationLabel.text = "✓"
+//            verificationLabel.backgroundColor = .clear
+//            verificationLabel.textColor = .darkGreen
+//        } else {
+//            verificationLabel.text = "UNVERIFIED"
+//            verificationLabel.backgroundColor = .yellow
+//            verificationLabel.textColor = .red
+//        }
+    }
+    
     @IBAction func didTapLabel(_ sender: UIButton?) {
+        guard let city = city else { return }
         let title: String
         let value: String?
         let handler: ((String)->Void)
         var isNumberInput: Bool = false
         switch sender {
         case buttonName:
-            title = "Update city name"
+            title = "Update name"
             value = city.name
             handler = { [weak self] value in
                 print("Updated city \(value)")
-                self?.city.name = value
+                self?.city?.name = value
                 self?.configure(with: self?.city)
             }
         case buttonState:
@@ -61,7 +81,7 @@ class CityCell: UITableViewCell {
             value = city.state
             handler = { [weak self] value in
                 print("Updated state \(value)")
-                self?.city.state = value
+                self?.city?.state = value
                 self?.configure(with: self?.city)
             }
         case buttonLatLon:
@@ -71,7 +91,7 @@ class CityCell: UITableViewCell {
             handler = { [weak self] value in
                 print("Updated latitude \(value)")
                 if let lat = Double(value) {
-                    self?.city.lat = lat
+                    self?.city?.lat = lat
                     self?.didTapLabel(self?.buttonLon)
                     self?.configure(with: self?.city)
                 }
@@ -83,7 +103,7 @@ class CityCell: UITableViewCell {
             handler = { [weak self] value in
                 print("Updated lon \(value)")
                 if let lon = Double(value) {
-                    self?.city.lon = lon
+                    self?.city?.lon = lon
                     self?.configure(with: self?.city)
                 }
             }

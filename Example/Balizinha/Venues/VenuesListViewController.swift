@@ -23,6 +23,10 @@ class VenuesListViewController: SearchableListViewController {
         return [("Venues", venues)]
     }
     
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
+        return Venue(snapshot: snapshot)
+    }
+
     override func viewDidLoad() {
         // Do any additional setup after loading the view.
         navigationItem.title = "Venues"
@@ -33,6 +37,12 @@ class VenuesListViewController: SearchableListViewController {
         }
 
         super.viewDidLoad()
+        
+        activityOverlay.show()
+        load() { [weak self] in
+            self?.search(for: nil)
+            self?.activityOverlay.hide()
+        }
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createVenue))
     }
@@ -56,10 +66,10 @@ class VenuesListViewController: SearchableListViewController {
 // MARK: - TableView Datasource and Delegate
 extension VenuesListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CityNameCell", for: indexPath) 
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as? CityCell else { return UITableViewCell() }
         if indexPath.row < objects.count {
             let venue = objects[indexPath.row] as? Venue
-            cell.textLabel?.text = venue?.name ?? ""
+            cell.configureVenue(with: venue)
             cell.detailTextLabel?.text = venue?.city ?? ""
         }
         return cell
@@ -102,7 +112,11 @@ extension VenuesListViewController: PlaceSelectDelegate {
             print("Venue street \(street)")
         }
 
-        // TODO: create venue
+        activityOverlay.show()
+        load() { [weak self] in
+            self?.search(for: nil)
+            self?.activityOverlay.hide()
+        }
         navigationController?.popToViewController(self, animated: true)
     }
 }

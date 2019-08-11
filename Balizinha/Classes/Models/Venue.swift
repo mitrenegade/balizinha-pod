@@ -63,3 +63,23 @@ public class Venue: FirebaseBaseModel {
         }
     }
 }
+
+extension Venue {
+    public var latLonString: String? {
+        if let lat = lat, let lon = lon {
+            return "\(lat), \(lon)"
+        }
+        return nil
+    }
+    
+    public var shortString: String? {
+        if let name = name {
+            if let state = state {
+                return "\(name), \(state)"
+            } else {
+                return name
+            }
+        }
+        return nil
+    }
+}
