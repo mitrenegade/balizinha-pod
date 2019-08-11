@@ -88,6 +88,10 @@
 		8EC168FB2285175B0066634B /* Players.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC168FA2285175B0066634B /* Players.storyboard */; };
 		8EC168FD2285259C0066634B /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC168FC2285259C0066634B /* Map.storyboard */; };
 		8EC16901228526320066634B /* HeatMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC16900228526320066634B /* HeatMapViewController.swift */; };
+		8ED5818E22FF50BF00F0436C /* PlaceResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED5818B22FF50BE00F0436C /* PlaceResultsViewController.swift */; };
+		8ED5818F22FF50BF00F0436C /* PinpointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED5818C22FF50BF00F0436C /* PinpointViewController.swift */; };
+		8ED5819022FF50BF00F0436C /* PlaceSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED5818D22FF50BF00F0436C /* PlaceSearchViewController.swift */; };
+		8ED5819222FF51E100F0436C /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED5819122FF51E000F0436C /* LocationService.swift */; };
 		8EF1934A228FA0EE00BF7691 /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF19349228FA0EE00BF7691 /* CityCell.swift */; };
 		8EF1934C2290660F00BF7691 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1934B2290660F00BF7691 /* FeedbackViewModel.swift */; };
 		94C5CE9F5487058D85022A6C /* Pods_Balizinha_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */; };
@@ -244,6 +248,10 @@
 		8EC168FA2285175B0066634B /* Players.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Players.storyboard; sourceTree = "<group>"; };
 		8EC168FC2285259C0066634B /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		8EC16900228526320066634B /* HeatMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapViewController.swift; sourceTree = "<group>"; };
+		8ED5818B22FF50BE00F0436C /* PlaceResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceResultsViewController.swift; sourceTree = "<group>"; };
+		8ED5818C22FF50BF00F0436C /* PinpointViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinpointViewController.swift; sourceTree = "<group>"; };
+		8ED5818D22FF50BF00F0436C /* PlaceSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceSearchViewController.swift; sourceTree = "<group>"; };
+		8ED5819122FF51E000F0436C /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		8EF19349228FA0EE00BF7691 /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
 		8EF1934B2290660F00BF7691 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -311,7 +319,8 @@
 				C6BC1CDB2126FE1E00A500FD /* SearchableListViewController.swift */,
 				8E97404821132A6100242907 /* MenuViewController.swift */,
 				8EC168F2228452660066634B /* CitiesListViewController.swift */,
-				8EA970CA228E4C910038E313 /* VenuesListViewController.swift */,
+				8ED5819122FF51E000F0436C /* LocationService.swift */,
+				8ED5818A22FF509900F0436C /* Venues */,
 				8E8F314222844ED5009B052D /* Players */,
 				8E8F314422844EEC009B052D /* Events */,
 				8E8F314622844F19009B052D /* Actions */,
@@ -646,6 +655,17 @@
 			path = Maps;
 			sourceTree = "<group>";
 		};
+		8ED5818A22FF509900F0436C /* Venues */ = {
+			isa = PBXGroup;
+			children = (
+				8EA970CA228E4C910038E313 /* VenuesListViewController.swift */,
+				8ED5818D22FF50BF00F0436C /* PlaceSearchViewController.swift */,
+				8ED5818B22FF50BE00F0436C /* PlaceResultsViewController.swift */,
+				8ED5818C22FF50BF00F0436C /* PinpointViewController.swift */,
+			);
+			path = Venues;
+			sourceTree = "<group>";
+		};
 		AF156FF2D40967F703C4016A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -895,6 +915,7 @@
 				8EC168F7228516CF0066634B /* PlayerViewController.swift in Sources */,
 				8E97407021132A7100242907 /* PlayersListViewController.swift in Sources */,
 				8EC168F3228452660066634B /* CitiesListViewController.swift in Sources */,
+				8ED5818F22FF50BF00F0436C /* PinpointViewController.swift in Sources */,
 				8E97407A21132A7100242907 /* OrganizerCell.swift in Sources */,
 				8E01580622852DBC0072921C /* GMUGeometryRenderer.m in Sources */,
 				8E01581E228531370072921C /* GMUClusterManager.m in Sources */,
@@ -911,6 +932,7 @@
 				8E01581522852DBC0072921C /* GMUSimpleClusterAlgorithm.m in Sources */,
 				8E01581322852DBC0072921C /* GMUGridBasedClusterAlgorithm.m in Sources */,
 				8E97407B21132A7100242907 /* PlayerCell.swift in Sources */,
+				8ED5819222FF51E100F0436C /* LocationService.swift in Sources */,
 				8E01580522852DBC0072921C /* GMUKMLParser.m in Sources */,
 				8E97407721132A7100242907 /* LeaguePlayerCell.swift in Sources */,
 				8E01580822852DBC0072921C /* GMUPlacemark.m in Sources */,
@@ -924,6 +946,7 @@
 				8E01581422852DBC0072921C /* GMUWrappingDictionaryKey.m in Sources */,
 				8E97407421132A7100242907 /* LeaguePlayersListViewController.swift in Sources */,
 				8EF1934A228FA0EE00BF7691 /* CityCell.swift in Sources */,
+				8ED5819022FF50BF00F0436C /* PlaceSearchViewController.swift in Sources */,
 				C6502BE42126F4A7004A3EED /* EventCell.swift in Sources */,
 				8E01580722852DBC0072921C /* GMUGeometryCollection.m in Sources */,
 				8EA99E15215342E4001BC643 /* FeedbackCell.swift in Sources */,
@@ -937,6 +960,7 @@
 				8E01580422852DBC0072921C /* GQTPointQuadTreeChild.m in Sources */,
 				8E01581022852DBC0072921C /* GMULineString.m in Sources */,
 				8E97407921132A7100242907 /* ActionCell.swift in Sources */,
+				8ED5818E22FF50BF00F0436C /* PlaceResultsViewController.swift in Sources */,
 				8E97407621132A7100242907 /* PaymentsListViewController.swift in Sources */,
 				8E01581622852DBC0072921C /* GMUNonHierarchicalDistanceBasedAlgorithm.m in Sources */,
 				8E01581822852DBC0072921C /* GMUDefaultClusterIconGenerator.m in Sources */,

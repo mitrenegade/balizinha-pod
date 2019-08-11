@@ -62,11 +62,24 @@ public class Venue: FirebaseBaseModel {
             update(key: "lon", value: newValue)
         }
     }
+}
+
+extension Venue {
+    public var latLonString: String? {
+        if let lat = lat, let lon = lon {
+            return "\(lat), \(lon)"
+        }
+        return nil
+    }
     
-    // creating a venue locally
-    public convenience init?(_ name: String?, _ street: String? = nil, _ city: String? = nil, _ state: String? = nil, _ lat: Double? = nil, _ lon: Double? = nil) {
-        // todo: if this is a codable, handle optionals
-        let dict: [String: Any] = ["name": name ?? "", "street": street ?? "", "city": city ?? "", "state": state ?? "", "lat": lat ?? 0, "lon": lon ?? 0]
-        self.init(key: "temp", dict: dict)
+    public var shortString: String? {
+        if let name = name {
+            if let state = state {
+                return "\(name), \(state)"
+            } else {
+                return name
+            }
+        }
+        return nil
     }
 }
