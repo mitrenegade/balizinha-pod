@@ -154,7 +154,7 @@ public class VenueService: NSObject {
         let params: [String: Any] = ["name": name ?? "", "street": street ?? "", "city": city ?? "", "state": state ?? "", "lat": lat ?? 0, "lon": lon ?? 0]
 
         if true {
-            completion?(Venue(key: "temp", dict: dict), nil); return;
+            completion?(Venue(key: "temp", dict: params), nil); return;
         } else {
         // call cloud service
         apiService.cloudFunction(functionName: "createVenue", method: "POST", params: params) { (result, error) in

@@ -47,7 +47,7 @@ class PlaceSearchViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "embedMap", let controller = segue.destination as? PinpointViewController {
-            controller.venue = currentVenue
+            controller.existingVenue = currentVenue
             pinpointController = controller
         }
     }
@@ -85,7 +85,7 @@ extension PlaceSearchViewController {
     
     @objc func selectLocation() {
         // user saved the location poinpointed on map
-        delegate?.didSelect(venue: pinpointController?.venue)
+        delegate?.didSelect(venue: pinpointController?.existingVenue)
     }
     
     @objc fileprivate func cancelSearch() {
