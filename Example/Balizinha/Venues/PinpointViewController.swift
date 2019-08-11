@@ -29,8 +29,10 @@ class PinpointViewController: UIViewController {
                 currentLocation = place.coordinate
                 
                 LocationService.shared.parseMKPlace(place, completion: { [weak self] (name, street, city, state) in
-                    self?.venue = Venue(name, street, city, state, place.coordinate.latitude, place.coordinate.longitude)
-                    self?.refreshLabel()
+                    VenueService.shared.createVenue(name, street, city, state, place.coordinate.latitude, place.coordinate.longitude) { [weak self] (venue, error) in
+                        print("Venue \(venue) error \(error)")
+                        self?.refreshLabel()
+                    }
                 })
             }
         }
@@ -120,8 +122,9 @@ extension PinpointViewController: MKMapViewDelegate {
                 if self?.nameLocked != true {
                     newName = name
                 }
-                self?.venue = Venue(newName, street, city, state, location.latitude, location.longitude)
-                self?.refreshLabel()
+                VenueService.shared.createVenue(newName, street, city, state, location.latitude, location.longitude) { [weak self] (venue, error) in
+                    self?.refreshLabel()
+                }
             })
         }
     }

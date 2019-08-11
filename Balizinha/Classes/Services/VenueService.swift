@@ -147,6 +147,32 @@ public class VenueService: NSObject {
             }
         }
     }
+    
+    // creating a venue locally
+    public func createVenue(_ name: String?, _ street: String? = nil, _ city: String? = nil, _ state: String? = nil, _ lat: Double? = nil, _ lon: Double? = nil, completion:((Venue?, Error?) -> Void)?) {
+        // todo: if this is a codable, handle optionals
+        let params: [String: Any] = ["name": name ?? "", "street": street ?? "", "city": city ?? "", "state": state ?? "", "lat": lat ?? 0, "lon": lon ?? 0]
+
+        if true {
+            completion?(Venue(key: "temp", dict: dict), nil); return;
+        } else {
+        // call cloud service
+        apiService.cloudFunction(functionName: "createVenue", method: "POST", params: params) { (result, error) in
+            if let error = error as NSError? {
+                completion?(nil, error)
+                return
+            } else {
+                print("CreateVenue success with result \(String(describing: result))")
+                if let dict = result as? [String: Any], let venueId = dict["venueId"] as? String, let venueInfo = dict["result"] as? [String: Any] {
+                    completion?(Venue(key: venueId, dict: venueInfo), nil)
+                    return
+                }
+            }
+            completion?(nil, nil)
+        }
+        }
+    }
+
 }
 
 // notifications
