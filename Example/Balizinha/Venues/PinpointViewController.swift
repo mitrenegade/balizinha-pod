@@ -17,12 +17,12 @@ class PinpointViewController: UIViewController {
     
     var existingVenue: Venue?
 
-    private var name: String?
-    private var street: String?
-    private var city: String?
-    private var state: String?
-    private var lat: Double?
-    private var lon: Double?
+    private (set) var name: String?
+    private (set) var street: String?
+    private (set) var city: String?
+    private (set) var state: String?
+    private (set) var lat: Double?
+    private (set) var lon: Double?
     fileprivate var nameLocked: Bool = false
     
     @IBOutlet weak var buttonEdit: UIButton!
@@ -41,11 +41,7 @@ class PinpointViewController: UIViewController {
                     self?.state = state
                     self?.lat = place.coordinate.latitude
                     self?.lon = place.coordinate.longitude
-                    self?.refreshLabel(name: name, street: street, city: city, state: state, lat: place.coordinate.latitude, lon: place.coordinate.longitude)
-                    
-                    //                VenueService.shared.createVenue(newName, street, city, state, location.latitude, location.longitude) { [weak self] (venue, error) in
-                    //                }
-
+                    self?.refreshLabel()
                 })
             }
         }
@@ -81,7 +77,7 @@ class PinpointViewController: UIViewController {
             lon = existingVenue.lon
 
             // venue was sent in from event
-            refreshLabel(name: name, street: street, city: city, state: state, lat: lat, lon: lon)
+            refreshLabel()
 
             if let lat = existingVenue.lat, let lon = existingVenue.lon {
                 let location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
@@ -89,7 +85,6 @@ class PinpointViewController: UIViewController {
             }
             externalSource = true
             nameLocked = true
-            refreshLabel(name: name, street: street, city: city, state: state, lat: lat, lon: lon)
         } else {
             LocationService.shared.observedLocation.asObservable().subscribe(onNext: { [weak self] (state) in
                 switch state {
@@ -106,7 +101,7 @@ class PinpointViewController: UIViewController {
         }
     }
     
-    func refreshLabel(name: String?, street: String?, city: String?, state: String?, lat: Double? = nil, lon: Double? = nil) {
+    private func refreshLabel() {
         var text: String = ""
         if let name = name {
             text = "\(name)\n"
@@ -123,11 +118,8 @@ class PinpointViewController: UIViewController {
         }
         labelPlaceName.text = text
     }
-//
-//    func refreshLabel(venue: Venue?) {
-//        refreshLabel(name: venue?.name, street: venue?.street, city: venue?.city, state: venue?.state, lat: venue?.lat, lon: venue?.lon)
-//    }
 }
+
 extension PinpointViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         guard !externalSource else {
@@ -151,9 +143,12 @@ extension PinpointViewController: MKMapViewDelegate {
                 if self?.nameLocked != true {
                     self?.name = newName
                 }
-                self?.refreshLabel(name: newName, street: street, city: city, state: state, lat: location.latitude, lon: location.longitude)
-//                VenueService.shared.createVenue(newName, street, city, state, location.latitude, location.longitude) { [weak self] (venue, error) in
-//                }
+                self?.street = street
+                self?.city = city
+                self?.state = state
+                self?.lat = location.latitude
+                self?.lon = location.longitude
+                self?.refreshLabel()
             })
         }
     }
@@ -188,7 +183,7 @@ extension PinpointViewController: MKMapViewDelegate {
             if let textField = alert.textFields?[0], let name = textField.text {
                 print("Manually changing name to \(name)")
                 self.name = name
-                self.refreshLabel(name: name, street: nil, city: nil, state: nil, lat: nil, lon: nil)
+                self.refreshLabel()
                 //LoggingService.shared.log(event: .EditVenueName, info: ["saved": true, "name": name])
             }
         }))

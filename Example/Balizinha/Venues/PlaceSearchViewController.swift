@@ -85,7 +85,14 @@ extension PlaceSearchViewController {
     
     @objc func selectLocation() {
         // user saved the location poinpointed on map
-        delegate?.didSelect(venue: pinpointController?.existingVenue)
+        // TODO: if venue exists
+        VenueService.shared.createVenue(pinpointController?.name, pinpointController?.street, pinpointController?.city, pinpointController?.state, pinpointController?.lat, pinpointController?.lon) { [weak self] (venue, error) in
+            if let venue = venue {
+                self?.delegate?.didSelect(venue: venue)
+            } else if let error = error as NSError? {
+                self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error)
+            }
+        }
     }
     
     @objc fileprivate func cancelSearch() {
@@ -111,6 +118,3 @@ extension PlaceSearchViewController: PlaceResultsDelegate {
 //        LoggingService.shared.log(event: .SearchForVenue, info: info)
     }
 }
-
-
-
