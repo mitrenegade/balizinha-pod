@@ -60,22 +60,16 @@ public class VenueService: NSObject {
             params["lat"] = lat
             params["lon"] = lon
         }
-        apiService.cloudFunction(functionName: "createCity", method: "POST", params: params) { (result, error) in
+        apiService.cloudFunction(functionName: "createCity", method: "POST", params: params) { [weak self] (result, error) in
             if let error = error as NSError? {
                 completion(nil, error)
             } else {
                 print("CreateCity success with result \(String(describing: result))")
                 if let dict = result as? [String: Any], let cityId = dict["cityId"] as? String {
-                    if let cityDict = dict["city"] as? [String: Any] {
-                        let city = City(key: cityId, dict: cityDict)
+                    self?.cityWithId(id: cityId, completion: { (city) in
                         completion(city, nil)
-                        return
-                    } else {
-                        self.withId(id: cityId, completion: { (city) in
-                            completion(city, nil)
-                        })
-                        return
-                    }
+                    })
+                    return
                 } else {
                     completion(nil, nil)
                 }
@@ -90,7 +84,7 @@ public class VenueService: NSObject {
         }
     }
     
-    public func withId(id: String, completion: @escaping ((City?)->Void)) {
+    public func cityWithId(id: String, completion: @escaping ((City?)->Void)) {
         let reference = baseRef.child(path: "cities").child(path: id)
         reference.observeValue { (snapshot) in
             guard snapshot.exists() else {
@@ -104,6 +98,20 @@ public class VenueService: NSObject {
         }
     }
 
+    public func withId(id: String, completion: @escaping ((Venue?)->Void)) {
+        let reference = baseRef.child(path: "venues").child(path: id)
+        reference.observeValue { (snapshot) in
+            guard snapshot.exists() else {
+                completion(nil)
+                return
+            }
+            let object = Venue(snapshot: snapshot)
+            completion(object)
+            
+            reference.removeAllObservers()
+        }
+    }
+    
     // For Admin only
     public func loadPlayerCityStrings(includeInvalidCities: Bool = true, completion: @escaping ([String], [String: [String]])->Void) {
         let ref: Query
@@ -149,27 +157,29 @@ public class VenueService: NSObject {
     }
     
     // creating a venue locally
-    public func createVenue(_ name: String?, _ street: String? = nil, _ city: String? = nil, _ state: String? = nil, _ lat: Double? = nil, _ lon: Double? = nil, completion:((Venue?, Error?) -> Void)?) {
+    public func createVenue(_ userId: String, _ name: String?, _ street: String? = nil, _ city: String? = nil, _ state: String? = nil, _ lat: Double? = nil, _ lon: Double? = nil, completion:((Venue?, Error?) -> Void)?) {
         // todo: if this is a codable, handle optionals
-        let params: [String: Any] = ["name": name ?? "", "street": street ?? "", "city": city ?? "", "state": state ?? "", "lat": lat ?? 0, "lon": lon ?? 0]
+        let params: [String: Any] = ["userId": userId, "name": name ?? "", "street": street ?? "", "city": city ?? "", "state": state ?? "", "lat": lat ?? 0, "lon": lon ?? 0]
 
-        if true {
-            completion?(Venue(key: "temp", dict: params), nil); return;
-        } else {
         // call cloud service
-        apiService.cloudFunction(functionName: "createVenue", method: "POST", params: params) { (result, error) in
+        apiService.cloudFunction(functionName: "createVenue", method: "POST", params: params) { [weak self] (result, error) in
             if let error = error as NSError? {
                 completion?(nil, error)
                 return
             } else {
                 print("CreateVenue success with result \(String(describing: result))")
-                if let dict = result as? [String: Any], let venueId = dict["venueId"] as? String, let venueInfo = dict["result"] as? [String: Any] {
-                    completion?(Venue(key: venueId, dict: venueInfo), nil)
+                if let dict = result as? [String: Any], let venueId = dict["venueId"] as? String{
+                    self?.withId(id: venueId, completion: { (venue) in
+                        guard let venue = venue else {
+                            completion?(nil, nil)
+                            return
+                        }
+                        completion?(venue, nil)
+                    })
                     return
                 }
             }
             completion?(nil, nil)
-        }
         }
     }
 

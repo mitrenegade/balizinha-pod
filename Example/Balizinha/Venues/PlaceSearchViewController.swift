@@ -85,8 +85,9 @@ extension PlaceSearchViewController {
     
     @objc func selectLocation() {
         // user saved the location poinpointed on map
-        // TODO: if venue exists
-        VenueService.shared.createVenue(pinpointController?.name, pinpointController?.street, pinpointController?.city, pinpointController?.state, pinpointController?.lat, pinpointController?.lon) { [weak self] (venue, error) in
+        // TODO: check if venue exists
+        guard let player = PlayerService.shared.current.value else { return }
+        VenueService.shared.createVenue(player.id, pinpointController?.name, pinpointController?.street, pinpointController?.city, pinpointController?.state, pinpointController?.lat, pinpointController?.lon) { [weak self] (venue, error) in
             if let venue = venue {
                 self?.delegate?.didSelect(venue: venue)
             } else if let error = error as NSError? {

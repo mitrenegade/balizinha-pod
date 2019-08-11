@@ -133,6 +133,7 @@ public class EventService: NSObject {
                     self.withId(id: eventId, completion: { (event) in
                         // TODO: the event returned is always nil?
                         guard let event = event else {
+                            completion(nil, nil)
                             return
                         }
                         completion(event, nil)

@@ -188,6 +188,7 @@ extension LocationService {
     
     func parseMKPlace(_ place: MKPlacemark, completion: PlaceParseCompletion?) {
         // handles places returned by MapKit
+        // TODO: include MKPlace id somewhere
         var name: String?
         var street: String?
         var city: String?
@@ -201,6 +202,7 @@ extension LocationService {
     
     func parseCLPlace(_ place: CLPlacemark, completion: PlaceParseCompletion?) {
         // handles places returned by CLGeocoder
+        // TODO: compare with existing places for existing id
         var name: String?
         var street: String?
         var city: String?
