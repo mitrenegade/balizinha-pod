@@ -67,8 +67,8 @@ class VenuesListViewController: SearchableListViewController {
 extension VenuesListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as? CityCell else { return UITableViewCell() }
-        if indexPath.row < objects.count {
-            let venue = objects[indexPath.row] as? Venue
+        if indexPath.row < venues.count {
+            let venue = venues[indexPath.row] as? Venue
             cell.configureVenue(with: venue)
             cell.detailTextLabel?.text = venue?.city ?? ""
         }
@@ -77,6 +77,10 @@ extension VenuesListViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard indexPath.row < venues.count else { return }
+        let venue = venues[indexPath.row] as? Venue
+        performSegue(withIdentifier: "toLocationSearch", sender: venue)
     }
 }
 
@@ -94,10 +98,13 @@ extension VenuesListViewController {
     
     override func doFilter(_ currentSearch: String) -> [FirebaseBaseModel] {
         return objects.filter {(_ object: FirebaseBaseModel) in
+            guard currentSearch.count > 2 else { return false } // only match 3 characters or more
             guard let venue = object as? Venue else { return false }
             let nameMatch = venue.name?.lowercased().contains(currentSearch) ?? false
             let idMatch = venue.id.lowercased().contains(currentSearch)
-            return nameMatch || idMatch
+            let streetMatch = venue.street?.lowercased().contains(currentSearch) ?? false
+            let cityStateMatch = venue.shortString?.lowercased().contains(currentSearch) ?? false
+            return nameMatch || idMatch || streetMatch || cityStateMatch
         }
     }
 }

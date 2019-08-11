@@ -73,9 +73,9 @@ extension Venue {
     }
     
     public var shortString: String? {
-        if let name = name {
+        if let city = city {
             if let state = state {
-                return "\(name), \(state)"
+                return "\(city), \(state)"
             } else {
                 return name
             }
