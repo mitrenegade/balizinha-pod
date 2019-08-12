@@ -21,11 +21,13 @@ class PlaceSearchViewController: UIViewController {
     
     weak var pinpointController: PinpointViewController?
     var currentVenue: Venue?
-    
+    private let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        view.addSubview(activityOverlay)
         setupSearch()
         
         let button = UIButton(type: .custom)
@@ -41,6 +43,11 @@ class PlaceSearchViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = saveButton
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        activityOverlay.setup(frame: view.frame)
+    }
+
     @objc func cancel() {
         self.navigationController?.popViewController(animated: true)
     }
@@ -102,7 +109,9 @@ extension PlaceSearchViewController {
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
         } else {
+            activityOverlay.show()
             VenueService.shared.createVenue(player.id, pinpointController?.name, pinpointController?.street, pinpointController?.city, pinpointController?.state, pinpointController?.lat, pinpointController?.lon) { [weak self] (venue, error) in
+                self?.activityOverlay.hide()
                 if let venue = venue {
                     self?.delegate?.didSelect(venue: venue)
                 } else if let error = error as NSError? {
