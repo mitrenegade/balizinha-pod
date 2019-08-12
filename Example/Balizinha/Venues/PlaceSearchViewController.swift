@@ -87,11 +87,27 @@ extension PlaceSearchViewController {
         // user saved the location poinpointed on map
         // TODO: check if venue exists
         guard let player = PlayerService.shared.current.value else { return }
-        VenueService.shared.createVenue(player.id, pinpointController?.name, pinpointController?.street, pinpointController?.city, pinpointController?.state, pinpointController?.lat, pinpointController?.lon) { [weak self] (venue, error) in
-            if let venue = venue {
+        if let venue = currentVenue {
+            let alert = UIAlertController(title: "Update venue?", message: "Are you sure you want to save the changes to this venue?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Save changes", style: .default, handler: { [weak self] _ in
+                guard let controller = self?.pinpointController else { return }
+                venue.name = controller.name
+                venue.street = controller.street
+                venue.city = controller.city
+                venue.state = controller.state
+                venue.lat = controller.lat
+                venue.lon = controller.lon
                 self?.delegate?.didSelect(venue: venue)
-            } else if let error = error as NSError? {
-                self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+        } else {
+            VenueService.shared.createVenue(player.id, pinpointController?.name, pinpointController?.street, pinpointController?.city, pinpointController?.state, pinpointController?.lat, pinpointController?.lon) { [weak self] (venue, error) in
+                if let venue = venue {
+                    self?.delegate?.didSelect(venue: venue)
+                } else if let error = error as NSError? {
+                    self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error)
+                }
             }
         }
     }

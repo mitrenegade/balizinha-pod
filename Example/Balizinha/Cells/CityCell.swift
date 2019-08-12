@@ -14,11 +14,11 @@ class CityCell: UITableViewCell {
     @IBOutlet weak var stateLabel: UILabel!
     @IBOutlet weak var latlonLabel: UILabel!
     
-    @IBOutlet weak var buttonName: UIButton!
-    @IBOutlet weak var buttonState: UIButton!
-    @IBOutlet weak var buttonLatLon: UIButton!
+    @IBOutlet weak var buttonName: UIButton?
+    @IBOutlet weak var buttonState: UIButton?
+    @IBOutlet weak var buttonLatLon: UIButton?
     
-    @IBOutlet weak var verificationLabel: UILabel!
+    @IBOutlet weak var verificationLabel: UILabel?
     var buttonLon = UIButton() // not displayed
     
     var city: City?
@@ -33,13 +33,13 @@ class CityCell: UITableViewCell {
         self.city = city
         
         if city.verified {
-            verificationLabel.text = "✓"
-            verificationLabel.backgroundColor = .clear
-            verificationLabel.textColor = .darkGreen
+            verificationLabel?.text = "✓"
+            verificationLabel?.backgroundColor = .clear
+            verificationLabel?.textColor = .darkGreen
         } else {
-            verificationLabel.text = "UNVERIFIED"
-            verificationLabel.backgroundColor = .yellow
-            verificationLabel.textColor = .red
+            verificationLabel?.text = "UNVERIFIED"
+            verificationLabel?.backgroundColor = .yellow
+            verificationLabel?.textColor = .red
         }
     }
     

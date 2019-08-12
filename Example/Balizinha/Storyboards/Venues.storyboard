@@ -83,67 +83,21 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wt2-69-30c" userLabel="ButtonName">
-                                                    <rect key="frame" x="20" y="11" width="40" height="22"/>
-                                                    <state key="normal">
-                                                        <color key="titleColor" red="0.0" green="0.56284224989999998" blue="0.31900000000000001" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="didTapLabel:" destination="PrI-GO-E1B" eventType="touchUpInside" id="4fd-sL-A9c"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zLy-lo-nGY" userLabel="ButtonState">
-                                                    <rect key="frame" x="20" y="43" width="50.5" height="22"/>
-                                                    <connections>
-                                                        <action selector="didTapLabel:" destination="PrI-GO-E1B" eventType="touchUpInside" id="RCv-of-cVD"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nn-h0-r58" userLabel="ButtonLatLon">
-                                                    <rect key="frame" x="20" y="43" width="59.5" height="22"/>
-                                                    <connections>
-                                                        <action selector="didTapLabel:" destination="PrI-GO-E1B" eventType="touchUpInside" id="OLj-PE-Gbu"/>
-                                                    </connections>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VERIFIEd" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dmc-ib-Ik3">
-                                                    <rect key="frame" x="325" y="44.5" width="69" height="21"/>
-                                                    <color key="backgroundColor" red="0.98524647949999999" green="0.99966174360000004" blue="0.23009261489999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="6nn-h0-r58" firstAttribute="top" secondItem="ol9-yi-Urg" secondAttribute="top" id="9E3-Rt-fyj"/>
-                                                <constraint firstItem="oVw-Bm-0ow" firstAttribute="leading" secondItem="Wt2-69-30c" secondAttribute="leading" id="Ced-fF-9v7"/>
-                                                <constraint firstItem="zLy-lo-nGY" firstAttribute="top" secondItem="LFi-Pq-2qN" secondAttribute="top" id="ClE-ED-7FP"/>
-                                                <constraint firstItem="zLy-lo-nGY" firstAttribute="bottom" secondItem="LFi-Pq-2qN" secondAttribute="bottom" id="ETZ-l0-TY4"/>
-                                                <constraint firstItem="zLy-lo-nGY" firstAttribute="trailing" secondItem="LFi-Pq-2qN" secondAttribute="trailing" id="JRP-Fs-5eK"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="ol9-yi-Urg" secondAttribute="bottom" constant="8" id="JYO-a7-0bF"/>
                                                 <constraint firstItem="LFi-Pq-2qN" firstAttribute="top" secondItem="oVw-Bm-0ow" secondAttribute="bottom" constant="8" id="Thd-9U-69f"/>
                                                 <constraint firstItem="ol9-yi-Urg" firstAttribute="leading" secondItem="HLx-kC-kKS" secondAttribute="leadingMargin" id="XIt-WW-hGV"/>
-                                                <constraint firstItem="Dmc-ib-Ik3" firstAttribute="centerY" secondItem="HLx-kC-kKS" secondAttribute="centerY" id="XQl-VD-Yil"/>
                                                 <constraint firstItem="oVw-Bm-0ow" firstAttribute="top" secondItem="HLx-kC-kKS" secondAttribute="topMargin" id="bKy-ex-yxx"/>
                                                 <constraint firstItem="ol9-yi-Urg" firstAttribute="top" secondItem="LFi-Pq-2qN" secondAttribute="bottom" constant="8" id="hMN-ip-16c"/>
-                                                <constraint firstItem="oVw-Bm-0ow" firstAttribute="top" secondItem="Wt2-69-30c" secondAttribute="top" id="jsi-jf-43b"/>
-                                                <constraint firstItem="Dmc-ib-Ik3" firstAttribute="trailing" secondItem="HLx-kC-kKS" secondAttribute="trailingMargin" id="k7L-B2-CZV"/>
-                                                <constraint firstItem="zLy-lo-nGY" firstAttribute="leading" secondItem="LFi-Pq-2qN" secondAttribute="leading" id="kCV-B2-cgb"/>
-                                                <constraint firstItem="oVw-Bm-0ow" firstAttribute="trailing" secondItem="Wt2-69-30c" secondAttribute="trailing" id="kLs-xd-5Nt"/>
-                                                <constraint firstItem="oVw-Bm-0ow" firstAttribute="bottom" secondItem="Wt2-69-30c" secondAttribute="bottom" id="mpf-5W-YbP"/>
-                                                <constraint firstItem="6nn-h0-r58" firstAttribute="trailing" secondItem="ol9-yi-Urg" secondAttribute="trailing" id="ouS-r1-WUb"/>
-                                                <constraint firstItem="6nn-h0-r58" firstAttribute="bottom" secondItem="ol9-yi-Urg" secondAttribute="bottom" id="rpW-iv-7c1"/>
                                                 <constraint firstItem="oVw-Bm-0ow" firstAttribute="leading" secondItem="HLx-kC-kKS" secondAttribute="leadingMargin" id="wDU-NK-Nhx"/>
                                                 <constraint firstItem="LFi-Pq-2qN" firstAttribute="leading" secondItem="HLx-kC-kKS" secondAttribute="leadingMargin" id="xl9-Sw-Bzk"/>
-                                                <constraint firstItem="6nn-h0-r58" firstAttribute="leading" secondItem="ol9-yi-Urg" secondAttribute="leading" id="ywP-bv-psE"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="buttonLatLon" destination="6nn-h0-r58" id="ieT-UU-CLG"/>
-                                            <outlet property="buttonName" destination="Wt2-69-30c" id="wtV-sE-xuI"/>
-                                            <outlet property="buttonState" destination="zLy-lo-nGY" id="vuQ-4M-b08"/>
                                             <outlet property="latlonLabel" destination="ol9-yi-Urg" id="Fty-en-eXh"/>
                                             <outlet property="nameLabel" destination="oVw-Bm-0ow" id="HzD-aG-wwa"/>
                                             <outlet property="stateLabel" destination="LFi-Pq-2qN" id="tKI-sA-CgV"/>
-                                            <outlet property="verificationLabel" destination="Dmc-ib-Ik3" id="f9e-pZ-WNm"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AddCityCell" textLabel="5Qb-gh-GLI" style="IBUITableViewCellStyleDefault" id="8Q5-oC-ffS">
@@ -194,7 +148,7 @@
         <!--Place Search View Controller-->
         <scene sceneID="eGb-6S-gsX">
             <objects>
-                <viewController id="Tv9-yk-818" customClass="PlaceSearchViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Tv9-yk-818" customClass="PlaceSearchViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ABc-8F-dg4"/>
                         <viewControllerLayoutGuide type="bottom" id="rya-ar-9IO"/>
@@ -226,7 +180,7 @@
         <!--Place Results View Controller-->
         <scene sceneID="le7-nz-xEh">
             <objects>
-                <viewController storyboardIdentifier="PlaceResultsViewController" id="MxY-DE-Wb1" customClass="PlaceResultsViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlaceResultsViewController" id="MxY-DE-Wb1" customClass="PlaceResultsViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ieh-Hs-1c6"/>
                         <viewControllerLayoutGuide type="bottom" id="1Uo-ie-6Yu"/>
@@ -290,7 +244,7 @@
         <!--Pinpoint View Controller-->
         <scene sceneID="weN-10-J9b">
             <objects>
-                <viewController id="ltL-eD-cpG" customClass="PinpointViewController" customModule="Panna" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ltL-eD-cpG" customClass="PinpointViewController" customModule="Admin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uPT-g4-Nvz"/>
                         <viewControllerLayoutGuide type="bottom" id="pbd-Ue-341"/>
