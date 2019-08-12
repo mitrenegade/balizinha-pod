@@ -54,11 +54,9 @@ class VenuesListViewController: SearchableListViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toLocationSearch", let controller = segue.destination as? PlaceSearchViewController {
             controller.delegate = self
-//            if let eventToEdit = eventToEdit {
-//                // TODO: replace with event.venue
-//                let venue = Venue(eventToEdit.place, nil, eventToEdit.city, eventToEdit.state, eventToEdit.lat, eventToEdit.lon)
-//                controller.currentVenue = venue
-//            }
+            if let venue = sender as? Venue {
+                controller.currentVenue = venue
+            }
         }
     }
 }
@@ -79,7 +77,7 @@ extension VenuesListViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         guard indexPath.row < venues.count else { return }
-        let venue = venues[indexPath.row] as? Venue
+        let venue = venues[indexPath.row]
         performSegue(withIdentifier: "toLocationSearch", sender: venue)
     }
 }
@@ -112,13 +110,6 @@ extension VenuesListViewController {
 // MARK: PlaceSearchDelegate
 extension VenuesListViewController: PlaceSelectDelegate {
     func didSelect(venue: Venue?) {
-        if let location = venue?.name {
-            print("Venue name \(location)")
-        }
-        else if let street = venue?.street {
-            print("Venue street \(street)")
-        }
-
         activityOverlay.show()
         load() { [weak self] in
             self?.search(for: nil)

@@ -87,11 +87,21 @@ extension PlaceSearchViewController {
         // user saved the location poinpointed on map
         // TODO: check if venue exists
         guard let player = PlayerService.shared.current.value else { return }
-        VenueService.shared.createVenue(player.id, pinpointController?.name, pinpointController?.street, pinpointController?.city, pinpointController?.state, pinpointController?.lat, pinpointController?.lon) { [weak self] (venue, error) in
-            if let venue = venue {
-                self?.delegate?.didSelect(venue: venue)
-            } else if let error = error as NSError? {
-                self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error)
+        if let venue = currentVenue {
+            venue.name = pinpointController?.name
+            venue.street = pinpointController?.street
+            venue.city = pinpointController?.city
+            venue.state = pinpointController?.state
+            venue.lat = pinpointController?.lat
+            venue.lon = pinpointController?.lon
+            delegate?.didSelect(venue: venue)
+        } else {
+            VenueService.shared.createVenue(player.id, pinpointController?.name, pinpointController?.street, pinpointController?.city, pinpointController?.state, pinpointController?.lat, pinpointController?.lon) { [weak self] (venue, error) in
+                if let venue = venue {
+                    self?.delegate?.didSelect(venue: venue)
+                } else if let error = error as NSError? {
+                    self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error)
+                }
             }
         }
     }
