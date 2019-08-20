@@ -46,4 +46,24 @@ public class MockService: NSObject {
         let apiService = MockCloudAPIService(uniqueId: "abc", results: ["success": true])
         return EventService(reference: reference, apiService: apiService)
     }
+    
+    //***************** hack: for test purposes only
+    public static func randomEvent() -> Event {
+        let key = RenderAPIService().uniqueId()
+        let hours: Int = Int(arc4random_uniform(72))
+        
+        // random type
+        let types: [Balizinha.Event.EventType] = [.event3v3]
+        let random = Int(arc4random_uniform(UInt32(types.count)))
+        let eventType = types[random].rawValue
+
+        // random place
+        let places = ["Boston", "New York", "Philadelphia", "Florida"]
+        let random2 = Int(arc4random_uniform(UInt32(places.count)))
+        let place = places[random2]
+
+        let dict: [String: Any] = ["type": eventType as AnyObject, "place": place as AnyObject, "startTime": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject, "info": "Randomly generated event" as AnyObject]
+        let event = Event(key: key, dict: dict)
+        return event
+    }
 }

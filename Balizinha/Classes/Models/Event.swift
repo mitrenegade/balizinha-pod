@@ -199,7 +199,7 @@ public class Event: FirebaseBaseModel {
             return Recurrence(rawValue: str) ?? .none
         }
         set {
-            update(key: "recurrence", value: recurrence.rawValue)
+            update(key: "recurrence", value: newValue.rawValue)
         }
     }
 }
@@ -237,17 +237,10 @@ public extension Event {
 // Utils
 public extension Event {
     func dateString(_ date: Date) -> String {
-        //return "\((date as NSDate).day()) \(months[(date as NSDate).month() - 1]) \((date as NSDate).year())"
         return date.dateStringForPicker()
     }
     
     func timeString(_ date: Date) -> String {
-        /*
-         formatter.dateStyle = .none
-         formatter.timeStyle = .short
-         let time = formatter.string(from: date)
-         return "\(time)"
-         */
         return date.timeStringForPicker()
     }
     
@@ -294,28 +287,5 @@ extension Event {
         guard let organizerId = organizer else { return false }
         guard let userId = userId else { return false }
         return userId == organizerId
-    }
-}
-
-extension Event {
-    //***************** hack: for test purposes only
-    class func randomEvent() -> Event {
-        let key = RenderAPIService().uniqueId()
-        let hours: Int = Int(arc4random_uniform(72))
-        let dict: [String: Any] = ["type": Event.randomType() as AnyObject, "place": Event.randomPlace() as AnyObject, "startTime": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject, "info": "Randomly generated event" as AnyObject]
-        let event = Event(key: key, dict: dict)
-        return event
-    }
-    
-    class func randomType() -> String {
-        let types: [EventType] = [.event3v3]
-        let random = Int(arc4random_uniform(UInt32(types.count)))
-        return types[random].rawValue
-    }
-    
-    class func randomPlace() -> String {
-        let places = ["Boston", "New York", "Philadelphia", "Florida"]
-        let random = Int(arc4random_uniform(UInt32(places.count)))
-        return places[random]
     }
 }
