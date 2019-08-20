@@ -28,6 +28,13 @@ public class Event: FirebaseBaseModel {
         case cancelled
         case unknown
     }
+    
+    public enum Recurrence: String {
+        case none
+        case daily
+        case weekly
+        case monthly
+    }
 
     public var leagueId: String? {
         get {
@@ -183,6 +190,16 @@ public class Event: FirebaseBaseModel {
         }
         set {
             update(key: "venueId", value: newValue)
+        }
+    }
+    
+    public var recurrence: Recurrence {
+        get {
+            guard let str = self.dict["recurrence"] as? String else { return .none }
+            return Recurrence(rawValue: str) ?? .none
+        }
+        set {
+            update(key: "recurrence", value: recurrence.rawValue)
         }
     }
 }
