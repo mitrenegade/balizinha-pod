@@ -282,6 +282,9 @@ extension Event {
         let calendar = Calendar.current
         var refComponents = calendar.dateComponents([.month, .day], from: reference)
         var eventComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: recurringDate)
+        
+        guard reference >  recurringDate else { return recurringDate }
+
         switch recurrence {
         case .none:
             return recurringDate
@@ -295,10 +298,12 @@ extension Event {
                 nextDate = calendar.date(from: eventComponents)
             }
         case .weekly:
-            guard let eventWeekend = calendar.nextWeekend(startingAfter: recurringDate)?.start else { return nil }
-            guard let referenceWeekend = calendar.nextWeekend(startingAfter: reference)?.start else { return nil }
-            let offset = referenceWeekend.timeIntervalSince(eventWeekend)
-            nextDate = recurringDate.addingTimeInterval(offset)
+            // brute force but the best way to do it!
+            var next = recurringDate
+            while reference > next {
+                next = next.addingTimeInterval(7*24*3600)
+            }
+            nextDate = next
         case .monthly:
             guard let month = refComponents.month else { return nil }
             eventComponents.month = month
