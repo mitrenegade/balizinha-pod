@@ -69,11 +69,26 @@ class EventTests: XCTestCase {
         XCTAssert(monthly.recurrence == .weekly)
     }
     
-    func testRecurrentEventDate() {
+    func testPastNonRecurrentEventDate() {
         let components = DateComponents(year: 2019, month: 1, day: 1, hour: 12, minute: 0, second: 0)
         let calendar = Calendar(identifier: .gregorian)
-        let date: Date = calendar.date(from: components) ?? Date()
-        let event = Event(key: "123", dict: ["recurrence": "monthly"])
-
+        let eventDate: Date = calendar.date(from: components)!
+        let referenceDate: Date = eventDate.addingTimeInterval(3600)
+        let event = Event(key: "123", dict: ["recurrence": "none"])
+        
+        XCTAssertEqual(event.getNextRecurrence(recurringDate: eventDate, from: referenceDate)!, eventDate)
     }
+
+    func testFutureRecurrentEventDate() {
+        let components = DateComponents(year: 2019, month: 1, day: 1, hour: 12, minute: 0, second: 0)
+        let calendar = Calendar(identifier: .gregorian)
+        let eventDate: Date = calendar.date(from: components)!
+        let referenceDate: Date = eventDate.addingTimeInterval(-3600)
+        let event = Event(key: "123", dict: ["recurrence": "daily"])
+        XCTAssertEqual(event.getNextRecurrence(recurringDate: eventDate, from: referenceDate)!, eventDate)
+        let event2 = Event(key: "123", dict: ["recurrence": "monthly"])
+        XCTAssertEqual(event2.getNextRecurrence(recurringDate: eventDate, from: referenceDate)!, eventDate)
+    }
+
+
 }

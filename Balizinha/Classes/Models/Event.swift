@@ -281,10 +281,10 @@ extension Event {
         var nextDate: Date? = nil
         let calendar = Calendar.current
         var refComponents = calendar.dateComponents([.month, .day], from: reference)
-        var eventComponents = calendar.dateComponents([.month, .day], from: recurringDate)
+        var eventComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: recurringDate)
         switch recurrence {
         case .none:
-            return reference
+            return recurringDate
         case .daily:
             guard let day = refComponents.day else { return nil }
             eventComponents.day = day
