@@ -235,20 +235,25 @@ public extension Event {
 }
 
 // Utils
-public extension Event {
-    func dateString(_ date: Date) -> String {
+extension Event {
+    public func dateString(_ date: Date, from reference: Date? = nil) -> String {
+        if let reference = reference, recurrence != .none {
+            if let nextDate = getNextRecurrence(recurringDate: date, from: reference) {
+                return nextDate.dateStringForPicker()
+            }
+        }
         return date.dateStringForPicker()
     }
     
-    func timeString(_ date: Date) -> String {
+    public func timeString(_ date: Date) -> String {
         return date.timeStringForPicker()
     }
     
-    var isFull: Bool {
+    public var isFull: Bool {
         return self.maxPlayers == self.numPlayers
     }
     
-    var isPast: Bool {
+    public var isPast: Bool {
         if let endTime = self.endTime {
             return (ComparisonResult.orderedAscending == endTime.compare(Date())) //event time happened before current time
         }
@@ -257,7 +262,7 @@ public extension Event {
         }
     }
     
-    var locationString: String? {
+    public var locationString: String? {
         if let city = self.city, let state = self.state {
             return "\(city), \(state)"
         }
@@ -268,6 +273,43 @@ public extension Event {
             return "\(lat), \(lon)"
         }
         return nil
+    }
+    
+    // Gets the next recurrence of a date
+    func getNextRecurrence(recurringDate:
+        Date, from reference: Date) -> Date? {
+        var nextDate: Date? = nil
+        let calendar = Calendar.current
+        var refComponents = calendar.dateComponents([.month, .day], from: reference)
+        var eventComponents = calendar.dateComponents([.month, .day], from: recurringDate)
+        switch recurrence {
+        case .none:
+            return reference
+        case .daily:
+            guard let day = refComponents.day else { return nil }
+            eventComponents.day = day
+            if let date = calendar.date(from: eventComponents), date > reference {
+                nextDate = date
+            } else {
+                eventComponents.day = day + 1
+                nextDate = calendar.date(from: eventComponents)
+            }
+        case .weekly:
+            guard let eventWeekend = calendar.nextWeekend(startingAfter: recurringDate)?.start else { return nil }
+            guard let referenceWeekend = calendar.nextWeekend(startingAfter: reference)?.start else { return nil }
+            let offset = referenceWeekend.timeIntervalSince(eventWeekend)
+            nextDate = recurringDate.addingTimeInterval(offset)
+        case .monthly:
+            guard let month = refComponents.month else { return nil }
+            eventComponents.month = month
+            if let date = calendar.date(from: eventComponents), date > reference {
+                nextDate = date
+            } else {
+                eventComponents.month = month + 1
+                nextDate = calendar.date(from: eventComponents)
+            }
+        }
+        return nextDate
     }
 }
 

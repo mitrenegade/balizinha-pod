@@ -16,7 +16,6 @@ public extension Date {
         let day = calendar.component(.day, from: self)
         let month = calendar.component(.month, from: self)
         let year = calendar.component(.year, from: self)
-        //return "\((self as NSDate).day()) \(months[(self as NSDate).month() - 1]) \((self as NSDate).year())"
         return "\(day) \(months[month - 1]) \(year)"
     }
     
