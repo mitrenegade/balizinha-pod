@@ -29,12 +29,6 @@ public class Event: FirebaseBaseModel {
         case unknown
     }
     
-    public enum Recurrence: String {
-        case none
-        case daily
-        case weekly
-        case monthly
-    }
 
     public var leagueId: String? {
         get {
@@ -193,10 +187,10 @@ public class Event: FirebaseBaseModel {
         }
     }
     
-    public var recurrence: Recurrence {
+    public var recurrence: Date.Recurrence {
         get {
             guard let str = self.dict["recurrence"] as? String else { return .none }
-            return Recurrence(rawValue: str) ?? .none
+            return Date.Recurrence(rawValue: str) ?? .none
         }
         set {
             update(key: "recurrence", value: newValue.rawValue)
