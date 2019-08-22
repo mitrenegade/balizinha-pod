@@ -107,6 +107,6 @@ public class AuthService: NSObject {
         try! firAuth.signOut()
         EventService.resetOnLogout() // force new listeners
         PlayerService.resetOnLogout()
-        LeagueService.resetOnLogout()
+        LeagueService.shared.resetOnLogout()
     }
 }

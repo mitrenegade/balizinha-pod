@@ -45,7 +45,7 @@ public class EventService: BaseService {
     public class func resetOnLogout() {
         shared._events = [:]
         shared._usersForEvents = [:]
-        shared.objectIdQueue.async(flags: .barrier) {
+        shared.readWriteQueue2.async(flags: .barrier) {
             shared._userEvents = nil
         }
         shared.featuredEventId = nil
@@ -178,7 +178,7 @@ public class EventService: BaseService {
         eventQueryRef.observeSingleValue { [weak self] (snapshot) in
             defer {
                 var events: [String]?
-                self?.objectIdQueue.sync {
+                self?.readWriteQueue2.sync {
                     if let _events = self?._userEvents {
                         events = Array(_events)
                     } else {
@@ -348,7 +348,7 @@ public extension EventService {
     }
     
     func cacheId(_ eventId: String, shouldInsert: Bool) {
-        objectIdQueue.async(flags: .barrier) { [weak self] in
+        readWriteQueue2.async(flags: .barrier) { [weak self] in
             if self?._userEvents == nil {
                 self?._userEvents = Set<String>()
             }

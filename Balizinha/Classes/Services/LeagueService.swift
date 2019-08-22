@@ -12,11 +12,11 @@ import FirebaseCore
 import FirebaseDatabase
 import RenderCloud
 
-fileprivate var _leagues: [String: League] = [:]
-fileprivate var _playerLeagues: [String: Membership.Status] = [:]
-
-public class LeagueService: NSObject {
+public class LeagueService: BaseService {
     public static let shared: LeagueService = LeagueService()
+    fileprivate var _leagues: [String: League] = [:]
+    fileprivate var _playerLeagues: [String: Membership.Status] = [:]
+    
     fileprivate var disposeBag: DisposeBag
     public var featuredLeagueId: String?
 
@@ -32,10 +32,15 @@ public class LeagueService: NSObject {
         }).disposed(by: disposeBag)
     }
 
-    public class func resetOnLogout() {
-        shared.disposeBag = DisposeBag()
-        _playerLeagues = [:]
-        shared.featuredLeagueId = nil
+    public func resetOnLogout() {
+        disposeBag = DisposeBag()
+        readWriteQueue.async(flags: .barrier) { [weak self] in
+            self?._leagues = [:]
+        }
+        readWriteQueue2.async(flags: .barrier) { [weak self] in
+            self?._playerLeagues = [:]
+        }
+        featuredLeagueId = nil
     }
 
     // MARK: - League creation
@@ -76,20 +81,20 @@ public class LeagueService: NSObject {
 
     // MARK: League info
     public func withId(id: String, completion: @escaping ((League?)->Void)) {
-        if let found = _leagues[id] {
+        if let found = cached(id) {
             completion(found)
             return
         }
         
         let ref = firRef.child("leagues").child(id)
-        ref.observe(.value) { (snapshot) in
+        ref.observe(.value) { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
             }
             ref.removeAllObservers()
             let league = League(snapshot: snapshot)
-            _leagues[id] = league
+            self?.cache(league)
             completion(league)
         }
     }
@@ -108,32 +113,54 @@ public class LeagueService: NSObject {
     Returns all currently cached leagues, in no particular order, in array format
     */
     public var allLeagues: [League] {
-        return Array(_leagues.values)
+        var leagues: [League] = []
+        readWriteQueue.sync { [weak self] in
+            if let self = self {
+                leagues = Array(self._leagues.values)
+            }
+        }
+        return leagues
     }
     
     // MARK: - Cloud functions
     // TODO: is this used?
     public func getLeagues(completion: @escaping (_ results: [League]) -> Void) {
         let queryRef = firRef.child("leagues")
-        queryRef.observeSingleEvent(of: .value) { (snapshot) in
+        queryRef.observeSingleEvent(of: .value) { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 return
             }
-            _leagues.removeAll()
+            var results: [League] = []
             if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
                 for dict: DataSnapshot in allObjects {
                     guard dict.exists() else { continue }
                     let league = League(snapshot: dict)
-                    _leagues[league.id] = league
+                    self?.cache(league)
+                    results.append(league)
                 }
             }
-            completion(Array(_leagues.values))
+            completion(results)
         }
     }
+    
+    func cache(_ league: League) {
+        readWriteQueue.async(flags: .barrier) { [weak self] in
+            self?._leagues[league.id] = league
+        }
+    }
+    
+    func cached(_ leagueId: String) -> League? {
+        var league: League?
+        readWriteQueue.sync { [weak self] in
+            league = self?._leagues[leagueId]
+        }
+        return league
+    }
+    
 
     // MARK: Leagues for player
     public func leagueMemberships(for player: Player, completion: @escaping (([String: Membership.Status]?)->Void)) {
-        RenderAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { (result, error) in
+        RenderAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { [weak self] (result, error) in
             guard error == nil else {
                 completion(nil)
                 return
@@ -150,7 +177,9 @@ public class LeagueService: NSObject {
                         result[leagueId] = membershipStatus
                     }
                 }
-                _playerLeagues = result
+                self?.readWriteQueue2.async(flags: .barrier) { [weak self] in
+                    self?._playerLeagues = result
+                }
                 completion(result)
             } else {
                 completion([:])
@@ -266,12 +295,21 @@ public class LeagueService: NSObject {
     // MARK: - Cached info
     // League/Player info using cached data
     public func playerIsIn(league: League) -> Bool {
-        guard let status = _playerLeagues[league.id] else { return false }
+        var status: Membership.Status = .none
+        readWriteQueue2.sync { [weak self] in
+            if let playerStatus = self?._playerLeagues[league.id] {
+                status = playerStatus
+            }
+        }
         return status != Membership.Status.none
     }
     
     public func playerIsOrganizerForAnyLeague() -> Bool {
-        return _playerLeagues.filter{ $0.value == Membership.Status.organizer }.isEmpty == false
+        var playerStatus: [String: Membership.Status] = [:]
+        readWriteQueue2.sync { [weak self] in
+            playerStatus = self?._playerLeagues ?? [:]
+        }
+        return playerStatus.filter{ $0.value == Membership.Status.organizer }.isEmpty == false
     }
     
     public var ownerLeagues: [League] {
