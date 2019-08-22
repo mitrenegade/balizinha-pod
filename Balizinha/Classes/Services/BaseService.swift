@@ -23,13 +23,13 @@ public class BaseService {
     internal let readWriteQueue2 = DispatchQueue(label: "readWriteQueue2", attributes: .concurrent)
     
     // individual id -> Object
-    func cache(_ object: FirebaseBaseModel) {
+    internal func cache(_ object: FirebaseBaseModel) {
         readWriteQueue.async(flags: .barrier) { [weak self] in
             self?._objects[object.id] = object
         }
     }
     
-    func cached(_ objectId: String) -> FirebaseBaseModel? {
+    internal func cached(_ objectId: String) -> FirebaseBaseModel? {
         var object: FirebaseBaseModel?
         readWriteQueue.sync { [weak self] in
             object = self?._objects[objectId]
@@ -37,7 +37,7 @@ public class BaseService {
         return object
     }
     
-    func getCachedObjects<T>() -> [T] {
+    internal func getCachedObjects<T>() -> [T] {
         var results: [T] = []
         readWriteQueue.sync { [weak self] in
             if let self = self {
@@ -47,7 +47,7 @@ public class BaseService {
         return results
     }
  
-    func resetOnLogout() {
+    public func resetOnLogout() {
         readWriteQueue.async(flags: .barrier) { [weak self] in
             self?._objects = [:]
         }
