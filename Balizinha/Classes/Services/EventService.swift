@@ -17,7 +17,7 @@ import RenderCloud
 
 fileprivate var singleton: EventService?
 
-public class EventService: NSObject {
+public class EventService: BaseService {
     fileprivate var _usersForEvents: [String: AnyObject] = [:]
     fileprivate var _events: [String:Balizinha.Event] = [:]
     private var _userEvents: Set<String>?
@@ -40,16 +40,12 @@ public class EventService: NSObject {
         super.init()
     }
 
-    // read write queues
-    fileprivate let readWriteQueue = DispatchQueue(label: "eventServiceReadWriteQueue", attributes: .concurrent)
-    fileprivate let eventIdQueue = DispatchQueue(label: "eventServiceIdReadWriteQueue", attributes: .concurrent)
-    
     // MARK: - Singleton
     public static var shared: EventService = EventService()
     public class func resetOnLogout() {
         shared._events = [:]
         shared._usersForEvents = [:]
-        shared.eventIdQueue.async(flags: .barrier) {
+        shared.objectIdQueue.async(flags: .barrier) {
             shared._userEvents = nil
         }
         shared.featuredEventId = nil
@@ -182,7 +178,7 @@ public class EventService: NSObject {
         eventQueryRef.observeSingleValue { [weak self] (snapshot) in
             defer {
                 var events: [String]?
-                self?.eventIdQueue.sync {
+                self?.objectIdQueue.sync {
                     if let _events = self?._userEvents {
                         events = Array(_events)
                     } else {
@@ -352,7 +348,7 @@ public extension EventService {
     }
     
     func cacheId(_ eventId: String, shouldInsert: Bool) {
-        eventIdQueue.async(flags: .barrier) { [weak self] in
+        objectIdQueue.async(flags: .barrier) { [weak self] in
             if self?._userEvents == nil {
                 self?._userEvents = Set<String>()
             }
