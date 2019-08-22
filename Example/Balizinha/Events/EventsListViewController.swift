@@ -40,7 +40,9 @@ class EventsListViewController: ListViewController {
         super.viewDidLoad()
         
         service?.listenForEventUsers { [weak self] in
-            self?.reloadTable()
+            self?.load { [weak self] in
+                self?.reloadTable()
+            }
         }
     }
     
