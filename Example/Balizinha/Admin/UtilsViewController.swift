@@ -20,6 +20,7 @@ enum UtilItem: String, CaseIterable {
     case migrateStripeCustomers
     case makeActionsBackwardsCompatible
     case convertUserCities
+    case serverInfo
 
     var details: String {
         switch self {
@@ -39,6 +40,8 @@ enum UtilItem: String, CaseIterable {
             return "Set event=eventId for all actions for backwards compatibility"
         case .convertUserCities:
             return "Convert user entered cities into City objects"
+        case .serverInfo:
+            return "Server info"
         }
     }
 }
