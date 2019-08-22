@@ -13,11 +13,9 @@ import RxSwift
 import RxOptional
 import FirebaseDatabase
 
-public class PlayerService: NSObject {
+public class PlayerService: BaseService {
     // MARK: - Singleton
     public static var shared: PlayerService = PlayerService()
-    
-    fileprivate static var cachedNames: [String: String] = [:]
     
     fileprivate var disposeBag: DisposeBag
     
@@ -110,15 +108,20 @@ public class PlayerService: NSObject {
     }
     
     public func withId(id: String, completion: @escaping ((Player?)->Void)) {
+        if let found = cached(id) as? Player {
+            completion(found)
+            return
+        }
+
         let ref = playersRef.child(id)
-        ref.observe(.value) { (snapshot) in
+        ref.observe(.value) { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
             }
             ref.removeAllObservers()
             let player = Player(snapshot: snapshot)
-            PlayerService.cachedNames[id] = player.name
+            self?.cache(player)
             completion(player)
         }
     }

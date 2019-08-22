@@ -17,7 +17,7 @@ import RenderCloud
 
 fileprivate var singleton: EventService?
 
-public class EventService: NSObject {
+public class EventService: BaseService {
     fileprivate var _usersForEvents: [String: AnyObject] = [:]
     fileprivate var _events: [String:Balizinha.Event] = [:]
     private var _userEvents: Set<String>?
@@ -40,16 +40,12 @@ public class EventService: NSObject {
         super.init()
     }
 
-    // read write queues
-    fileprivate let readWriteQueue = DispatchQueue(label: "eventServiceReadWriteQueue", attributes: .concurrent)
-    fileprivate let eventIdQueue = DispatchQueue(label: "eventServiceIdReadWriteQueue", attributes: .concurrent)
-    
     // MARK: - Singleton
     public static var shared: EventService = EventService()
     public class func resetOnLogout() {
         shared._events = [:]
         shared._usersForEvents = [:]
-        shared.eventIdQueue.async(flags: .barrier) {
+        shared.readWriteQueue2.async(flags: .barrier) {
             shared._userEvents = nil
         }
         shared.featuredEventId = nil
@@ -182,7 +178,7 @@ public class EventService: NSObject {
         eventQueryRef.observeSingleValue { [weak self] (snapshot) in
             defer {
                 var events: [String]?
-                self?.eventIdQueue.sync {
+                self?.readWriteQueue2.sync {
                     if let _events = self?._userEvents {
                         events = Array(_events)
                     } else {
@@ -318,7 +314,7 @@ public extension EventService {
 
 public extension EventService {
     func withId(id: String, completion: @escaping ((Balizinha.Event?)->Void)) {
-        if let found = cached(id) {
+        if let found = cached(id) as? Balizinha.Event {
             completion(found)
             return
         }
@@ -336,23 +332,9 @@ public extension EventService {
             reference.removeAllObservers()
         }
     }
-    
-    func cache(_ event: Balizinha.Event) {
-        readWriteQueue.async(flags: .barrier) { [weak self] in
-            self?._events[event.id] = event
-        }
-    }
-    
-    func cached(_ eventId: String) -> Balizinha.Event? {
-        var event: Balizinha.Event?
-        readWriteQueue.sync { [weak self] in
-            event = self?._events[eventId]
-        }
-        return event
-    }
-    
+
     func cacheId(_ eventId: String, shouldInsert: Bool) {
-        eventIdQueue.async(flags: .barrier) { [weak self] in
+        readWriteQueue2.async(flags: .barrier) { [weak self] in
             if self?._userEvents == nil {
                 self?._userEvents = Set<String>()
             }
@@ -391,7 +373,7 @@ extension EventService {
     }
     
     public func eventForAction(with eventId: String) -> Balizinha.Event? {
-        return cached(eventId) // used by actionService for synchronous event fetch
+        return cached(eventId) as? Event // used by actionService for synchronous event fetch
     }
 }
 

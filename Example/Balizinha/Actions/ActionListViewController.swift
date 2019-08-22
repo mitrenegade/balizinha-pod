@@ -23,6 +23,8 @@ class ActionListViewController: ListViewController {
         
         // Do any additional setup after loading the view.
         navigationItem.title = "Actions"
+        
+        load()
     }
     
     override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {

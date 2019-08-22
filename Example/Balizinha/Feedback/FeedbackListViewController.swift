@@ -25,6 +25,8 @@ class FeedbackListViewController: ListViewController {
 
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
+        
+        load()
     }
     
     override var baseRef: Reference {

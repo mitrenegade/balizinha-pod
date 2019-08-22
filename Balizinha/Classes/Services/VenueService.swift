@@ -11,7 +11,7 @@ import RxCocoa
 import FirebaseAuth
 import RenderCloud
 
-public class VenueService: NSObject {
+public class VenueService: BaseService {
     fileprivate let baseRef: Reference
     fileprivate let apiService: CloudAPIService
     public init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService()) {
@@ -21,7 +21,7 @@ public class VenueService: NSObject {
     }
     
     // TODO: readwritequeue
-    public var cities: [City] = []
+    public var _cities: [City] = []
     
     // MARK: - Singleton
     public static var shared: VenueService = VenueService()
@@ -44,7 +44,9 @@ public class VenueService: NSObject {
                     return n1 < n2
                 })
                 
-                self?.cities = results
+                self?.readWriteQueue2.async(flags: .barrier) { [weak self] in
+                    self?._cities = results
+                }
                 completion?(results)
             }
         }
@@ -99,13 +101,19 @@ public class VenueService: NSObject {
     }
 
     public func withId(id: String, completion: @escaping ((Venue?)->Void)) {
+        if let found = cached(id) as? Venue {
+            completion(found)
+            return
+        }
+
         let reference = baseRef.child(path: "venues").child(path: id)
-        reference.observeValue { (snapshot) in
+        reference.observeValue { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
             }
             let object = Venue(snapshot: snapshot)
+            self?.cache(object)
             completion(object)
             
             reference.removeAllObservers()
