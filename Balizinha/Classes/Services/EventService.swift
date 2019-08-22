@@ -314,7 +314,7 @@ public extension EventService {
 
 public extension EventService {
     func withId(id: String, completion: @escaping ((Balizinha.Event?)->Void)) {
-        if let found = cached(id) {
+        if let found = cached(id) as? Balizinha.Event {
             completion(found)
             return
         }
@@ -332,21 +332,7 @@ public extension EventService {
             reference.removeAllObservers()
         }
     }
-    
-    func cache(_ event: Balizinha.Event) {
-        readWriteQueue.async(flags: .barrier) { [weak self] in
-            self?._events[event.id] = event
-        }
-    }
-    
-    func cached(_ eventId: String) -> Balizinha.Event? {
-        var event: Balizinha.Event?
-        readWriteQueue.sync { [weak self] in
-            event = self?._events[eventId]
-        }
-        return event
-    }
-    
+
     func cacheId(_ eventId: String, shouldInsert: Bool) {
         readWriteQueue2.async(flags: .barrier) { [weak self] in
             if self?._userEvents == nil {
@@ -387,7 +373,7 @@ extension EventService {
     }
     
     public func eventForAction(with eventId: String) -> Balizinha.Event? {
-        return cached(eventId) // used by actionService for synchronous event fetch
+        return cached(eventId) as? Event // used by actionService for synchronous event fetch
     }
 }
 

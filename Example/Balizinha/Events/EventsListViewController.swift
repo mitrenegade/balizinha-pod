@@ -59,7 +59,7 @@ class EventsListViewController: ListViewController {
                     } else {
                         self?.currentEvents.append(event)
                     }
-                    self?.service?.cache(event)
+//                    self?.service?.cache(event)
                 }
                 self?.pastEvents.sort(by: { (p1, p2) -> Bool in
                     guard let t1 = p1.startTime else { return false }

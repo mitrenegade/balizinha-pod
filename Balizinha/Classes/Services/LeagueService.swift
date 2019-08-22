@@ -14,7 +14,6 @@ import RenderCloud
 
 public class LeagueService: BaseService {
     public static let shared: LeagueService = LeagueService()
-    fileprivate var _leagues: [String: League] = [:]
     fileprivate var _playerLeagues: [String: Membership.Status] = [:]
     
     fileprivate var disposeBag: DisposeBag
@@ -32,15 +31,13 @@ public class LeagueService: BaseService {
         }).disposed(by: disposeBag)
     }
 
-    public func resetOnLogout() {
+    public override func resetOnLogout() {
+        super.resetOnLogout()
         disposeBag = DisposeBag()
-        readWriteQueue.async(flags: .barrier) { [weak self] in
-            self?._leagues = [:]
-        }
+        featuredLeagueId = nil
         readWriteQueue2.async(flags: .barrier) { [weak self] in
             self?._playerLeagues = [:]
         }
-        featuredLeagueId = nil
     }
 
     // MARK: - League creation
@@ -81,7 +78,7 @@ public class LeagueService: BaseService {
 
     // MARK: League info
     public func withId(id: String, completion: @escaping ((League?)->Void)) {
-        if let found = cached(id) {
+        if let found = cached(id) as? League {
             completion(found)
             return
         }
@@ -113,13 +110,7 @@ public class LeagueService: BaseService {
     Returns all currently cached leagues, in no particular order, in array format
     */
     public var allLeagues: [League] {
-        var leagues: [League] = []
-        readWriteQueue.sync { [weak self] in
-            if let self = self {
-                leagues = Array(self._leagues.values)
-            }
-        }
-        return leagues
+        return getCachedObjects()
     }
     
     // MARK: - Cloud functions
@@ -142,21 +133,6 @@ public class LeagueService: BaseService {
             completion(results)
         }
     }
-    
-    func cache(_ league: League) {
-        readWriteQueue.async(flags: .barrier) { [weak self] in
-            self?._leagues[league.id] = league
-        }
-    }
-    
-    func cached(_ leagueId: String) -> League? {
-        var league: League?
-        readWriteQueue.sync { [weak self] in
-            league = self?._leagues[leagueId]
-        }
-        return league
-    }
-    
 
     // MARK: Leagues for player
     public func leagueMemberships(for player: Player, completion: @escaping (([String: Membership.Status]?)->Void)) {
@@ -269,7 +245,7 @@ public class LeagueService: BaseService {
     public func getOwnerLeaguesAndSubscriptions(completion: ((Any?, Error?)->Void)?) {
         guard let user = AuthService.currentUser else { return }
         let params = ["userId": user.uid]
-        RenderAPIService().cloudFunction(functionName: "getOwnerLeaguesAndSubscriptions", method: "POST", params: params, completion: { (result, error) in
+        RenderAPIService().cloudFunction(functionName: "getOwnerLeaguesAndSubscriptions", method: "POST", params: params, completion: { [weak self] (result, error) in
             guard error == nil else {
                 completion?(nil, error)
                 return
@@ -281,8 +257,7 @@ public class LeagueService: BaseService {
                 for (key, dict) in leagueDict {
                     let league = League(key: key, dict: dict)
                     leagues.append(league)
-                    // TODO: add caching
-                    //                    LeagueService.shared.cache(league)
+                    self?.cache(league)
                 }
             }
             
