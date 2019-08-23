@@ -84,6 +84,18 @@ public class Venue: FirebaseBaseModel {
             update(key: "lon", value: newValue)
         }
     }
+    
+    public var photoUrl: String? {
+        get {
+            if let val = dict["photoUrl"] as? String {
+                return val
+            }
+            return nil
+        }
+        set {
+            update(key: "photoUrl", value: newValue)
+        }
+    }
 }
 
 extension Venue {
