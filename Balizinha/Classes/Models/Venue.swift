@@ -9,12 +9,34 @@
 import UIKit
 
 public class Venue: FirebaseBaseModel {
+    public enum SpaceType: String {
+        case grass
+        case turf
+        case wood
+        case concrete
+        case mats
+        case rubber
+        case other
+        case unknown
+    }
     public var name: String? {
         get {
-            return self.dict["name"] as? String
+            return dict["name"] as? String
         }
         set {
             update(key: "name", value: newValue)
+        }
+    }
+    
+    public var type: SpaceType {
+        get {
+            if let space = dict["type"] as? String {
+                return SpaceType(rawValue: space) ?? .unknown
+            }
+            return .unknown
+        }
+        set {
+            update(key: "type", value: newValue)
         }
     }
 
