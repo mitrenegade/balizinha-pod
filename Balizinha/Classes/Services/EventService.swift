@@ -100,14 +100,22 @@ public class EventService: BaseService {
         }
     }
     
-    public func createEvent(_ name: String, type: Balizinha.Event.EventType, city: String, state: String, lat: Double?, lon: Double?, place: String, startTime: Date, endTime: Date, maxPlayers: UInt, info: String?, paymentRequired: Bool, amount: NSNumber? = 0, leagueId: String?, completion:@escaping (Balizinha.Event?, NSError?) -> Void) {
+    public func createEvent(_ name: String, type: Balizinha.Event.EventType, venue: Venue?, city: String? = nil, state: String? = nil, lat: Double? = nil, lon: Double? = nil, place: String? = nil, startTime: Date, endTime: Date, maxPlayers: UInt, info: String?, paymentRequired: Bool, amount: NSNumber? = 0, leagueId: String?, completion:@escaping (Balizinha.Event?, NSError?) -> Void) {
         
         guard let user = AuthService.currentUser else { return }
         
-        var params: [String: Any] = ["name": name, "type": type.rawValue, "city": city, "state": state, "place": place, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "maxPlayers": maxPlayers, "userId": user.uid, "paymentRequired": paymentRequired]
-        if let lat = lat, let lon = lon {
-            params["lat"] = lat
-            params["lon"] = lon
+        var params: [String: Any] = ["name": name, "type": type.rawValue, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "maxPlayers": maxPlayers, "userId": user.uid, "paymentRequired": paymentRequired]
+        if let venue = venue {
+            params["venueId"] = venue.id
+        } else if let city = city, let state = state, let place = place {
+            params["city"] = city
+            params["state"] = state
+            params["place"] = place
+
+            if let lat = lat, let lon = lon {
+                params["lat"] = lat
+                params["lon"] = lon
+            }
         }
         if paymentRequired {
             params["paymentRequired"] = true
