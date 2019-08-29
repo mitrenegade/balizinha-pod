@@ -49,6 +49,7 @@ public class Venue: FirebaseBaseModel {
         }
     }
     
+    // deprecated. may load from cityId
     public var city: String? {
         get {
             return self.dict["city"] as? String
@@ -76,6 +77,16 @@ public class Venue: FirebaseBaseModel {
         }
     }
     
+    // placeholder: may be google or apple
+    public var placeId: String? {
+        get {
+            return dict["placeId"] as? String
+        }
+        set {
+            update(key: "placeId", value: newValue)
+        }
+    }
+
     public var lat: Double? {
         get {
             return self.dict["lat"] as? Double

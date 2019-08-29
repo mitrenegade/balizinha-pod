@@ -164,7 +164,7 @@ public class VenueService: BaseService {
         }
     }
     
-    public func createVenue(userId: String, type: Venue.SpaceType, name: String? = nil, street: String? = nil, cityId: String? = nil, lat: Double? = nil, lon: Double? = nil, completion:((Venue?, Error?) -> Void)?) {
+    public func createVenue(userId: String, type: Venue.SpaceType, name: String? = nil, street: String? = nil, cityId: String? = nil, lat: Double? = nil, lon: Double? = nil, placeId: String?, completion:((Venue?, Error?) -> Void)?) {
         // todo: if this is a codable, handle optionals
         var params: [String: Any] = ["userId": userId, "type": type.rawValue]
         if let name = name {
@@ -179,6 +179,10 @@ public class VenueService: BaseService {
         if let lat = lat, let lon = lon {
             params["lat"] = lat
             params["lon"] = lon
+        }
+        // placeholder for google or apple place
+        if let placeId = placeId {
+            params["placeId"] = placeId
         }
 
         // call cloud service
