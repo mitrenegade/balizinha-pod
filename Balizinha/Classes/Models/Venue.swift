@@ -67,6 +67,15 @@ public class Venue: FirebaseBaseModel {
         }
     }
     
+    public var cityId: String? {
+        get {
+            return dict["cityId"] as? String
+        }
+        set {
+            update(key: "cityId", value: newValue)
+        }
+    }
+    
     public var lat: Double? {
         get {
             return self.dict["lat"] as? Double
