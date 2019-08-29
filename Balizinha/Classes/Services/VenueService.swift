@@ -164,10 +164,26 @@ public class VenueService: BaseService {
         }
     }
     
-    // creating a venue locally
-    public func createVenue(_ userId: String, _ name: String?, _ street: String? = nil, _ city: String? = nil, _ state: String? = nil, _ lat: Double? = nil, _ lon: Double? = nil, completion:((Venue?, Error?) -> Void)?) {
+    public func createVenue(userId: String, type: Venue.SpaceType, name: String? = nil, street: String? = nil, cityId: String? = nil, lat: Double? = nil, lon: Double? = nil, placeId: String?, completion:((Venue?, Error?) -> Void)?) {
         // todo: if this is a codable, handle optionals
-        let params: [String: Any] = ["userId": userId, "name": name ?? "", "street": street ?? "", "city": city ?? "", "state": state ?? "", "lat": lat ?? 0, "lon": lon ?? 0]
+        var params: [String: Any] = ["userId": userId, "type": type.rawValue]
+        if let name = name {
+            params["name"] = name
+        }
+        if let street = street {
+            params["street"] = street
+        }
+        if let cityId = cityId {
+            params["cityId"] = cityId
+        }
+        if let lat = lat, let lon = lon {
+            params["lat"] = lat
+            params["lon"] = lon
+        }
+        // placeholder for google or apple place
+        if let placeId = placeId {
+            params["placeId"] = placeId
+        }
 
         // call cloud service
         apiService.cloudFunction(functionName: "createVenue", method: "POST", params: params) { [weak self] (result, error) in

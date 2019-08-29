@@ -152,7 +152,7 @@ public class Event: FirebaseBaseModel {
             return ""
         }
         set {
-            update(key: "nainfome", value: newValue)
+            update(key: "info", value: newValue)
         }
     }
     
@@ -174,6 +174,15 @@ public class Event: FirebaseBaseModel {
     public var shareLink: String? {
         get {
             return self.dict["shareLink"] as? String
+        }
+    }
+    
+    public var venueId: String? {
+        get {
+            return dict["venueId"] as? String
+        }
+        set {
+            update(key: "venueId", value: newValue)
         }
     }
 }

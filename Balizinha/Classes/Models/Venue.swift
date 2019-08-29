@@ -9,12 +9,34 @@
 import UIKit
 
 public class Venue: FirebaseBaseModel {
+    public enum SpaceType: String {
+        case grass
+        case turf
+        case wood
+        case concrete
+        case mats
+        case rubber
+        case other
+        case unknown
+    }
     public var name: String? {
         get {
-            return self.dict["name"] as? String
+            return dict["name"] as? String
         }
         set {
             update(key: "name", value: newValue)
+        }
+    }
+    
+    public var type: SpaceType {
+        get {
+            if let space = dict["type"] as? String {
+                return SpaceType(rawValue: space) ?? .unknown
+            }
+            return .unknown
+        }
+        set {
+            update(key: "type", value: newValue)
         }
     }
 
@@ -27,6 +49,7 @@ public class Venue: FirebaseBaseModel {
         }
     }
     
+    // deprecated. may load from cityId
     public var city: String? {
         get {
             return self.dict["city"] as? String
@@ -45,6 +68,25 @@ public class Venue: FirebaseBaseModel {
         }
     }
     
+    public var cityId: String? {
+        get {
+            return dict["cityId"] as? String
+        }
+        set {
+            update(key: "cityId", value: newValue)
+        }
+    }
+    
+    // placeholder: may be google or apple
+    public var placeId: String? {
+        get {
+            return dict["placeId"] as? String
+        }
+        set {
+            update(key: "placeId", value: newValue)
+        }
+    }
+
     public var lat: Double? {
         get {
             return self.dict["lat"] as? Double
@@ -60,6 +102,18 @@ public class Venue: FirebaseBaseModel {
         }
         set {
             update(key: "lon", value: newValue)
+        }
+    }
+    
+    public var photoUrl: String? {
+        get {
+            if let val = dict["photoUrl"] as? String {
+                return val
+            }
+            return nil
+        }
+        set {
+            update(key: "photoUrl", value: newValue)
         }
     }
 }
