@@ -9,7 +9,7 @@
 import RenderCloud
 
 // this service retains memory
-public class MockVenueService: VenueService {
+public class MockCityeService: CityService {
     public init() {
         super.init()
         _cities = [City(key: "123", dict: ["createdAt": Date().timeIntervalSince1970 - 3600, "name": "Skyville", "state": "Cloud", "lat": 39, "lon": -122])]
@@ -27,3 +27,4 @@ public class MockVenueService: VenueService {
         completion(city, nil)
     }
 }
+
