@@ -320,13 +320,13 @@ extension UtilsViewController {
     
     func convertUserCities() {
         showLoadingIndicator()
-        VenueService.shared.getCities { (cities) in
+        CityService.shared.getCities { (cities) in
             print("Cities \(cities)")
-            VenueService.shared.loadPlayerCityStrings(includeInvalidCities: false) { (cityStrings, _) in
+            CityService.shared.loadPlayerCityStrings(includeInvalidCities: false) { (cityStrings, _) in
                 print("cityStrings \(cityStrings)")
                 
                 for string in cityStrings {
-                    VenueService.shared.createCity(string, state: nil, lat: 0, lon: 0, completion: { (city, error) in
+                    CityService.shared.createCity(string, state: nil, lat: 0, lon: 0, completion: { (city, error) in
                         print("Creating string \(string): result \(String(describing: city)) error \(String(describing: error))")
                     })
                 }

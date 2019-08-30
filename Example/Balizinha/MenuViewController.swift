@@ -238,7 +238,7 @@ extension MenuViewController {
             }
         }
         
-        VenueService.shared.checkForUnverifiedCity { [weak self] hasUnverified in
+        CityService.shared.checkForUnverifiedCity { [weak self] hasUnverified in
             if hasUnverified != self?.hasUnverifiedCity {
                 self?.hasUnverifiedCity = hasUnverified
                 self?.reloadTable()
