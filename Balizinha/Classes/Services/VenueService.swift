@@ -34,18 +34,59 @@ public class VenueService: BaseService {
             reference.removeAllObservers()
         }
     }
-
-    public func createVenue(userId: String, type: Venue.SpaceType, name: String? = nil, street: String? = nil, cityId: String? = nil, lat: Double? = nil, lon: Double? = nil, placeId: String?, completion:((Venue?, Error?) -> Void)?) {
+    
+    // For Admin only
+    public func loadPlayerCityStrings(includeInvalidCities: Bool = true, completion: @escaping ([String], [String: [String]])->Void) {
+        let ref: Query
+        let refName = "cityPlayers"
+        ref = firRef.child(refName).queryOrdered(byChild: "createdAt")
+        ref.observeSingleValue() { (snapshot) in
+            guard snapshot.exists() else {
+                completion([], [:])
+                return
+            }
+            if let allObjects = snapshot.allChildren {
+                var cities: [String] = []
+                var playersForCity: [String: [String]] = [:]
+                var notCities: [String] = []
+                for object in allObjects {
+                    print("Snapshot key \(object.key) value \(String(describing: object.value))")
+                    if let playerStatus = object.value as? [String: Bool] {
+                        let allPlayers = playerStatus.compactMap({ (key, val) -> String? in
+                            if val {
+                                return key
+                            }
+                            return nil
+                        })
+                        if !allPlayers.isEmpty {
+                            cities.append(object.key)
+                            playersForCity[object.key] = allPlayers
+                        }
+                    } else if let playerActive = object.value as? Bool {
+                        if playerActive {
+                            notCities.append(object.key)
+                            playersForCity[object.key] = [object.key]
+                        }
+                    }
+                }
+                
+                cities = cities.sorted()
+                if includeInvalidCities {
+                    cities.append(contentsOf: notCities.sorted())
+                }
+                completion(cities, playersForCity)
+            }
+        }
+    }
+    
+    public func createVenue(userId: String, type: Venue.SpaceType, name: String? = nil, street: String? = nil, cityId: String, lat: Double? = nil, lon: Double? = nil, placeId: String?, completion:((Venue?, Error?) -> Void)?) {
         // todo: if this is a codable, handle optionals
-        var params: [String: Any] = ["userId": userId, "type": type.rawValue]
+        var params: [String: Any] = ["userId": userId, "type": type.rawValue, "cityId": cityId]
         if let name = name {
             params["name"] = name
         }
         if let street = street {
             params["street"] = street
-        }
-        if let cityId = cityId {
-            params["cityId"] = cityId
         }
         if let lat = lat, let lon = lon {
             params["lat"] = lat
