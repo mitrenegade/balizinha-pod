@@ -21,7 +21,7 @@ class PlaceSearchViewController: UIViewController {
     
     weak var pinpointController: PinpointViewController?
     var currentVenue: Venue?
-    var selectedCity: City?
+//    var selectedCity: City?
     private let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     override func viewDidLoad() {
@@ -92,10 +92,10 @@ extension PlaceSearchViewController {
     }
     
     @objc func selectLocation() {
-        guard let selectedCity = selectedCity else {
-            simpleAlert("Could not save venue", message: "Please select a city from the dropdown first.")
-            return
-        }
+//        guard let selectedCity = selectedCity else {
+//            simpleAlert("Could not save venue", message: "Please select a city from the dropdown first.")
+//            return
+//        }
         // user saved the location poinpointed on map
         // TODO: check if venue exists
         guard let player = PlayerService.shared.current.value else { return }
@@ -115,7 +115,7 @@ extension PlaceSearchViewController {
             present(alert, animated: true, completion: nil)
         } else {
             activityOverlay.show()
-            VenueService.shared.createVenue(userId: player.id, type: .unknown, name: pinpointController?.name, cityId: selectedCity.id, lat: pinpointController?.lat, lon: pinpointController?.lon, placeId: nil) { [weak self] (venue, error) in
+            VenueService.shared.createVenue(userId: player.id, type: .unknown, name: pinpointController?.name, lat: pinpointController?.lat, lon: pinpointController?.lon, placeId: nil) { [weak self] (venue, error) in
                 self?.activityOverlay.hide()
                 if let venue = venue {
                     self?.delegate?.didSelect(venue: venue)

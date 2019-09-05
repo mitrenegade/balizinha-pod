@@ -79,14 +79,20 @@ public class VenueService: BaseService {
         }
     }
     
-    public func createVenue(userId: String, type: Venue.SpaceType, name: String? = nil, street: String? = nil, cityId: String, lat: Double? = nil, lon: Double? = nil, placeId: String?, completion:((Venue?, Error?) -> Void)?) {
+    public func createVenue(userId: String, type: Venue.SpaceType, name: String? = nil, street: String? = nil, city: String? = nil, state: String? = nil, lat: Double? = nil, lon: Double? = nil, placeId: String?, completion:((Venue?, Error?) -> Void)?) {
         // todo: if this is a codable, handle optionals
-        var params: [String: Any] = ["userId": userId, "type": type.rawValue, "cityId": cityId]
+        var params: [String: Any] = ["userId": userId, "type": type.rawValue]
         if let name = name {
             params["name"] = name
         }
         if let street = street {
             params["street"] = street
+        }
+        if let city = city {
+            params["city"] = city
+        }
+        if let state = state {
+            params["state"] = state
         }
         if let lat = lat, let lon = lon {
             params["lat"] = lat
