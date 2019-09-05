@@ -21,7 +21,7 @@ class PlaceSearchViewController: UIViewController {
     
     weak var pinpointController: PinpointViewController?
     var currentVenue: Venue?
-    private var selectedCity: City?
+    var selectedCity: City?
     private let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     override func viewDidLoad() {

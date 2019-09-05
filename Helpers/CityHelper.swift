@@ -5,13 +5,13 @@
 //  Created by Bobby Ren on 8/29/19.
 //
 
-import UIKit
 import RenderCloud
 
-protocol CityHelperDelegate: class {
+public protocol CityHelperDelegate: class {
     func didSelectCity(_ city: City?)
 }
-class CityHelper: NSObject {
+
+public class CityHelper: NSObject {
     var stateAbbreviations = [ "AK",
                                "AL",
                                "AR",
@@ -80,7 +80,7 @@ class CityHelper: NSObject {
     weak var service: CityService?
     weak var delegate: CityHelperDelegate?
     
-    public convenience init(inputField: UITextField?, delegate: CityHelperDelegate?, service: CityService? = CityService.shared) {
+    public convenience init(inputField: UITextField, delegate: CityHelperDelegate?, service: CityService? = CityService.shared) {
         self.init()
         
         textField = inputField
@@ -95,7 +95,7 @@ class CityHelper: NSObject {
         promptForNewCity()
     }
 
-    internal func setupInputs() {
+    private func setupInputs() {
         let keyboardDoneButtonView: UIToolbar = UIToolbar()
         keyboardDoneButtonView.sizeToFit()
         keyboardDoneButtonView.barStyle = UIBarStyle.black
@@ -179,11 +179,11 @@ class CityHelper: NSObject {
 }
 
 extension CityHelper: UIPickerViewDataSource, UIPickerViewDelegate {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == cityPickerView {
             return cities.count + 1
         } else if pickerView == statePickerView {
@@ -192,7 +192,7 @@ extension CityHelper: UIPickerViewDataSource, UIPickerViewDelegate {
         return 0
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == cityPickerView {
             if row == 0 {
                 return "Add a city"
@@ -205,7 +205,7 @@ extension CityHelper: UIPickerViewDataSource, UIPickerViewDelegate {
         return nil
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == cityPickerView {
             pickerRow = row
             if row > 0 && row <= cities.count {
