@@ -86,6 +86,8 @@ class MenuViewController: UIViewController {
                 self?.loadNotifications()
             }
         }).disposed(by: disposeBag)
+
+        let _ = PlayerService.shared
     }
     
     func promptForLogin() {
@@ -238,7 +240,7 @@ extension MenuViewController {
             }
         }
         
-        VenueService.shared.checkForUnverifiedCity { [weak self] hasUnverified in
+        CityService.shared.checkForUnverifiedCity { [weak self] hasUnverified in
             if hasUnverified != self?.hasUnverifiedCity {
                 self?.hasUnverifiedCity = hasUnverified
                 self?.reloadTable()

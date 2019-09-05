@@ -14,7 +14,11 @@ import RenderCloud
 class VenuesListViewController: SearchableListViewController {
     var reference: Reference?
     var venues: [Venue] = []
-
+    let inputField: UITextField = UITextField()
+    var cityHelper: CityHelper?
+    var selectedCity: City?
+//    var cities: [City] = []
+    
     override var refName: String {
         return "venues"
     }
@@ -40,14 +44,21 @@ class VenuesListViewController: SearchableListViewController {
         
         activityOverlay.show()
         load() { [weak self] in
+//            self?.cities = cities
             self?.search(for: nil)
             self?.activityOverlay.hide()
+//            CityService.shared.getCities(completion: { [weak self] (cities) in
+//            })
         }
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createVenue))
     }
     
     @objc func createVenue() {
+//        cityHelper = CityHelper(inputField: inputField, delegate: self)
+//        cityHelper?.showCitySelector(from: self)
+//        cityHelper?.cities = cities
+//        inputField.becomeFirstResponder()
         performSegue(withIdentifier: "toLocationSearch", sender: nil)
     }
     
@@ -61,14 +72,21 @@ class VenuesListViewController: SearchableListViewController {
     }
 }
 
+extension VenuesListViewController: CityHelperDelegate {
+    func didSelectCity(_ city: City?) {
+        selectedCity = city
+        performSegue(withIdentifier: "toLocationSearch", sender: city)
+    }
+}
+
 // MARK: - TableView Datasource and Delegate
 extension VenuesListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as? CityCell else { return UITableViewCell() }
         if indexPath.row < venues.count {
-            let venue = venues[indexPath.row] as? Venue
+            let venue = venues[indexPath.row]
             cell.configureVenue(with: venue)
-            cell.detailTextLabel?.text = venue?.city ?? ""
+            cell.detailTextLabel?.text = venue.city ?? ""
         }
         return cell
     }

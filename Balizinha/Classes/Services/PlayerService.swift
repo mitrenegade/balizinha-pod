@@ -12,6 +12,7 @@ import FirebaseCore
 import RxSwift
 import RxOptional
 import FirebaseDatabase
+import RenderCloud
 
 public class PlayerService: BaseService {
     // MARK: - Singleton
@@ -20,19 +21,20 @@ public class PlayerService: BaseService {
     fileprivate var disposeBag: DisposeBag
     
     public let current: Variable<Player?> = Variable(nil)
-    fileprivate let playersRef: DatabaseReference
-    fileprivate var currentPlayerRef: DatabaseReference?
+    fileprivate var playersRef: Reference?
+    fileprivate var currentPlayerRef: Reference?
     
     // for a new user, set this flag on the first time they log in
     public var needsToCreateProfile: Bool = false
     
-    public override init() {
+    public override init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService()) {
+
         disposeBag = DisposeBag()
-        playersRef = firRef.child("players") // this references the endpoint lotsports.firebase.com/players/
-        playersRef.keepSynced(true)
-        
         super.init()
-        
+
+        playersRef = baseRef.child(path: "players") // this references the endpoint lotsports.firebase.com/players/
+        (playersRef as? DatabaseReference)?.keepSynced(true)
+
         startAuthListener()
     }
     
@@ -48,8 +50,8 @@ public class PlayerService: BaseService {
     public func refreshCurrentPlayer() {
         guard let user = AuthService.currentUser else { return }
         currentPlayerRef?.removeAllObservers()
-        currentPlayerRef = self.playersRef.child(user.uid)
-        currentPlayerRef?.observe(.value, with: { [weak self] (snapshot) in
+        currentPlayerRef = playersRef?.child(path: user.uid)
+        currentPlayerRef?.observeSingleValue { [weak self] (snapshot) in
             guard snapshot.exists() else { return }
             
             let player = Player(snapshot: snapshot)
@@ -58,7 +60,7 @@ public class PlayerService: BaseService {
             
             self?.currentPlayerRef?.removeAllObservers()
             self?.currentPlayerRef = nil
-        })
+        }
     }
     
     public class func resetOnLogout() {
@@ -73,7 +75,7 @@ public class PlayerService: BaseService {
         
         guard let user = AuthService.currentUser, !AuthService.isAnonymous else { return }
         let existingUserId = user.uid
-        let newPlayerRef: DatabaseReference = playersRef.child(existingUserId)
+        guard let newPlayerRef: DatabaseReference = playersRef?.child(path: existingUserId) as? DatabaseReference else { return }
         
         print("PlayerService createPlayer")
         
@@ -100,7 +102,7 @@ public class PlayerService: BaseService {
                 print(error)
                 completion(nil, error)
             } else {
-                PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { player in
+                self.current.asObservable().filterNil().take(1).subscribe(onNext: { player in
                     completion(player, nil)
                 }).disposed(by: self.disposeBag)
             }
@@ -113,8 +115,12 @@ public class PlayerService: BaseService {
             return
         }
 
-        let ref = playersRef.child(id)
-        ref.observe(.value) { [weak self] (snapshot) in
+        guard let ref: Reference = playersRef?.child(path: id) else {
+            completion(nil)
+            return
+        }
+
+        ref.observeSingleValue{ [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return

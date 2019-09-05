@@ -19,7 +19,7 @@ class CitiesListViewController: UIViewController {
     var mode: Mode = .selectedCities
 
     @IBOutlet weak var tableView: UITableView!
-    var service: VenueService?
+    var service: CityService?
     var cities: [City] = []
 
     var cityNames: [String] = []
@@ -30,9 +30,9 @@ class CitiesListViewController: UIViewController {
         super.viewDidLoad()
 
         if AIRPLANE_MODE {
-            service = MockVenueService.shared
+            service = MockCityService.shared
         } else {
-            service = VenueService.shared
+            service = CityService.shared
         }
 
         self.tableView.rowHeight = UITableView.automaticDimension

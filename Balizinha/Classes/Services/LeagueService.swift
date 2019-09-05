@@ -19,7 +19,7 @@ public class LeagueService: BaseService {
     fileprivate var disposeBag: DisposeBag
     public var featuredLeagueId: String?
 
-    public override init() {
+    public override init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService()) {
         disposeBag = DisposeBag()
         super.init()
         
@@ -44,7 +44,7 @@ public class LeagueService: BaseService {
     public func create(name: String, city: String, info: String, completion: @escaping ((_ result: Any?, _ error: Error?)->Void)) {
         guard let user = AuthService.currentUser else { return }
         let params = ["name": name, "city": city, "info": info, "userId": user.uid]
-        RenderAPIService().cloudFunction(functionName: "createLeague", method: "POST", params: params, completion: { (result, error) in
+        apiService.cloudFunction(functionName: "createLeague", method: "POST", params: params, completion: { (result, error) in
             guard error == nil else {
                 completion(nil, error)
                 return
@@ -56,7 +56,7 @@ public class LeagueService: BaseService {
     // MARK: - League membership
     public func join(league: League, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
         guard let user = AuthService.currentUser else { return }
-        RenderAPIService().cloudFunction(functionName: "joinLeaveLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": true]) { (result, error) in
+        apiService.cloudFunction(functionName: "joinLeaveLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": true]) { (result, error) in
             guard error == nil else {
                 completion(nil, error)
                 return
@@ -67,7 +67,7 @@ public class LeagueService: BaseService {
     
     public func leave(league: League, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
         guard let user = AuthService.currentUser else { return }
-        RenderAPIService().cloudFunction(functionName: "joinLeaveLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": false]) { (result, error) in
+        apiService.cloudFunction(functionName: "joinLeaveLeague", method: "POST", params: ["userId": user.uid, "leagueId": league.id, "isJoin": false]) { (result, error) in
             guard error == nil else {
                 completion(nil, error)
                 return
@@ -83,8 +83,8 @@ public class LeagueService: BaseService {
             return
         }
         
-        let ref = firRef.child("leagues").child(id)
-        ref.observe(.value) { [weak self] (snapshot) in
+        let ref = baseRef.child(path: "leagues").child(path: id)
+        ref.observeSingleValue { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
@@ -99,11 +99,13 @@ public class LeagueService: BaseService {
     // MARK: league deletion
     public class func delete(_ league: League) {
         let id = league.id
-        let queryRef = firRef.child("leagues").child(id)
-        queryRef.setValue(nil)
+        if let queryRef: DatabaseReference = shared.baseRef.child(path: "leagues").child(path: id) as? DatabaseReference {
+            queryRef.setValue(nil)
+        }
         
-        let playersRef = firRef.child("leaguePlayers").child(id)
-        playersRef.setValue(nil)
+        if let playersRef: DatabaseReference = shared.baseRef.child(path: "leaguePlayers").child(path: id) as? DatabaseReference {
+            playersRef.setValue(nil)
+        }
     }
 
     /**
@@ -116,14 +118,14 @@ public class LeagueService: BaseService {
     // MARK: - Cloud functions
     // TODO: is this used?
     public func getLeagues(completion: @escaping (_ results: [League]) -> Void) {
-        let queryRef = firRef.child("leagues")
-        queryRef.observeSingleEvent(of: .value) { [weak self] (snapshot) in
+        let queryRef = baseRef.child(path:"leagues")
+        queryRef.observeSingleValue { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 return
             }
             var results: [League] = []
-            if let allObjects =  snapshot.children.allObjects as? [DataSnapshot] {
-                for dict: DataSnapshot in allObjects {
+            if let allObjects =  snapshot.allChildren {
+                for dict: Snapshot in allObjects {
                     guard dict.exists() else { continue }
                     let league = League(snapshot: dict)
                     self?.cache(league)
@@ -136,7 +138,7 @@ public class LeagueService: BaseService {
 
     // MARK: Leagues for player
     public func leagueMemberships(for player: Player, completion: @escaping (([String: Membership.Status]?)->Void)) {
-        RenderAPIService().cloudFunction(functionName: "getLeaguesForPlayer", params: ["userId": player.id]) { [weak self] (result, error) in
+        apiService.cloudFunction(functionName: "getLeaguesForPlayer", method: "POST", params: ["userId": player.id]) { [weak self] (result, error) in
             guard error == nil else {
                 completion(nil)
                 return
@@ -164,7 +166,7 @@ public class LeagueService: BaseService {
     }
 
     public func changeLeaguePlayerStatus(playerId: String, league: League, status: String, completion: @escaping ((_ result: Any?, _ error: Error?) -> Void)) {
-        RenderAPIService().cloudFunction(functionName: "changeLeaguePlayerStatus", method: "POST", params: ["userId": playerId, "leagueId": league.id, "status": status]) { (result, error) in
+        apiService.cloudFunction(functionName: "changeLeaguePlayerStatus", method: "POST", params: ["userId": playerId, "leagueId": league.id, "status": status]) { (result, error) in
             guard error == nil else {
                 completion(nil, error)
                 return
@@ -175,7 +177,7 @@ public class LeagueService: BaseService {
     
     // MARK: Players for league
     public func memberships(for league: League, completion: @escaping (([Membership]?)->Void)) {
-        RenderAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
+        apiService.cloudFunction(functionName: "getPlayersForLeague", method: "POST", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
                 //print("Players for league error \(error)")
                 completion(nil)
@@ -200,7 +202,7 @@ public class LeagueService: BaseService {
     
     // TODO: is this the same?
     public func players(for league: League, completion: @escaping (([String:Membership.Status])->Void)) {
-        RenderAPIService().cloudFunction(functionName: "getPlayersForLeague", params: ["leagueId": league.id]) { (result, error) in
+        apiService.cloudFunction(functionName: "getPlayersForLeague", method: "POST", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
                 //print("Players for league error \(error)")
                 completion([:])
@@ -221,7 +223,7 @@ public class LeagueService: BaseService {
     
     // MARK: - Events for league
     public func events(for league: League, completion: @escaping (([Event]?)->Void)) {
-        RenderAPIService().cloudFunction(functionName: "getEventsForLeague", params: ["leagueId": league.id]) { (result, error) in
+        apiService.cloudFunction(functionName: "getEventsForLeague", method: "POST", params: ["leagueId": league.id]) { (result, error) in
             guard error == nil else {
                 completion(nil)
                 return
@@ -245,7 +247,7 @@ public class LeagueService: BaseService {
     public func getOwnerLeaguesAndSubscriptions(completion: ((Any?, Error?)->Void)?) {
         guard let user = AuthService.currentUser else { return }
         let params = ["userId": user.uid]
-        RenderAPIService().cloudFunction(functionName: "getOwnerLeaguesAndSubscriptions", method: "POST", params: params, completion: { [weak self] (result, error) in
+        apiService.cloudFunction(functionName: "getOwnerLeaguesAndSubscriptions", method: "POST", params: params, completion: { [weak self] (result, error) in
             guard error == nil else {
                 completion?(nil, error)
                 return
