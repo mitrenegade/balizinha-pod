@@ -9,6 +9,7 @@ import RenderCloud
 
 public protocol CityHelperDelegate: class {
     func didSelectCity(_ city: City?)
+    func didFailSelectCity(with error: Error?)
 }
 
 public class CityHelper: NSObject {
@@ -67,14 +68,14 @@ public class CityHelper: NSObject {
                                "WI",
                                "WV",
                                "WY"]
-
+    
     var inputCity: String?
     var inputState: String?
     var cityPickerView: UIPickerView = UIPickerView()
     var statePickerView: UIPickerView = UIPickerView()
     var pickerRow: Int = -1
     public var cities: [City] = []
-
+    
     weak var textField: UITextField?
     weak var presenter: UIViewController?
     weak var service: CityService?
@@ -94,7 +95,7 @@ public class CityHelper: NSObject {
         self.presenter = presenter
         textField?.becomeFirstResponder()
     }
-
+    
     private func setupInputs() {
         let keyboardDoneButtonView: UIToolbar = UIToolbar()
         keyboardDoneButtonView.sizeToFit()
@@ -115,7 +116,7 @@ public class CityHelper: NSObject {
     }
     
     @objc func save() {
-//        self.view.endEditing(true)
+        //        self.view.endEditing(true)
         
         if pickerRow > 0 && pickerRow <= cities.count {
             inputCity = cities[pickerRow - 1].name
@@ -126,7 +127,7 @@ public class CityHelper: NSObject {
     }
     
     @objc func cancelEditing() {
-//        self.view.endEditing(true)
+        //        self.view.endEditing(true)
     }
     
     internal func promptForNewCity() {
@@ -153,18 +154,14 @@ public class CityHelper: NSObject {
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let value = textField.text, !value.isEmpty {
-//                self.showLoadingIndicator()
+                //                self.showLoadingIndicator()
                 self.service?.createCity(city, state: value, lat: 0, lon: 0, completion: { [weak self] (city, error) in
                     DispatchQueue.main.async {
-                        self?.delegate?.didSelectCity(city)
-////                        self?.hideLoadingIndicator()
-//                        if let city = city {
-//                            self?.player?.city = city.shortString
-//                            self?.player?.cityId = city.firebaseKey
-//                            self?.inputCity.text = city.shortString
-//                        } else if let error = error {
-//                            self?.simpleAlert("Could not create city", defaultMessage: nil, error: error)
-//                        }
+                        if let error = error {
+                            self?.delegate?.didFailSelectCity(with: error)
+                        } else {
+                            self?.delegate?.didSelectCity(city)
+                        }
                     }
                 })
             }
