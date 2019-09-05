@@ -115,10 +115,10 @@ public class CityHelper: NSObject {
     }
     
     @objc internal func save() {
-        //        self.view.endEditing(true)
-        
+        inputCity?.endEditing(true)
+        inputState?.endEditing(true)
         if pickerRow > 0 && pickerRow <= cities.count {
-            inputCity?.text = cities[pickerRow - 1].name
+            delegate?.didSelectCity(cities[pickerRow - 1])
         } else if pickerRow == 0 {
             print("Add a city")
             promptForNewCity()
@@ -126,7 +126,8 @@ public class CityHelper: NSObject {
     }
     
     @objc internal func cancelEditing() {
-        //        self.view.endEditing(true)
+        inputCity?.endEditing(true)
+        inputState?.endEditing(true)
     }
     
     internal func promptForNewCity() {
