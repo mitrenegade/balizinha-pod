@@ -77,6 +77,10 @@ extension VenuesListViewController: CityHelperDelegate {
         selectedCity = city
         performSegue(withIdentifier: "toLocationSearch", sender: city)
     }
+    
+    func didFailSelectCity(with error: Error?) {
+        simpleAlert("Could not select city", defaultMessage: "encountered error", error: error as NSError?)
+    }
 }
 
 // MARK: - TableView Datasource and Delegate
