@@ -17,6 +17,7 @@ class VenuesListViewController: SearchableListViewController {
     let inputField: UITextField = UITextField()
     var cityHelper: CityHelper?
     var selectedCity: City?
+    var cities: [City] = []
     
     override var refName: String {
         return "venues"
@@ -43,8 +44,11 @@ class VenuesListViewController: SearchableListViewController {
         
         activityOverlay.show()
         load() { [weak self] in
-            self?.search(for: nil)
-            self?.activityOverlay.hide()
+            CityService.shared.getCities(completion: { [weak self] (cities) in
+                self?.cities = cities
+                self?.search(for: nil)
+                self?.activityOverlay.hide()
+            })
         }
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createVenue))
@@ -53,6 +57,8 @@ class VenuesListViewController: SearchableListViewController {
     @objc func createVenue() {
         cityHelper = CityHelper(inputField: inputField, delegate: self)
         cityHelper?.showCitySelector(from: self)
+        cityHelper?.cities = cities
+        inputField.becomeFirstResponder()
 //        performSegue(withIdentifier: "toLocationSearch", sender: nil)
     }
     

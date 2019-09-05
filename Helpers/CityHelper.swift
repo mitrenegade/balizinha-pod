@@ -73,7 +73,7 @@ public class CityHelper: NSObject {
     var cityPickerView: UIPickerView = UIPickerView()
     var statePickerView: UIPickerView = UIPickerView()
     var pickerRow: Int = -1
-    var cities: [City] = []
+    public var cities: [City] = []
 
     weak var textField: UITextField?
     weak var presenter: UIViewController?
@@ -92,7 +92,7 @@ public class CityHelper: NSObject {
     
     public func showCitySelector(from presenter: UIViewController) {
         self.presenter = presenter
-        promptForNewCity()
+        textField?.becomeFirstResponder()
     }
 
     private func setupInputs() {
