@@ -14,6 +14,9 @@ import RenderCloud
 class VenuesListViewController: SearchableListViewController {
     var reference: Reference?
     var venues: [Venue] = []
+    
+    // city selection
+    var cityPickerView: UIPickerView = UIPickerView()
 
     override var refName: String {
         return "venues"
