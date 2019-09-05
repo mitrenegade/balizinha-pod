@@ -86,6 +86,8 @@ class MenuViewController: UIViewController {
                 self?.loadNotifications()
             }
         }).disposed(by: disposeBag)
+
+        let _ = PlayerService.shared
     }
     
     func promptForLogin() {
