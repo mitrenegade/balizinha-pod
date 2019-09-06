@@ -57,4 +57,45 @@ extension Date {
         dateFormatter.timeStyle = DateFormatter.Style.short
         return dateFormatter.string(from: self)
     }
+    
+    // Gets the next recurrence of a date
+    public func getNextRecurrence(recurrence: Recurrence = .none, from reference: Date) -> Date? {
+        guard reference >  self else { return self }
+
+        var nextDate: Date? = nil
+        let calendar = Calendar.current
+        var refComponents = calendar.dateComponents([.month, .day], from: reference)
+        var eventComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self)
+        
+        switch recurrence {
+        case .none:
+            return self
+        case .daily:
+            guard let day = refComponents.day else { return nil }
+            eventComponents.day = day
+            if let date = calendar.date(from: eventComponents), date > reference {
+                nextDate = date
+            } else {
+                eventComponents.day = day + 1
+                nextDate = calendar.date(from: eventComponents)
+            }
+        case .weekly:
+            // brute force but the best way to do it!
+            var next = self
+            while reference > next {
+                next = next.addingTimeInterval(7*24*3600)
+            }
+            nextDate = next
+        case .monthly:
+            guard let month = refComponents.month else { return nil }
+            eventComponents.month = month
+            if let date = calendar.date(from: eventComponents), date > reference {
+                nextDate = date
+            } else {
+                eventComponents.month = month + 1
+                nextDate = calendar.date(from: eventComponents)
+            }
+        }
+        return nextDate
+    }
 }

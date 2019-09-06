@@ -232,7 +232,7 @@ public extension Event {
 extension Event {
     public func dateString(_ date: Date, from reference: Date? = nil) -> String {
         if let reference = reference, recurrence != .none {
-            if let nextDate = getNextRecurrence(recurringDate: date, from: reference) {
+            if let nextDate = date.getNextRecurrence(recurrence: self.recurrence, from: reference) {
                 return nextDate.dateStringForPicker()
             }
         }
@@ -267,48 +267,6 @@ extension Event {
             return "\(lat), \(lon)"
         }
         return nil
-    }
-    
-    // Gets the next recurrence of a date
-    func getNextRecurrence(recurringDate:
-        Date, from reference: Date) -> Date? {
-        var nextDate: Date? = nil
-        let calendar = Calendar.current
-        var refComponents = calendar.dateComponents([.month, .day], from: reference)
-        var eventComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: recurringDate)
-        
-        guard reference >  recurringDate else { return recurringDate }
-
-        switch recurrence {
-        case .none:
-            return recurringDate
-        case .daily:
-            guard let day = refComponents.day else { return nil }
-            eventComponents.day = day
-            if let date = calendar.date(from: eventComponents), date > reference {
-                nextDate = date
-            } else {
-                eventComponents.day = day + 1
-                nextDate = calendar.date(from: eventComponents)
-            }
-        case .weekly:
-            // brute force but the best way to do it!
-            var next = recurringDate
-            while reference > next {
-                next = next.addingTimeInterval(7*24*3600)
-            }
-            nextDate = next
-        case .monthly:
-            guard let month = refComponents.month else { return nil }
-            eventComponents.month = month
-            if let date = calendar.date(from: eventComponents), date > reference {
-                nextDate = date
-            } else {
-                eventComponents.month = month + 1
-                nextDate = calendar.date(from: eventComponents)
-            }
-        }
-        return nextDate
     }
 }
 

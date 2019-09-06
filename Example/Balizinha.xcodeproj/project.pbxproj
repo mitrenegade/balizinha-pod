@@ -103,6 +103,7 @@
 		C6BC1CDC2126FE1E00A500FD /* SearchableListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BC1CDB2126FE1E00A500FD /* SearchableListViewController.swift */; };
 		C6E11AB621FCAD0300EE3126 /* Stripe.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6E11AB521FCAD0300EE3126 /* Stripe.storyboard */; };
 		C6E11AB821FCAD7C00EE3126 /* StripeMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E11AB721FCAD7C00EE3126 /* StripeMenuViewController.swift */; };
+		E7C2C4C5230D9CFA00C4D0E6 /* DateUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C2C4C4230D9CFA00C4D0E6 /* DateUtilsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -265,6 +266,8 @@
 		C6E11AB521FCAD0300EE3126 /* Stripe.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Stripe.storyboard; sourceTree = "<group>"; };
 		C6E11AB721FCAD7C00EE3126 /* StripeMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeMenuViewController.swift; sourceTree = "<group>"; };
 		CD0B4B52D8F4EC108A0EA635 /* Pods-Balizinha_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Tests/Pods-Balizinha_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		E7C2C4C4230D9CFA00C4D0E6 /* DateUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtilsTests.swift; sourceTree = "<group>"; };
+		E7C2CC37230DB8F800C4D0E6 /* Location.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Location.gpx; sourceTree = "<group>"; };
 		FD4F6317CA270849E7E57832 /* Pods-Balizinha_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Balizinha_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Balizinha_Example/Pods-Balizinha_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -362,7 +365,9 @@
 				8E09572F21ABA32A0037DA17 /* MockDefaultsProvider.swift */,
 				8E09573821ABAE630037DA17 /* MockAuthProvider.swift */,
 				8EA7EB9422FB9AF1006F1A3B /* EventTests.swift */,
+				E7C2CC37230DB8F800C4D0E6 /* Location.gpx */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
+				E7C2C4C4230D9CFA00C4D0E6 /* DateUtilsTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -982,6 +987,7 @@
 				8EA7EB9522FB9AF1006F1A3B /* EventTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 				8E09572C21ABA1000037DA17 /* LoginStateTests.swift in Sources */,
+				E7C2C4C5230D9CFA00C4D0E6 /* DateUtilsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
