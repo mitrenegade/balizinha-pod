@@ -8,6 +8,7 @@
 import RenderCloud
 
 public protocol CityHelperDelegate: class {
+    func didStartCreatingCity()
     func didSelectCity(_ city: City?)
     func didFailSelectCity(with error: Error?)
 }
@@ -73,7 +74,7 @@ public class CityHelper: NSObject {
     internal var inputState: UITextField?
     internal var cityPickerView: UIPickerView = UIPickerView()
     internal var statePickerView: UIPickerView = UIPickerView()
-    var pickerRow: Int = -1 // TODO: select this if a city was already selected
+    var pickerRow: Int = 0 // TODO: select this if a city was already selected
     public var cities: [City] = []
     
     weak var presenter: UIViewController?
@@ -150,11 +151,11 @@ public class CityHelper: NSObject {
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "MA"
             textField.inputView = self.statePickerView
-            self.inputState?.text = textField.text
+            self.inputState = textField
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let value = textField.text, !value.isEmpty {
-                //                self.showLoadingIndicator()
+                self.delegate?.didStartCreatingCity()
                 self.service?.createCity(city, state: value, lat: 0, lon: 0, completion: { [weak self] (city, error) in
                     DispatchQueue.main.async {
                         if let error = error {
