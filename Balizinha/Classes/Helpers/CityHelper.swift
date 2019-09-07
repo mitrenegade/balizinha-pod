@@ -116,6 +116,7 @@ public class CityHelper: NSObject {
     }
     
     @objc internal func save() {
+        guard !cities.isEmpty else { return }
         inputCity?.endEditing(true)
         inputState?.endEditing(true)
         if pickerRow > 0 && pickerRow <= cities.count {
@@ -174,6 +175,10 @@ public class CityHelper: NSObject {
         statePickerView.selectRow(0, inComponent: 0, animated: true)
         pickerView(statePickerView, didSelectRow: 0, inComponent: 0)
     }
+    
+    public func refreshCities() {
+        cityPickerView.reloadAllComponents()
+    }
 }
 
 extension CityHelper: UIPickerViewDataSource, UIPickerViewDelegate {
@@ -193,6 +198,9 @@ extension CityHelper: UIPickerViewDataSource, UIPickerViewDelegate {
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == cityPickerView {
             if row == 0 {
+                if cities.isEmpty {
+                    return "Loading cities..."
+                }
                 return "Add a city"
             } else if row <= cities.count {
                 return cities[row - 1].shortString
