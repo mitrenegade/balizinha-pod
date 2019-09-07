@@ -73,9 +73,18 @@ class VenuesListViewController: SearchableListViewController {
 }
 
 extension VenuesListViewController: CityHelperDelegate {
+    func didStartCreatingCity() {
+        self.showLoadingIndicator()
+    }
     func didSelectCity(_ city: City?) {
+        self.hideLoadingIndicator()
         selectedCity = city
         performSegue(withIdentifier: "toLocationSearch", sender: city)
+    }
+    
+    func didFailSelectCity(with error: Error?) {
+        self.hideLoadingIndicator()
+        simpleAlert("Could not select city", defaultMessage: "encountered error", error: error as NSError?)
     }
 }
 

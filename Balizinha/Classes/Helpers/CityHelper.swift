@@ -8,7 +8,9 @@
 import RenderCloud
 
 public protocol CityHelperDelegate: class {
+    func didStartCreatingCity()
     func didSelectCity(_ city: City?)
+    func didFailSelectCity(with error: Error?)
 }
 
 public class CityHelper: NSObject {
@@ -67,15 +69,14 @@ public class CityHelper: NSObject {
                                "WI",
                                "WV",
                                "WY"]
-
-    var inputCity: String?
-    var inputState: String?
-    var cityPickerView: UIPickerView = UIPickerView()
-    var statePickerView: UIPickerView = UIPickerView()
-    var pickerRow: Int = -1
+    
+    weak var inputCity: UITextField? // set by user
+    internal var inputState: UITextField?
+    internal var cityPickerView: UIPickerView = UIPickerView()
+    internal var statePickerView: UIPickerView = UIPickerView()
+    var pickerRow: Int = 0 // TODO: select this if a city was already selected
     public var cities: [City] = []
-
-    weak var textField: UITextField?
+    
     weak var presenter: UIViewController?
     weak var service: CityService?
     weak var delegate: CityHelperDelegate?
@@ -83,7 +84,7 @@ public class CityHelper: NSObject {
     public convenience init(inputField: UITextField, delegate: CityHelperDelegate?, service: CityService? = CityService.shared) {
         self.init()
         
-        textField = inputField
+        inputCity = inputField
         self.service = service
         self.delegate = delegate
         
@@ -92,9 +93,8 @@ public class CityHelper: NSObject {
     
     public func showCitySelector(from presenter: UIViewController) {
         self.presenter = presenter
-        textField?.becomeFirstResponder()
     }
-
+    
     private func setupInputs() {
         let keyboardDoneButtonView: UIToolbar = UIToolbar()
         keyboardDoneButtonView.sizeToFit()
@@ -105,32 +105,34 @@ public class CityHelper: NSObject {
         let saveButton: UIBarButtonItem = UIBarButtonItem(title: "Update", style: .done, target: self, action: #selector(save))
         keyboardDoneButtonView.setItems([cancel, flex, saveButton], animated: true)
         
-        self.textField?.inputAccessoryView = keyboardDoneButtonView
+        self.inputCity?.inputAccessoryView = keyboardDoneButtonView
         for picker in [cityPickerView, statePickerView] {
             picker.sizeToFit()
             picker.backgroundColor = .white
             picker.delegate = self
             picker.dataSource = self
         }
+        inputCity?.inputView = cityPickerView
     }
     
-    @objc func save() {
-//        self.view.endEditing(true)
-        
+    @objc internal func save() {
+        inputCity?.endEditing(true)
+        inputState?.endEditing(true)
         if pickerRow > 0 && pickerRow <= cities.count {
-            inputCity = cities[pickerRow - 1].name
+            delegate?.didSelectCity(cities[pickerRow - 1])
         } else if pickerRow == 0 {
             print("Add a city")
             promptForNewCity()
         }
     }
     
-    @objc func cancelEditing() {
-//        self.view.endEditing(true)
+    @objc internal func cancelEditing() {
+        inputCity?.endEditing(true)
+        inputState?.endEditing(true)
     }
     
     internal func promptForNewCity() {
-        textField?.resignFirstResponder()
+        inputCity?.resignFirstResponder()
         let alert = UIAlertController(title: "Please enter a city name", message: nil, preferredStyle: .alert)
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "Boston"
@@ -149,22 +151,18 @@ public class CityHelper: NSObject {
         alert.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "MA"
             textField.inputView = self.statePickerView
-            self.inputState = textField.text
+            self.inputState = textField
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let value = textField.text, !value.isEmpty {
-//                self.showLoadingIndicator()
+                self.delegate?.didStartCreatingCity()
                 self.service?.createCity(city, state: value, lat: 0, lon: 0, completion: { [weak self] (city, error) in
                     DispatchQueue.main.async {
-                        self?.delegate?.didSelectCity(city)
-////                        self?.hideLoadingIndicator()
-//                        if let city = city {
-//                            self?.player?.city = city.shortString
-//                            self?.player?.cityId = city.firebaseKey
-//                            self?.inputCity.text = city.shortString
-//                        } else if let error = error {
-//                            self?.simpleAlert("Could not create city", defaultMessage: nil, error: error)
-//                        }
+                        if let error = error {
+                            self?.delegate?.didFailSelectCity(with: error)
+                        } else {
+                            self?.delegate?.didSelectCity(city)
+                        }
                     }
                 })
             }
@@ -210,12 +208,12 @@ extension CityHelper: UIPickerViewDataSource, UIPickerViewDelegate {
             pickerRow = row
             if row > 0 && row <= cities.count {
                 let city = cities[row - 1]
-                inputCity = city.shortString
+                inputCity?.text = city.shortString
             }
         } else if pickerView == statePickerView {
             if row < stateAbbreviations.count {
                 print("Picked state \(stateAbbreviations[row])")
-                inputState = stateAbbreviations[row]
+                inputState?.text = stateAbbreviations[row]
             }
         }
     }
