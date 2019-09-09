@@ -74,12 +74,15 @@ public class CityHelper: NSObject {
     internal var inputState: UITextField?
     internal var cityPickerView: UIPickerView = UIPickerView()
     internal var statePickerView: UIPickerView = UIPickerView()
-    var pickerRow: Int = 0 // TODO: select this if a city was already selected
-    public var cities: [City] = []
+    var pickerRow: Int = 0
+    public var currentCityId: String?
     
     weak var presenter: UIViewController?
     weak var service: CityService?
     weak var delegate: CityHelperDelegate?
+    private var cities: [City]? {
+        return service?._cities
+    }
     
     public convenience init(inputField: UITextField, delegate: CityHelperDelegate?, service: CityService? = CityService.shared) {
         self.init()
@@ -87,6 +90,16 @@ public class CityHelper: NSObject {
         inputCity = inputField
         self.service = service
         self.delegate = delegate
+        
+        // TODO: expose getCities in VenueService on a readWriteQueue
+        if service?._cities.isEmpty ?? true {
+            service?.getCities { [weak self] (cities) in
+                print("loaded \(cities) cities")
+                DispatchQueue.main.async { [weak self] in
+                    self?.refreshCities()
+                }
+            }
+        }
         
         setupInputs()
     }
@@ -116,6 +129,7 @@ public class CityHelper: NSObject {
     }
     
     @objc internal func save() {
+        guard let cities = cities, !cities.isEmpty else { return }
         inputCity?.endEditing(true)
         inputState?.endEditing(true)
         if pickerRow > 0 && pickerRow <= cities.count {
@@ -157,12 +171,19 @@ public class CityHelper: NSObject {
             if let textField = alert.textFields?[0], let value = textField.text, !value.isEmpty {
                 self.delegate?.didStartCreatingCity()
                 self.service?.createCity(city, state: value, lat: 0, lon: 0, completion: { [weak self] (city, error) in
-                    DispatchQueue.main.async {
-                        if let error = error {
+                    if let error = error {
+                        DispatchQueue.main.async {
                             self?.delegate?.didFailSelectCity(with: error)
-                        } else {
-                            self?.delegate?.didSelectCity(city)
                         }
+                    } else {
+                        // update current city and cities list
+                        self?.currentCityId = city?.id
+                        self?.service?.getCities(completion: { [weak self] (cities) in
+                            DispatchQueue.main.async {
+                                self?.refreshCities()
+                                self?.delegate?.didSelectCity(city)
+                            }
+                        })
                     }
                 })
             }
@@ -174,6 +195,14 @@ public class CityHelper: NSObject {
         statePickerView.selectRow(0, inComponent: 0, animated: true)
         pickerView(statePickerView, didSelectRow: 0, inComponent: 0)
     }
+    
+    public func refreshCities() {
+        cityPickerView.reloadAllComponents()
+        if let cityId = currentCityId, let index = cities?.firstIndex(where: { $0.id == cityId }) {
+            pickerRow = index + 1
+            cityPickerView.selectRow(pickerRow, inComponent: 0, animated: true)
+        }
+    }
 }
 
 extension CityHelper: UIPickerViewDataSource, UIPickerViewDelegate {
@@ -183,7 +212,7 @@ extension CityHelper: UIPickerViewDataSource, UIPickerViewDelegate {
     
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == cityPickerView {
-            return cities.count + 1
+            return (cities?.count ?? 0) + 1
         } else if pickerView == statePickerView {
             return stateAbbreviations.count
         }
@@ -192,9 +221,10 @@ extension CityHelper: UIPickerViewDataSource, UIPickerViewDelegate {
     
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == cityPickerView {
+            guard let cities = cities, !cities.isEmpty else { return "Loading cities..." }
             if row == 0 {
                 return "Add a city"
-            } else if row <= cities.count {
+            } else if row <= cities.count  {
                 return cities[row - 1].shortString
             }
         } else if pickerView == statePickerView, row < stateAbbreviations.count {
@@ -205,15 +235,18 @@ extension CityHelper: UIPickerViewDataSource, UIPickerViewDelegate {
     
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == cityPickerView {
+            guard let cities = cities, !cities.isEmpty else { return }
             pickerRow = row
             if row > 0 && row <= cities.count {
                 let city = cities[row - 1]
                 inputCity?.text = city.shortString
+                currentCityId = city.id
             }
         } else if pickerView == statePickerView {
             if row < stateAbbreviations.count {
                 print("Picked state \(stateAbbreviations[row])")
                 inputState?.text = stateAbbreviations[row]
+                currentCityId = nil
             }
         }
     }
