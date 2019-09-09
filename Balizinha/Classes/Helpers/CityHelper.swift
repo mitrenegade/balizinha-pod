@@ -171,12 +171,19 @@ public class CityHelper: NSObject {
             if let textField = alert.textFields?[0], let value = textField.text, !value.isEmpty {
                 self.delegate?.didStartCreatingCity()
                 self.service?.createCity(city, state: value, lat: 0, lon: 0, completion: { [weak self] (city, error) in
-                    DispatchQueue.main.async {
-                        if let error = error {
+                    if let error = error {
+                        DispatchQueue.main.async {
                             self?.delegate?.didFailSelectCity(with: error)
-                        } else {
-                            self?.delegate?.didSelectCity(city)
                         }
+                    } else {
+                        // update current city and cities list
+                        self?.currentCityId = city?.id
+                        self?.service?.getCities(completion: { [weak self] (cities) in
+                            DispatchQueue.main.async {
+                                self?.refreshCities()
+                                self?.delegate?.didSelectCity(city)
+                            }
+                        })
                     }
                 })
             }
