@@ -74,7 +74,7 @@ public class CityHelper: NSObject {
     internal var inputState: UITextField?
     internal var cityPickerView: UIPickerView = UIPickerView()
     internal var statePickerView: UIPickerView = UIPickerView()
-    var pickerRow: Int = 0 // TODO: select this if a city was already selected
+    var pickerRow: Int = 0
     public var cities: [City] = []
     
     weak var presenter: UIViewController?
@@ -176,8 +176,12 @@ public class CityHelper: NSObject {
         pickerView(statePickerView, didSelectRow: 0, inComponent: 0)
     }
     
-    public func refreshCities() {
+    public func refreshCities(with selection: Int?) {
         cityPickerView.reloadAllComponents()
+        if let selection = selection, selection >= 0, selection < cities.count {
+            pickerRow = selection + 1
+            cityPickerView.selectRow(pickerRow, inComponent: 0, animated: true)
+        }
     }
 }
 
