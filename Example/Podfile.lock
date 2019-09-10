@@ -1,5 +1,5 @@
 PODS:
-  - Balizinha (0.10.0):
+  - Balizinha (0.10.5):
     - Firebase
     - Firebase/Analytics
     - Firebase/Auth
@@ -196,7 +196,7 @@ CHECKOUT OPTIONS:
     :tag: 0.2.0
 
 SPEC CHECKSUMS:
-  Balizinha: e08725ca17f4cd302f1cf0532b2de78e249caff0
+  Balizinha: fecb50dd10e4f4219a1b9f2c1a2cf03fcd2c83c6
   Firebase: 2f5235e62f141cb86181c3af0dfe4509706351ac
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: fd72a26bf8dac84cefba2f0864366f718555a5b0
@@ -225,4 +225,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 34e3557ed1ec0ca4dbe9346a4102ad147cc90285
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.7.2
