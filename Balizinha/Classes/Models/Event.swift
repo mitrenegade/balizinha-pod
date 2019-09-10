@@ -196,7 +196,20 @@ public class Event: FirebaseBaseModel {
             update(key: "recurrence", value: newValue.rawValue)
         }
     }
-
+    
+    // date on which this event will end. This should be a generated timestamp that is inclusive, so this should always be greater than the start time of the original date
+    public var recurrenceEndDate: Date? {
+        get {
+            if let val = dict["recurrenceEndDate"] as? TimeInterval {
+                return Date(timeIntervalSince1970: val)
+            }
+            return nil
+        }
+        set {
+            update(key: "recurrenceEndDate", value: newValue?.timeIntervalSince1970)
+        }
+    }
+    // ID of event that originally created this event
     public var recurrenceId: String? {
         get {
             return self.dict["recurrenceId"] as? String
