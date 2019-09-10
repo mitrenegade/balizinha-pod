@@ -28,6 +28,7 @@ public class Event: FirebaseBaseModel {
         case cancelled
         case unknown
     }
+    
 
     public var leagueId: String? {
         get {
@@ -185,6 +186,38 @@ public class Event: FirebaseBaseModel {
             update(key: "venueId", value: newValue)
         }
     }
+    
+    public var recurrence: Date.Recurrence {
+        get {
+            guard let str = self.dict["recurrence"] as? String else { return .none }
+            return Date.Recurrence(rawValue: str) ?? .none
+        }
+        set {
+            update(key: "recurrence", value: newValue.rawValue)
+        }
+    }
+    
+    // date on which this event will end. This should be a generated timestamp that is inclusive, so this should always be greater than the start time of the original date
+    public var recurrenceEndDate: Date? {
+        get {
+            if let val = dict["recurrenceEndDate"] as? TimeInterval {
+                return Date(timeIntervalSince1970: val)
+            }
+            return nil
+        }
+        set {
+            update(key: "recurrenceEndDate", value: newValue?.timeIntervalSince1970)
+        }
+    }
+    // ID of event that originally created this event
+    public var recurrenceId: String? {
+        get {
+            return self.dict["recurrenceId"] as? String
+        }
+        set {
+            update(key: "recurrenceId", value: newValue)
+        }
+    }
 }
 
 public extension Event {
@@ -218,27 +251,25 @@ public extension Event {
 }
 
 // Utils
-public extension Event {
-    func dateString(_ date: Date) -> String {
-        //return "\((date as NSDate).day()) \(months[(date as NSDate).month() - 1]) \((date as NSDate).year())"
+extension Event {
+    public func dateString(_ date: Date, from reference: Date? = nil) -> String {
+        if let reference = reference, recurrence != .none {
+            if let nextDate = date.getNextRecurrence(recurrence: self.recurrence, from: reference) {
+                return nextDate.dateStringForPicker()
+            }
+        }
         return date.dateStringForPicker()
     }
     
-    func timeString(_ date: Date) -> String {
-        /*
-         formatter.dateStyle = .none
-         formatter.timeStyle = .short
-         let time = formatter.string(from: date)
-         return "\(time)"
-         */
+    public func timeString(_ date: Date) -> String {
         return date.timeStringForPicker()
     }
     
-    var isFull: Bool {
+    public var isFull: Bool {
         return self.maxPlayers == self.numPlayers
     }
     
-    var isPast: Bool {
+    public var isPast: Bool {
         if let endTime = self.endTime {
             return (ComparisonResult.orderedAscending == endTime.compare(Date())) //event time happened before current time
         }
@@ -247,7 +278,7 @@ public extension Event {
         }
     }
     
-    var locationString: String? {
+    public var locationString: String? {
         if let city = self.city, let state = self.state {
             return "\(city), \(state)"
         }
@@ -277,28 +308,5 @@ extension Event {
         guard let organizerId = organizer else { return false }
         guard let userId = userId else { return false }
         return userId == organizerId
-    }
-}
-
-extension Event {
-    //***************** hack: for test purposes only
-    class func randomEvent() -> Event {
-        let key = RenderAPIService().uniqueId()
-        let hours: Int = Int(arc4random_uniform(72))
-        let dict: [String: Any] = ["type": Event.randomType() as AnyObject, "place": Event.randomPlace() as AnyObject, "startTime": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject, "info": "Randomly generated event" as AnyObject]
-        let event = Event(key: key, dict: dict)
-        return event
-    }
-    
-    class func randomType() -> String {
-        let types: [EventType] = [.event3v3]
-        let random = Int(arc4random_uniform(UInt32(types.count)))
-        return types[random].rawValue
-    }
-    
-    class func randomPlace() -> String {
-        let places = ["Boston", "New York", "Philadelphia", "Florida"]
-        let random = Int(arc4random_uniform(UInt32(places.count)))
-        return places[random]
     }
 }

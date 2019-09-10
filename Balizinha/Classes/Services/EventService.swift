@@ -93,11 +93,11 @@ public class EventService: BaseService {
         }
     }
     
-    public func createEvent(_ name: String, type: Balizinha.Event.EventType, venue: Venue?, city: String? = nil, state: String? = nil, lat: Double? = nil, lon: Double? = nil, place: String? = nil, startTime: Date, endTime: Date, maxPlayers: UInt, info: String?, paymentRequired: Bool, amount: NSNumber? = 0, leagueId: String?, completion:@escaping (Balizinha.Event?, NSError?) -> Void) {
+    public func createEvent(_ name: String, type: Balizinha.Event.EventType, venue: Venue?, city: String? = nil, state: String? = nil, lat: Double? = nil, lon: Double? = nil, place: String? = nil, startTime: Date, endTime: Date, recurrence: Date.Recurrence = .none, recurrenceEndDate: Date? = nil, maxPlayers: UInt, info: String?, paymentRequired: Bool, amount: NSNumber? = 0, leagueId: String?, completion:@escaping (Balizinha.Event?, NSError?) -> Void) {
         
         guard let user = AuthService.currentUser else { return }
         
-        var params: [String: Any] = ["name": name, "type": type.rawValue, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "maxPlayers": maxPlayers, "userId": user.uid, "paymentRequired": paymentRequired]
+        var params: [String: Any] = ["name": name, "type": type.rawValue, "startTime": startTime.timeIntervalSince1970, "endTime": endTime.timeIntervalSince1970, "maxPlayers": maxPlayers, "userId": user.uid, "paymentRequired": paymentRequired, "recurrence": recurrence.rawValue]
         if let venue = venue {
             params["venueId"] = venue.id
         } else if let city = city, let state = state, let place = place {
@@ -120,6 +120,9 @@ public class EventService: BaseService {
         if let info = info {
             params["info"] = info
         }
+        if let recurrenceEndDate = recurrenceEndDate {
+            params["recurrenceEndDate"] = recurrenceEndDate.timeIntervalSince1970
+        }
         apiService.cloudFunction(functionName: "createEvent", method: "POST", params: params) { (result, error) in
             if let error = error as NSError? {
                 print("CreateEvent v1.4 failed with error \(error)")
@@ -128,11 +131,6 @@ public class EventService: BaseService {
                 print("CreateEvent v1.4 success with result \(String(describing: result))")
                 if let dict = result as? [String: Any], let eventId = dict["eventId"] as? String {
                     self.withId(id: eventId, completion: { (event) in
-                        // TODO: the event returned is always nil?
-                        guard let event = event else {
-                            completion(nil, nil)
-                            return
-                        }
                         completion(event, nil)
                     })
                 } else {
