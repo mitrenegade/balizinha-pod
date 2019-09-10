@@ -196,6 +196,15 @@ public class Event: FirebaseBaseModel {
             update(key: "recurrence", value: newValue.rawValue)
         }
     }
+
+    public var recurrenceId: String? {
+        get {
+            return self.dict["recurrenceId"] as? String
+        }
+        set {
+            update(key: "recurrenceId", value: newValue)
+        }
+    }
 }
 
 public extension Event {
