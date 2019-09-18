@@ -98,4 +98,11 @@ extension Date {
         }
         return nextDate
     }
+    
+    public static func didDaylightSavingsChange(_ start: Date?, _ end: Date?, _ timezone: TimeZone = TimeZone.current) -> Bool {
+        guard let start = start, let end = end else { return false }
+        let startDST = timezone.isDaylightSavingTime(for: start)
+        let endDST = timezone.isDaylightSavingTime(for: end)
+        return startDST != endDST
+    }
 }
