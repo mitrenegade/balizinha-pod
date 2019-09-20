@@ -28,7 +28,7 @@ open class FirebaseBaseModel: NSObject {
     
     public init(snapshot: Snapshot?) {
         if let snapshot = snapshot, snapshot.exists() {
-            self.firebaseKey = snapshot.key 
+            self.firebaseKey = snapshot.key
             self.firebaseRef = snapshot.reference
             self.dict = snapshot.value as? [String: AnyObject]
             
@@ -41,7 +41,9 @@ open class FirebaseBaseModel: NSObject {
     
     public init(key: String, dict: [String: Any]?) {
         self.firebaseKey = key
-        self.firebaseRef = nil // no ref from a dict
+        if let refUrl = dict?["refUrl"] as? String {
+            self.firebaseRef = firRef.child(refUrl)
+        }
         self.dict = dict ?? [:]
     }
     
