@@ -106,5 +106,12 @@ class DateUtilsTests: XCTestCase {
         XCTAssertEqual(next2.timeIntervalSince(date), 62*24*3600)
     }
 
-
+    func testDaylightSavingsChanged() {
+        let calendar = Calendar(identifier: .gregorian)
+        let components1 = DateComponents(year: 2019, month: 3, day: 9, hour: 12, minute: 0, second: 0)
+        let date1: Date = calendar.date(from: components1)!
+        let components2 = DateComponents(year: 2019, month: 3, day: 11, hour: 12, minute: 0, second: 0)
+        let date2: Date = calendar.date(from: components2)!
+        XCTAssertTrue(Date.didDaylightSavingsChange(date1, date2))
+    }
 }
