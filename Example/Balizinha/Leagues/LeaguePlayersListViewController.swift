@@ -10,6 +10,14 @@ import UIKit
 import Balizinha
 import Firebase
 
+protocol LeagueList: class {
+    var league: League? { get set }
+}
+
+protocol LeagueListDelegate: class {
+    func didUpdateRoster()
+}
+
 class LeaguePlayersListViewController: SearchableListViewController, LeagueList {
     var roster: [String:Membership] = [:]
     var league: League?
