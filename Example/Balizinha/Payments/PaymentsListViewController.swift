@@ -46,6 +46,11 @@ class PaymentsListViewController: ListViewController {
         activityOverlay.setup(frame: view.frame)
         view.addSubview(activityOverlay)
         
+        self.load { [weak self] in
+            // do nothing
+            self?.reloadTable()
+        }
+        
         PlayerService.shared.current.asObservable().filterNil().take(1).subscribe(onNext: { [weak self] (player) in
             let userId = player.id
             
