@@ -5,22 +5,18 @@
 //  Created by Bobby Ren on 5/16/19.
 //
 
-import UIKit
-import RxSwift
-import RxCocoa
-import FirebaseAuth
 import RenderCloud
 
 public class VenueService: BaseService {
     // MARK: - Singleton
     public static var shared: VenueService = VenueService()
-
+    
     public func withId(id: String, completion: @escaping ((Venue?)->Void)) {
         if let found = cached(id) as? Venue {
             completion(found)
             return
         }
-
+        
         let reference = baseRef.child(path: "venues").child(path: id)
         reference.observeValue { [weak self] (snapshot) in
             guard snapshot.exists() else {
@@ -34,7 +30,7 @@ public class VenueService: BaseService {
             reference.removeAllObservers()
         }
     }
-
+    
     public func createVenue(userId: String, type: Venue.SpaceType, name: String? = nil, street: String? = nil, city: String? = nil, state: String? = nil, lat: Double? = nil, lon: Double? = nil, placeId: String?, completion:((Venue?, Error?) -> Void)?) {
         // todo: if this is a codable, handle optionals
         var params: [String: Any] = ["userId": userId, "type": type.rawValue]
@@ -58,7 +54,7 @@ public class VenueService: BaseService {
         if let placeId = placeId {
             params["placeId"] = placeId
         }
-
+        
         // call cloud service
         apiService.cloudFunction(functionName: "createVenue", method: "POST", params: params) { [weak self] (result, error) in
             if let error = error as NSError? {
@@ -74,11 +70,11 @@ public class VenueService: BaseService {
                         }
                         completion?(venue, nil)
                     })
-                    return
+                } else {
+                    completion?(nil, nil)
                 }
             }
-            completion?(nil, nil)
         }
     }
-
+    
 }
