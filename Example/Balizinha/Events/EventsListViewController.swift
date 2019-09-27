@@ -48,6 +48,7 @@ class EventsListViewController: ListViewController {
     
     override func load(completion: (()->Void)?) {
         // don't use EventService.getAvailableEvents because admin app doesn't filter by user
+        activityOverlay.show()
         reference?.child(path: "events").observeValue { [weak self] (snapshot) in
             guard snapshot.exists() else { return }
             if let allObjects = snapshot.allChildren {
@@ -73,7 +74,9 @@ class EventsListViewController: ListViewController {
                     guard let t2 = p2.startTime else { return true}
                     return t1 < t2
                 })
+                self?.activityOverlay.hide()
                 self?.reloadTable()
+                completion?()
             }
         }
     }

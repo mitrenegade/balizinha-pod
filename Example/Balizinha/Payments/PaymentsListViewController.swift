@@ -66,11 +66,6 @@ class PaymentsListViewController: ListViewController {
         }).disposed(by: disposeBag)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        activityOverlay.setup(frame: view.frame)
-    }
-    
     override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
         return Payment(snapshot: snapshot)
     }
@@ -82,7 +77,10 @@ class PaymentsListViewController: ListViewController {
     
     override func load(completion: (()->Void)?) {
         let ref = firRef.child(refName)
+        activityOverlay.show()
+        loading = true
         ref.observe(.value) {[weak self] (snapshot) in
+            self?.loading = false
             guard snapshot.exists() else { return }
             if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
                 self?.data.removeAll()
@@ -102,6 +100,7 @@ class PaymentsListViewController: ListViewController {
                     })
                     self?.data[id] = payments
                     
+                    self?.activityOverlay.hide()
                     EventService().withId(id: id, completion: { (event) in
                         if let event = event {
                             self?.events[id] = event

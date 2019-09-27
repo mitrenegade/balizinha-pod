@@ -14,14 +14,6 @@ import RenderCloud
 
 typealias Section = (name: String, objects: [FirebaseBaseModel])
 
-protocol LeagueList: class {
-    var league: League? { get set }
-}
-
-protocol LeagueListDelegate: class {
-    func didUpdateRoster()
-}
-
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
@@ -36,6 +28,8 @@ class ListViewController: UIViewController {
     var sections: [Section] {
         return [("All", objects)]
     }
+    
+    var loading: Bool = false
     
     let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
     
@@ -55,6 +49,9 @@ class ListViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         activityOverlay.setup(frame: view.frame)
+        if loading { // since load() is often called from viewDidLoad
+            activityOverlay.isHidden = false
+        }
     }
     
     @objc var cellIdentifier: String {
@@ -69,7 +66,10 @@ class ListViewController: UIViewController {
     func load(completion:(()->Void)? = nil) {
         let ref: Query
         ref = baseRef.child(path: refName).queryOrdered(by: "createdAt")
+        loading = true
+        activityOverlay.show()
         ref.observeSingleValue() {[weak self] (snapshot) in
+            self?.loading = false
             guard snapshot.exists() else { return }
             if let allObjects = snapshot.allChildren {
                 self?.objects.removeAll()
@@ -84,12 +84,14 @@ class ListViewController: UIViewController {
                     return t1 > t2
                 })
                 
+                self?.activityOverlay.hide()
                 if let completion = completion {
                     completion()
                 } else {
                     self?.reloadTable()
                 }
             } else {
+                self?.activityOverlay.hide()
                 completion?()
             }
         }

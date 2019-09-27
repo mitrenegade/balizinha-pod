@@ -80,9 +80,13 @@ class FeedItemsListViewController: ListViewController {
         if let leagueId = leagueId {
             ref = ref.queryOrdered(byChild: "leagueId").queryEqual(toValue: leagueId)
         }
+        loading = true
+        activityOverlay.show()
         ref.observe(.value) {[weak self] (snapshot) in
+            self?.loading = false
             guard snapshot.exists() else {
                 self?.objects.removeAll()
+                self?.activityOverlay.hide()
                 return
             }
             if let allObjects = snapshot.children.allObjects as? [DataSnapshot] {
@@ -98,7 +102,9 @@ class FeedItemsListViewController: ListViewController {
                     return t1 > t2
                 })
                 
+                self?.activityOverlay.hide()
                 self?.reloadTable()
+                completion?()
             }
         }
     }

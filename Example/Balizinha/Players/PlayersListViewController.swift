@@ -41,7 +41,6 @@ class PlayersListViewController: SearchableListViewController {
             navigationItem.title = "All Players"
         }
 
-        activityOverlay.show()
         load() { [weak self] in
             // filter out players already in the league
             self?.objects = (self?.objects ?? []).filter{
@@ -49,7 +48,6 @@ class PlayersListViewController: SearchableListViewController {
                 return !active
             }
             self?.search(for: nil)
-            self?.activityOverlay.hide()
         }
     }
     
