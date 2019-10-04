@@ -175,5 +175,14 @@ public class Player: FirebaseBaseModel {
             update(key: "notificationsEnabled", value: newValue)
         }
     }
+    
+    public var baseVenueId: String? {
+        get {
+            return dict?["baseVenueId"] as? String
+        }
+        set {
+            update(key: "baseVenueId", value: newValue)
+        }
+    }
 }
 
