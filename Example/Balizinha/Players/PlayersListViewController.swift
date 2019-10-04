@@ -81,9 +81,12 @@ extension PlayersListViewController {
         if indexPath.row < players.count {
             let player = players[indexPath.row]
             // TODO: prompt
-            delegate?.didSelectPlayer(player)
-            players.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            // no one currently uses playersListViewController so this doesn't do anything
+            if let delegate = delegate {
+                delegate.didSelectPlayer(player)
+                players.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
         }
     }
 }
