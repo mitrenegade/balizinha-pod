@@ -17,6 +17,7 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var idLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var venueLabel: UILabel!
     @IBOutlet weak var notesLabel: UILabel!
 
     var player: Player?
@@ -67,6 +68,19 @@ class PlayerViewController: UIViewController {
             locationLabel.text = text
         } else {
             locationLabel.text = "No location information available"
+        }
+        
+        if let baseVenueId = player.baseVenueId {
+            venueLabel.text = "Loading venue..."
+            VenueService.shared.withId(id: baseVenueId) { [weak self] (venue) in
+                if let venue = venue {
+                    self?.venueLabel.text = "\(String(describing: venue.shortString))\n\(venue.id)"
+                } else {
+                    self?.venueLabel.isHidden = true
+                }
+            }
+        } else {
+            venueLabel.isHidden = true
         }
         
         if let notes = player.info {
