@@ -36,9 +36,9 @@ extension DatabaseReference: Reference {
 
 extension DatabaseQuery: Query {
     public func observeSingleValue(completion: @escaping (Snapshot) -> Void) {
-        observe(.value) { (snapshot) in
+        observeSingleEvent(of: .value, with: { (snapshot) in
             completion(snapshot)
-        }
+        })
     }
     
     public func queryEqual(to value: Any) -> Query {
