@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kgB-HC-27o">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kgB-HC-27o">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -182,11 +182,11 @@
                                 <rect key="frame" x="0.0" y="70" width="375" height="597"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlayerCell" rowHeight="99" id="5kO-WQ-ceU" customClass="LeaguePlayerCell" customModule="Admin" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="99"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeaguePlayerCell" rowHeight="131" id="5kO-WQ-ceU" customClass="LeaguePlayerCell" customModule="Admin" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="131"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5kO-WQ-ceU" id="hfK-7H-ETm">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="98.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="130.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UB0-iJ-gvx" userLabel="UserName">
@@ -199,7 +199,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="999" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="vRp-ew-zP4" userLabel="UserId">
-                                                    <rect key="frame" x="73" y="62" width="44.5" height="20"/>
+                                                    <rect key="frame" x="73" y="62" width="44.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -217,22 +217,22 @@
                                                         <constraint firstAttribute="height" constant="50" id="qqM-hr-hDG"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="mhs-w6-CET">
-                                                    <rect key="frame" x="318" y="61" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b1R-Pk-uzx">
                                                     <rect key="frame" x="15" y="11" width="50" height="50"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="mhs-w6-CET">
+                                                    <rect key="frame" x="73" y="90.5" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="YCG-y1-flz" firstAttribute="leading" secondItem="b1R-Pk-uzx" secondAttribute="leading" id="2TL-4x-Tau"/>
-                                                <constraint firstItem="mhs-w6-CET" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vRp-ew-zP4" secondAttribute="trailing" constant="8" id="3CD-bV-ekV"/>
+                                                <constraint firstItem="mhs-w6-CET" firstAttribute="leading" secondItem="vRp-ew-zP4" secondAttribute="leading" id="3k3-o6-uCU"/>
                                                 <constraint firstItem="YCG-y1-flz" firstAttribute="leading" secondItem="hfK-7H-ETm" secondAttribute="leadingMargin" id="4wG-CT-ToN"/>
                                                 <constraint firstItem="YCG-y1-flz" firstAttribute="trailing" secondItem="b1R-Pk-uzx" secondAttribute="trailing" id="5nY-Bw-yZY"/>
                                                 <constraint firstItem="6fB-J6-e23" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UB0-iJ-gvx" secondAttribute="trailing" constant="8" id="7S6-DD-aBp"/>
@@ -241,22 +241,22 @@
                                                 <constraint firstItem="vRp-ew-zP4" firstAttribute="leading" secondItem="UB0-iJ-gvx" secondAttribute="leading" id="DOh-Mk-3Sb"/>
                                                 <constraint firstItem="YCG-y1-flz" firstAttribute="top" secondItem="hfK-7H-ETm" secondAttribute="topMargin" id="G6x-JK-PEI"/>
                                                 <constraint firstItem="6fB-J6-e23" firstAttribute="trailing" secondItem="hfK-7H-ETm" secondAttribute="trailingMargin" id="Hlb-3i-51Z"/>
-                                                <constraint firstItem="mhs-w6-CET" firstAttribute="trailing" secondItem="hfK-7H-ETm" secondAttribute="trailingMargin" id="NI5-gq-bWV"/>
                                                 <constraint firstItem="vRp-ew-zP4" firstAttribute="top" secondItem="UB0-iJ-gvx" secondAttribute="bottom" constant="8" id="PTM-Ql-vJX"/>
                                                 <constraint firstItem="YCG-y1-flz" firstAttribute="top" secondItem="b1R-Pk-uzx" secondAttribute="top" id="XBQ-zx-29L"/>
                                                 <constraint firstItem="YCG-y1-flz" firstAttribute="bottom" secondItem="b1R-Pk-uzx" secondAttribute="bottom" id="ai8-X1-dwI"/>
                                                 <constraint firstItem="UB0-iJ-gvx" firstAttribute="leading" secondItem="YCG-y1-flz" secondAttribute="trailing" constant="8" id="ebK-jj-lEM"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="vRp-ew-zP4" secondAttribute="bottom" constant="6" id="enq-fM-lJG"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="mhs-w6-CET" secondAttribute="bottom" constant="6" id="k4F-e4-f9D"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="mhs-w6-CET" secondAttribute="bottom" constant="8.5" id="jda-Hk-6YR"/>
                                                 <constraint firstItem="UB0-iJ-gvx" firstAttribute="top" secondItem="hfK-7H-ETm" secondAttribute="topMargin" id="ltm-vj-4Qo"/>
+                                                <constraint firstItem="mhs-w6-CET" firstAttribute="top" secondItem="vRp-ew-zP4" secondAttribute="bottom" constant="8" id="sKZ-Wn-2ew"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="imagePhoto" destination="YCG-y1-flz" id="gTQ-wh-cfN"/>
                                             <outlet property="labelCreated" destination="6fB-J6-e23" id="5vv-er-CJd"/>
+                                            <outlet property="labelEmail" destination="vRp-ew-zP4" id="MlI-82-tiN"/>
+                                            <outlet property="labelId" destination="mhs-w6-CET" id="eYz-4e-yao"/>
                                             <outlet property="labelInitials" destination="b1R-Pk-uzx" id="SNG-sl-wdG"/>
                                             <outlet property="labelName" destination="UB0-iJ-gvx" id="ofH-3W-aGg"/>
-                                            <outlet property="labelStatus" destination="vRp-ew-zP4" id="xMi-zQ-XvH"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -323,7 +323,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dOS-ge-Cql" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1926" y="-273"/>
+            <point key="canvasLocation" x="1925.5999999999999" y="-273.01349325337333"/>
         </scene>
         <!--Teams View Controller-->
         <scene sceneID="nHG-w5-LrF">

@@ -65,6 +65,8 @@ class PlayerViewController: UIViewController {
                 text = text + "\nActive: " + time
             }
             locationLabel.text = text
+        } else {
+            locationLabel.text = "No location information available"
         }
         
         if let notes = player.info {

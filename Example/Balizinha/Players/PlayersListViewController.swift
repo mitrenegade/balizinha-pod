@@ -61,6 +61,12 @@ class PlayersListViewController: SearchableListViewController {
 
         super.load(completion: completion)
     }
+    
+    private func viewPlayerDetails(_ player: Player) {
+        let controller = UIStoryboard(name: "Players", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
+        controller.player = player
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 extension PlayersListViewController {
@@ -81,9 +87,14 @@ extension PlayersListViewController {
         if indexPath.row < players.count {
             let player = players[indexPath.row]
             // TODO: prompt
-            delegate?.didSelectPlayer(player)
-            players.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            if let delegate = delegate {
+                // no one currently uses playersListViewController so this doesn't do anything
+                delegate.didSelectPlayer(player)
+                players.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            } else {
+                viewPlayerDetails(player)
+            }
         }
     }
 }

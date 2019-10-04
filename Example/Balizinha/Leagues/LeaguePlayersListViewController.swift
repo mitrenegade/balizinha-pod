@@ -152,7 +152,7 @@ extension LeaguePlayersListViewController {
     }
     
     private func viewPlayerDetails(_ player: Player) {
-        let controller = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
+        let controller = UIStoryboard(name: "Players", bundle: nil).instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
         controller.player = player
         navigationController?.pushViewController(controller, animated: true)
     }
