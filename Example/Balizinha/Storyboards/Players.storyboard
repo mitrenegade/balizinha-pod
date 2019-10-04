@@ -204,10 +204,10 @@
                                         <connections>
                                             <outlet property="imagePhoto" destination="Duz-lD-cmh" id="J2y-lG-qBq"/>
                                             <outlet property="labelCreated" destination="xsR-eM-uc1" id="bed-mT-Pqp"/>
+                                            <outlet property="labelEmail" destination="Hd8-cX-6nK" id="O23-eD-TYv"/>
                                             <outlet property="labelId" destination="lW0-EO-nAN" id="Mhk-6S-VdS"/>
                                             <outlet property="labelInitials" destination="M4j-Md-g5i" id="ic6-M2-r4W"/>
                                             <outlet property="labelName" destination="uGE-Mv-WTH" id="uWc-Nv-0vD"/>
-                                            <outlet property="labelStatus" destination="Hd8-cX-6nK" id="DGE-sM-6oq"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

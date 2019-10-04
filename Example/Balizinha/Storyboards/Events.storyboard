@@ -253,9 +253,10 @@
                                         <connections>
                                             <outlet property="imagePhoto" destination="YCG-y1-flz" id="gTQ-wh-cfN"/>
                                             <outlet property="labelCreated" destination="6fB-J6-e23" id="5vv-er-CJd"/>
+                                            <outlet property="labelEmail" destination="vRp-ew-zP4" id="MlI-82-tiN"/>
+                                            <outlet property="labelId" destination="mhs-w6-CET" id="eYz-4e-yao"/>
                                             <outlet property="labelInitials" destination="b1R-Pk-uzx" id="SNG-sl-wdG"/>
                                             <outlet property="labelName" destination="UB0-iJ-gvx" id="ofH-3W-aGg"/>
-                                            <outlet property="labelStatus" destination="vRp-ew-zP4" id="xMi-zQ-XvH"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

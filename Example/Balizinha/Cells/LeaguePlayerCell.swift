@@ -52,6 +52,9 @@ class LeaguePlayerCell: UITableViewCell {
                 }
             }
         }
+        
+        labelId?.text = player.id
+        labelEmail?.text = player.email
     }
     
     func reset() {
