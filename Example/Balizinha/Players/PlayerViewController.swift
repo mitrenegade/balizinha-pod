@@ -19,6 +19,7 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var venueLabel: UILabel!
     @IBOutlet weak var notesLabel: UILabel!
+    @IBOutlet weak var versionLabel: UILabel?
 
     var player: Player?
 
@@ -89,6 +90,12 @@ class PlayerViewController: UIViewController {
         }
         else {
             self.notesLabel.text = nil
+        }
+        
+        if let version = player.appVersion, let os = player.os {
+            versionLabel?.text = "Version: \(version) \(os)"
+        } else {
+            versionLabel?.isHidden = true
         }
         
         refreshPhoto()
