@@ -117,6 +117,7 @@
                         <outlet property="notesLabel" destination="EYj-RB-VbM" id="VZn-Oq-cvy"/>
                         <outlet property="photoView" destination="OsD-kS-lqD" id="r3Q-nn-UYa"/>
                         <outlet property="venueLabel" destination="Erb-aV-rxQ" id="cyG-EH-siW"/>
+                        <outlet property="versionLabel" destination="ZKR-px-flT" id="DcQ-7B-tRe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rmU-U9-mw0" userLabel="First Responder" sceneMemberID="firstResponder"/>
