@@ -10,6 +10,7 @@
 import UIKit
 import FirebaseCore
 import RxSwift
+import RxCocoa
 import RxOptional
 import FirebaseDatabase
 import RenderCloud
@@ -20,7 +21,7 @@ public class PlayerService: BaseService {
     
     fileprivate var disposeBag: DisposeBag
     
-    public let current: Variable<Player?> = Variable(nil)
+    public let current: BehaviorRelay<Player?> = BehaviorRelay(value: nil)
     fileprivate var playersRef: Reference?
     fileprivate var currentPlayerRef: Reference?
     
@@ -56,7 +57,7 @@ public class PlayerService: BaseService {
             
             let player = Player(snapshot: snapshot)
             print("PlayerService: loaded player \(player.id)")
-            self?.current.value = player
+            self?.current.accept(player)
             
             self?.currentPlayerRef?.removeAllObservers()
             self?.currentPlayerRef = nil
@@ -65,7 +66,7 @@ public class PlayerService: BaseService {
     
     public class func resetOnLogout() {
         shared.disposeBag = DisposeBag()
-        shared.current.value = nil
+        shared.current.accept(nil)
         shared.startAuthListener()
         shared.currentPlayerRef?.removeAllObservers()
     }
@@ -129,6 +130,15 @@ public class PlayerService: BaseService {
             let player = Player(snapshot: snapshot)
             self?.cache(player)
             completion(player)
+        }
+    }
+
+    public func updateCityAndNotify(city: City?) {
+        if let player = current.value {
+            player.city = city?.shortString
+            player.cityId = city?.firebaseKey
+
+            current.accept(player) // causes observers to be notified
         }
     }
 }

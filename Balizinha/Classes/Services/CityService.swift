@@ -139,6 +139,11 @@ public class CityService: BaseService {
         }
     }
     
+    public func isCityLocationValid(city: City?) -> Bool {
+        guard let city = city, let lat = city.lat, let lon = city.lon else { return false }
+        guard lat != 0 && lon != 0 else { return false }
+        return city.verified == true
+    }
 }
 
 // notifications
