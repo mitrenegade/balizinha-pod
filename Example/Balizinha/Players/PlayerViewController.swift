@@ -93,10 +93,10 @@ class PlayerViewController: UIViewController {
             self.notesLabel.text = nil
         }
         
-        if let version = player.appVersion, let os = player.os {
+        versionLabel?.isHidden = true
+        if let os = player.os, let version = player.version {
             versionLabel?.text = "Version: \(version) \(os)"
-        } else {
-            versionLabel?.isHidden = true
+            versionLabel?.isHidden = false
         }
 
         if let active = player.lastActiveTimestamp {

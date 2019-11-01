@@ -116,7 +116,7 @@ extension PlayersListViewController {
             let nameMatch = player.name?.lowercased().contains(currentSearch) ?? false
             let emailMatch = player.email?.lowercased().contains(currentSearch) ?? false
             let idMatch = player.id.lowercased().contains(currentSearch)
-            let versionMatch = player.appVersion?.lowercased().contains(currentSearch) ?? false
+            let versionMatch = player.version?.lowercased().contains(currentSearch) ?? false
             return nameMatch || emailMatch || idMatch || versionMatch
         }
     }
