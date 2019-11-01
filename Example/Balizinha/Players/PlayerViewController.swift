@@ -93,7 +93,7 @@ class PlayerViewController: UIViewController {
             self.notesLabel.text = nil
         }
         
-        if let version = player.appVersion, let os = player.os {
+        if let version = player.version, let os = player.os {
             versionLabel?.text = "Version: \(version) \(os)"
         } else {
             versionLabel?.isHidden = true
