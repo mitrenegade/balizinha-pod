@@ -14,12 +14,13 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var photoView: RAImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var idLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var venueLabel: UILabel!
     @IBOutlet weak var notesLabel: UILabel!
     @IBOutlet weak var versionLabel: UILabel?
+    @IBOutlet weak var activeLabel: UILabel?
 
     var player: Player?
 
