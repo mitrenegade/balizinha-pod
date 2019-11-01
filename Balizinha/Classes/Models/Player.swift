@@ -184,5 +184,18 @@ public class Player: FirebaseBaseModel {
             update(key: "baseVenueId", value: newValue)
         }
     }
+
+    public var lastActiveTimestamp: Date? {
+        get {
+            if let val = self.dict["lastActiveTimestamp"] as? TimeInterval {
+                return Date(timeIntervalSince1970: val)
+            }
+            return nil
+        }
+        set {
+            let interval = newValue?.timeIntervalSince1970
+            update(key: "lastActiveTimestamp", value: interval)
+        }
+    }
 }
 

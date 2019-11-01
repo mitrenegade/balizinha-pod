@@ -98,7 +98,17 @@ class PlayerViewController: UIViewController {
         } else {
             versionLabel?.isHidden = true
         }
-        
+
+        if let active = player.lastActiveTimestamp {
+            activeLabel?.text = active.dateString()
+            activeLabel?.alpha = 1
+        } else if let active = player.createdAt {
+            activeLabel?.text = active.dateString()
+            activeLabel?.alpha = 0.5
+        } else {
+            activeLabel?.isHidden = true
+        }
+
         refreshPhoto()
     }
     
