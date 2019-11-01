@@ -154,12 +154,12 @@ public class Player: FirebaseBaseModel {
         }
     }
     
-    public var version: String? {
+    public var appVersion: String? {
         get {
-            return self.dict["version"] as? String
+            return self.dict["appVersion"] as? String
         }
         set {
-            update(key: "version", value: newValue)
+            update(key: "appVersion", value: newValue)
         }
     }
     
