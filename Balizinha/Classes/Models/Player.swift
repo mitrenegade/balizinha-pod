@@ -154,12 +154,21 @@ public class Player: FirebaseBaseModel {
         }
     }
     
-    public var appVersion: String? {
+    public var version: String? {
         get {
-            return self.dict["appVersion"] as? String
+            return dict["version"] as? String ?? self.dict["appVersion"] as? String
         }
         set {
-            update(key: "appVersion", value: newValue)
+            update(key: "version", value: newValue)
+        }
+    }
+    
+    public var build: String? {
+        get {
+            return dict["build"] as? String
+        }
+        set {
+            update(key: "build", value: newValue)
         }
     }
     
@@ -182,6 +191,19 @@ public class Player: FirebaseBaseModel {
         }
         set {
             update(key: "baseVenueId", value: newValue)
+        }
+    }
+
+    public var lastActiveTimestamp: Date? {
+        get {
+            if let val = self.dict["lastActiveTimestamp"] as? TimeInterval {
+                return Date(timeIntervalSince1970: val)
+            }
+            return nil
+        }
+        set {
+            let interval = newValue?.timeIntervalSince1970
+            update(key: "lastActiveTimestamp", value: interval)
         }
     }
 }

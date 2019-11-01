@@ -14,12 +14,13 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var photoView: RAImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var idLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var venueLabel: UILabel!
     @IBOutlet weak var notesLabel: UILabel!
     @IBOutlet weak var versionLabel: UILabel?
+    @IBOutlet weak var activeLabel: UILabel?
 
     var player: Player?
 
@@ -92,12 +93,22 @@ class PlayerViewController: UIViewController {
             self.notesLabel.text = nil
         }
         
-        if let version = player.appVersion, let os = player.os {
+        versionLabel?.isHidden = true
+        if let os = player.os, let version = player.version {
             versionLabel?.text = "Version: \(version) \(os)"
-        } else {
-            versionLabel?.isHidden = true
+            versionLabel?.isHidden = false
         }
-        
+
+        if let active = player.lastActiveTimestamp {
+            activeLabel?.text = active.dateString()
+            activeLabel?.alpha = 1
+        } else if let active = player.createdAt {
+            activeLabel?.text = active.dateString()
+            activeLabel?.alpha = 0.5
+        } else {
+            activeLabel?.isHidden = true
+        }
+
         refreshPhoto()
     }
     
