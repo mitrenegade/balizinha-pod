@@ -5,7 +5,7 @@
 //  Created by Bobby Ren on 11/6/19.
 //
 
-fileprivate enum PannaUI {
+public enum PannaUI {
     // https://nshipster.com/dark-mode/
     static let darkGreen = UIColor(red: 88/255.0, green: 122/255.0, blue: 103/255.0, alpha: 1)
     static let mediumGreen = UIColor(red: 118.0/255.0, green: 146.0/255.0, blue: 130.0/255.0, alpha: 1)
@@ -22,7 +22,7 @@ fileprivate enum PannaUI {
     static let offWhite = UIColor(red: 217.0/255.0, green: 214.0/255.0, blue: 214.0/255.0, alpha: 1)
 }
 
-extension UIColor {
+public extension PannaUI {
     static var navBarTint: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
@@ -79,4 +79,31 @@ extension UIColor {
         }
     }
 
+    static var tableHeaderBackground: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return PannaUI.darkGray
+                } else {
+                    return PannaUI.mediumGray
+                }
+            }
+        } else {
+            return PannaUI.mediumGray
+        }
+    }
+    
+    static var tableHeaderText: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return PannaUI.mediumRed // TODO
+                } else {
+                    return PannaUI.offWhite
+                }
+            }
+        } else {
+            return PannaUI.offWhite
+        }
+    }
 }

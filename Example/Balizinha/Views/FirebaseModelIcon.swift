@@ -43,9 +43,9 @@ class FirebaseModelIcon: UIView {
         labelName.clipsToBounds = true
         labelName.layer.cornerRadius = imageView.frame.size.height / 4
         
-        labelName.textColor = UIColor.cellText
+        labelName.textColor = PannaUI.cellText
         labelName.layer.borderWidth = 1
-        labelName.layer.borderColor = UIColor.cellBorder.cgColor
+        labelName.layer.borderColor = PannaUI.cellBorder.cgColor
         labelName.textAlignment = .center
         
         photoUrl(id: object?.id) { [weak self] (url) in

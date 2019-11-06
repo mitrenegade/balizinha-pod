@@ -31,7 +31,7 @@ class PlayerViewController: UIViewController {
         self.refresh()
         
         self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.barTintColor = UIColor.navBarTint
+        self.navigationController?.navigationBar.barTintColor = PannaUI.navBarTint
     }
 
     override func viewWillAppear(_ animated: Bool) {
