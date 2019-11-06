@@ -83,13 +83,13 @@ public extension PannaUI {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
                 if traitCollection.userInterfaceStyle == .dark {
-                    return PannaUI.darkGray
+                    return PannaUI.lightGreen
                 } else {
-                    return PannaUI.mediumGray
+                    return PannaUI.darkGreen
                 }
             }
         } else {
-            return PannaUI.mediumGray
+            return PannaUI.darkGreen
         }
     }
     
