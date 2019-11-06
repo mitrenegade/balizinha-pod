@@ -12,7 +12,8 @@ import Balizinha
 let TESTING = false
 let AIRPLANE_MODE = false
 
-extension UIColor {
+fileprivate enum PannaUI {
+    // https://nshipster.com/dark-mode/
     static let darkGreen = UIColor(red: 88/255.0, green: 122/255.0, blue: 103/255.0, alpha: 1)
     static let mediumGreen = UIColor(red: 118.0/255.0, green: 146.0/255.0, blue: 130.0/255.0, alpha: 1)
     static let lightGreen = UIColor(red: 163.0/255.0, green: 180.0/255.0, blue: 172.0/255.0, alpha: 1)
@@ -26,6 +27,64 @@ extension UIColor {
     static let mediumBlue = UIColor(red: 62.0/255.0, green: 82.0/255.0, blue: 101.0/255.0, alpha: 1)
     static let lightBlue = UIColor(red: 152.0/255.0, green: 170.0/255.0, blue: 188.0/255.0, alpha: 1)
     static let offWhite = UIColor(red: 217.0/255.0, green: 214.0/255.0, blue: 214.0/255.0, alpha: 1)
+}
+extension UIColor {
+    static var navBarTint: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return PannaUI.lightBlue
+                } else {
+                    return PannaUI.mediumBlue
+                }
+            }
+        } else {
+            return PannaUI.mediumBlue
+        }
+    }
+
+    static var cellBorder: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return PannaUI.lightGreen
+                } else {
+                    return PannaUI.darkGreen
+                }
+            }
+        } else {
+            return PannaUI.darkGreen
+        }
+    }
+    
+    static var cellText: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return PannaUI.lightGreen
+                } else {
+                    return PannaUI.darkGreen
+                }
+            }
+        } else {
+            return PannaUI.darkGreen
+        }
+    }
+
+    static var iconBackground: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return PannaUI.lightGreen
+                } else {
+                    return PannaUI.darkGreen
+                }
+            }
+        } else {
+            return PannaUI.darkGreen
+        }
+    }
+
 }
 
 let STRIPE_CLIENT_ID_DEV = "ca_ECowy0cLCEaImKunoIsUfm2n4EbhxrMO"

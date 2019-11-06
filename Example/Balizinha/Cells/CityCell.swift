@@ -35,7 +35,7 @@ class CityCell: UITableViewCell {
         if city.verified {
             verificationLabel?.text = "✓"
             verificationLabel?.backgroundColor = .clear
-            verificationLabel?.textColor = .darkGreen
+            verificationLabel?.textColor = UIColor.cellText
         } else {
             verificationLabel?.text = "UNVERIFIED"
             verificationLabel?.backgroundColor = .yellow
