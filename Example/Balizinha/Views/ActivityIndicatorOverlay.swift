@@ -17,7 +17,7 @@ class ActivityIndicatorOverlay: UIView {
             let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
             activityIndicator.hidesWhenStopped = false
             activityIndicator.startAnimating()
-            activityIndicator.color = UIColor.red
+            activityIndicator.color = PannaUI.activityIndicatorTint
             addSubview(activityIndicator)
             self.activityIndicator = activityIndicator
         }

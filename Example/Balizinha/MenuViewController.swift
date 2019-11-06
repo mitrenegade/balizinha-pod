@@ -165,7 +165,7 @@ extension MenuViewController: UITableViewDataSource {
                 if hasNewFeedback {
                     let notificationView: UIImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
                     let image = UIImage(named: "exclaimation")?.withRenderingMode(.alwaysTemplate)
-                    notificationView.tintColor = .red
+                    notificationView.tintColor = PannaUI.activityIndicatorTint
                     notificationView.image = image
                     cell.accessoryView = notificationView
                 } else {
@@ -175,7 +175,7 @@ extension MenuViewController: UITableViewDataSource {
                 if hasUnverifiedCity {
                     let notificationView: UIImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
                     let image = UIImage(named: "exclaimation")?.withRenderingMode(.alwaysTemplate)
-                    notificationView.tintColor = .red
+                    notificationView.tintColor = PannaUI.activityIndicatorTint
                     notificationView.image = image
                     cell.accessoryView = notificationView
                 } else {

@@ -106,4 +106,18 @@ public extension PannaUI {
             return PannaUI.offWhite
         }
     }
+    
+    static var activityIndicatorTint: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return PannaUI.lightRed
+                } else {
+                    return PannaUI.darkRed
+                }
+            }
+        } else {
+            return PannaUI.darkRed
+        }
+    }
 }
