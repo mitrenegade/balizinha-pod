@@ -24,17 +24,7 @@ public enum PannaUI {
 
 public extension PannaUI {
     static var navBarTint: UIColor {
-        if #available(iOS 13, *) {
-            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
-                if traitCollection.userInterfaceStyle == .dark {
-                    return PannaUI.lightBlue
-                } else {
-                    return PannaUI.mediumBlue
-                }
-            }
-        } else {
-            return PannaUI.mediumBlue
-        }
+        return PannaUI.mediumBlue
     }
 
     static var cellBorder: UIColor {
@@ -66,17 +56,7 @@ public extension PannaUI {
     }
 
     static var iconBackground: UIColor {
-        if #available(iOS 13, *) {
-            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
-                if traitCollection.userInterfaceStyle == .dark {
-                    return PannaUI.lightGreen
-                } else {
-                    return PannaUI.darkGreen
-                }
-            }
-        } else {
-            return PannaUI.darkGreen
-        }
+        return PannaUI.darkGreen
     }
 
     static var tableHeaderBackground: UIColor {
