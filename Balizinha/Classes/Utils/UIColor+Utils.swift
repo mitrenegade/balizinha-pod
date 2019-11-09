@@ -60,31 +60,11 @@ public extension PannaUI {
     }
 
     static var tableHeaderBackground: UIColor {
-        if #available(iOS 13, *) {
-            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
-                if traitCollection.userInterfaceStyle == .dark {
-                    return PannaUI.lightGreen
-                } else {
-                    return PannaUI.darkGreen
-                }
-            }
-        } else {
-            return PannaUI.darkGreen
-        }
+        return PannaUI.darkGreen
     }
     
     static var tableHeaderText: UIColor {
-        if #available(iOS 13, *) {
-            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
-                if traitCollection.userInterfaceStyle == .dark {
-                    return PannaUI.mediumRed // TODO
-                } else {
-                    return PannaUI.offWhite
-                }
-            }
-        } else {
-            return PannaUI.offWhite
-        }
+        return PannaUI.offWhite
     }
     
     static var activityIndicatorTint: UIColor {
