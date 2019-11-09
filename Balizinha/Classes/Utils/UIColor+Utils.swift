@@ -80,4 +80,18 @@ public extension PannaUI {
             return PannaUI.darkRed
         }
     }
+    
+    static var alertTint: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor.white
+                } else {
+                    return UIColor.black
+                }
+            }
+        } else {
+            return UIColor.black
+        }
+    }
 }
