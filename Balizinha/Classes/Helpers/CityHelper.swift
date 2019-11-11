@@ -121,7 +121,6 @@ public class CityHelper: NSObject {
         self.inputCity?.inputAccessoryView = keyboardDoneButtonView
         for picker in [cityPickerView, statePickerView] {
             picker.sizeToFit()
-            picker.backgroundColor = .white
             picker.delegate = self
             picker.dataSource = self
         }
