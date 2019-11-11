@@ -27,6 +27,10 @@ public extension PannaUI {
         return PannaUI.mediumBlue
     }
 
+    static var navBarButtonTint: UIColor {
+        return UIColor.white
+    }
+
     static var cellBorder: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
@@ -57,6 +61,20 @@ public extension PannaUI {
 
     static var iconBackground: UIColor {
         return PannaUI.darkGreen
+    }
+
+    static var profileTint: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor.white
+                } else {
+                    return UIColor.black
+                }
+            }
+        } else {
+            return UIColor.black
+        }
     }
 
     static var tableHeaderBackground: UIColor {
