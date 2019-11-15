@@ -73,3 +73,19 @@ extension City {
         return nil
     }
 }
+
+extension City {
+    public class func hashString(name: String?, state: String?) -> String {
+        let trimmedC = (name ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedS = (state ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        return "\(trimmedC).\(trimmedS)".lowercased()
+    }
+    
+    public var hashString: String {
+        return City.hashString(name: name, state: state)
+    }
+
+    override public var hash: Int {
+        return hashString.hashValue
+    }
+}
