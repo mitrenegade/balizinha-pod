@@ -76,9 +76,9 @@ extension City {
 
 extension City {
     public class func hashString(name: String?, state: String?) -> String {
-        let trimmedC = (name ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-        let trimmedS = (state ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-        return "\(trimmedC).\(trimmedS)".lowercased()
+        let trimmedC = (name ?? "").trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let trimmedS = (state ?? "").trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return "\(trimmedC).\(trimmedS)"
     }
     
     public var hashString: String {
@@ -87,5 +87,9 @@ extension City {
 
     override public var hash: Int {
         return hashString.hashValue
+    }
+    
+    public static func ==(lhs: City, rhs: City) -> Bool {
+        return lhs.hash == rhs.hash
     }
 }
