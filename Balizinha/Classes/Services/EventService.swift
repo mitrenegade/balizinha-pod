@@ -264,14 +264,10 @@ public class EventService: BaseService {
         }
     }
     
-    public func users(for event: Balizinha.Event) -> [String] {
-        return attendance(for: event, attending: true)
-    }
-
     // returns a list of userIds for an event
     // if attending is specified, returns users matching that attending state
     // if not specified, returns all users who have responded (attending or not)
-    public func attendance(for event: Balizinha.Event, attending: Bool?) -> [String] {
+    public func attendance(for event: Balizinha.Event, attending: Bool? = nil) -> [String] {
         guard let results = _usersForEvents[event.id] as? [String: AnyObject] else {
             return []
         }
