@@ -92,6 +92,7 @@
 		8ED5818F22FF50BF00F0436C /* PinpointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED5818C22FF50BF00F0436C /* PinpointViewController.swift */; };
 		8ED5819022FF50BF00F0436C /* PlaceSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED5818D22FF50BF00F0436C /* PlaceSearchViewController.swift */; };
 		8ED5819222FF51E100F0436C /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED5819122FF51E000F0436C /* LocationService.swift */; };
+		8EE18E352405E35C009DEF69 /* EventServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE18E342405E35C009DEF69 /* EventServiceTests.swift */; };
 		8EF1934A228FA0EE00BF7691 /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF19349228FA0EE00BF7691 /* CityCell.swift */; };
 		8EF1934C2290660F00BF7691 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1934B2290660F00BF7691 /* FeedbackViewModel.swift */; };
 		94C5CE9F5487058D85022A6C /* Pods_Balizinha_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */; };
@@ -253,6 +254,7 @@
 		8ED5818C22FF50BF00F0436C /* PinpointViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinpointViewController.swift; sourceTree = "<group>"; };
 		8ED5818D22FF50BF00F0436C /* PlaceSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceSearchViewController.swift; sourceTree = "<group>"; };
 		8ED5819122FF51E000F0436C /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		8EE18E342405E35C009DEF69 /* EventServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventServiceTests.swift; sourceTree = "<group>"; };
 		8EF19349228FA0EE00BF7691 /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
 		8EF1934B2290660F00BF7691 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		96549B357A80C114C291A8B3 /* Pods_Balizinha_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Balizinha_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -368,6 +370,7 @@
 				E7C2CC37230DB8F800C4D0E6 /* Location.gpx */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 				E7C2C4C4230D9CFA00C4D0E6 /* DateUtilsTests.swift */,
+				8EE18E342405E35C009DEF69 /* EventServiceTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -982,6 +985,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EE18E352405E35C009DEF69 /* EventServiceTests.swift in Sources */,
 				8E09573A21ABB0800037DA17 /* MockAuthProvider.swift in Sources */,
 				8E09573221ABA4950037DA17 /* MockDefaultsProvider.swift in Sources */,
 				8EA7EB9522FB9AF1006F1A3B /* EventTests.swift in Sources */,

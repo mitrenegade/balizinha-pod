@@ -295,22 +295,22 @@ extension Event {
 // requires Services
 extension Event {
     public var numPlayers: Int {
-        let users = EventService.shared.attendance(for: self, attending: true)
+        let users = EventService.shared.attendance(for: self.id, attending: true)
         return users.count
     }
     
     public func playerIsAttending(_ player: Player) -> Bool {
-        let users = EventService.shared.attendance(for: self, attending: true)
+        let users = EventService.shared.attendance(for: self.id, attending: true)
         return users.contains(player.id)
     }
 
     public func playerOptedOut(_ player: Player) -> Bool {
-        let users = EventService.shared.attendance(for: self, attending: false)
+        let users = EventService.shared.attendance(for: self.id, attending: false)
         return users.contains(player.id)
     }
 
     public func playerHasResponded(_ player: Player) -> Bool {
-        let users = EventService.shared.attendance(for: self)
+        let users = EventService.shared.attendance(for: self.id)
         return users.contains(player.id)
     }
 
