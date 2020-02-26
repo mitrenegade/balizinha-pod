@@ -68,4 +68,30 @@ class EventTests: XCTestCase {
         monthly.recurrence = .weekly
         XCTAssert(monthly.recurrence == .weekly)
     }
-}
+    
+    // attendance/opt out tests
+    func testPlayerIsAttending() {
+        let service: EventService = EventService()
+        service._usersForEvents = ["a": ["1": true, "2": false]]
+
+        let event = Event(key: "a", dict: nil)
+        let player1 = Player(key: "1", dict: nil)
+        let player2 = Player(key: "2", dict: nil)
+        let player3 = Player(key: "3", dict: nil)
+        XCTAssertTrue(event.playerIsAttending(player1, service: service))
+        XCTAssertFalse(event.playerIsAttending(player2, service: service))
+        XCTAssertFalse(event.playerIsAttending(player3, service: service))
+    }
+
+    func testPlayerOptedOut() {
+        let service: EventService = EventService()
+        service._usersForEvents = ["a": ["1": true, "2": false]]
+
+        let event = Event(key: "a", dict: nil)
+        let player1 = Player(key: "1", dict: nil)
+        let player2 = Player(key: "2", dict: nil)
+        let player3 = Player(key: "3", dict: nil)
+        XCTAssertFalse(event.playerIsAttending(player1, service: service))
+        XCTAssertTrue(event.playerIsAttending(player2, service: service))
+        XCTAssertFalse(event.playerIsAttending(player3, service: service))
+    }}

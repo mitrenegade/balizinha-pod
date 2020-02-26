@@ -7,6 +7,7 @@
 //
 
 import RenderCloud
+import Balizinha
 
 public class MockService: NSObject {
     //***************** hack: for test purposes only

@@ -27,7 +27,7 @@ class EventServiceTests: XCTestCase {
         XCTAssertTrue(service.attendance(for: eventId).contains("2"))
     }
 
-        func testOptOutPlayers() {
+    func testOptOutPlayers() {
         let eventId = "a"
         XCTAssertFalse(service.attendance(for: eventId, attending: false).contains("1"))
         XCTAssertTrue(service.attendance(for: eventId, attending: false).contains("2"))
