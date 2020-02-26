@@ -95,4 +95,17 @@ class EventTests: XCTestCase {
         XCTAssertTrue(event.playerOptedOut(player2, service: service))
         XCTAssertFalse(event.playerOptedOut(player3, service: service))
     }
+
+    func testPlayerHasResponded() {
+        let service: EventService = MockService.mockEventService()
+        service._usersForEvents = ["a": ["1": true, "2": false]]
+
+        let event = Event(key: "a", dict: nil)
+        let player1 = Player(key: "1", dict: nil)
+        let player2 = Player(key: "2", dict: nil)
+        let player3 = Player(key: "3", dict: nil)
+        XCTAssertTrue(event.playerHasResponded(player1, service: service))
+        XCTAssertTrue(event.playerHasResponded(player2, service: service))
+        XCTAssertFalse(event.playerHasResponded(player3, service: service))
+    }
 }
