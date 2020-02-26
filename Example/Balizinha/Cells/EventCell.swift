@@ -71,7 +71,7 @@ class EventCell: UITableViewCell {
         
         let containsUser: Bool
         if let player = PlayerService.shared.current.value {
-            containsUser = event.containsPlayer(player)
+            containsUser = event.playerIsAttending(player)
         } else {
             containsUser = false
         }

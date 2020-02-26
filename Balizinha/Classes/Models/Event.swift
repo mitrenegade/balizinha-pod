@@ -266,7 +266,7 @@ extension Event {
     }
     
     public var isFull: Bool {
-        return self.maxPlayers == self.numPlayers
+        return self.maxPlayers == self.numPlayers()
     }
     
     public var isPast: Bool {
@@ -294,13 +294,23 @@ extension Event {
 
 // requires Services
 extension Event {
-    public var numPlayers: Int {
-        let users = EventService.shared.users(for: self)
+    public func numPlayers(service: EventService = EventService.shared) -> Int {
+        let users = service.attendance(for: self.id, attending: true)
         return users.count
     }
     
-    public func containsPlayer(_ player: Player) -> Bool {
-        let users = EventService.shared.users(for: self)
+    public func playerIsAttending(_ player: Player, service: EventService = EventService.shared) -> Bool {
+        let users = service.attendance(for: self.id, attending: true)
+        return users.contains(player.id)
+    }
+
+    public func playerOptedOut(_ player: Player, service: EventService = EventService.shared) -> Bool {
+        let users = service.attendance(for: self.id, attending: false)
+        return users.contains(player.id)
+    }
+
+    public func playerHasResponded(_ player: Player, service: EventService = EventService.shared) -> Bool {
+        let users = service.attendance(for: self.id)
         return users.contains(player.id)
     }
 

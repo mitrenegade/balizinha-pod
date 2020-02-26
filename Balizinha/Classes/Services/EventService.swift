@@ -18,7 +18,7 @@ import RenderCloud
 fileprivate var singleton: EventService?
 
 public class EventService: BaseService {
-    fileprivate var _usersForEvents: [String: AnyObject] = [:]
+    var _usersForEvents: [String: Any] = [:]
     fileprivate var _events: [String:Balizinha.Event] = [:]
     private var _userEvents: Set<String>?
     // behaviorRelay that changes when _userEvents changes
@@ -264,19 +264,22 @@ public class EventService: BaseService {
         }
     }
     
-    public func users(for event: Balizinha.Event) -> [String] {
-        if let results = _usersForEvents[event.id] as? [String: AnyObject] {
-            let filtered = results.filter({ (arg) -> Bool in
-                let (_, val) = arg
-                return val as! Bool
-            })
-            let userIds = filtered.map({ (arg) -> String in
-                let (key, _) = arg
-                return key
-            })
-            return userIds
+    // returns a list of userIds for an event
+    // if attending is specified, returns users matching that attending state
+    // if not specified, returns all users who have responded (attending or not)
+    public func attendance(for eventId: String, attending: Bool? = nil) -> [String] {
+        guard let results = _usersForEvents[eventId] as? [String: AnyObject] else {
+            return []
         }
-        return []
+
+        return results.compactMap { (userId, value) -> String? in
+            if let attending = attending, let userIsAttending = value as? Bool, attending == userIsAttending {
+                return userId
+            } else if attending == nil {
+                return userId
+            }
+            return nil
+        }
     }
 }
 

@@ -7,6 +7,7 @@
 //
 
 import RenderCloud
+import Balizinha
 
 // this service retains memory
 public class MockCityService: CityService {
