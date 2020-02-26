@@ -13,7 +13,7 @@ class EventServiceTests: XCTestCase {
     var service: EventService!
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        service = EventService()
+        service = MockService.mockEventService()
         service._usersForEvents = ["a": ["1": true, "2": false]]
     }
 

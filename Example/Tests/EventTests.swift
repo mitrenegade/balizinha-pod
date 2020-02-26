@@ -71,7 +71,7 @@ class EventTests: XCTestCase {
     
     // attendance/opt out tests
     func testPlayerIsAttending() {
-        let service: EventService = EventService()
+        let service: EventService = MockService.mockEventService()
         service._usersForEvents = ["a": ["1": true, "2": false]]
 
         let event = Event(key: "a", dict: nil)
@@ -84,14 +84,15 @@ class EventTests: XCTestCase {
     }
 
     func testPlayerOptedOut() {
-        let service: EventService = EventService()
+        let service: EventService = MockService.mockEventService()
         service._usersForEvents = ["a": ["1": true, "2": false]]
 
         let event = Event(key: "a", dict: nil)
         let player1 = Player(key: "1", dict: nil)
         let player2 = Player(key: "2", dict: nil)
         let player3 = Player(key: "3", dict: nil)
-        XCTAssertFalse(event.playerIsAttending(player1, service: service))
-        XCTAssertTrue(event.playerIsAttending(player2, service: service))
-        XCTAssertFalse(event.playerIsAttending(player3, service: service))
-    }}
+        XCTAssertFalse(event.playerOptedOut(player1, service: service))
+        XCTAssertTrue(event.playerOptedOut(player2, service: service))
+        XCTAssertFalse(event.playerOptedOut(player3, service: service))
+    }
+}
