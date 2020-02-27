@@ -74,6 +74,23 @@ public class FeedService: NSObject {
         })
     }
     
+    public func loadFeedItems(for league: League, completion: @escaping (([FeedItem]) -> Void)) {
+        let queryRef = firRef.child("feedItems").queryOrdered(byChild: "leagueId").queryEqual(toValue: league.id)
+        queryRef.observeSingleValue { (snapshot) in
+            var feedItems = [FeedItem]()
+            for snapshot in snapshot.allChildren ?? [] {
+                let feedItem = FeedItem(snapshot: snapshot)
+                if feedItem.visible {
+                    feedItems.append(feedItem)
+                }
+            }
+            feedItems = feedItems.sorted(by: { (item0, item1) -> Bool in
+                return item0.createdAt ?? Date() < item1.createdAt ?? Date()
+            })
+            completion(feedItems)
+        }
+    }
+
     public func delete(feedItemId: String) {
         let queryRef = firRef.child("feedItems").child(feedItemId)
         queryRef.updateChildValues(["visible": false])
