@@ -78,7 +78,7 @@ public class BaseService {
             return
         }
 
-        let ref: Reference = baseRef.child(path: refName)
+        let ref: Reference = baseRef.child(path: refName).child(path: id)
         ref.observeSingleValue{ [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)

@@ -13,6 +13,14 @@ import RenderCloud
 public class FeedService: BaseService {
     public static let shared = FeedService()
     
+    override var refName: String {
+        return "feedItems"
+    }
+    
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
+        return FeedItem(snapshot: snapshot)
+    }
+    
     public func post(leagueId: String, message: String?, image: UIImage?, completion: ((Error?)->Void)?) {
         guard let player = PlayerService.shared.current.value else {
             // this shouldn't happen
@@ -85,8 +93,8 @@ public class FeedService: BaseService {
         queryRef.observeSingleValue { (snapshot) in
             var feedItemIds = [String]()
             for snapshot in snapshot.allChildren ?? [] {
-                if let id = snapshot.key as? String, let value = snapshot.value as? Bool, value {
-                    feedItemIds.append(id)
+                if let value = snapshot.value as? Bool, value {
+                    feedItemIds.append(snapshot.key)
                 }
             }
             completion(feedItemIds)
