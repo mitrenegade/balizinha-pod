@@ -76,12 +76,11 @@ public class FeedService: NSObject {
     
     public func loadFeedItems(for league: League, lastId: String? = nil, pageSize: UInt = 10, completion: @escaping (([FeedItem]) -> Void)) {
         var queryRef = firRef
-            .child("feedItems")
-            .queryOrdered(byChild: "leagueId")
-            .queryEqual(toValue: league.id)
+            .child("leagueFeedItems")
+            .child(league.id)
             .queryLimited(toFirst: pageSize)
         if let lastId = lastId {
-            queryRef = queryRef.queryStarting(atValue: lastId)
+            queryRef = queryRef.queryStarting(atValue: lastId, childKey: "id")
         }
         queryRef.observeSingleValue { (snapshot) in
             var feedItems = [FeedItem]()
