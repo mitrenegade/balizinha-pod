@@ -82,18 +82,21 @@ public class FeedService: BaseService {
         })
     }
     
-    public func loadFeedItems(for league: League, lastId: String? = nil, pageSize: UInt = 10, completion: @escaping (([String]) -> Void)) {
-        var queryRef = firRef
+    public func loadFeedItems(for league: League, lastKey: String? = nil, pageSize: UInt = 10, completion: @escaping (([String]) -> Void)) {
+        let ref = firRef // TODO: use baseRef and add queryStarting etc to Reference protocol
             .child("leagueFeedItems")
             .child(league.id)
-            .queryLimited(toFirst: pageSize)
-        if let lastId = lastId {
-            queryRef = queryRef.queryStarting(atValue: lastId, childKey: "id")
+        let query: Query
+        if let lastKey = lastKey {
+            // starting is inclusive, so will return an object already existing
+            query = ref.queryOrderedByKey().queryStarting(atValue: lastKey).queryLimited(toFirst: pageSize)
+        } else {
+            query = ref.queryLimited(toFirst: pageSize)
         }
-        queryRef.observeSingleValue { (snapshot) in
+        query.observeSingleValue { (snapshot) in
             var feedItemIds = [String]()
             for snapshot in snapshot.allChildren ?? [] {
-                if let value = snapshot.value as? Bool, value {
+                if snapshot.exists() {
                     feedItemIds.append(snapshot.key)
                 }
             }

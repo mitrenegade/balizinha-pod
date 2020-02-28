@@ -44,6 +44,14 @@ public class EventService: BaseService {
         shared.featuredEventId = nil
     }
     
+    override var refName: String {
+        return "events"
+    }
+    
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
+        return Event(snapshot: snapshot)
+    }
+    
     public var featuredEventId: String? {
         didSet {
             if let eventId = featuredEventId {
