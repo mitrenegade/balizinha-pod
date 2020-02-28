@@ -10,8 +10,16 @@ import UIKit
 import FirebaseDatabase
 import RenderCloud
 
-public class FeedService: NSObject {
+public class FeedService: BaseService {
     public static let shared = FeedService()
+    
+    override var refName: String {
+        return "feedItems"
+    }
+    
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
+        return FeedItem(snapshot: snapshot)
+    }
     
     public func post(leagueId: String, message: String?, image: UIImage?, completion: ((Error?)->Void)?) {
         guard let player = PlayerService.shared.current.value else {
@@ -74,6 +82,28 @@ public class FeedService: NSObject {
         })
     }
     
+    public func loadFeedItems(for league: League, lastKey: String? = nil, pageSize: UInt = 10, completion: @escaping (([String]) -> Void)) {
+        let ref = firRef // TODO: use baseRef and add queryStarting etc to Reference protocol
+            .child("leagueFeedItems")
+            .child(league.id)
+        let query: Query
+        if let lastKey = lastKey {
+            // starting is inclusive, so will return an object already existing
+            query = ref.queryOrderedByKey().queryStarting(atValue: lastKey).queryLimited(toFirst: pageSize)
+        } else {
+            query = ref.queryLimited(toFirst: pageSize)
+        }
+        query.observeSingleValue { (snapshot) in
+            var feedItemIds = [String]()
+            for snapshot in snapshot.allChildren ?? [] {
+                if snapshot.exists() {
+                    feedItemIds.append(snapshot.key)
+                }
+            }
+            completion(feedItemIds)
+        }
+    }
+
     public func delete(feedItemId: String) {
         let queryRef = firRef.child("feedItems").child(feedItemId)
         queryRef.updateChildValues(["visible": false])

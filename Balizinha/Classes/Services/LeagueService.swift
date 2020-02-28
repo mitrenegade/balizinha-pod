@@ -39,6 +39,14 @@ public class LeagueService: BaseService {
             self?._playerLeagues = [:]
         }
     }
+    
+    override var refName: String {
+        return "leagues"
+    }
+    
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
+        return League(snapshot: snapshot)
+    }
 
     // MARK: - League creation
     public func create(name: String, city: String, info: String, completion: @escaping ((_ result: Any?, _ error: Error?)->Void)) {
@@ -76,26 +84,6 @@ public class LeagueService: BaseService {
         }
     }
 
-    // MARK: League info
-    public func withId(id: String, completion: @escaping ((League?)->Void)) {
-        if let found = cached(id) as? League {
-            completion(found)
-            return
-        }
-        
-        let ref = baseRef.child(path: "leagues").child(path: id)
-        ref.observeSingleValue { [weak self] (snapshot) in
-            guard snapshot.exists() else {
-                completion(nil)
-                return
-            }
-            ref.removeAllObservers()
-            let league = League(snapshot: snapshot)
-            self?.cache(league)
-            completion(league)
-        }
-    }
-    
     // MARK: league deletion
     public class func delete(_ league: League) {
         let id = league.id

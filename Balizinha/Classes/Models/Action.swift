@@ -106,7 +106,7 @@ public class ActionViewModel {
         case .createEvent, .joinEvent, .leaveEvent, .payForEvent:
             if let eventId = action.eventId {
                 EventService.shared.withId(id: eventId, completion: { [weak self] (event) in
-                    self?.event = event
+                    self?.event = event as? Event
                 })
             }
         default:

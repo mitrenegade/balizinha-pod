@@ -110,27 +110,12 @@ public class PlayerService: BaseService {
         }
     }
     
-    public func withId(id: String, completion: @escaping ((Player?)->Void)) {
-        if let found = cached(id) as? Player {
-            completion(found)
-            return
-        }
-
-        guard let ref: Reference = playersRef?.child(path: id) else {
-            completion(nil)
-            return
-        }
-
-        ref.observeSingleValue{ [weak self] (snapshot) in
-            guard snapshot.exists() else {
-                completion(nil)
-                return
-            }
-            ref.removeAllObservers()
-            let player = Player(snapshot: snapshot)
-            self?.cache(player)
-            completion(player)
-        }
+    override var refName: String {
+        return "players"
+    }
+    
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
+        return Player(snapshot: snapshot)
     }
 
     public func updateCityAndNotify(city: City?) {

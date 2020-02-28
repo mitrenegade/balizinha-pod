@@ -15,6 +15,14 @@ public class CityService: BaseService {
     // TODO: readwritequeue
     public var _cities: [City] = []
     
+    override var refName: String {
+        return "cities"
+    }
+    
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
+        return City(snapshot: snapshot)
+    }
+
     public func getCities(completion: (([City])->Void)?) {
         apiService.cloudFunction(functionName: "getCities", method: "POST", params: nil) { [weak self] (results, error) in
             if error != nil {
@@ -58,7 +66,7 @@ public class CityService: BaseService {
                 print("CreateCity success with result \(String(describing: result))")
                 if let dict = result as? [String: Any], let cityId = dict["cityId"] as? String {
                     self?.withId(id: cityId, completion: { (city) in
-                        completion(city, nil)
+                        completion(city as? City, nil)
                     })
                     return
                 } else {
@@ -72,26 +80,6 @@ public class CityService: BaseService {
         let params: [String: Any] = ["cityId": city.id]
         apiService.cloudFunction(functionName: "deleteCity", method: "POST", params: params) { (result, error) in
             completion()
-        }
-    }
-    
-    public func withId(id: String, completion: @escaping ((City?)->Void)) {
-        if let found = cached(id) as? City {
-            completion(found)
-            return
-        }
-
-        let reference = baseRef.child(path: "cities").child(path: id)
-        reference.observeValue { [weak self] (snapshot) in
-            guard snapshot.exists() else {
-                completion(nil)
-                return
-            }
-            let object = City(snapshot: snapshot)
-            self?.cache(object)
-            completion(object)
-            
-            reference.removeAllObservers()
         }
     }
 
