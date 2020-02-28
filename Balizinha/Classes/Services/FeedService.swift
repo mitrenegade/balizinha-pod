@@ -84,9 +84,6 @@ public class FeedService: NSObject {
                     feedItems.append(feedItem)
                 }
             }
-            feedItems = feedItems.sorted(by: { (item0, item1) -> Bool in
-                return item0.createdAt ?? Date() < item1.createdAt ?? Date()
-            })
             completion(feedItems)
         }
     }
