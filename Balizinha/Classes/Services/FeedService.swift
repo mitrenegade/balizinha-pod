@@ -10,7 +10,7 @@ import UIKit
 import FirebaseDatabase
 import RenderCloud
 
-public class FeedService: NSObject {
+public class FeedService: BaseService {
     public static let shared = FeedService()
     
     public func post(leagueId: String, message: String?, image: UIImage?, completion: ((Error?)->Void)?) {
@@ -74,7 +74,7 @@ public class FeedService: NSObject {
         })
     }
     
-    public func loadFeedItems(for league: League, lastId: String? = nil, pageSize: UInt = 10, completion: @escaping (([FeedItem]) -> Void)) {
+    public func loadFeedItems(for league: League, lastId: String? = nil, pageSize: UInt = 10, completion: @escaping (([String]) -> Void)) {
         var queryRef = firRef
             .child("leagueFeedItems")
             .child(league.id)
@@ -83,14 +83,13 @@ public class FeedService: NSObject {
             queryRef = queryRef.queryStarting(atValue: lastId, childKey: "id")
         }
         queryRef.observeSingleValue { (snapshot) in
-            var feedItems = [FeedItem]()
+            var feedItemIds = [String]()
             for snapshot in snapshot.allChildren ?? [] {
-                let feedItem = FeedItem(snapshot: snapshot)
-                if feedItem.visible {
-                    feedItems.append(feedItem)
+                if let id = snapshot.key as? String, let value = snapshot.value as? Bool, value {
+                    feedItemIds.append(id)
                 }
             }
-            completion(feedItems)
+            completion(feedItemIds)
         }
     }
 

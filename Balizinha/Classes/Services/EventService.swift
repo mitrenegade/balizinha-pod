@@ -48,7 +48,7 @@ public class EventService: BaseService {
         didSet {
             if let eventId = featuredEventId {
                 withId(id: eventId, completion: {[weak self] (event) in
-                    self?.featuredEvent.value = event
+                    self?.featuredEvent.value = event as? Event
                 })
             } else {
                 featuredEvent.value = nil
@@ -131,7 +131,7 @@ public class EventService: BaseService {
                 print("CreateEvent v1.4 success with result \(String(describing: result))")
                 if let dict = result as? [String: Any], let eventId = dict["eventId"] as? String {
                     self.withId(id: eventId, completion: { (event) in
-                        completion(event, nil)
+                        completion(event as? Event, nil)
                     })
                 } else {
                     completion(nil, nil)
@@ -315,26 +315,6 @@ public extension EventService {
 }
 
 public extension EventService {
-    func withId(id: String, completion: @escaping ((Balizinha.Event?)->Void)) {
-        if let found = cached(id) as? Balizinha.Event {
-            completion(found)
-            return
-        }
-        
-        let reference = baseRef.child(path: "events").child(path: id)
-        reference.observeValue { [weak self] (snapshot) in
-            guard snapshot.exists() else {
-                completion(nil)
-                return
-            }
-            let event = Balizinha.Event(snapshot: snapshot)
-            self?.cache(event)
-            completion(event)
-            
-            reference.removeAllObservers()
-        }
-    }
-
     func cacheId(_ eventId: String, shouldInsert: Bool) {
         readWriteQueue2.async(flags: .barrier) { [weak self] in
             if self?._userEvents == nil {

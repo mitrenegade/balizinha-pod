@@ -60,4 +60,38 @@ public class BaseService {
             self?._objects = [:]
         }
     }
+    
+    internal var refName: String {
+        assertionFailure("refName ust be implemented by subclass")
+        return ""
+    }
+    
+    func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
+        assertionFailure("createObject must be implemented by subclass")
+        return nil
+//        return FirebaseBaseModel(snapshot: snapshot)
+    }
+
+    @objc public func withId(id: String, completion: @escaping ((FirebaseBaseModel?)->Void)) {
+        if let found = cached(id) {
+            completion(found)
+            return
+        }
+
+        let ref: Reference = baseRef.child(path: refName)
+        ref.observeSingleValue{ [weak self] (snapshot) in
+            guard snapshot.exists() else {
+                completion(nil)
+                return
+            }
+            ref.removeAllObservers()
+            if let object = self?.createObject(from: snapshot) {
+                self?.cache(object)
+                completion(object)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
 }

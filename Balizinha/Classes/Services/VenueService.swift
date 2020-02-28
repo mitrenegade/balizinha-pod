@@ -11,6 +11,14 @@ public class VenueService: BaseService {
     // MARK: - Singleton
     public static var shared: VenueService = VenueService()
     
+    override var refName: String {
+        return "venues"
+    }
+    
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
+        return Venue(snapshot: snapshot)
+    }
+/*
     public func withId(id: String, completion: @escaping ((Venue?)->Void)) {
         if let found = cached(id) as? Venue {
             completion(found)
@@ -30,7 +38,7 @@ public class VenueService: BaseService {
             reference.removeAllObservers()
         }
     }
-    
+    */
     public func createVenue(userId: String, type: Venue.SpaceType, name: String? = nil, street: String? = nil, city: String? = nil, state: String? = nil, lat: Double? = nil, lon: Double? = nil, placeId: String?, completion:((Venue?, Error?) -> Void)?) {
         // todo: if this is a codable, handle optionals
         var params: [String: Any] = ["userId": userId, "type": type.rawValue]
@@ -64,7 +72,7 @@ public class VenueService: BaseService {
                 print("CreateVenue success with result \(String(describing: result))")
                 if let dict = result as? [String: Any], let venueId = dict["venueId"] as? String{
                     self?.withId(id: venueId, completion: { (venue) in
-                        guard let venue = venue else {
+                        guard let venue = venue as? Venue else {
                             completion?(nil, nil)
                             return
                         }
