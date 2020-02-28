@@ -69,7 +69,6 @@ public class BaseService {
     func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
         assertionFailure("createObject must be implemented by subclass")
         return nil
-//        return FirebaseBaseModel(snapshot: snapshot)
     }
 
     @objc public func withId(id: String, completion: @escaping ((FirebaseBaseModel?)->Void)) {

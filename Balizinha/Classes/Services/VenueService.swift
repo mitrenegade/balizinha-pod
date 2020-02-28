@@ -18,27 +18,7 @@ public class VenueService: BaseService {
     override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
         return Venue(snapshot: snapshot)
     }
-/*
-    public func withId(id: String, completion: @escaping ((Venue?)->Void)) {
-        if let found = cached(id) as? Venue {
-            completion(found)
-            return
-        }
-        
-        let reference = baseRef.child(path: "venues").child(path: id)
-        reference.observeValue { [weak self] (snapshot) in
-            guard snapshot.exists() else {
-                completion(nil)
-                return
-            }
-            let object = Venue(snapshot: snapshot)
-            self?.cache(object)
-            completion(object)
-            
-            reference.removeAllObservers()
-        }
-    }
-    */
+
     public func createVenue(userId: String, type: Venue.SpaceType, name: String? = nil, street: String? = nil, city: String? = nil, state: String? = nil, lat: Double? = nil, lon: Double? = nil, placeId: String?, completion:((Venue?, Error?) -> Void)?) {
         // todo: if this is a codable, handle optionals
         var params: [String: Any] = ["userId": userId, "type": type.rawValue]
