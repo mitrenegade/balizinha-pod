@@ -157,6 +157,8 @@ public class CityHelper: NSObject {
             if let textField = alert.textFields?[0], let value = textField.text, !value.isEmpty {
                 if self.validateCityString(value) {
                     self.promptForNewState(value)
+                } else if let city = self.validateCityStateString(value) {
+                    self.delegate?.didSelectCity(city)
                 } else {
                     self.warnCityStringShouldNotContainState()
                 }
@@ -228,6 +230,15 @@ public class CityHelper: NSObject {
         return true
     }
 
+    internal func validateCityStateString(_ cityStateString: String) -> City? {
+        // this function checks whether a text input entered is the same as an existing city, ie Boston, MA
+        let parts = cityStateString.components(separatedBy: ", ")
+        guard parts.count == 2, let city = parts.first, let state = parts.last else { return nil }
+        if let city = self.service?.cityFromName(city, state: state) {
+            return city
+        }
+        return nil
+    }
     internal func warnCityStringShouldNotContainState() {
         let alert = UIAlertController(title: "Invalid city name", message: "Your city should not contain the state abbreviation!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
