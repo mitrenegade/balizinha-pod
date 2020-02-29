@@ -82,7 +82,7 @@ public class FeedService: BaseService {
         })
     }
     
-    public func loadFeedItems(for league: League, lastKey: String? = nil, pageSize: UInt = 10, completion: @escaping (([String]) -> Void)) {
+    public func loadFeedItems(for league: League, lastKey: String? = nil, pageSize: UInt = 21, completion: @escaping (([String]) -> Void)) {
         let ref = firRef // TODO: use baseRef and add queryStarting etc to Reference protocol
             .child("leagueFeedItems")
             .child(league.id)
@@ -111,5 +111,10 @@ public class FeedService: BaseService {
     
     public class func delete(feedItem: FeedItem) {
         feedItem.visible = false
+    }
+    
+    public func feedItemsForLeague(_ leagueId: String) -> [FeedItem] {
+        let feedItems: [FeedItem] = getCachedObjects()
+        return feedItems.filter { $0.leagueId == leagueId }
     }
 }
