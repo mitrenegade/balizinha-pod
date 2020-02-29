@@ -219,7 +219,10 @@ public class CityHelper: NSObject {
     
     internal func validateCityString(_ cityString: String) -> Bool {
         // this function only checks that a user does not try to enter a City, State in this prompt
-        if cityString.contains(",") {
+        guard !cityString.isEmpty else {
+            return false
+        }
+        guard !cityString.contains(",") else {
             return false
         }
         // is it possible that a city has a , in its name? Only error out if the second part is a state
