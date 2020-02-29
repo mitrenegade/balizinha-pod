@@ -155,7 +155,11 @@ public class CityHelper: NSObject {
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let value = textField.text, !value.isEmpty {
-                self.promptForNewState(value)
+                if self.validateCityString(value) {
+                    self.promptForNewState(value)
+                } else {
+                    self.warnCityStringShouldNotContainState()
+                }
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -204,6 +208,22 @@ public class CityHelper: NSObject {
             pickerRow = index + 1
             cityPickerView.selectRow(pickerRow, inComponent: 0, animated: true)
         }
+    }
+    
+    internal func validateCityString(_ cityString: String) -> Bool {
+        // this function only checks that a user does not try to enter a City, State in this prompt
+        // is it possible that a city has a , in its name? Only error out if the second part is a state
+        let parts = cityString.components(separatedBy: ",")
+        if let stateString = parts.last, stateAbbreviations.contains(stateString) {
+            return false
+        }
+        return true
+    }
+    
+    internal func warnCityStringShouldNotContainState() {
+        let alert = UIAlertController(title: "Invalid city name", message: "Your city should not contain the state abbreviation!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        presenter?.present(alert, animated: true)
     }
 }
 
