@@ -175,23 +175,28 @@ public class CityHelper: NSObject {
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let textField = alert.textFields?[0], let value = textField.text, !value.isEmpty {
-                self.delegate?.didStartCreatingCity()
-                self.service?.createCity(city, state: value, lat: 0, lon: 0, completion: { [weak self] (city, error) in
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self?.delegate?.didFailSelectCity(with: error)
-                        }
-                    } else {
-                        // update current city and cities list
-                        self?.currentCityId = city?.id
-                        self?.service?.getCities(completion: { [weak self] (cities) in
+                if let city = self.service?.cityFromName(city, state: value) {
+                    self.delegate?.didSelectCity(city)
+                } else {
+                    // new city/state
+                    self.delegate?.didStartCreatingCity()
+                    self.service?.createCity(city, state: value, lat: 0, lon: 0, completion: { [weak self] (city, error) in
+                        if let error = error {
                             DispatchQueue.main.async {
-                                self?.refreshCities()
-                                self?.delegate?.didSelectCity(city)
+                                self?.delegate?.didFailSelectCity(with: error)
                             }
-                        })
-                    }
-                })
+                        } else {
+                            // update current city and cities list
+                            self?.currentCityId = city?.id
+                            self?.service?.getCities(completion: { [weak self] (cities) in
+                                DispatchQueue.main.async {
+                                    self?.refreshCities()
+                                    self?.delegate?.didSelectCity(city)
+                                }
+                            })
+                        }
+                    })
+                }
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -222,7 +227,7 @@ public class CityHelper: NSObject {
         }
         return true
     }
-    
+
     internal func warnCityStringShouldNotContainState() {
         let alert = UIAlertController(title: "Invalid city name", message: "Your city should not contain the state abbreviation!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
