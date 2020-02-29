@@ -112,4 +112,9 @@ public class FeedService: BaseService {
     public class func delete(feedItem: FeedItem) {
         feedItem.visible = false
     }
+    
+    public func feedItemsForLeague(_ leagueId: String) -> [FeedItem] {
+        let feedItems: [FeedItem] = getCachedObjects()
+        return feedItems.filter { $0.leagueId == leagueId }
+    }
 }
