@@ -89,9 +89,9 @@ public class FeedService: BaseService {
         let query: Query
         if let lastKey = lastKey {
             // starting is inclusive, so will return an object already existing
-            query = ref.queryOrderedByKey().queryStarting(atValue: lastKey).queryLimited(toFirst: pageSize)
+            query = ref.queryOrderedByKey().queryEnding(atValue: lastKey).queryLimited(toLast: pageSize)
         } else {
-            query = ref.queryLimited(toFirst: pageSize)
+            query = ref.queryLimited(toLast: pageSize)
         }
         query.observeSingleValue { (snapshot) in
             var feedItemIds = [String]()
