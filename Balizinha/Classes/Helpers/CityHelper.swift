@@ -11,6 +11,7 @@ public protocol CityHelperDelegate: class {
     func didStartCreatingCity()
     func didSelectCity(_ city: City?)
     func didFailSelectCity(with error: Error?)
+    func didCancelSelectCity()
 }
 
 public class CityHelper: NSObject {
@@ -142,6 +143,8 @@ public class CityHelper: NSObject {
     @objc internal func cancelEditing() {
         inputCity?.endEditing(true)
         inputState?.endEditing(true)
+        
+        delegate?.didCancelSelectCity()
     }
     
     internal func promptForNewCity() {
