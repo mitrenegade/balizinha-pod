@@ -23,12 +23,12 @@ class OrganizerCell: UITableViewCell {
 
         guard let id = organizerId else { return }
         PlayerService.shared.withId(id: id, completion: { [weak self] (player) in
-            guard let organizerId = self?.organizerId, player?.id == organizerId else { return }
+            guard let organizerId = self?.organizerId, let player = player as? Player, player.id == organizerId else { return }
             
-            self?.labelText.text = player?.name ?? player?.email ?? player?.id
+            self?.labelText.text = player.name ?? player.email ?? player.id
             self?.labelText.sizeToFit()
             
-            self?.refreshPhoto(oldUrl: player?.photoUrl, currentId: id)
+            self?.refreshPhoto(oldUrl: player.photoUrl, currentId: id)
             
             self?.labelStatus.text = organizer.status.rawValue
             self?.labelDate.text = organizer.createdAt?.dateString()

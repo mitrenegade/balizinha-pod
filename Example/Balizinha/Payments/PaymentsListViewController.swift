@@ -102,7 +102,7 @@ class PaymentsListViewController: ListViewController {
                     
                     self?.activityOverlay.hide()
                     EventService().withId(id: id, completion: { (event) in
-                        if let event = event {
+                        if let event = event as? Balizinha.Event {
                             self?.events[id] = event
                             self?.reloadTable()
                         }

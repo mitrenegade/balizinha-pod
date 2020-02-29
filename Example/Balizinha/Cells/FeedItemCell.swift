@@ -25,7 +25,7 @@ class FeedItemCell: UITableViewCell {
         let message = feedItem.message ?? feedItem.defaultMessage
         if let userId = feedItem.userId {
             PlayerService.shared.withId(id: userId) { [weak self] (player) in
-                let name = player?.name ?? player?.email ?? "Anon"
+                let player = player as? Player, name = player?.name ?? player?.email ?? "Anon"
                 self?.labelMessage.text = "\(name): \(message)"
             }
         } else {

@@ -73,6 +73,10 @@ class VenuesListViewController: SearchableListViewController {
 }
 
 extension VenuesListViewController: CityHelperDelegate {
+    func didCancelSelectCity() {
+        // TODO
+    }
+    
     func didStartCreatingCity() {
         self.showLoadingIndicator()
     }

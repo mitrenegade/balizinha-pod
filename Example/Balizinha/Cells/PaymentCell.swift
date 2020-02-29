@@ -22,10 +22,12 @@ class PaymentCell: UITableViewCell {
         if let id = playerId {
             print("Loading player with key \(id)")
             PlayerService.shared.withId(id: id, completion: { [weak self] (player) in
+                let player = player as? Player
                 self?.labelName.text = player?.name ?? player?.email ?? "Unknown player"
             })
         } else if let customerId = payment.customerId, let playerId = service?.playerIdForCustomer(customerId) {
             PlayerService.shared.withId(id: playerId, completion: { [weak self] (player) in
+                let player = player as? Player
                 self?.labelName.text = player?.name ?? player?.email ?? "Unknown player"
             })
         } else {

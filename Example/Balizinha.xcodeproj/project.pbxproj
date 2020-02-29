@@ -67,7 +67,6 @@
 		8E97407821132A7100242907 /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405921132A6E00242907 /* PaymentCell.swift */; };
 		8E97407921132A7100242907 /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405A21132A6E00242907 /* ActionCell.swift */; };
 		8E97407A21132A7100242907 /* OrganizerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405B21132A6E00242907 /* OrganizerCell.swift */; };
-		8E97407B21132A7100242907 /* PlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405C21132A6E00242907 /* PlayerCell.swift */; };
 		8E97407C21132A7100242907 /* LeagueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405D21132A6E00242907 /* LeagueCell.swift */; };
 		8E97407D21132A7100242907 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E97405E21132A7000242907 /* Assets.xcassets */; };
 		8E97408121132E6700242907 /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E97407F21132E6500242907 /* GoogleService-Info-dev.plist */; };
@@ -231,7 +230,6 @@
 		8E97405921132A6E00242907 /* PaymentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
 		8E97405A21132A6E00242907 /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
 		8E97405B21132A6E00242907 /* OrganizerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizerCell.swift; sourceTree = "<group>"; };
-		8E97405C21132A6E00242907 /* PlayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
 		8E97405D21132A6E00242907 /* LeagueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeagueCell.swift; sourceTree = "<group>"; };
 		8E97405E21132A7000242907 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E97407F21132E6500242907 /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
@@ -651,7 +649,6 @@
 				8E97405921132A6E00242907 /* PaymentCell.swift */,
 				8E97405A21132A6E00242907 /* ActionCell.swift */,
 				8E97405B21132A6E00242907 /* OrganizerCell.swift */,
-				8E97405C21132A6E00242907 /* PlayerCell.swift */,
 				8E97405D21132A6E00242907 /* LeagueCell.swift */,
 				C6502BE32126F4A7004A3EED /* EventCell.swift */,
 				8EA99E14215342E4001BC643 /* FeedbackCell.swift */,
@@ -945,7 +942,6 @@
 				C6E11AB821FCAD7C00EE3126 /* StripeMenuViewController.swift in Sources */,
 				8E01581522852DBC0072921C /* GMUSimpleClusterAlgorithm.m in Sources */,
 				8E01581322852DBC0072921C /* GMUGridBasedClusterAlgorithm.m in Sources */,
-				8E97407B21132A7100242907 /* PlayerCell.swift in Sources */,
 				8ED5819222FF51E100F0436C /* LocationService.swift in Sources */,
 				8E01580522852DBC0072921C /* GMUKMLParser.m in Sources */,
 				8E97407721132A7100242907 /* LeaguePlayerCell.swift in Sources */,
