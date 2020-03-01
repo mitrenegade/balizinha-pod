@@ -144,6 +144,7 @@ extension CitiesListViewController: UITableViewDataSource {
             if indexPath.row < allPlayers.count {
                 let playerId = allPlayers[indexPath.row]
                 PlayerService.shared.withId(id: playerId) { (player) in
+                    let player = player as? Player
                     cell.textLabel?.text = player?.name ?? player?.email ?? playerId
                 }
             } else {
@@ -191,7 +192,7 @@ extension CitiesListViewController: UITableViewDelegate {
             if indexPath.row < allPlayers.count {
                 let playerId = allPlayers[indexPath.row]
                 PlayerService.shared.withId(id: playerId) { [weak self] (player) in
-                    controller.player = player
+                    controller.player = player as? Player
                     DispatchQueue.main.async {
                         self?.navigationController?.pushViewController(controller, animated: true)
                     }

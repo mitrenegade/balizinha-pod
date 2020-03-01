@@ -40,20 +40,7 @@ public class Player: FirebaseBaseModel {
             update(key: "email", value: newValue)
         }
     }
-    
-    public var city: String? {
-        get {
-            guard let dict = self.dict else { return nil }
-            if let val = dict["city"] as? String {
-                return val
-            }
-            return nil
-        }
-        set {
-            update(key: "city", value: newValue)
-        }
-    }
-    
+
     public var cityId: String? {
         get {
             return dict?["cityId"] as? String

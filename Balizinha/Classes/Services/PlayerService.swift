@@ -72,7 +72,7 @@ public class PlayerService: BaseService {
     }
     
     
-    public func createPlayer(name: String?, email: String?, city: String?, info: String?, photoUrl: String?, completion:@escaping (Player?, NSError?) -> Void) {
+    public func createPlayer(name: String?, email: String?, city: City?, info: String?, photoUrl: String?, completion:@escaping (Player?, NSError?) -> Void) {
         
         guard let user = AuthService.currentUser, !AuthService.isAnonymous else { return }
         let existingUserId = user.uid
@@ -87,8 +87,8 @@ public class PlayerService: BaseService {
         if let email = email {
             params["email"] = email
         }
-        if let city = city {
-            params["city"] = city
+        if let cityId = city?.id {
+            params["cityId"] = cityId
         }
         if let info = info {
             params["info"] = info
@@ -120,7 +120,6 @@ public class PlayerService: BaseService {
 
     public func updateCityAndNotify(city: City?) {
         if let player = current.value {
-            player.city = city?.shortString
             player.cityId = city?.firebaseKey
 
             current.accept(player) // causes observers to be notified

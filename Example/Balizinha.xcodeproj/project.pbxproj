@@ -67,14 +67,15 @@
 		8E97407821132A7100242907 /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405921132A6E00242907 /* PaymentCell.swift */; };
 		8E97407921132A7100242907 /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405A21132A6E00242907 /* ActionCell.swift */; };
 		8E97407A21132A7100242907 /* OrganizerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405B21132A6E00242907 /* OrganizerCell.swift */; };
-		8E97407B21132A7100242907 /* PlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405C21132A6E00242907 /* PlayerCell.swift */; };
 		8E97407C21132A7100242907 /* LeagueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97405D21132A6E00242907 /* LeagueCell.swift */; };
 		8E97407D21132A7100242907 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E97405E21132A7000242907 /* Assets.xcassets */; };
 		8E97408121132E6700242907 /* GoogleService-Info-dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E97407F21132E6500242907 /* GoogleService-Info-dev.plist */; };
 		8E97408221132E6700242907 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E97408021132E6600242907 /* GoogleService-Info.plist */; };
 		8E974085211478CB00242907 /* RAImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E974084211478CA00242907 /* RAImageView.swift */; };
+		8E97A801240A6590004E1ECA /* CityHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E97A800240A6590004E1ECA /* CityHelperTests.swift */; };
 		8E995877211E887800101F50 /* Payments.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E995876211E887800101F50 /* Payments.storyboard */; };
 		8E995879211E8B5400101F50 /* PaymentSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */; };
+		8EA3B68B237E3A180048FEB5 /* CityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA3B68A237E3A180048FEB5 /* CityTests.swift */; };
 		8EA7EB9522FB9AF1006F1A3B /* EventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA7EB9422FB9AF1006F1A3B /* EventTests.swift */; };
 		8EA970C9228E4BE10038E313 /* Venues.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA970C8228E4BE10038E313 /* Venues.storyboard */; };
 		8EA970CB228E4C910038E313 /* VenuesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA970CA228E4C910038E313 /* VenuesListViewController.swift */; };
@@ -229,14 +230,15 @@
 		8E97405921132A6E00242907 /* PaymentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
 		8E97405A21132A6E00242907 /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
 		8E97405B21132A6E00242907 /* OrganizerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizerCell.swift; sourceTree = "<group>"; };
-		8E97405C21132A6E00242907 /* PlayerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
 		8E97405D21132A6E00242907 /* LeagueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeagueCell.swift; sourceTree = "<group>"; };
 		8E97405E21132A7000242907 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E97407F21132E6500242907 /* GoogleService-Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-dev.plist"; sourceTree = "<group>"; };
 		8E97408021132E6600242907 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E974084211478CA00242907 /* RAImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAImageView.swift; sourceTree = "<group>"; };
+		8E97A800240A6590004E1ECA /* CityHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityHelperTests.swift; sourceTree = "<group>"; };
 		8E995876211E887800101F50 /* Payments.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Payments.storyboard; sourceTree = "<group>"; };
 		8E995878211E8B5400101F50 /* PaymentSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSubmitViewController.swift; sourceTree = "<group>"; };
+		8EA3B68A237E3A180048FEB5 /* CityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTests.swift; sourceTree = "<group>"; };
 		8EA7EB9422FB9AF1006F1A3B /* EventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTests.swift; sourceTree = "<group>"; };
 		8EA970C8228E4BE10038E313 /* Venues.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Venues.storyboard; sourceTree = "<group>"; };
 		8EA970CA228E4C910038E313 /* VenuesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenuesListViewController.swift; sourceTree = "<group>"; };
@@ -371,6 +373,8 @@
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 				E7C2C4C4230D9CFA00C4D0E6 /* DateUtilsTests.swift */,
 				8EE18E342405E35C009DEF69 /* EventServiceTests.swift */,
+				8EA3B68A237E3A180048FEB5 /* CityTests.swift */,
+				8E97A800240A6590004E1ECA /* CityHelperTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -645,7 +649,6 @@
 				8E97405921132A6E00242907 /* PaymentCell.swift */,
 				8E97405A21132A6E00242907 /* ActionCell.swift */,
 				8E97405B21132A6E00242907 /* OrganizerCell.swift */,
-				8E97405C21132A6E00242907 /* PlayerCell.swift */,
 				8E97405D21132A6E00242907 /* LeagueCell.swift */,
 				C6502BE32126F4A7004A3EED /* EventCell.swift */,
 				8EA99E14215342E4001BC643 /* FeedbackCell.swift */,
@@ -939,7 +942,6 @@
 				C6E11AB821FCAD7C00EE3126 /* StripeMenuViewController.swift in Sources */,
 				8E01581522852DBC0072921C /* GMUSimpleClusterAlgorithm.m in Sources */,
 				8E01581322852DBC0072921C /* GMUGridBasedClusterAlgorithm.m in Sources */,
-				8E97407B21132A7100242907 /* PlayerCell.swift in Sources */,
 				8ED5819222FF51E100F0436C /* LocationService.swift in Sources */,
 				8E01580522852DBC0072921C /* GMUKMLParser.m in Sources */,
 				8E97407721132A7100242907 /* LeaguePlayerCell.swift in Sources */,
@@ -987,8 +989,10 @@
 			files = (
 				8EE18E352405E35C009DEF69 /* EventServiceTests.swift in Sources */,
 				8E09573A21ABB0800037DA17 /* MockAuthProvider.swift in Sources */,
+				8EA3B68B237E3A180048FEB5 /* CityTests.swift in Sources */,
 				8E09573221ABA4950037DA17 /* MockDefaultsProvider.swift in Sources */,
 				8EA7EB9522FB9AF1006F1A3B /* EventTests.swift in Sources */,
+				8E97A801240A6590004E1ECA /* CityHelperTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 				8E09572C21ABA1000037DA17 /* LoginStateTests.swift in Sources */,
 				E7C2C4C5230D9CFA00C4D0E6 /* DateUtilsTests.swift in Sources */,
@@ -1134,7 +1138,7 @@
 				INFOPLIST_FILE = Balizinha/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = "0.10.11\U0013";
+				MARKETING_VERSION = 0.10.11;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.balizinha.admin;
 				PRODUCT_NAME = Admin;
@@ -1159,7 +1163,7 @@
 				INFOPLIST_FILE = Balizinha/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = "0.10.11\U0013";
+				MARKETING_VERSION = 0.10.11;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.balizinha.admin;
 				PRODUCT_NAME = Admin;

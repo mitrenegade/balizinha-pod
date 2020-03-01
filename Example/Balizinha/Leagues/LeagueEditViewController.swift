@@ -141,6 +141,7 @@ class LeagueEditViewController: UIViewController {
         if let owner = league.ownerId {
             PlayerService.shared.withId(id: owner) { [weak self] (player) in
                 DispatchQueue.main.async {
+                    let player = player as? Player
                     self?.labelOwnerName.text = player?.name ?? player?.email ?? player?.id
                 }
             }
@@ -187,7 +188,7 @@ class LeagueEditViewController: UIViewController {
             dispatchGroup.enter()
             print("Loading player id \(playerId)")
             PlayerService.shared.withId(id: playerId, completion: {[weak self] (player) in
-                if let player = player {
+                if let player = player as? Player {
                     print("Finished player id \(playerId)")
                     self?.players.append(player)
                 }
@@ -267,7 +268,7 @@ class LeagueEditViewController: UIViewController {
                     return
                 }
                 LeagueService.shared.withId(id: leagueId, completion: { [weak self] (league) in
-                    guard let league = league else {
+                    guard let league = league as? League else {
                         DispatchQueue.main.async {
                             self?.hideLoadingIndicator()
                         }

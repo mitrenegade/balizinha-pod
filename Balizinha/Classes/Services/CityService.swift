@@ -82,6 +82,10 @@ public class CityService: BaseService {
             completion()
         }
     }
+    
+    public func cityFromName(_ name: String, state: String) -> City? {
+        return _cities.filter { name.lowercased() == $0.name?.lowercased() && state.lowercased() == $0.state?.lowercased() }.first
+    }
 
     // For Admin only
     public func loadPlayerCityStrings(includeInvalidCities: Bool = true, completion: @escaping ([String], [String: [String]])->Void) {

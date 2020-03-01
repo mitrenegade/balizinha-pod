@@ -52,8 +52,14 @@ class PlayerViewController: UIViewController {
             self.nameLabel.text = nil
         }
         
-        if let city = player.city {
-            self.cityLabel.text = city
+        if let cityId = player.cityId {
+            CityService.shared.withId(id: cityId) { [weak self] (city) in
+                if let city = city as? City {
+                    self?.cityLabel.text = city.shortString
+                } else {
+                    self?.cityLabel.text = nil
+                }
+            }
         }
         else {
             self.cityLabel.text = nil
@@ -75,7 +81,7 @@ class PlayerViewController: UIViewController {
         if let baseVenueId = player.baseVenueId {
             venueLabel.text = "Loading venue..."
             VenueService.shared.withId(id: baseVenueId) { [weak self] (venue) in
-                if let venue = venue {
+                if let venue = venue as? Venue {
                     self?.venueLabel.text = "\(String(describing: venue.shortString))\n\(venue.id)"
                 } else {
                     self?.venueLabel.isHidden = true

@@ -7,12 +7,11 @@
 //
 
 import RenderCloud
-import Balizinha
 
 // this service retains memory
 public class MockCityService: CityService {
     public init() {
-        super.init()
+        super.init(reference: MockDatabaseReference(), apiService: MockCloudAPIService(uniqueId: "abc", results: ["success":true]))
         _cities = [City(key: "123", dict: ["createdAt": Date().timeIntervalSince1970 - 3600, "name": "Skyville", "state": "Cloud", "lat": 39, "lon": -122])]
     }
     
