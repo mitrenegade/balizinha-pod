@@ -65,4 +65,8 @@ public class VenueService: BaseService {
         }
     }
     
+    public func venueForAction(with venueId: String) -> Venue? {
+        return cached(venueId) as? Venue
+    }
+
 }
