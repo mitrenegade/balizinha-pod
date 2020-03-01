@@ -25,6 +25,8 @@ public enum ActionType: String {
     case cancelEvent
     case uncancelEvent
     
+    // other
+    case createVenue
     case systemMessage
 }
 
@@ -73,6 +75,15 @@ public class Action: FirebaseBaseModel {
         }
     }
 
+    public var venueId: String? { // for actions of createEvent type
+        get {
+            return self.dict["venueId"] as? String
+        }
+        set {
+            update(key: "venueId", value: newValue)
+        }
+    }
+
     public var message: String? {
         get {
             return self.dict["message"] as? String
@@ -99,6 +110,7 @@ public class Action: FirebaseBaseModel {
 public class ActionViewModel {
     var action: Action
     var event: Balizinha.Event?
+    var venue: Venue?
 
     public init(action: Action) {
         self.action = action
@@ -108,6 +120,12 @@ public class ActionViewModel {
                 EventService.shared.withId(id: eventId, completion: { [weak self] (event) in
                     self?.event = event as? Event
                 })
+            }
+        case .createVenue:
+            if let venueId = action.venueId {
+                VenueService.shared.withId(id: venueId) { [weak self] venue in
+                    self?.venue = venue as? Venue
+                }
             }
         default:
             return
@@ -126,6 +144,13 @@ public class ActionViewModel {
             return foundEvent.name ?? "an event"
         }
         return event?.name ?? "an event"
+    }
+    
+    public var venueName: String {
+        if let venueId = action.venueId, let foundVenue = VenueService.shared.venueForAction(with: venueId) {
+            return foundVenue.name ?? "a new venue"
+        }
+        return venue?.name ?? "an event"
     }
     
     public var displayString: String {
@@ -156,6 +181,8 @@ public class ActionViewModel {
         case .systemMessage:
             // system message
             return action.defaultMessage
+        case .createVenue:
+            return userString + " added \(venueName)"
         }
     }
     
