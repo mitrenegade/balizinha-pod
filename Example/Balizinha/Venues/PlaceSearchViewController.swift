@@ -124,7 +124,6 @@ extension PlaceSearchViewController: PlaceResultsDelegate {
         if let searchTerm = searchController!.searchBar.text {
             info = ["searchTerm": searchTerm]
         }
-        LoggingService.shared.log(event: .SearchForVenue, info: info)
     }
 }
 
