@@ -15,7 +15,9 @@ fileprivate let formatter = DateFormatter()
 public class Event: FirebaseBaseModel {
     public enum EventType: String {
         case event3v3 = "3 vs 3"
+        case event4v4 = "4 vs 4"
         case event5v5 = "5 vs 5"
+        case event6v6 = "6 vs 6"
         case event7v7 = "7 vs 7"
         case event11v11 = "11 vs 11"
         case group = "Group class"

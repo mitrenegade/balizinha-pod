@@ -21,6 +21,7 @@ public class FirebaseImageService: NSObject {
         case event
         case league
         case feed
+        case venue
     }
     
     fileprivate class func referenceForImage(type: ImageType, id: String) -> StorageReference? {
