@@ -18,6 +18,8 @@ class CityCell: UITableViewCell {
     @IBOutlet weak var buttonState: UIButton?
     @IBOutlet weak var buttonLatLon: UIButton?
     
+    @IBOutlet weak var photoView: RAImageView?
+    
     @IBOutlet weak var verificationLabel: UILabel?
     var buttonLon = UIButton() // not displayed
     
@@ -48,6 +50,7 @@ class CityCell: UITableViewCell {
         nameLabel.text = venue2.name
         stateLabel.text = venue2.shortString ?? ""
         latlonLabel.text = venue2.latLonString ?? "no lat/lon"
+        photoView?.imageUrl = venue2.photoUrl
         self.venue = venue2
         
 //        if venue.verified {
