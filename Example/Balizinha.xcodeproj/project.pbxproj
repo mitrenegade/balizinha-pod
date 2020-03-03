@@ -89,6 +89,7 @@
 		8EC168FB2285175B0066634B /* Players.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC168FA2285175B0066634B /* Players.storyboard */; };
 		8EC168FD2285259C0066634B /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EC168FC2285259C0066634B /* Map.storyboard */; };
 		8EC16901228526320066634B /* HeatMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC16900228526320066634B /* HeatMapViewController.swift */; };
+		8EC2A62C240EEDB300D99E9F /* VenueDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2A62B240EEDB300D99E9F /* VenueDetailsViewController.swift */; };
 		8ED5818E22FF50BF00F0436C /* PlaceResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED5818B22FF50BE00F0436C /* PlaceResultsViewController.swift */; };
 		8ED5818F22FF50BF00F0436C /* PinpointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED5818C22FF50BF00F0436C /* PinpointViewController.swift */; };
 		8ED5819022FF50BF00F0436C /* PlaceSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED5818D22FF50BF00F0436C /* PlaceSearchViewController.swift */; };
@@ -252,6 +253,7 @@
 		8EC168FA2285175B0066634B /* Players.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Players.storyboard; sourceTree = "<group>"; };
 		8EC168FC2285259C0066634B /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		8EC16900228526320066634B /* HeatMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapViewController.swift; sourceTree = "<group>"; };
+		8EC2A62B240EEDB300D99E9F /* VenueDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueDetailsViewController.swift; sourceTree = "<group>"; };
 		8ED5818B22FF50BE00F0436C /* PlaceResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceResultsViewController.swift; sourceTree = "<group>"; };
 		8ED5818C22FF50BF00F0436C /* PinpointViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinpointViewController.swift; sourceTree = "<group>"; };
 		8ED5818D22FF50BF00F0436C /* PlaceSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceSearchViewController.swift; sourceTree = "<group>"; };
@@ -673,6 +675,7 @@
 				8ED5818D22FF50BF00F0436C /* PlaceSearchViewController.swift */,
 				8ED5818B22FF50BE00F0436C /* PlaceResultsViewController.swift */,
 				8ED5818C22FF50BF00F0436C /* PinpointViewController.swift */,
+				8EC2A62B240EEDB300D99E9F /* VenueDetailsViewController.swift */,
 			);
 			path = Venues;
 			sourceTree = "<group>";
@@ -939,6 +942,7 @@
 				8EA99E13215342C6001BC643 /* FeedbackListViewController.swift in Sources */,
 				8EA970CB228E4C910038E313 /* VenuesListViewController.swift in Sources */,
 				8E97406A21132A7100242907 /* OrganizerListViewController.swift in Sources */,
+				8EC2A62C240EEDB300D99E9F /* VenueDetailsViewController.swift in Sources */,
 				C6E11AB821FCAD7C00EE3126 /* StripeMenuViewController.swift in Sources */,
 				8E01581522852DBC0072921C /* GMUSimpleClusterAlgorithm.m in Sources */,
 				8E01581322852DBC0072921C /* GMUGridBasedClusterAlgorithm.m in Sources */,

@@ -20,13 +20,12 @@ class PlaceSearchViewController: UIViewController {
     weak var delegate: PlaceSelectDelegate?
     
     weak var pinpointController: PinpointViewController?
-    var currentVenue: Venue?
-//    var selectedCity: City?
+    var currentVenue: Venue? // for editing a venue
     private let activityOverlay: ActivityIndicatorOverlay = ActivityIndicatorOverlay()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         view.addSubview(activityOverlay)
         setupSearch()
@@ -36,10 +35,10 @@ class PlaceSearchViewController: UIViewController {
         button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         let cancelButton = UIBarButtonItem(customView: button)
         self.navigationItem.leftBarButtonItem = cancelButton
-
+        
         let button2 = UIButton(type: .custom)
-        button2.setTitle("Save", for: .normal)
-        button2.addTarget(self, action: #selector(selectLocation), for: .touchUpInside)
+        button2.setTitle("Next", for: .normal)
+        button2.addTarget(self, action: #selector(editNameAndPhoto), for: .touchUpInside)
         let saveButton = UIBarButtonItem(customView: button2)
         self.navigationItem.rightBarButtonItem = saveButton
     }
@@ -48,7 +47,7 @@ class PlaceSearchViewController: UIViewController {
         super.viewDidLayoutSubviews()
         activityOverlay.setup(frame: view.frame)
     }
-
+    
     @objc func cancel() {
         self.navigationController?.popViewController(animated: true)
     }
@@ -57,6 +56,16 @@ class PlaceSearchViewController: UIViewController {
         if segue.identifier == "embedMap", let controller = segue.destination as? PinpointViewController {
             controller.existingVenue = currentVenue
             pinpointController = controller
+        } else if segue.identifier == "toVenueDetails", let controller = segue.destination as? VenueDetailsViewController {
+            controller.existingVenue = currentVenue
+            controller.name = pinpointController?.name
+            controller.street = pinpointController?.street
+            controller.city = pinpointController?.city
+            controller.state = pinpointController?.state
+            controller.lat = pinpointController?.lat
+            controller.lon = pinpointController?.lon
+            
+            controller.delegate = self
         }
     }
 }
@@ -91,43 +100,10 @@ extension PlaceSearchViewController {
         definesPresentationContext = true
     }
     
-    @objc func selectLocation() {
-//        guard let selectedCity = selectedCity else {
-//            simpleAlert("Could not save venue", message: "Please select a city from the dropdown first.")
-//            return
-//        }
-        // user saved the location poinpointed on map
-        // TODO: check if venue exists
-        guard let player = PlayerService.shared.current.value else { return }
-        if let venue = currentVenue {
-            let alert = UIAlertController(title: "Update venue?", message: "Are you sure you want to save the changes to this venue?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Save changes", style: .default, handler: { [weak self] _ in
-                guard let controller = self?.pinpointController else { return }
-                venue.name = controller.name
-                venue.street = controller.street
-                venue.city = controller.city
-                venue.state = controller.state
-                venue.lat = controller.lat
-                venue.lon = controller.lon
-                self?.delegate?.didSelect(venue: venue)
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            present(alert, animated: true, completion: nil)
-        } else {
-            activityOverlay.show()
-            VenueService.shared.createVenue(userId: player.id, type: .unknown, name: pinpointController?.name, street: pinpointController?.street, city: pinpointController?.city, state: pinpointController?.state, lat: pinpointController?.lat, lon: pinpointController?.lon, placeId: nil) { [weak self] (venue, error) in
-                DispatchQueue.main.async {
-                    self?.activityOverlay.hide()
-                    if let venue = venue {
-                        self?.delegate?.didSelect(venue: venue)
-                    } else if let error = error as NSError? {
-                        self?.simpleAlert("Could not select venue", defaultMessage: "There was an error creating a venue", error: error)
-                    }
-                }
-            }
-        }
+    @objc func editNameAndPhoto() {
+        performSegue(withIdentifier: "toVenueDetails", sender: nil)
     }
-    
+
     @objc fileprivate func cancelSearch() {
         searchController?.searchBar.resignFirstResponder()
     }
@@ -148,6 +124,12 @@ extension PlaceSearchViewController: PlaceResultsDelegate {
         if let searchTerm = searchController!.searchBar.text {
             info = ["searchTerm": searchTerm]
         }
-//        LoggingService.shared.log(event: .SearchForVenue, info: info)
+        LoggingService.shared.log(event: .SearchForVenue, info: info)
+    }
+}
+
+extension PlaceSearchViewController: VenueDetailsDelegate {
+    func didFinishUpdatingVenue(_ venue: Venue?) {
+        delegate?.didSelect(venue: venue)
     }
 }
