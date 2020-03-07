@@ -12,36 +12,39 @@ import Firebase
 import RenderCloud
 
 enum UtilItem: String, CaseIterable {
-    case updateEventLeagueIsPrivate
+case serverInfo
+//    case updateEventLeagueIsPrivate
     case recountLeagueStats
-    case migrateEventImages
+//    case migrateEventImages
     case cleanupAnonymousAuth
     case refreshAllPlayerTopics
-    case migrateStripeCustomers
-    case makeActionsBackwardsCompatible
-    case convertUserCities
-    case serverInfo
+//    case migrateStripeCustomers
+//    case makeActionsBackwardsCompatible
+//    case convertUserCities
+    case migrateLeagueOwnerIdToLeagueOwnersArray
 
     var details: String {
         switch self {
-        case .updateEventLeagueIsPrivate:
-            return "Updates all event's leagueIsPrivate parameter"
+//        case .updateEventLeagueIsPrivate:
+//            return "Updates all event's leagueIsPrivate parameter"
         case .recountLeagueStats:
             return "Regenerates league player and event counts"
-        case .migrateEventImages:
-            return "Ensures event images are stored under the event id"
+//        case .migrateEventImages:
+//            return "Ensures event images are stored under the event id"
         case .cleanupAnonymousAuth:
             return "Removes old anonymous auth users"
         case .refreshAllPlayerTopics:
             return "Enables notifications for leagues and events for a player"
-        case .migrateStripeCustomers:
-            return "Updates all stripe_customers to stripeCustomers"
-        case .makeActionsBackwardsCompatible: // only useful until Android 1.0.9 is out
-            return "Set event=eventId for all actions for backwards compatibility"
-        case .convertUserCities:
-            return "Convert user entered cities into City objects"
+//        case .migrateStripeCustomers:
+//            return "Updates all stripe_customers to stripeCustomers"
+//        case .makeActionsBackwardsCompatible: // only useful until Android 1.0.9 is out
+//            return "Set event=eventId for all actions for backwards compatibility"
+//        case .convertUserCities:
+//            return "Convert user entered cities into City objects"
         case .serverInfo:
             return "Server info"
+        case .migrateLeagueOwnerIdToLeagueOwnersArray:
+            return "Migrate league owners"
         }
     }
 }
@@ -116,16 +119,16 @@ extension UtilsViewController: UITableViewDelegate {
         guard indexPath.row < menuItems.count else { return }
         let selection = menuItems[indexPath.row]
         switch selection {
-        case .migrateEventImages:
-            migrateEventImages()
+//        case .migrateEventImages:
+//            migrateEventImages()
         case .cleanupAnonymousAuth:
             cleanupAnonymousAuth()
         case .refreshAllPlayerTopics:
             refreshAllPlayerTopics()
-        case .makeActionsBackwardsCompatible:
-            makeActionsBackwardsCompatible()
-        case .convertUserCities:
-            convertUserCities()
+//        case .makeActionsBackwardsCompatible:
+//            makeActionsBackwardsCompatible()
+//        case .convertUserCities:
+//            convertUserCities()
         default:
             activityOverlay.show()
             RenderAPIService().cloudFunction(functionName: selection.rawValue, method: "POST", params: nil) { [weak self] (result, error) in
