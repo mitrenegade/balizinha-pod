@@ -101,7 +101,7 @@ public class EventService: BaseService {
         }
     }
     
-    public func createEvent(_ name: String, type: Balizinha.Event.EventType, venue: Venue?, city: String? = nil, state: String? = nil, lat: Double? = nil, lon: Double? = nil, place: String? = nil, startTime: Date, endTime: Date, recurrence: Date.Recurrence = .none, recurrenceEndDate: Date? = nil, maxPlayers: UInt, info: String?, paymentRequired: Bool, amount: NSNumber? = 0, leagueId: String?, completion:@escaping (Balizinha.Event?, NSError?) -> Void) {
+    public func createEvent(_ name: String, type: Balizinha.Event.EventType, venue: Venue?, city: String? = nil, state: String? = nil, lat: Double? = nil, lon: Double? = nil, place: String? = nil, startTime: Date, endTime: Date, recurrence: Date.Recurrence = .none, recurrenceEndDate: Date? = nil, maxPlayers: UInt, info: String?, paymentRequired: Bool, amount: NSNumber? = 0, leagueId: String?, videoUrl: String? = nil, completion:@escaping (Balizinha.Event?, NSError?) -> Void) {
         
         guard let user = AuthService.currentUser else { return }
         
@@ -130,6 +130,9 @@ public class EventService: BaseService {
         }
         if let recurrenceEndDate = recurrenceEndDate {
             params["recurrenceEndDate"] = recurrenceEndDate.timeIntervalSince1970
+        }
+        if let videoUrl = videoUrl {
+            params["videoUrl"] = videoUrl
         }
         apiService.cloudFunction(functionName: "createEvent", method: "POST", params: params) { (result, error) in
             if let error = error as NSError? {
