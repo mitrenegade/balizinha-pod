@@ -302,9 +302,13 @@ extension Event {
         return nil
     }
     
-    public var validVideoUrl: URL? {
-        guard let url = videoUrl else { return nil }
+    public class func validUrl(_ urlString: String?) -> URL? {
+        guard let url = urlString else { return nil }
         return URL(string: url)
+    }
+    
+    public var validVideoUrl: URL? {
+        return Event.validUrl(videoUrl)
     }
 }
 
