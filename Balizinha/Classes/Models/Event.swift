@@ -220,6 +220,15 @@ public class Event: FirebaseBaseModel {
             update(key: "recurrenceId", value: newValue)
         }
     }
+    
+    public var videoUrl: String? {
+        get {
+            return self.dict["videoUrl"] as? String
+        }
+        set {
+            update(key: "videoUrl", value: newValue)
+        }
+    }
 }
 
 public extension Event {
@@ -291,6 +300,11 @@ extension Event {
             return "\(lat), \(lon)"
         }
         return nil
+    }
+    
+    public var validVideoUrl: URL? {
+        guard let url = videoUrl else { return nil }
+        return URL(string: url)
     }
 }
 
