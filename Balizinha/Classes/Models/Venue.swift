@@ -9,7 +9,8 @@
 import UIKit
 
 public class Venue: FirebaseBaseModel {
-    public enum SpaceType: String {
+    public enum SpaceType: String, CaseIterable {
+        case unknown
         case grass
         case turf
         case wood
@@ -17,7 +18,6 @@ public class Venue: FirebaseBaseModel {
         case mats
         case rubber
         case other
-        case unknown
     }
     public var name: String? {
         get {
@@ -36,7 +36,7 @@ public class Venue: FirebaseBaseModel {
             return .unknown
         }
         set {
-            update(key: "type", value: newValue)
+            update(key: "type", value: newValue.rawValue)
         }
     }
 
