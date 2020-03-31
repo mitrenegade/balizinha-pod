@@ -17,6 +17,7 @@ public class Venue: FirebaseBaseModel {
         case concrete
         case mats
         case rubber
+        case remote
         case other
     }
     public var name: String? {
@@ -134,5 +135,9 @@ extension Venue {
             }
         }
         return nil
+    }
+    
+    public var isRemote: Bool {
+        return type == .remote
     }
 }
