@@ -233,8 +233,8 @@ public class LeagueService: BaseService {
         }
     }
 
-    // MARK: - Subscriptions
-    public func getOwnerLeagues(for player: Player, completion: (([String: Any]?)->Void)?) {
+    // MARK: - Owner leagues
+    public func getOwnerLeagueIds(for player: Player, completion: (([String: Any]?)->Void)?) {
         let queryRef = baseRef.child(path:"ownerLeagues").child(path: player.id)
         queryRef.observeSingleValue { [weak self] (snapshot) in
             guard snapshot.exists() else {
@@ -246,6 +246,27 @@ public class LeagueService: BaseService {
                 self?._ownerLeagues = dict?.compactMap{ $0.key } ?? []
             }
             completion?(dict)
+        }
+    }
+    
+    public func getOwnerLeagues(completion: @escaping (([League])->Void)) {
+        var leagues: [League] = []
+        let group = DispatchGroup()
+        var ownerLeagueIds: [String] = []
+        readWriteQueue2.sync {
+            ownerLeagueIds = _ownerLeagues
+        }
+        for leagueId in ownerLeagueIds {
+            group.enter()
+            LeagueService.shared.withId(id: leagueId) { (result) in
+                if let league = result as? League {
+                    leagues.append(league)
+                }
+                group.leave()
+            }
+        }
+        group.notify(queue: DispatchQueue.main) {
+            completion(leagues)
         }
     }
     
@@ -272,24 +293,5 @@ public class LeagueService: BaseService {
     public func playerIsOwnerForAnyLeague() -> Bool {
         return !_ownerLeagues.isEmpty
     }
-    
-    public var ownerLeagues: [League] {
-        var leagues: [League] = []
-        let group = DispatchGroup()
-        var ownerLeagueIds: [String] = []
-        readWriteQueue2.sync {
-            ownerLeagueIds = _ownerLeagues
-        }
-        for leagueId in ownerLeagueIds {
-            group.enter()
-            LeagueService.shared.withId(id: leagueId) { (result) in
-                if let league = result as? League {
-                    leagues.append(league)
-                }
-                group.leave()
-            }
-            group.wait()
-        }
-        return leagues
-    }
+
 }
