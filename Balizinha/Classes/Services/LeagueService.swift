@@ -15,6 +15,7 @@ import RenderCloud
 public class LeagueService: BaseService {
     public static let shared: LeagueService = LeagueService()
     fileprivate var _playerLeagues: [String: Membership.Status] = [:]
+    fileprivate var _ownerLeagues: [String] = []
     
     fileprivate var disposeBag: DisposeBag
     public var featuredLeagueId: String?
@@ -37,6 +38,7 @@ public class LeagueService: BaseService {
         featuredLeagueId = nil
         readWriteQueue2.async(flags: .barrier) { [weak self] in
             self?._playerLeagues = [:]
+            self?._ownerLeagues = []
         }
     }
     
@@ -231,30 +233,41 @@ public class LeagueService: BaseService {
         }
     }
 
-    // MARK: - Subscriptions
-    public func getOwnerLeaguesAndSubscriptions(completion: ((Any?, Error?)->Void)?) {
-        guard let user = AuthService.currentUser else { return }
-        let params = ["userId": user.uid]
-        apiService.cloudFunction(functionName: "getOwnerLeaguesAndSubscriptions", method: "POST", params: params, completion: { [weak self] (result, error) in
-            guard error == nil else {
-                completion?(nil, error)
+    // MARK: - Owner leagues
+    public func getOwnerLeagueIds(for player: Player, completion: (([String: Any]?)->Void)?) {
+        let queryRef = baseRef.child(path:"ownerLeagues").child(path: player.id)
+        queryRef.observeSingleValue { [weak self] (snapshot) in
+            guard snapshot.exists() else {
+                completion?(nil)
                 return
             }
-            
-            // parse leagues
-            var leagues: [League] = []
-            if let resultDict = result as? [String: Any], let leagueDict = resultDict["leagues"] as? [String: [String: Any]] {
-                for (key, dict) in leagueDict {
-                    let league = League(key: key, dict: dict)
-                    leagues.append(league)
-                    self?.cache(league)
-                }
+            let dict = snapshot.value as? [String: Bool]
+            self?.readWriteQueue2.sync {
+                self?._ownerLeagues = dict?.compactMap{ $0.key } ?? []
             }
-            
-            // TODO: parse subscriptions
-            
-            completion?([], nil)
-        })
+            completion?(dict)
+        }
+    }
+    
+    public func getOwnerLeagues(completion: @escaping (([League])->Void)) {
+        var leagues: [League] = []
+        let group = DispatchGroup()
+        var ownerLeagueIds: [String] = []
+        readWriteQueue2.sync {
+            ownerLeagueIds = _ownerLeagues
+        }
+        for leagueId in ownerLeagueIds {
+            group.enter()
+            LeagueService.shared.withId(id: leagueId) { (result) in
+                if let league = result as? League {
+                    leagues.append(league)
+                }
+                group.leave()
+            }
+        }
+        group.notify(queue: DispatchQueue.main) {
+            completion(leagues)
+        }
     }
     
     // MARK: - Cached info
@@ -277,14 +290,8 @@ public class LeagueService: BaseService {
         return playerStatus.filter{ $0.value == Membership.Status.organizer }.isEmpty == false
     }
     
-    public var ownerLeagues: [League] {
-        guard let ownerId = PlayerService.shared.current.value?.id else { return [] }
-        var leagues: [League] = []
-        for league in allLeagues {
-            if league.ownerId == ownerId{
-                leagues.append(league)
-            }
-        }
-        return leagues
+    public func playerIsOwnerForAnyLeague() -> Bool {
+        return !_ownerLeagues.isEmpty
     }
+
 }
