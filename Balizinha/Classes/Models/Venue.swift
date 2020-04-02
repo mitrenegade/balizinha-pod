@@ -126,15 +126,18 @@ extension Venue {
         return nil
     }
     
-    public var shortString: String? {
+    public var shortString: String {
+        if isRemote {
+            return "Location: Remote"
+        }
         if let city = city {
             if let state = state {
                 return "\(city), \(state)"
             } else {
-                return name
+                return city
             }
         }
-        return nil
+        return ""
     }
     
     public var isRemote: Bool {
