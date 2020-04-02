@@ -9,7 +9,7 @@
 import UIKit
 
 public class Venue: FirebaseBaseModel {
-    public enum SpaceType: String, CaseIterable {
+    public enum SpaceType: String, CustomStringConvertible, CaseIterable {
         case unknown
         case grass
         case turf
@@ -19,6 +19,10 @@ public class Venue: FirebaseBaseModel {
         case rubber
         case remote
         case other
+        
+        public var description: String {
+            return rawValue.capitalized
+        }
     }
     public var name: String? {
         get {
@@ -126,15 +130,25 @@ extension Venue {
         return nil
     }
     
-    public var shortString: String? {
+    public var typeString: String {
+        if self.type == .unknown {
+            return (dict["type"] as? String ?? "\(self.type)").capitalized
+        }
+        return "\(self.type)"
+    }
+
+    public var shortString: String {
+        if isRemote {
+            return "Location: Remote"
+        }
         if let city = city {
             if let state = state {
                 return "\(city), \(state)"
             } else {
-                return name
+                return city
             }
         }
-        return nil
+        return ""
     }
     
     public var isRemote: Bool {

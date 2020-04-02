@@ -13,7 +13,11 @@ import RenderCloud
 fileprivate let formatter = DateFormatter()
 
 public class Event: FirebaseBaseModel {
-    public enum EventType: String {
+    public enum EventType: String, CustomStringConvertible {
+        public var description: String {
+            return rawValue
+        }
+        
         case event3v3 = "3 vs 3"
         case event4v4 = "4 vs 4"
         case event5v5 = "5 vs 5"
@@ -22,7 +26,7 @@ public class Event: FirebaseBaseModel {
         case event11v11 = "11 vs 11"
         case group = "Group class"
         case social = "Social event"
-        case other
+        case other = "Other"
     }
     
     public enum Status: String {
@@ -258,6 +262,13 @@ public extension Event {
             }
         }
         return status == .cancelled
+    }
+    
+    var typeString: String {
+        if self.type == .other {
+            return (dict["type"] as? String ?? "\(self.type)").capitalized
+        }
+        return "\(self.type)"
     }
 }
 
