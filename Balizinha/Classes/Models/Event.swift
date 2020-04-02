@@ -266,7 +266,7 @@ public extension Event {
     
     var typeString: String {
         if self.type == .other {
-            return dict["type"] as? String ?? "\(self.type)"
+            return (dict["type"] as? String ?? "\(self.type)").capitalized
         }
         return "\(self.type)"
     }

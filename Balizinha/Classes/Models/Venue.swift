@@ -130,6 +130,13 @@ extension Venue {
         return nil
     }
     
+    public var typeString: String {
+        if self.type == .unknown {
+            return (dict["type"] as? String ?? "\(self.type)").capitalized
+        }
+        return "\(self.type)"
+    }
+
     public var shortString: String {
         if isRemote {
             return "Location: Remote"
