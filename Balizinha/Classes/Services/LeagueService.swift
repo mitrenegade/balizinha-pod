@@ -231,32 +231,6 @@ public class LeagueService: BaseService {
         }
     }
 
-    // MARK: - Subscriptions
-    public func getOwnerLeaguesAndSubscriptions(completion: ((Any?, Error?)->Void)?) {
-        guard let user = AuthService.currentUser else { return }
-        let params = ["userId": user.uid]
-        apiService.cloudFunction(functionName: "getOwnerLeaguesAndSubscriptions", method: "POST", params: params, completion: { [weak self] (result, error) in
-            guard error == nil else {
-                completion?(nil, error)
-                return
-            }
-            
-            // parse leagues
-            var leagues: [League] = []
-            if let resultDict = result as? [String: Any], let leagueDict = resultDict["leagues"] as? [String: [String: Any]] {
-                for (key, dict) in leagueDict {
-                    let league = League(key: key, dict: dict)
-                    leagues.append(league)
-                    self?.cache(league)
-                }
-            }
-            
-            // TODO: parse subscriptions
-            
-            completion?([], nil)
-        })
-    }
-    
     // MARK: - Cached info
     // League/Player info using cached data
     public func playerIsIn(league: League) -> Bool {
