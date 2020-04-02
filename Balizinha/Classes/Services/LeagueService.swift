@@ -15,6 +15,7 @@ import RenderCloud
 public class LeagueService: BaseService {
     public static let shared: LeagueService = LeagueService()
     fileprivate var _playerLeagues: [String: Membership.Status] = [:]
+    fileprivate var _ownerLeagues: [String] = []
     
     fileprivate var disposeBag: DisposeBag
     public var featuredLeagueId: String?
@@ -37,6 +38,7 @@ public class LeagueService: BaseService {
         featuredLeagueId = nil
         readWriteQueue2.async(flags: .barrier) { [weak self] in
             self?._playerLeagues = [:]
+            self?._ownerLeagues = []
         }
     }
     
@@ -231,6 +233,22 @@ public class LeagueService: BaseService {
         }
     }
 
+    // MARK: - Subscriptions
+    public func getOwnerLeagues(for player: Player, completion: (([String: Any]?)->Void)?) {
+        let queryRef = baseRef.child(path:"ownerLeagues").child(path: player.id)
+        queryRef.observeSingleValue { [weak self] (snapshot) in
+            guard snapshot.exists() else {
+                completion?(nil)
+                return
+            }
+            let dict = snapshot.value as? [String: Bool]
+            self?.readWriteQueue2.sync {
+                self?._ownerLeagues = dict?.compactMap{ $0.key } ?? []
+            }
+            completion?(dict)
+        }
+    }
+    
     // MARK: - Cached info
     // League/Player info using cached data
     public func playerIsIn(league: League) -> Bool {
@@ -251,13 +269,26 @@ public class LeagueService: BaseService {
         return playerStatus.filter{ $0.value == Membership.Status.organizer }.isEmpty == false
     }
     
+    public func playerIsOwnerForAnyLeague() -> Bool {
+        return !_ownerLeagues.isEmpty
+    }
+    
     public var ownerLeagues: [League] {
-        guard let ownerId = PlayerService.shared.current.value?.id else { return [] }
         var leagues: [League] = []
-        for league in allLeagues {
-            if league.ownerId == ownerId{
-                leagues.append(league)
+        let group = DispatchGroup()
+        var ownerLeagueIds: [String] = []
+        readWriteQueue2.sync {
+            ownerLeagueIds = _ownerLeagues
+        }
+        for leagueId in ownerLeagueIds {
+            group.enter()
+            LeagueService.shared.withId(id: leagueId) { (result) in
+                if let league = result as? League {
+                    leagues.append(league)
+                }
+                group.leave()
             }
+            group.wait()
         }
         return leagues
     }
