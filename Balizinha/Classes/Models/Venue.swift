@@ -9,7 +9,7 @@
 import UIKit
 
 public class Venue: FirebaseBaseModel {
-    public enum SpaceType: String, CaseIterable {
+    public enum SpaceType: String, CustomStringConvertible, CaseIterable {
         case unknown
         case grass
         case turf
@@ -19,6 +19,10 @@ public class Venue: FirebaseBaseModel {
         case rubber
         case remote
         case other
+        
+        public var description: String {
+            return rawValue.capitalized
+        }
     }
     public var name: String? {
         get {
