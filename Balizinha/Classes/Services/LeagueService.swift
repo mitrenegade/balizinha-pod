@@ -21,7 +21,7 @@ public class LeagueService: BaseService {
     fileprivate var disposeBag: DisposeBag
     public var featuredLeagueId: String?
 
-    public override init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService()) {
+    public override init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService(baseRef: firRef)) {
         disposeBag = DisposeBag()
         super.init()
         

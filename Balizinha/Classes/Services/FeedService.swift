@@ -6,9 +6,9 @@
 //  Copyright © 2017 Bobby Ren. All rights reserved.
 //
 
-import UIKit
 import FirebaseDatabase
 import RenderCloud
+import PannaPay
 
 public class FeedService: BaseService {
     public static let shared = FeedService()
@@ -28,7 +28,7 @@ public class FeedService: BaseService {
             return
         }
         
-        let id = RenderAPIService().uniqueId()
+        let id = apiService.uniqueId()
         let userId = player.id
         
         var params: [String: Any] = ["leagueId": leagueId, "userId": userId, "id": id]
@@ -46,7 +46,7 @@ public class FeedService: BaseService {
             }
 
             dispatchGroup.enter()
-            RenderAPIService().cloudFunction(functionName: "createFeedItem", params: params, completion: { (result, err) in
+            apiService.cloudFunction(functionName: "createFeedItem", method: "POST", params: params, completion: { (result, err) in
                 createResult = result
                 createError = err
                 dispatchGroup.leave()
@@ -59,7 +59,7 @@ public class FeedService: BaseService {
             
         } else {
             params["type"] = FeedItemType.chat.rawValue
-            RenderAPIService().cloudFunction(functionName: "createFeedItem", params: params, completion: { (result, error) in
+            apiService.cloudFunction(functionName: "createFeedItem", method: "POST", params: params, completion: { (result, error) in
                 print("result \(String(describing: result)) error \(String(describing: error))")
                 completion?(error)
             })

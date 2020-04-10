@@ -5,11 +5,11 @@
 //  Created by Bobby Ren on 8/22/19.
 //
 
-import UIKit
 import RxSwift
 import RxCocoa
 import FirebaseAuth
 import RenderCloud
+import PannaPay
 
 fileprivate var singleton: EventService?
 
@@ -25,7 +25,7 @@ public class BaseService {
     // typically used for things like _userEvents and _playerLeagues
     internal let readWriteQueue2 = DispatchQueue(label: "readWriteQueue2", attributes: .concurrent)
 
-    public init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService()) {
+    public init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService(baseRef: firRef)) {
         baseRef = reference
         self.apiService = apiService
     }

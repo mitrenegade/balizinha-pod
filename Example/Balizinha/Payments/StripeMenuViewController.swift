@@ -9,7 +9,7 @@
 import UIKit
 import RenderCloud
 import Balizinha
-import RenderPay
+import PannaPay
 import RxSwift
 import RxCocoa
 
@@ -20,8 +20,8 @@ fileprivate enum MenuItem: String {
 class StripeMenuViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    var connectService: StripeConnectService = StripeConnectService(clientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD, apiService: RenderAPIService())
-    let paymentService: StripePaymentService = StripePaymentService(apiService: RenderAPIService())
+    let connectService: StripeConnectService = Globals.connectService
+    let paymentService: StripePaymentService = Globals.paymentService
     fileprivate var menuItems: [MenuItem] = [.info, .connect]
     var disposeBag: DisposeBag = DisposeBag()
 
@@ -49,8 +49,7 @@ class StripeMenuViewController: UIViewController {
     func connectToStripe() {
         guard let player = PlayerService.shared.current.value else { return }
         let userId = player.id
-        guard let urlString = connectService.getOAuthUrl(userId), let url = URL(string: urlString) else { return }
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        connectService.connectToAccount(userId)
     }
 }
 

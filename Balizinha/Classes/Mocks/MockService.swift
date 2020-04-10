@@ -7,7 +7,7 @@
 //
 
 import RenderCloud
-import Balizinha
+import PannaPay
 
 public class MockService: NSObject {
     //***************** hack: for test purposes only
@@ -50,7 +50,7 @@ public class MockService: NSObject {
     
     //***************** hack: for test purposes only
     public static func randomEvent() -> Event {
-        let key = RenderAPIService().uniqueId()
+        let key = MockCloudAPIService(uniqueId: "abc", results: nil).uniqueId()
         let hours: Int = Int(arc4random_uniform(72))
         
         // random type
