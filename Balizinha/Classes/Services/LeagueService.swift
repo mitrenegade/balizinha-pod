@@ -88,13 +88,13 @@ public class LeagueService: BaseService {
     }
 
     // MARK: league deletion
-    public class func delete(_ league: League) {
+    public func delete(_ league: League) {
         let id = league.id
-        if let queryRef: DatabaseReference = shared.baseRef.child(path: "leagues").child(path: id) as? DatabaseReference {
+        if let queryRef: DatabaseReference = apiService.reference(at: "leagues")?.child(path: id) as? DatabaseReference {
             queryRef.setValue(nil)
         }
         
-        if let playersRef: DatabaseReference = shared.baseRef.child(path: "leaguePlayers").child(path: id) as? DatabaseReference {
+        if let playersRef: DatabaseReference = apiService.reference(at: "leaguePlayers")?.child(path: id) as? DatabaseReference {
             playersRef.setValue(nil)
         }
     }
@@ -109,8 +109,8 @@ public class LeagueService: BaseService {
     // MARK: - Cloud functions
     // TODO: is this used?
     public func getLeagues(completion: @escaping (_ results: [League]) -> Void) {
-        let queryRef = baseRef.child(path:"leagues")
-        queryRef.observeSingleValue { [weak self] (snapshot) in
+        let queryRef = apiService.reference(at:"leagues")
+        queryRef?.observeSingleValue { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 return
             }
@@ -236,8 +236,8 @@ public class LeagueService: BaseService {
 
     // MARK: - Owner leagues
     public func getOwnerLeagueIds(for player: Player, completion: (([String: Any]?)->Void)?) {
-        let queryRef = baseRef.child(path:"ownerLeagues").child(path: player.id)
-        queryRef.observeSingleValue { [weak self] (snapshot) in
+        let queryRef = apiService.reference(at:"ownerLeagues")?.child(path: player.id)
+        queryRef?.observeSingleValue { [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion?(nil)
                 return

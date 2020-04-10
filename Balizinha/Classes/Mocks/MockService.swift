@@ -45,7 +45,7 @@ public class MockService: NSObject {
                                                  ref: nil)
         let reference = MockDatabaseReference(snapshot: referenceSnapshot)
         let apiService = MockCloudAPIService(uniqueId: "abc", results: ["success": true])
-        return EventService(reference: reference, apiService: apiService)
+        return EventService(apiService: apiService)
     }
     
     //***************** hack: for test purposes only

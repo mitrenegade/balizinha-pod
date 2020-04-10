@@ -11,6 +11,6 @@ import RenderCloud
 
 extension RenderAPIService: ServiceAPIProvider {
     public func stripeConnectAccounts(with userId: String) -> Reference? {
-        return reference(with: "stripeConnectAccounts")?.child(path: userId)
+        return reference(at: "stripeConnectAccounts")?.child(path: userId)
     }
 }
