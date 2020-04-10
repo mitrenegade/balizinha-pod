@@ -11,6 +11,7 @@ import RxSwift
 import FirebaseCore
 import FirebaseDatabase
 import RenderCloud
+import PannaPay
 
 public class LeagueService: BaseService {
     public static let shared: LeagueService = LeagueService()

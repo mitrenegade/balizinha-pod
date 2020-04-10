@@ -1,5 +1,5 @@
 PODS:
-  - Balizinha (1.1.0):
+  - Balizinha (1.1.3):
     - Firebase
     - Firebase/Analytics
     - Firebase/Auth
@@ -8,6 +8,7 @@ PODS:
     - Firebase/Messaging
     - Firebase/RemoteConfig
     - Firebase/Storage
+    - PannaPay
     - RenderCloud
     - RxCocoa
     - RxOptional
@@ -122,6 +123,19 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - PannaPay (1.0.0):
+    - Firebase
+    - Firebase/Auth
+    - Firebase/Core
+    - Firebase/Database
+    - Firebase/RemoteConfig
+    - Firebase/Storage
+    - RenderCloud
+    - RenderPay
+    - RxCocoa
+    - RxOptional
+    - RxSwift
+    - Stripe
   - Protobuf (3.7.0)
   - RACameraHelper (0.1.5)
   - RenderCloud (1.3.0)
@@ -148,6 +162,7 @@ PODS:
 DEPENDENCIES:
   - Balizinha (from `../`)
   - GoogleMaps
+  - PannaPay (from `../../pannapay`)
   - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.5`)
   - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `1.3.0`)"
   - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `0.2.0`)"
@@ -182,6 +197,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Balizinha:
     :path: "../"
+  PannaPay:
+    :path: "../../pannapay"
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.5
@@ -204,7 +221,7 @@ CHECKOUT OPTIONS:
     :tag: 0.2.0
 
 SPEC CHECKSUMS:
-  Balizinha: 9f8c92c8c8b100d667192dce0ab4e0c455412851
+  Balizinha: d53820070616868d9e7e77d507056e24d8a5a68a
   Firebase: 2f5235e62f141cb86181c3af0dfe4509706351ac
   FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
   FirebaseAnalytics: fd72a26bf8dac84cefba2f0864366f718555a5b0
@@ -223,6 +240,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  PannaPay: 66530f933e09348fe68dd41eded36300adc32280
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
   RACameraHelper: 3c65397be7f39577ff14a605fb08e2e2c7b59045
   RenderCloud: 61a79a7e7e4de7c8d6c0092f71868ebb6e2bc7f6
@@ -232,6 +250,6 @@ SPEC CHECKSUMS:
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: e2f47575444a207acb449295d9d38e69aa9aa76a
+PODFILE CHECKSUM: f36f26b383d5713f2221a6f2cb28880de6341c96
 
 COCOAPODS: 1.8.4
