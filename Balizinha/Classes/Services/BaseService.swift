@@ -14,8 +14,13 @@ import PannaPay
 fileprivate var singleton: EventService?
 
 public class BaseService {
-    internal let baseRef: Reference
-    internal let apiService: CloudAPIService
+    // FIXME: this sucks as a way to instantiate a default
+    static var BASE_URL: String!
+    static var BASE_REF: Reference!
+    lazy var defaultAPIService: CloudAPIService & CloudDatabaseService = {
+        return RenderAPIService(baseUrl: BaseService.BASE_URL, baseRef: BaseService.BASE_REF)
+    }()
+    internal let apiService: CloudAPIService & CloudDatabaseService
 
     fileprivate var _objects: [String: FirebaseBaseModel] = [:]
     // read write queues
@@ -25,9 +30,8 @@ public class BaseService {
     // typically used for things like _userEvents and _playerLeagues
     internal let readWriteQueue2 = DispatchQueue(label: "readWriteQueue2", attributes: .concurrent)
 
-    public init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService(baseRef: firRef)) {
-        baseRef = reference
-        self.apiService = apiService
+    public init(apiService: (CloudAPIService & CloudDatabaseService)? = nil) {
+        self.apiService = apiService ?? defaultAPIService
     }
 
     // individual id -> Object
