@@ -13,8 +13,8 @@ import PannaPay
 
 public class BaseService {
     // FIXME: this sucks as a way to instantiate a default
-    static var BASE_URL: String!
-    static var BASE_REF: Reference!
+    public static var BASE_URL: String!
+    public static var BASE_REF: Reference!
     static var defaultAPIService: CloudAPIService & CloudDatabaseService & ServiceAPIProvider {
         return RenderAPIService(baseUrl: BaseService.BASE_URL, baseRef: BaseService.BASE_REF)
     }

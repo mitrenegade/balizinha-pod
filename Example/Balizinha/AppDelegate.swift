@@ -36,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSServices.provideAPIKey(GOOGLE_API_KEY_PROD)
         
+        BaseService.BASE_URL = TESTING ? FIREBASE_URL_DEV : FIREBASE_URL_PROD
+        BaseService.BASE_REF = firRef
         return true
     }
 
