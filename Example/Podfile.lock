@@ -138,14 +138,8 @@ PODS:
     - Stripe
   - Protobuf (3.7.0)
   - RACameraHelper (0.1.5)
-  - RenderCloud (1.3.0)
-  - RenderPay (0.2.0):
-    - Firebase
-    - Firebase/Auth
-    - Firebase/Core
-    - Firebase/Database
-    - Firebase/RemoteConfig
-    - Firebase/Storage
+  - RenderCloud (2.0.0)
+  - RenderPay (0.9.0):
     - RenderCloud
     - RxCocoa
     - RxOptional
@@ -164,8 +158,8 @@ DEPENDENCIES:
   - GoogleMaps
   - PannaPay (from `../../pannapay`)
   - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.5`)
-  - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `1.3.0`)"
-  - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `0.2.0`)"
+  - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `2.0.0`)"
+  - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `0.9.0`)"
   - Stripe (= 14.0.0)
 
 SPEC REPOS:
@@ -204,10 +198,10 @@ EXTERNAL SOURCES:
     :tag: 0.1.5
   RenderCloud:
     :git: "git@bitbucket.org:renderapps/RenderCloud.git"
-    :tag: 1.3.0
+    :tag: 2.0.0
   RenderPay:
     :git: "git@bitbucket.org:renderapps/renderpay.git"
-    :tag: 0.2.0
+    :tag: 0.9.0
 
 CHECKOUT OPTIONS:
   RACameraHelper:
@@ -215,10 +209,10 @@ CHECKOUT OPTIONS:
     :tag: 0.1.5
   RenderCloud:
     :git: "git@bitbucket.org:renderapps/RenderCloud.git"
-    :tag: 1.3.0
+    :tag: 2.0.0
   RenderPay:
     :git: "git@bitbucket.org:renderapps/renderpay.git"
-    :tag: 0.2.0
+    :tag: 0.9.0
 
 SPEC CHECKSUMS:
   Balizinha: d53820070616868d9e7e77d507056e24d8a5a68a
@@ -243,13 +237,13 @@ SPEC CHECKSUMS:
   PannaPay: 66530f933e09348fe68dd41eded36300adc32280
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
   RACameraHelper: 3c65397be7f39577ff14a605fb08e2e2c7b59045
-  RenderCloud: 61a79a7e7e4de7c8d6c0092f71868ebb6e2bc7f6
-  RenderPay: d1351026e5218a334f3bc02111751f0ac79acd01
+  RenderCloud: e16de59e8a2f4fc4d46fac3a7118ae2e7b10973b
+  RenderPay: e301e29e4844a622150ea5f97cf92b23fef35489
   RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
   RxOptional: 80426a0ddbd092573e4c482d8cc13302078c4d5e
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
 
-PODFILE CHECKSUM: f36f26b383d5713f2221a6f2cb28880de6341c96
+PODFILE CHECKSUM: 83dc4367ed468b2fbdf1782a6d0dc6cbd0dd5e8c
 
 COCOAPODS: 1.8.4
