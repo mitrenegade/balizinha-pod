@@ -11,13 +11,11 @@ import FirebaseAuth
 import RenderCloud
 import PannaPay
 
-fileprivate var singleton: EventService?
-
 public class BaseService {
     // FIXME: this sucks as a way to instantiate a default
     static var BASE_URL: String!
     static var BASE_REF: Reference!
-    lazy var defaultAPIService: CloudAPIService & CloudDatabaseService = {
+    lazy var defaultAPIService: CloudAPIService & CloudDatabaseService & ServiceAPIProvider = {
         return RenderAPIService(baseUrl: BaseService.BASE_URL, baseRef: BaseService.BASE_REF)
     }()
     internal let apiService: CloudAPIService & CloudDatabaseService

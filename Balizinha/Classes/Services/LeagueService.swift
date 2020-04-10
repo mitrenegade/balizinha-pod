@@ -21,9 +21,9 @@ public class LeagueService: BaseService {
     fileprivate var disposeBag: DisposeBag
     public var featuredLeagueId: String?
 
-    public override init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService(baseRef: firRef)) {
+    public override init(apiService: (CloudAPIService & CloudDatabaseService)? = nil) {
         disposeBag = DisposeBag()
-        super.init()
+        super.init(apiService: apiService)
         
         PlayerService.shared.current.asObservable().distinctUntilChanged().subscribe(onNext: { [weak self] player in
             guard let player = player else { return }
