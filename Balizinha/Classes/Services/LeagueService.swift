@@ -21,7 +21,7 @@ public class LeagueService: BaseService {
     fileprivate var disposeBag: DisposeBag
     public var featuredLeagueId: String?
 
-    public override init(apiService: (CloudAPIService & CloudDatabaseService)? = nil) {
+    public override init(apiService: (CloudAPIService & CloudDatabaseService & ServiceAPIProvider)? = nil) {
         disposeBag = DisposeBag()
         super.init(apiService: apiService)
         

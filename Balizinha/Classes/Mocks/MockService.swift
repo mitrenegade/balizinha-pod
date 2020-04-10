@@ -68,3 +68,13 @@ public class MockService: NSObject {
         return event
     }
 }
+
+extension MockCloudAPIService: ServiceAPIProvider {
+    public func stripeConnectAccounts(with userId: String) -> Reference? {
+        return nil
+    }
+    
+    public var playersRef: Reference? {
+        return nil
+    }
+}

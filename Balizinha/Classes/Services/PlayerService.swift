@@ -29,12 +29,12 @@ public class PlayerService: BaseService {
     // for a new user, set this flag on the first time they log in
     public var needsToCreateProfile: Bool = false
     
-    public override init(apiService: (CloudAPIService & CloudDatabaseService)? = nil) {
+    public override init(apiService: (CloudAPIService & CloudDatabaseService & ServiceAPIProvider)? = nil) {
 
         disposeBag = DisposeBag()
         super.init(apiService: apiService)
 
-        playersRef = baseRef.child(path: "players") // this references the endpoint lotsports.firebase.com/players/
+        playersRef = self.apiService.playersRef// this references the endpoint lotsports.firebase.com/players/
         (playersRef as? DatabaseReference)?.keepSynced(true)
 
         startAuthListener()

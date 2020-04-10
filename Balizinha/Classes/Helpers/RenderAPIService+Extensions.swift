@@ -10,6 +10,10 @@ import PannaPay
 import RenderCloud
 
 extension RenderAPIService: ServiceAPIProvider {
+    public var playersRef: Reference? {
+        return reference(at: "players") 
+    }
+    
     public func stripeConnectAccounts(with userId: String) -> Reference? {
         return reference(at: "stripeConnectAccounts")?.child(path: userId)
     }

@@ -9,4 +9,5 @@ import RenderCloud
 
 public protocol ServiceAPIProvider {
     func stripeConnectAccounts(with userId: String) -> Reference?
+    var playersRef: Reference? { get }
 }

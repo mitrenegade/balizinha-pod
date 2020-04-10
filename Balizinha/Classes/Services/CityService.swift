@@ -141,9 +141,8 @@ public class CityService: BaseService {
 // notifications
 extension CityService {
     public func checkForUnverifiedCity(completion: @escaping ((Bool) -> Void)) {
-        let ref: Reference
-        ref = baseRef.child(path: "cities")
-        ref.observeSingleValue() {(snapshot) in
+        let ref: Reference? = apiService.reference(at: "cities")
+        ref?.observeSingleValue() {(snapshot) in
             guard snapshot.exists() else { completion(false); return }
             if let allObjects = snapshot.allChildren {
                 for dict: Snapshot in allObjects {
