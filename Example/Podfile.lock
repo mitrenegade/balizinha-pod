@@ -1,22 +1,9 @@
 PODS:
   - Balizinha (1.2.0):
-    - Firebase
-    - Firebase/Analytics
-    - Firebase/Auth
-    - Firebase/Core
-    - Firebase/Database
-    - Firebase/Messaging
-    - Firebase/RemoteConfig
-    - Firebase/Storage
-    - PannaPay
     - RenderCloud
-    - RxCocoa
-    - RxOptional
-    - RxSwift
+    - RenderPay
   - Firebase (6.21.0):
     - Firebase/Core (= 6.21.0)
-  - Firebase/Analytics (6.21.0):
-    - Firebase/Core
   - Firebase/Auth (6.21.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.5.1)
@@ -28,9 +15,6 @@ PODS:
   - Firebase/Database (6.21.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (~> 6.1.4)
-  - Firebase/Messaging (6.21.0):
-    - Firebase/CoreOnly
-    - FirebaseMessaging (~> 4.3.0)
   - Firebase/RemoteConfig (6.21.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 4.4.9)
@@ -83,15 +67,6 @@ PODS:
     - FirebaseInstallations (~> 1.0)
     - GoogleUtilities/Environment (~> 6.5)
     - GoogleUtilities/UserDefaults (~> 6.5)
-  - FirebaseMessaging (4.3.0):
-    - FirebaseAnalyticsInterop (~> 1.5)
-    - FirebaseCore (~> 6.6)
-    - FirebaseInstanceID (~> 4.3)
-    - GoogleUtilities/AppDelegateSwizzler (~> 6.5)
-    - GoogleUtilities/Environment (~> 6.5)
-    - GoogleUtilities/Reachability (~> 6.5)
-    - GoogleUtilities/UserDefaults (~> 6.5)
-    - Protobuf (>= 3.9.2, ~> 3.9)
   - FirebaseRemoteConfig (4.4.9):
     - FirebaseABTesting (~> 3.1)
     - FirebaseAnalyticsInterop (~> 1.4)
@@ -144,28 +119,25 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
-  - PannaPay (1.0.2):
+  - PromisesObjC (1.2.8)
+  - Protobuf (3.11.4)
+  - RACameraHelper (0.1.5)
+  - RenderCloud (2.0.1):
     - Firebase
     - Firebase/Auth
     - Firebase/Core
     - Firebase/Database
     - Firebase/RemoteConfig
     - Firebase/Storage
-    - RenderCloud
-    - RenderPay
     - RxCocoa
     - RxOptional
     - RxSwift
-    - Stripe (~> 14.0)
-  - PromisesObjC (1.2.8)
-  - Protobuf (3.11.4)
-  - RACameraHelper (0.1.5)
-  - RenderCloud (2.0.1)
   - RenderPay (1.0.1):
     - RenderCloud
     - RxCocoa
     - RxOptional
     - RxSwift
+    - Stripe (~> 14.0)
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
@@ -180,10 +152,9 @@ PODS:
 DEPENDENCIES:
   - Balizinha (from `../`)
   - GoogleMaps
-  - "PannaPay (from `git@bitbucket.org:renderapps/pannapay.git`, tag `1.0.2`)"
   - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.5`)
-  - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `2.0.1`)"
-  - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `1.0.1`)"
+  - RenderCloud (from `../../rendercloud`)
+  - RenderPay (from `../../renderpay`)
 
 SPEC REPOS:
   trunk:
@@ -199,7 +170,6 @@ SPEC REPOS:
     - FirebaseDatabase
     - FirebaseInstallations
     - FirebaseInstanceID
-    - FirebaseMessaging
     - FirebaseRemoteConfig
     - FirebaseStorage
     - GoogleAppMeasurement
@@ -221,35 +191,21 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Balizinha:
     :path: "../"
-  PannaPay:
-    :git: "git@bitbucket.org:renderapps/pannapay.git"
-    :tag: 1.0.2
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.5
   RenderCloud:
-    :git: "git@bitbucket.org:renderapps/RenderCloud.git"
-    :tag: 2.0.1
+    :path: "../../rendercloud"
   RenderPay:
-    :git: "git@bitbucket.org:renderapps/renderpay.git"
-    :tag: 1.0.1
+    :path: "../../renderpay"
 
 CHECKOUT OPTIONS:
-  PannaPay:
-    :git: "git@bitbucket.org:renderapps/pannapay.git"
-    :tag: 1.0.2
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.5
-  RenderCloud:
-    :git: "git@bitbucket.org:renderapps/RenderCloud.git"
-    :tag: 2.0.1
-  RenderPay:
-    :git: "git@bitbucket.org:renderapps/renderpay.git"
-    :tag: 1.0.1
 
 SPEC CHECKSUMS:
-  Balizinha: e566aaa13f4d832febb26db3e9a800c43e08e869
+  Balizinha: cad622ade7ee43b3f2c6f5ad7a6713530212161b
   Firebase: f378c80340dd41c0ad0914af740c021eb282a04b
   FirebaseABTesting: 821a3a3e4a145987e80fee3657c4de1cb9adf693
   FirebaseAnalytics: a1a0b3327ceb5cd5b4bacffdb293f6c909aa087d
@@ -262,7 +218,6 @@ SPEC CHECKSUMS:
   FirebaseDatabase: 0144e0706a4761f1b0e8679572eba8095ddb59be
   FirebaseInstallations: acb3216eb9784d3b1d2d2d635ff74fa892cc0c44
   FirebaseInstanceID: 7ee0d6777013bb952f377b41965bf132b6a075be
-  FirebaseMessaging: 4ec33842d36b3319e062e51fb8b35a74f726950d
   FirebaseRemoteConfig: 47abf7a04a9082091955ea555aa79cfdd249b19c
   FirebaseStorage: b43ee271294227e1a3225544b073f3b49b427f46
   GoogleAppMeasurement: 6e68a94d0eaeb1d73ef6b0ed4f7334e29d63ae29
@@ -273,18 +228,17 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
-  PannaPay: 49bc2a869b683539cb4f5e793f08d233076d6ea0
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   RACameraHelper: 3c65397be7f39577ff14a605fb08e2e2c7b59045
-  RenderCloud: 445ade53c7a447e8750ce16d6fbfe37c737c312e
-  RenderPay: 3b0733467ad412cdb6dd6d6456df7ce9d2e997b7
+  RenderCloud: 84015dc545c295d3c3376dc0d1b66644d4e38714
+  RenderPay: 30c0bdacc803cf108892c8be8e7761f7b8fdbfb4
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxOptional: b1fcd60856807a564c0215c2184b8d33e7826dc2
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   Stripe: 4305b646743612854819fb5d5cf67aaeb93577c0
 
-PODFILE CHECKSUM: c107df03386a0917956654cb8078f55aa61585a5
+PODFILE CHECKSUM: 198d66722f87e94c1051f59e4b7ce12163306697
 
 COCOAPODS: 1.8.4

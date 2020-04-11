@@ -8,7 +8,7 @@
 
 import Balizinha
 import RenderCloud
-import PannaPay
+import RenderPay
 
 let TESTING = true
 let AIRPLANE_MODE = false

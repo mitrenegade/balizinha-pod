@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 import FirebaseAuth
 import RenderCloud
-import PannaPay
+import RenderPay
 
 public class BaseService {
     // FIXME: this sucks as a way to instantiate a default

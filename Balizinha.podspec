@@ -43,20 +43,9 @@ The demo project is an admin project that allows the user to check out their das
   # }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  s.frameworks = 'UIKit', 'MapKit', 'FirebaseCore', 'FirebaseAuth', 'FirebaseDatabase', 'FirebaseStorage', 'FirebaseRemoteConfig', 'FirebaseMessaging', 'FirebaseAnalytics'  
-  s.dependency 'Firebase'
-  s.dependency 'Firebase/Core'
-  s.dependency 'Firebase/Auth'
-  s.dependency 'Firebase/Database'
-  s.dependency 'Firebase/Storage'
-  s.dependency 'Firebase/RemoteConfig'
-  s.dependency 'Firebase/Messaging'
-  s.dependency 'Firebase/Analytics'
-  s.dependency 'RxSwift'
-  s.dependency 'RxCocoa'
-  s.dependency 'RxOptional'
+  # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'RenderCloud'
-  s.dependency 'PannaPay'
+  s.dependency 'RenderPay'
 
   s.pod_target_xcconfig = {
     'FRAMEWORK_SEARCH_PATHS' => '$(inherited) $(PODS_ROOT)/Firebase $(PODS_ROOT)/FirebaseCore/Frameworks $(PODS_ROOT)/FirebaseRemoteConfig/Frameworks $(PODS_ROOT)/FirebaseInstanceID/Frameworks $(PODS_ROOT)/FirebaseAnalytics/Frameworks'

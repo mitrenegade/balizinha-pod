@@ -8,7 +8,7 @@
 
 import UIKit
 import Balizinha
-import PannaPay
+import RenderPay
 
 class PaymentCell: UITableViewCell {
     @IBOutlet weak var labelName: UILabel!

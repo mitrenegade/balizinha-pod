@@ -7,7 +7,7 @@
 //
 
 import RenderCloud
-import PannaPay
+import RenderPay
 
 public class MockService: NSObject {
     //***************** hack: for test purposes only

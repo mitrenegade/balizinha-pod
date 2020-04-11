@@ -11,7 +11,7 @@ import RxSwift
 import FirebaseCore
 import Balizinha
 import RenderCloud
-import PannaPay
+import RenderPay
 
 protocol LeagueViewDelegate {
     func didUpdate()

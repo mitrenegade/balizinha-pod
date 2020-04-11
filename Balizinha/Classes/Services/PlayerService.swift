@@ -14,7 +14,7 @@ import RxCocoa
 import RxOptional
 import FirebaseDatabase
 import RenderCloud
-import PannaPay
+import RenderPay
 
 public class PlayerService: BaseService {
     // MARK: - Singleton

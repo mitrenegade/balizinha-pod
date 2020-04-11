@@ -12,7 +12,7 @@ import Balizinha
 import FirebaseDatabase
 import RxSwift
 import RenderCloud
-import PannaPay
+import RenderPay
 
 class PaymentsListViewController: ListViewController {
     
