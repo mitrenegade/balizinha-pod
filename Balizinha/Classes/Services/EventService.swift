@@ -67,8 +67,8 @@ public class EventService: BaseService {
     public var featuredEvent: Variable<Balizinha.Event?> = Variable(nil)
     public func listenForEventUsers(action: (()->())? = nil) {
         // firRef is the global firebase ref
-        let queryRef = baseRef.child(path: "eventUsers")
-        queryRef.observeValue { (snapshot) in
+        let queryRef = apiService.reference(at: "eventUsers")
+        queryRef?.observeValue { (snapshot) in
             // this block is called for every result returned
             guard snapshot.exists() else { return }
             if let dict = snapshot.value as? [String: AnyObject] {
@@ -182,10 +182,10 @@ public class EventService: BaseService {
         // TODO: does this trigger when userEvents changes ie delete on event?
         print("Get events for user \(user.uid)")
         
-        let eventQueryRef = baseRef.child(path: "userEvents").child(path: user.uid)
+        let eventQueryRef = apiService.reference(at: "userEvents")?.child(path: user.uid)
         
         // do query
-        eventQueryRef.observeSingleValue { [weak self] (snapshot) in
+        eventQueryRef?.observeSingleValue { [weak self] (snapshot) in
             defer {
                 var events: [String]?
                 self?.readWriteQueue2.sync {
@@ -196,7 +196,7 @@ public class EventService: BaseService {
                     }
                 }
                 self?.userEvents.accept(events)
-                eventQueryRef.removeAllObservers()
+                eventQueryRef?.removeAllObservers()
             }
             
             guard snapshot.exists() else {
@@ -220,10 +220,10 @@ public class EventService: BaseService {
         // only gets events once, and removes observer afterwards
         print("Get users for event \(event.id)")
         
-        let queryRef = baseRef.child(path: "eventUsers").child(path: event.id) // this creates a query on the endpoint lotsports.firebase.com/events/
+        let queryRef = apiService.reference(at: "eventUsers")?.child(path: event.id) // this creates a query on the endpoint lotsports.firebase.com/events/
         
         // do query
-        queryRef.observeSingleValue { (snapshot) in
+        queryRef?.observeSingleValue { (snapshot) in
             guard snapshot.exists() else { return }
             // this block is called for every result returned
             var results: [String] = []
@@ -252,8 +252,8 @@ public class EventService: BaseService {
     }
     
     public func totalAmountPaid(for event: Balizinha.Event, completion: ((Double, Int)->())?) {
-        let queryRef = baseRef.child(path: "charges/events").child(path: event.id)
-        queryRef.observeValue { (snapshot) in
+        let queryRef = apiService.reference(at: "charges/events")?.child(path: event.id)
+        queryRef?.observeValue { (snapshot) in
             guard snapshot.exists() else {
                 completion?(0, 0)
                 return
@@ -347,8 +347,8 @@ extension EventService {
             completion([])
             return
         }
-        let queryRef = baseRef.child(path: "actions")
-        queryRef.queryOrdered(by: "eventId").queryEqual(to: id).observeSingleValue { (snapshot) in
+        let queryRef = apiService.reference(at: "actions")
+        queryRef?.queryOrdered(by: "eventId").queryEqual(to: id).observeSingleValue { (snapshot) in
             guard snapshot.exists() else {
                 completion([])
                 return

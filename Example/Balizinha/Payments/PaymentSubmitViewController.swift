@@ -8,7 +8,7 @@
 
 import UIKit
 import Balizinha
-import RenderPay
+import PannaPay
 import RenderCloud
 
 class PaymentSubmitViewController: UIViewController {
@@ -23,7 +23,7 @@ class PaymentSubmitViewController: UIViewController {
     @IBOutlet weak var buttonRelease: UIButton!
     @IBOutlet weak var buttonRefund: UIButton!
 
-    let paymentService: StripePaymentService = StripePaymentService(apiService: RenderAPIService())
+    let paymentService: StripePaymentService = StripePaymentService(apiService: Globals.apiService)
     
     override func viewDidLoad() {
         super.viewDidLoad()

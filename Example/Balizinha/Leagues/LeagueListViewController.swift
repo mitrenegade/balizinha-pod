@@ -92,7 +92,7 @@ extension LeagueListViewController {
             let alert = UIAlertController(title: "Delete league", message: "Are you sure you want to delete league \(league.id) \(name)? This cannot be undone.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) in
                 if let index = self.objects.firstIndex(of: league) {
-                    LeagueService.delete(league)
+                    LeagueService.shared.delete(league)
                     self.objects.remove(at: index)
                     self.tableView.reloadData()
                 } else {

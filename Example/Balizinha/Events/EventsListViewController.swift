@@ -31,7 +31,7 @@ class EventsListViewController: ListViewController {
                                                      ref: nil)
             reference = MockDatabaseReference(snapshot: referenceSnapshot)
             let apiService = MockCloudAPIService(uniqueId: "abc", results: ["success": true])
-            service = EventService(reference: reference!, apiService: apiService)
+            service = EventService(apiService: apiService)
         } else {
             service = EventService.shared
             reference = firRef

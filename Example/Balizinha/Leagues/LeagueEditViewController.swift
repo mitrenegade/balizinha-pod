@@ -11,6 +11,7 @@ import RxSwift
 import FirebaseCore
 import Balizinha
 import RenderCloud
+import PannaPay
 
 protocol LeagueViewDelegate {
     func didUpdate()
@@ -56,6 +57,7 @@ class LeagueEditViewController: UIViewController {
     fileprivate var players: [Player] = []
     
     let disposeBag: DisposeBag = DisposeBag()
+    let apiService = Globals.apiService
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -340,7 +342,7 @@ class LeagueEditViewController: UIViewController {
             showLoadingIndicator()
             let name = league?.name ?? "Panna Social Leagues"
             let info = league?.info ?? "Join a league on Panna and play pickup."
-            RenderAPIService().cloudFunction(functionName: "generateShareLink", method: "POST", params: ["type": "leagues", "id": id, "socialTitle": name, "socialDescription": info]) { [weak self] (result, error) in
+            apiService.cloudFunction(functionName: "generateShareLink", method: "POST", params: ["type": "leagues", "id": id, "socialTitle": name, "socialDescription": info]) { [weak self] (result, error) in
                 DispatchQueue.main.async {
                     self?.hideLoadingIndicator()
                     print("Result \(String(describing: result)) error \(String(describing: error))")

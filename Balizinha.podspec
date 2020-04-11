@@ -56,6 +56,7 @@ The demo project is an admin project that allows the user to check out their das
   s.dependency 'RxCocoa'
   s.dependency 'RxOptional'
   s.dependency 'RenderCloud'
+  s.dependency 'PannaPay'
 
   s.pod_target_xcconfig = {
     'FRAMEWORK_SEARCH_PATHS' => '$(inherited) $(PODS_ROOT)/Firebase $(PODS_ROOT)/FirebaseCore/Frameworks $(PODS_ROOT)/FirebaseRemoteConfig/Frameworks $(PODS_ROOT)/FirebaseInstanceID/Frameworks $(PODS_ROOT)/FirebaseAnalytics/Frameworks'

@@ -5,17 +5,20 @@
 //  Created by Bobby Ren on 8/22/19.
 //
 
-import UIKit
 import RxSwift
 import RxCocoa
 import FirebaseAuth
 import RenderCloud
-
-fileprivate var singleton: EventService?
+import PannaPay
 
 public class BaseService {
-    internal let baseRef: Reference
-    internal let apiService: CloudAPIService
+    // FIXME: this sucks as a way to instantiate a default
+    public static var BASE_URL: String!
+    public static var BASE_REF: Reference!
+    static var defaultAPIService: CloudAPIService & CloudDatabaseService & ServiceAPIProvider {
+        return RenderAPIService(baseUrl: BaseService.BASE_URL, baseRef: BaseService.BASE_REF)
+    }
+    internal let apiService: CloudAPIService & CloudDatabaseService & ServiceAPIProvider
 
     fileprivate var _objects: [String: FirebaseBaseModel] = [:]
     // read write queues
@@ -25,9 +28,9 @@ public class BaseService {
     // typically used for things like _userEvents and _playerLeagues
     internal let readWriteQueue2 = DispatchQueue(label: "readWriteQueue2", attributes: .concurrent)
 
-    public init(reference: Reference = firRef, apiService: CloudAPIService = RenderAPIService()) {
-        baseRef = reference
-        self.apiService = apiService
+    public init(apiService: (CloudAPIService & CloudDatabaseService & ServiceAPIProvider)? = nil) {
+        let defaultService = BaseService.defaultAPIService
+        self.apiService = apiService ?? defaultService
     }
 
     // individual id -> Object
@@ -77,13 +80,13 @@ public class BaseService {
             return
         }
 
-        let ref: Reference = baseRef.child(path: refName).child(path: id)
-        ref.observeSingleValue{ [weak self] (snapshot) in
+        let ref: Reference? = apiService.reference(at: refName)?.child(path: id)
+        ref?.observeSingleValue{ [weak self] (snapshot) in
             guard snapshot.exists() else {
                 completion(nil)
                 return
             }
-            ref.removeAllObservers()
+            ref?.removeAllObservers()
             if let object = self?.createObject(from: snapshot) {
                 self?.cache(object)
                 completion(object)

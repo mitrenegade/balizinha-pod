@@ -10,6 +10,7 @@ import UIKit
 import Balizinha
 import Firebase
 import RenderCloud
+import PannaPay
 
 enum UtilItem: String, CaseIterable {
 case serverInfo
@@ -60,6 +61,7 @@ class UtilsViewController: UIViewController {
     var pickerView: UIPickerView = UIPickerView()
     var players: [Player] = []
     var selectingPlayerId: String?
+    let apiService = Globals.apiService
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,7 +133,7 @@ extension UtilsViewController: UITableViewDelegate {
 //            convertUserCities()
         default:
             activityOverlay.show()
-            RenderAPIService().cloudFunction(functionName: selection.rawValue, method: "POST", params: nil) { [weak self] (result, error) in
+            apiService.cloudFunction(functionName: selection.rawValue, method: "POST", params: nil) { [weak self] (result, error) in
                 DispatchQueue.main.async {
                     self?.activityOverlay.hide()
                     if let error = error as NSError? {
@@ -150,7 +152,7 @@ extension UtilsViewController: UITableViewDelegate {
 extension UtilsViewController {
     func cleanupAnonymousAuth() {
         activityOverlay.show()
-        RenderAPIService().cloudFunction(functionName: "cleanupAnonymousAuth", method: "POST", params: nil) { [weak self] (result, error) in
+        apiService.cloudFunction(functionName: "cleanupAnonymousAuth", method: "POST", params: nil) { [weak self] (result, error) in
             DispatchQueue.main.async {
                 self?.activityOverlay.hide()
             }
@@ -296,7 +298,7 @@ extension UtilsViewController {
 //        let _PARAM_TO_ = "event"
         let _PARAM_FROM_ = "userId"
         let _PARAM_TO_ = "user"
-        let ref = firRef.child("actions")
+        let ref: Reference = firRef.child("actions")
         ref.observeSingleValue { (snapshot) in
             guard snapshot.exists() else { return }
             var actionsWithoutEvent: [Action] = []
@@ -383,13 +385,13 @@ extension UtilsViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         print("RefreshAllPlayerTopics for userId \(userId)")
         let params: [String: Any] = ["userId": userId, "pushEnabled": true]
         activityOverlay.show()
-        RenderAPIService().cloudFunction(functionName: "refreshAllPlayerTopics", method: "POST", params: params) { [weak self] (result, error) in
+        apiService.cloudFunction(functionName: "refreshAllPlayerTopics", method: "POST", params: params) { [weak self] (result, error) in
             if let error = error as NSError? {
                 DispatchQueue.main.async {
                     self?.simpleAlert("RefreshAllPlayerTopics failed", defaultMessage: "There was an error creating topics for player \(userId)", error: error)
                 }
             } else {
-                RenderAPIService().cloudFunction(functionName: "refreshPlayerSubscriptions", params: params) { [weak self] (result, error) in
+                self?.apiService.cloudFunction(functionName: "refreshPlayerSubscriptions", method: "POST", params: params) { [weak self] (result, error) in
                     print("Result \(String(describing: result)) error \(String(describing: error))")
                     DispatchQueue.main.async {
                         if let error = error as NSError? {

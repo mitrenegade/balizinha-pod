@@ -10,14 +10,14 @@ import UIKit
 import FirebaseCore
 import Balizinha
 import FirebaseDatabase
-import RenderPay
 import RxSwift
 import RenderCloud
+import PannaPay
 
 class PaymentsListViewController: ListViewController {
     
     @IBOutlet fileprivate weak var selectorType: UISegmentedControl!
-    let paymentService: StripePaymentService = StripePaymentService(apiService: RenderAPIService())
+    let paymentService: StripePaymentService = StripePaymentService(apiService: Globals.apiService)
 
     var data: [String: [Payment]] = [:]
     var events: [String: Balizinha.Event] = [:]

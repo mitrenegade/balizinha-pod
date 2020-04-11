@@ -7,7 +7,7 @@
 //
 
 import RenderCloud
-import Balizinha
+import PannaPay
 
 public class MockService: NSObject {
     //***************** hack: for test purposes only
@@ -45,12 +45,12 @@ public class MockService: NSObject {
                                                  ref: nil)
         let reference = MockDatabaseReference(snapshot: referenceSnapshot)
         let apiService = MockCloudAPIService(uniqueId: "abc", results: ["success": true])
-        return EventService(reference: reference, apiService: apiService)
+        return EventService(apiService: apiService)
     }
     
     //***************** hack: for test purposes only
     public static func randomEvent() -> Event {
-        let key = RenderAPIService().uniqueId()
+        let key = MockCloudAPIService(uniqueId: "abc", results: nil).uniqueId()
         let hours: Int = Int(arc4random_uniform(72))
         
         // random type
@@ -66,5 +66,15 @@ public class MockService: NSObject {
         let dict: [String: Any] = ["type": eventType as AnyObject, "place": place as AnyObject, "startTime": (Date().timeIntervalSince1970 + Double(hours * 3600)) as AnyObject, "info": "Randomly generated event" as AnyObject]
         let event = Event(key: key, dict: dict)
         return event
+    }
+}
+
+extension MockCloudAPIService: ServiceAPIProvider {
+    public func stripeConnectAccounts(with userId: String) -> Reference? {
+        return nil
+    }
+    
+    public var playersRef: Reference? {
+        return nil
     }
 }
