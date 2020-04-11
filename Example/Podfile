@@ -5,14 +5,14 @@ target 'Balizinha_Example' do
   pod 'Balizinha', :path => '../'
 
   ## local development
-  pod 'RenderCloud', :path => '../../rendercloud'
-  pod 'RenderPay', :path => '../../renderpay'
-  pod 'PannaPay', :path => '../../pannapay'
+  #pod 'RenderCloud', :path => '../../rendercloud'
+  #pod 'RenderPay', :path => '../../renderpay'
+  #pod 'PannaPay', :path => '../../pannapay'
 
   ## pull from git for releases
-  #pod 'RenderPay', :git => 'git@bitbucket.org:renderapps/renderpay.git', :tag=>'0.9.0'
-  #pod 'RenderCloud', :git => 'git@bitbucket.org:renderapps/RenderCloud.git', :tag=>'2.0.0'
-  #pod 'PannaPay', :git => 'git@bitbucket.org:renderapps/pannapay.git', :tag=>'1.0.0'
+  pod 'RenderPay', :git => 'git@bitbucket.org:renderapps/renderpay.git', :tag=>'1.0.1'
+  pod 'RenderCloud', :git => 'git@bitbucket.org:renderapps/RenderCloud.git', :tag=>'2.0.1'
+  pod 'PannaPay', :git => 'git@bitbucket.org:renderapps/pannapay.git', :tag=>'1.0.2'
   pod 'RACameraHelper', :git => 'https://github.com/bobbyren/RACameraHelper', :tag => '0.1.5'
 
   ## third party platforms

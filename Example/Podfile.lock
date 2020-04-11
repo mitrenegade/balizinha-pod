@@ -1,5 +1,5 @@
 PODS:
-  - Balizinha (1.1.3):
+  - Balizinha (1.2.0):
     - Firebase
     - Firebase/Analytics
     - Firebase/Auth
@@ -144,7 +144,7 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
-  - PannaPay (1.0.1):
+  - PannaPay (1.0.2):
     - Firebase
     - Firebase/Auth
     - Firebase/Core
@@ -180,10 +180,10 @@ PODS:
 DEPENDENCIES:
   - Balizinha (from `../`)
   - GoogleMaps
-  - PannaPay (from `../../pannapay`)
+  - "PannaPay (from `git@bitbucket.org:renderapps/pannapay.git`, tag `1.0.2`)"
   - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.5`)
-  - RenderCloud (from `../../rendercloud`)
-  - RenderPay (from `../../renderpay`)
+  - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `2.0.1`)"
+  - "RenderPay (from `git@bitbucket.org:renderapps/renderpay.git`, tag `1.0.1`)"
 
 SPEC REPOS:
   trunk:
@@ -222,22 +222,34 @@ EXTERNAL SOURCES:
   Balizinha:
     :path: "../"
   PannaPay:
-    :path: "../../pannapay"
+    :git: "git@bitbucket.org:renderapps/pannapay.git"
+    :tag: 1.0.2
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.5
   RenderCloud:
-    :path: "../../rendercloud"
+    :git: "git@bitbucket.org:renderapps/RenderCloud.git"
+    :tag: 2.0.1
   RenderPay:
-    :path: "../../renderpay"
+    :git: "git@bitbucket.org:renderapps/renderpay.git"
+    :tag: 1.0.1
 
 CHECKOUT OPTIONS:
+  PannaPay:
+    :git: "git@bitbucket.org:renderapps/pannapay.git"
+    :tag: 1.0.2
   RACameraHelper:
     :git: https://github.com/bobbyren/RACameraHelper
     :tag: 0.1.5
+  RenderCloud:
+    :git: "git@bitbucket.org:renderapps/RenderCloud.git"
+    :tag: 2.0.1
+  RenderPay:
+    :git: "git@bitbucket.org:renderapps/renderpay.git"
+    :tag: 1.0.1
 
 SPEC CHECKSUMS:
-  Balizinha: d53820070616868d9e7e77d507056e24d8a5a68a
+  Balizinha: e566aaa13f4d832febb26db3e9a800c43e08e869
   Firebase: f378c80340dd41c0ad0914af740c021eb282a04b
   FirebaseABTesting: 821a3a3e4a145987e80fee3657c4de1cb9adf693
   FirebaseAnalytics: a1a0b3327ceb5cd5b4bacffdb293f6c909aa087d
@@ -261,7 +273,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
-  PannaPay: 3469e32aa4b97d4e22a7da52169b1992690cebee
+  PannaPay: 49bc2a869b683539cb4f5e793f08d233076d6ea0
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   RACameraHelper: 3c65397be7f39577ff14a605fb08e2e2c7b59045
@@ -273,6 +285,6 @@ SPEC CHECKSUMS:
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   Stripe: 4305b646743612854819fb5d5cf67aaeb93577c0
 
-PODFILE CHECKSUM: a664c08a2ad74d087f865af17e0f1471c3c9afb6
+PODFILE CHECKSUM: c107df03386a0917956654cb8078f55aa61585a5
 
 COCOAPODS: 1.8.4
