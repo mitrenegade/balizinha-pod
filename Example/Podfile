@@ -16,7 +16,6 @@ target 'Balizinha_Example' do
   pod 'RACameraHelper', :git => 'https://github.com/bobbyren/RACameraHelper', :tag => '0.1.5'
 
   ## third party platforms
-  pod 'Stripe', '14.0.0'
   pod 'GoogleMaps' # https://stackoverflow.com/questions/42611599/cocoapods-target-has-transitive-dependencies-that-include-static-binaries
 
   target 'Balizinha_Tests' do
