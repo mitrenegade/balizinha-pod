@@ -9,14 +9,12 @@ import RxSwift
 import RxCocoa
 import FirebaseAuth
 import RenderCloud
-import PannaPay
+import RenderPay
 
 public class BaseService {
     // FIXME: this sucks as a way to instantiate a default
-    public static var BASE_URL: String!
-    public static var BASE_REF: Reference!
     static var defaultAPIService: CloudAPIService & CloudDatabaseService & ServiceAPIProvider {
-        return RenderAPIService(baseUrl: BaseService.BASE_URL, baseRef: BaseService.BASE_REF)
+        return RenderAPIService(baseUrl: PannaServiceManager.baseUrl, baseRef: PannaServiceManager.baseRef)
     }
     internal let apiService: CloudAPIService & CloudDatabaseService & ServiceAPIProvider
 

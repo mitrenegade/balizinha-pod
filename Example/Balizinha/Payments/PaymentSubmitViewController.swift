@@ -8,7 +8,7 @@
 
 import UIKit
 import Balizinha
-import PannaPay
+import RenderPay
 import RenderCloud
 
 class PaymentSubmitViewController: UIViewController {

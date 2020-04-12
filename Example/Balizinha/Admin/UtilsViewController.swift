@@ -10,7 +10,7 @@ import UIKit
 import Balizinha
 import Firebase
 import RenderCloud
-import PannaPay
+import RenderPay
 
 enum UtilItem: String, CaseIterable {
 case serverInfo

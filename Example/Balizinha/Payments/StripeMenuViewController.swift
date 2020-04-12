@@ -9,7 +9,7 @@
 import UIKit
 import RenderCloud
 import Balizinha
-import PannaPay
+import RenderPay
 import RxSwift
 import RxCocoa
 

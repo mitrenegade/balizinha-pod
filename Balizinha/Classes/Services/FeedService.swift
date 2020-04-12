@@ -8,7 +8,7 @@
 
 import FirebaseDatabase
 import RenderCloud
-import PannaPay
+import RenderPay
 
 public class FeedService: BaseService {
     public static let shared = FeedService()

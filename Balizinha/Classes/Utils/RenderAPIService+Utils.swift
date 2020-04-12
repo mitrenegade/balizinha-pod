@@ -6,7 +6,7 @@
 //
 
 import RenderCloud
-import PannaPay
+import RenderPay
 
 extension RenderAPIService {
     public func cloudFunction(functionName: String, params: [String: Any]?, completion: ((Any?, Error?) -> ())?) {

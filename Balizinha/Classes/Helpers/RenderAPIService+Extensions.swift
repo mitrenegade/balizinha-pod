@@ -6,7 +6,7 @@
 //
 //  This is a dependency inversion file to make RenderAPIService conform to the ServiceAPIProvider protocol needed by Balizinha's BaseService
 
-import PannaPay
+import RenderPay
 import RenderCloud
 
 extension RenderAPIService: ServiceAPIProvider {

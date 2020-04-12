@@ -7,7 +7,7 @@
 //
 
 import RenderCloud
-import PannaPay
+import RenderPay
 
 // this service retains memory
 public class MockCityService: CityService {
