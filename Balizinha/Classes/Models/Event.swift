@@ -314,10 +314,12 @@ extension Event {
     }
     
     public class func validUrl(_ urlString: String?) -> URL? {
-        guard let url = urlString else { return nil }
-        return URL(string: url)
+        guard let urlString = urlString else { return nil }
+        guard let url = URL(string: urlString) else { return nil }
+        guard url.scheme != nil else { return nil }
+        return url
     }
-    
+
     public var validVideoUrl: URL? {
         return Event.validUrl(videoUrl)
     }
