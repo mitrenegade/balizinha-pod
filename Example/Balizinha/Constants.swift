@@ -10,7 +10,7 @@ import Balizinha
 import RenderCloud
 import RenderPay
 
-let TESTING = true
+let TESTING = false
 let AIRPLANE_MODE = false
 
 let STRIPE_CLIENT_ID_DEV = "ca_ECowy0cLCEaImKunoIsUfm2n4EbhxrMO"
@@ -26,8 +26,7 @@ let GOOGLE_API_KEY_PROD = "AIzaSyCr6wG6UZ9yhjlJbId0ErgkLrIdcYt11iU"
 
 struct Globals {
     static let connectService = StripeConnectService(clientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD,
-                                                     apiService: Globals.apiService,
-                                                     baseRef: firRef)
+                                                     apiService: Globals.apiService)
     static let paymentService = StripePaymentService(apiService: Globals.apiService)
     static let apiService: CloudAPIService & CloudDatabaseService = RenderAPIService(baseUrl: TESTING ? FIREBASE_URL_DEV : FIREBASE_URL_PROD,
                                                        baseRef: firRef)

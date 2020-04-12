@@ -129,9 +129,6 @@ PODS:
     - Firebase/Database
     - Firebase/RemoteConfig
     - Firebase/Storage
-    - RxCocoa
-    - RxOptional
-    - RxSwift
   - RenderPay (1.0.1):
     - RenderCloud
     - RxCocoa
@@ -231,7 +228,7 @@ SPEC CHECKSUMS:
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   RACameraHelper: 3c65397be7f39577ff14a605fb08e2e2c7b59045
-  RenderCloud: 84015dc545c295d3c3376dc0d1b66644d4e38714
+  RenderCloud: 6994a8f41fcacfcd758d294316003403294c93f4
   RenderPay: 30c0bdacc803cf108892c8be8e7761f7b8fdbfb4
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxOptional: b1fcd60856807a564c0215c2184b8d33e7826dc2
