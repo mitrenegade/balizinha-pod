@@ -21,9 +21,9 @@ public struct PannaServiceManager {
         PannaServiceManager.stripeClientId = stripeClientId
     }
     
-    static var apiService = RenderAPIService(baseUrl: PannaServiceManager.baseUrl,
+    public static var apiService = RenderAPIService(baseUrl: PannaServiceManager.baseUrl,
                                              baseRef: PannaServiceManager.baseRef)
-    static var stripeConnectService: StripeConnectService = StripeConnectService(clientId:PannaServiceManager.stripeClientId, apiService: PannaServiceManager.apiService)
-    static var stripePaymentService: StripePaymentService = StripePaymentService(apiService: PannaServiceManager.apiService)
+    public static var stripeConnectService: StripeConnectService = StripeConnectService(clientId:PannaServiceManager.stripeClientId, apiService: PannaServiceManager.apiService)
+    public static var stripePaymentService: StripePaymentService = StripePaymentService(apiService: PannaServiceManager.apiService)
 
 }
