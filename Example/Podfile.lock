@@ -1,5 +1,5 @@
 PODS:
-  - Balizinha (1.2.1):
+  - Balizinha (1.2.2):
     - RenderCloud
     - RenderPay
   - Firebase (6.22.0):
@@ -210,7 +210,7 @@ CHECKOUT OPTIONS:
     :tag: 1.0.0
 
 SPEC CHECKSUMS:
-  Balizinha: 3b56abb70486d2ba5562cb361e5cb5480d6842e0
+  Balizinha: e13b6b7cf72ed3f4182c0a60001606f389eb0adb
   Firebase: 32f9520684e87c7af3f0704f7f88042626d6b536
   FirebaseABTesting: 821a3a3e4a145987e80fee3657c4de1cb9adf693
   FirebaseAnalytics: 83f822fd0d33a46f49f89b8c3ab16ab4d89df08a
