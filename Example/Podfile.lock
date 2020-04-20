@@ -148,6 +148,8 @@ PODS:
 
 DEPENDENCIES:
   - Balizinha (from `../`)
+  - Firebase/Core
+  - Firebase/Database
   - GoogleMaps
   - RACameraHelper (from `https://github.com/bobbyren/RACameraHelper`, tag `0.1.5`)
   - "RenderCloud (from `git@bitbucket.org:renderapps/RenderCloud.git`, tag `2.0.0`)"
@@ -244,6 +246,6 @@ SPEC CHECKSUMS:
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   Stripe: 4305b646743612854819fb5d5cf67aaeb93577c0
 
-PODFILE CHECKSUM: ba55ee1343ef98bf93c57696853cf176b54ea6bd
+PODFILE CHECKSUM: 5c87703a9244e83987697225bc4981e60e4f966c
 
 COCOAPODS: 1.8.4

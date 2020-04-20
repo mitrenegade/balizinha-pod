@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSServices.provideAPIKey(GOOGLE_API_KEY_PROD)
         
-        PannaServiceManager.configure(baseUrl:TESTING ? FIREBASE_URL_DEV : FIREBASE_URL_PROD, baseRef: firRef);
+        PannaServiceManager.configure(baseUrl:TESTING ? FIREBASE_URL_DEV : FIREBASE_URL_PROD, baseRef: firRef, stripeClientId: TESTING ? STRIPE_CLIENT_ID_DEV : STRIPE_CLIENT_ID_PROD);
         return true
     }
 
