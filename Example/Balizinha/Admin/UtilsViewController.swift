@@ -23,6 +23,7 @@ case serverInfo
 //    case makeActionsBackwardsCompatible
 //    case convertUserCities
     case migrateLeagueOwnerIdToLeagueOwnersArray
+    case cleanupOldActions
 
     var details: String {
         switch self {
@@ -46,6 +47,8 @@ case serverInfo
             return "Server info"
         case .migrateLeagueOwnerIdToLeagueOwnersArray:
             return "Migrate league owners"
+        case .cleanupOldActions:
+            return "Delete 500 oldest actions"
         }
     }
 }
