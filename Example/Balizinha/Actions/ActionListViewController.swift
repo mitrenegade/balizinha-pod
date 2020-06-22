@@ -65,9 +65,17 @@ extension ActionListViewController {
         guard indexPath.section == 0 else { return }
         let row = indexPath.row
         guard row < objects.count else { return }
+        activityOverlay.show()
         if let action = objects[row] as? Action {
-            ActionService.delete(action: action)
-            tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
+            ActionService.shared.delete(action: action) { [weak self] error in
+                self?.activityOverlay.hide()
+                if let error = error as NSError? {
+                    self?.simpleAlert("Delete failed", defaultMessage: "Could not delete action \(action.id)", error: error)
+                } else {
+                    self?.objects.remove(at: row)
+                    tableView.reloadData()
+                }
+            }
         }
     }
 }

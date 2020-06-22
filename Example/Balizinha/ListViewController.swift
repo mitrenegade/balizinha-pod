@@ -81,7 +81,7 @@ class ListViewController: UIViewController {
                 self?.objects.sort(by: { (p1, p2) -> Bool in
                     guard let t1 = p1.createdAt else { return false }
                     guard let t2 = p2.createdAt else { return true}
-                    return t1 < t2
+                    return t1 > t2
                 })
                 
                 self?.activityOverlay.hide()

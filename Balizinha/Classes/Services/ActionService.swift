@@ -8,10 +8,21 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseCore
+import RenderCloud
 
-fileprivate var _cache: [String:FirebaseBaseModel] = [:]
 public class ActionService: BaseService {
-    public class func delete(action: Action, completion:((Error?)->Void)? = nil) {
+    public static let shared: ActionService = ActionService()
+
+    override var refName: String {
+        return "actions"
+    }
+    
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
+        return Action(snapshot: snapshot)
+    }
+
+    public func delete(action: Action, completion:((Error?)->Void)? = nil) {
         let actionId = action.id
         
         /*
@@ -26,7 +37,7 @@ public class ActionService: BaseService {
         
         let params = ["actionId": actionId]
         apiService.cloudFunction(functionName: "deleteActionAndEventAction", method: "POST", params: params) { (result, error) in
-            print("DeleteAcxtionAndEventAction: result %@ error %@", result, error)
+            print("DeleteActionAndEventAction: result \(result) error \(error)")
             DispatchQueue.main.async {
                 completion?(error)
             }
@@ -67,7 +78,7 @@ public class ActionService: BaseService {
                     dispatchGroup.enter()
                     self.withId(id: actionId, completion: { (action) in
                         dispatchGroup.leave()
-                        if let action = action {
+                        if let action = action as? Action {
                             actions.append(action)
                         }
                     })
@@ -79,29 +90,5 @@ public class ActionService: BaseService {
                 completion(actions)
             }
         }
-    }
-    
-    public func withId(id: String, completion: @escaping ((Action?)->Void)) {
-        if let found = _cache[id] as? Action {
-            completion(found)
-            return
-        }
-        
-        let ref = firRef.child("actions").child(id)
-        ref.observe(.value) { [weak self] (snapshot) in
-            guard snapshot.exists() else {
-                completion(nil)
-                return
-            }
-            let action = Action(snapshot: snapshot)
-            self?.cache(action)
-            completion(action)
-            
-            ref.removeAllObservers()
-        }
-    }
-    
-    public func cache(_ object: FirebaseBaseModel) {
-        _cache[object.id] = object
     }
 }
