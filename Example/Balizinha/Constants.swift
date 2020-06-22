@@ -10,7 +10,7 @@ import Balizinha
 import RenderCloud
 import RenderPay
 
-let TESTING = false
+let TESTING = true
 let AIRPLANE_MODE = false
 
 let STRIPE_CLIENT_ID_DEV = "ca_ECowy0cLCEaImKunoIsUfm2n4EbhxrMO"

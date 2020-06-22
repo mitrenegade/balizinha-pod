@@ -8,11 +8,24 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseCore
+import RenderCloud
 
-fileprivate var _cache: [String:FirebaseBaseModel] = [:]
-public class ActionService: NSObject {
-    public class func delete(action: Action) {
+public class ActionService: BaseService {
+    public static let shared: ActionService = ActionService()
+
+    override var refName: String {
+        return "actions"
+    }
+    
+    override func createObject(from snapshot: Snapshot) -> FirebaseBaseModel? {
+        return Action(snapshot: snapshot)
+    }
+
+    public func delete(action: Action, completion:((Error?)->Void)? = nil) {
         let actionId = action.id
+        
+        /*
         // instead of deleting the action, just set eventActions for this action to false
         // because eventAction observers don't recognize a delete vs a change/create
         guard let eventId = action.eventId else { return }
@@ -20,6 +33,15 @@ public class ActionService: NSObject {
         queryRef.updateChildValues([actionId: false])
         
         action.visible = false
+        */
+        
+        let params = ["actionId": actionId]
+        apiService.cloudFunction(functionName: "deleteActionAndEventAction", method: "POST", params: params) { (result, error) in
+            print("DeleteActionAndEventAction: result \(result) error \(error)")
+            DispatchQueue.main.async {
+                completion?(error)
+            }
+        }
     }
     
     /*
@@ -56,7 +78,7 @@ public class ActionService: NSObject {
                     dispatchGroup.enter()
                     self.withId(id: actionId, completion: { (action) in
                         dispatchGroup.leave()
-                        if let action = action {
+                        if let action = action as? Action {
                             actions.append(action)
                         }
                     })
@@ -68,29 +90,5 @@ public class ActionService: NSObject {
                 completion(actions)
             }
         }
-    }
-    
-    public func withId(id: String, completion: @escaping ((Action?)->Void)) {
-        if let found = _cache[id] as? Action {
-            completion(found)
-            return
-        }
-        
-        let ref = firRef.child("actions").child(id)
-        ref.observe(.value) { [weak self] (snapshot) in
-            guard snapshot.exists() else {
-                completion(nil)
-                return
-            }
-            let action = Action(snapshot: snapshot)
-            self?.cache(action)
-            completion(action)
-            
-            ref.removeAllObservers()
-        }
-    }
-    
-    public func cache(_ object: FirebaseBaseModel) {
-        _cache[object.id] = object
     }
 }
