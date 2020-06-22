@@ -10,9 +10,11 @@ import UIKit
 import FirebaseDatabase
 
 fileprivate var _cache: [String:FirebaseBaseModel] = [:]
-public class ActionService: NSObject {
-    public class func delete(action: Action) {
+public class ActionService: BaseService {
+    public class func delete(action: Action, completion:((Error?)->Void)? = nil) {
         let actionId = action.id
+        
+        /*
         // instead of deleting the action, just set eventActions for this action to false
         // because eventAction observers don't recognize a delete vs a change/create
         guard let eventId = action.eventId else { return }
@@ -20,6 +22,15 @@ public class ActionService: NSObject {
         queryRef.updateChildValues([actionId: false])
         
         action.visible = false
+        */
+        
+        let params = ["actionId": actionId]
+        apiService.cloudFunction(functionName: "deleteActionAndEventAction", method: "POST", params: params) { (result, error) in
+            print("DeleteAcxtionAndEventAction: result %@ error %@", result, error)
+            DispatchQueue.main.async {
+                completion?(error)
+            }
+        }
     }
     
     /*

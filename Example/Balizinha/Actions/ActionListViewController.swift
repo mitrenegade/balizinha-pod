@@ -49,9 +49,10 @@ extension ActionListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let action = objects[indexPath.row] as? Action, let eventId = action.eventId else { return }
         print("Retrieving results for action \(action.id) with event \(eventId)")
-        EventService().actions(for: nil, eventId: eventId) { (actions) in
-            print("done")
-        }
+//        EventService().actions(for: nil, eventId: eventId) { (actions) in
+//            print("done")
+//        }
+        
     }
 }
 
