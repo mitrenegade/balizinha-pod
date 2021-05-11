@@ -1172,6 +1172,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Balizinha/Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				VALIDATE_WORKSPACE = YES_ERROR;
 			};
 			name = Debug;
 		};
@@ -1196,6 +1197,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Balizinha/Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				VALIDATE_WORKSPACE = YES_ERROR;
 			};
 			name = Release;
 		};
