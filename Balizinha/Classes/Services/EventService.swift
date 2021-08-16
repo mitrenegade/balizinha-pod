@@ -56,15 +56,15 @@ public class EventService: BaseService {
         didSet {
             if let eventId = featuredEventId {
                 withId(id: eventId, completion: {[weak self] (event) in
-                    self?.featuredEvent.value = event as? Event
+                    self?.featuredEvent.accept(event as? Event)
                 })
             } else {
-                featuredEvent.value = nil
+                featuredEvent.accept(nil)
             }
         }
     }
     
-    public var featuredEvent: Variable<Balizinha.Event?> = Variable(nil)
+    public var featuredEvent: BehaviorRelay<Balizinha.Event?> = BehaviorRelay(value: nil)
     public func listenForEventUsers(action: (()->())? = nil) {
         // firRef is the global firebase ref
         let queryRef = apiService.reference(at: "eventUsers")
