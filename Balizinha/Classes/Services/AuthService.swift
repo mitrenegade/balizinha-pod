@@ -13,6 +13,7 @@ import RxSwift
 import RxCocoa
 
 public enum LoginState {
+    case none
     case loggedOut
     case loggedIn
 }
@@ -46,7 +47,7 @@ public class AuthService: NSObject {
         })
     }
     
-    public var loginState: BehaviorRelay<LoginState> = BehaviorRelay<LoginState>(value: .loggedOut)
+    public var loginState: BehaviorRelay<LoginState> = BehaviorRelay<LoginState>(value: .none)
 
     public class var currentUser: User? {
         return firAuth.currentUser
