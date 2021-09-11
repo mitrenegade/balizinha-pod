@@ -41,7 +41,7 @@ public class FeedService: BaseService {
             var createResult: Any?
             var createError: Error?
             dispatchGroup.enter()
-            FirebaseImageService.uploadImage(image: image, type: .feed, uid: id) { (url) in
+            FirebaseImageService.uploadImage(image: image, type: FirebaseImageService.ImageType.feed, uid: id) { (url) in
                 dispatchGroup.leave()
             }
 
