@@ -217,7 +217,7 @@ extension UtilsViewController {
                                     manager.load(imageUrl: urlString, completion: { (image) in
                                         if let image = image {
                                             DispatchQueue.main.async {
-                                                FirebaseImageService.uploadImage(image: image, type: .event, uid: event.id, completion: { (url) in
+                                                FirebaseImageService.uploadImage(image: image, type: FirebaseImageService.ImageType.event, uid: event.id, completion: { (url) in
                                                     print("Event \(event.id) has photoId url \(urlString), converted")
                                                     photoIdCount += 1
                                                     dispatchGroup.leave()
@@ -259,7 +259,7 @@ extension UtilsViewController {
                             manager.load(imageUrl: photoUrl, completion: { (image) in
                                 if let image = image {
                                     DispatchQueue.main.async {
-                                        FirebaseImageService.uploadImage(image: image, type: .event, uid: event.id, completion: { (url) in
+                                        FirebaseImageService.uploadImage(image: image, type: FirebaseImageService.ImageType.event, uid: event.id, completion: { (url) in
                                             print("Event \(event.id) has photoUrl \(photoUrl), converted")
                                             photoUrlCount += 1
                                             dispatchGroup.leave()

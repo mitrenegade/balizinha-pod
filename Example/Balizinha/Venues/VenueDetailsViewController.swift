@@ -115,7 +115,7 @@ class VenueDetailsViewController: UIViewController {
         })
         self.present(alert, animated: true)
 
-        FirebaseImageService.uploadImage(image: photo, type: .venue, uid: venue.id, progressHandler: { (percent) in
+        FirebaseImageService.uploadImage(image: photo, type: FirebaseImageService.ImageType.venue, uid: venue.id, progressHandler: { (percent) in
             alert.message = "Upload progress: \(Int(percent*100))%"
         }) { (url) in
             // dismiss
