@@ -15,26 +15,30 @@ fileprivate let storageRef = storage.reference()
 fileprivate let imageBaseRef = storageRef.child("images")
 
 public class FirebaseImageService: NSObject {
-    
-    public enum ImageType: String {
+
+    public enum ImageType: String, CustomStringConvertible {
+        public var description: String {
+            rawValue
+        }
+
         case player
         case event
         case league
         case feed
         case venue
     }
-    
-    fileprivate class func referenceForImage(type: ImageType, id: String) -> StorageReference? {
-        return imageBaseRef.child(type.rawValue).child(id)
+
+    fileprivate class func referenceForImage<T>(type: T, id: String) -> StorageReference? where T:CustomStringConvertible {
+        return imageBaseRef.child(String(describing: type)).child(id)
     }
     
-    public class func uploadImage(image: UIImage, type: ImageType, uid: String, progressHandler: ((_ percent: Double)->Void)? = nil, completion: @escaping ((_ imageUrl: String?)->Void)) {
+    public class func uploadImage<T>(image: UIImage, type: T, uid: String, progressHandler: ((_ percent: Double)->Void)? = nil, completion: @escaping ((_ imageUrl: String?)->Void)) where T:CustomStringConvertible {
         guard let data = image.jpegData(compressionQuality: 0.9) else {
             completion(nil)
             return
         }
         
-        let imageRef: StorageReference = imageBaseRef.child(type.rawValue).child(uid)
+        let imageRef: StorageReference = imageBaseRef.child(String(describing: type)).child(uid)
         let uploadTask = imageRef.putData(data, metadata: nil) { (meta, error) in
             if error != nil {
                 completion(nil)
@@ -94,7 +98,7 @@ public class FirebaseImageService: NSObject {
             completion(nil)
             return
         }
-        let ref = FirebaseImageService.referenceForImage(type: .player, id: id)
+        let ref = FirebaseImageService.referenceForImage(type: ImageType.player, id: id)
         ref?.downloadURL(completion: { (url, error) in
             if let url = url {
                 completion(url)
@@ -109,7 +113,7 @@ public class FirebaseImageService: NSObject {
             completion(nil)
             return
         }
-        let ref = FirebaseImageService.referenceForImage(type: .league, id: id)
+        let ref = FirebaseImageService.referenceForImage(type: ImageType.league, id: id)
         ref?.downloadURL(completion: { (url, error) in
             if let url = url {
                 completion(url)
@@ -124,7 +128,7 @@ public class FirebaseImageService: NSObject {
             completion(nil)
             return
         }
-        let ref = FirebaseImageService.referenceForImage(type: .event, id: event.id)
+        let ref = FirebaseImageService.referenceForImage(type: ImageType.event, id: event.id)
         ref?.downloadURL(completion: { (url, error) in
             if let url = url {
                 completion(url)
@@ -139,7 +143,7 @@ public class FirebaseImageService: NSObject {
             completion(nil)
             return
         }
-        let ref = FirebaseImageService.referenceForImage(type: .event, id: id)
+        let ref = FirebaseImageService.referenceForImage(type: ImageType.event, id: id)
         ref?.downloadURL(completion: { (url, error) in
             if let url = url {
                 completion(url)
@@ -154,7 +158,7 @@ public class FirebaseImageService: NSObject {
             completion(nil)
             return
         }
-        let ref = FirebaseImageService.referenceForImage(type: .feed, id: id)
+        let ref = FirebaseImageService.referenceForImage(type: ImageType.feed, id: id)
         ref?.downloadURL(completion: { (url, error) in
             if let url = url {
                 completion(url)
